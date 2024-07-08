@@ -1,0 +1,93 @@
+<ion-header>
+    <app-header [pageTitle]="'Dance Detail'"></app-header>
+</ion-header>
+<ion-content>
+    <app-loader [showLoading]="_isLoading" [loadingText]="'Loading dance. Please wait...'"></app-loader>
+
+    <ion-card *ngIf="_isError" class="card-warning">
+        <ion-item>
+            <ion-text>
+                <h2>Loading Problem</h2>
+                <p>Please check your internet connection.</p>
+            </ion-text>
+            <ion-icon name="alert" class="icon-circle" slot="end"></ion-icon>
+        </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="!_isLoading && !_isError">
+
+        <ion-item>
+            <ion-text>
+                <h2>{{myDance.teamName}}</h2>
+                <p>{{myDance.venueName}} - {{myDance.competitionName}}</p>
+            </ion-text>
+            <ion-avatar slot="end">
+                <img src="{{ myDance.teamPictureUrl | sizedImage: headerImageSize }}" [dertimagecheck]="headerImageSize"
+                    [defaultImage]="'assets/icon/missing-avatar-person.png'"
+                    [loadingImage]="'assets/icon/loading-avatar.gif'">
+            </ion-avatar>
+        </ion-item>
+    </ion-card>
+
+    <app-notification-box *ngIf="scoresLocked && showLockedByCheckedMessage && !_isLoading && !_isError"
+        header="Scores Checked" subText="Changes are no longer permitted" cardType="warning" icon="lock-closed-outline">
+    </app-notification-box>
+    <app-notification-box *ngIf="scoresLocked && showNotPublishedMessage && !_isLoading && !_isError"
+        header="Scores Taken" subText="Results Not Yet Published" cardType="notification" icon="warning-outline">
+    </app-notification-box>
+    <app-notification-box *ngIf="scoresLocked && showScoresNotInMessage && !_isLoading && !_isError"
+        header="Awaiting Scores" subText="Dance not yet completed or results not in" cardType="notification"
+        icon="warning-outline"></app-notification-box>
+
+    <!-- /Notification Messages -->
+
+    <ion-card *ngIf="!_isLoading && !_isError">
+        <ion-segment (ionChange)="scoreSegmentChanged()" [(ngModel)]="currentSlide" padding>
+
+            <ion-segment-button value="scores">
+                Scores
+            </ion-segment-button>
+            <ion-segment-button value="camera">
+                Photos
+            </ion-segment-button>
+        </ion-segment>
+
+        <swiper (swiper)="setSwiperInstance($event)">
+            <ng-template swiperSlide (slideChange)="onSlideChange()">
+                <form [formGroup]="danceScoresFormGroup" (ngSubmit)="submitScoresForm(danceScoresFormGroup.value)"
+                    novalidate>
+                    <div class="form-inner">
+                        <ion-list lines="none">
+                            <ion-item *ngFor="let danceScore of danceScores">
+                                <ion-label color="primary" position="stacked">{{danceScore.scoreCatagoryName}}
+                                    <span class="marks-label">[{{danceScore.scoreCatagoryMaxMarks}} marks]</span>
+                                </ion-label>
+                                <ion-input type="tel" placeholder="enter score"
+                                    formControlName="{{danceScore.scoreCatagoryId}}"
+                                    [ngClass]="{'has-error':!danceScoresFormGroup.controls[danceScore.scoreCatagoryId].valid}"
+                                    [disabled]="scoresLocked" maintain-original></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label color="primary" position="fixed">Overrun</ion-label>
+                                <ion-toggle item-content color="danger" (ionChange)="onOverrunIonChange()"
+                                    [checked]="overrun" [disabled]="scoresLocked"></ion-toggle>
+                            </ion-item>
+
+                            <ion-button expand="block" *ngIf="!scoresLocked" [disabled]="!danceScoresFormGroup.valid"
+                                type="submit">
+                                Send Scores
+                                <ion-icon name="send" slot="end"></ion-icon>
+                            </ion-button>
+
+                        </ion-list>
+
+                    </div>
+                </form>
+            </ng-template>
+            <ng-template swiperSlide>
+                <photo-reel (onPhotoTaken)="handlePhotoTaken($event)" (onPhotoDeleted)="handlePhotoDeleted($event)"
+                    [markingSheets]="danceMarkingSheets" [isLocked]="scoresLocked"></photo-reel>
+            </ng-template>
+        </swiper>
+    </ion-card>
+</ion-content>

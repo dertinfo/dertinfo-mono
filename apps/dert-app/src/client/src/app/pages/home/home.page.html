@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <app-header [pageTitle]="'Home'"></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <app-loader [showLoading]="loadingEvent" [loadingText]="'Setting Up ' + selectedYear + ' . Please wait...'"></app-loader>
+  <img *ngIf="!loadingEvent" [src]="selectedEventPictureUrl | sizedImage: '480x360'" alt="home banner" />
+  <ion-card *ngIf="!loadingEvent">
+    <div class="card-title">Hi Everyone welcome to {{selectedEventNickname}}</div>
+    <ion-card-content>
+        <p>The DertInfo app has been used since 2017 to collect your scores and collate them all. </p>
+        <p>This year we have added the ability for you to see your results and score sheets via the app as soon as they are published. (You can also see everything we have from previous years too)</p>
+        <p>We hope you like the app and good luck.</p>
+    </ion-card-content>
+</ion-card>
+<ion-card *ngIf="!loadingEvent">
+    <div class="card-title">Accessing Results</div>
+    <ion-card-content>
+        <p>Each group has been provided with a pin code that you can use to access your results. Please signup then proceed to the profile page and enter the pin.</p>
+        <p>Results will not show until they have been published by the DERT {{selectedYear}} organisers</p>
+    </ion-card-content>
+</ion-card>
+<ion-card *ngIf="!loadingEvent">
+        <div class="card-title">Judge Minders</div>
+        <ion-card-content>
+            <p>A big thanks to you guys for helping out. You have been given special permission to your venue that will allow you to enter scores and submit them along with photographs of the score sheets.</p>
+        </ion-card-content>
+    </ion-card>
+
+
+
+</ion-content>

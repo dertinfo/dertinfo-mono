@@ -1,0 +1,158 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+/* Import Styles For Swiper - replaces ion-slides*/
+@import "~swiper/scss";
+@import "~@ionic/angular/css/ionic-swiper";
+
+/*Custom Styles*/
+/*Used On ion list for right icons*/
+.icon-circle {
+    position: relative;
+    display: inline-block;
+    margin: -1px;
+    /*padding: 16px;*/
+    width: 25px;
+    /* 60*/
+    height: 25px;
+    font-size: 30px !important;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    /*#ececec;ebebeb*/
+    text-align: center;
+    /*vertical-align: middle;*/
+}
+
+.icon-circle.green {
+    color: green;
+}
+
+.icon-circle.black {
+    color: black;
+}
+
+.icon-circle.orange {
+    color: orange;
+}
+
+.icon-circle.red {
+    color: red;
+}
+
+.indevelopment {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    border: solid 1px red;
+    padding: 3px;
+    margin: 1px;
+}
+
+.toolbar-background {
+    background-color: #8fbe36;
+}
+
+.pageWrapper ion-content {
+    margin-top: 56px; /*Header height*/
+}
+
+.card-title {
+    font-size: 18px;
+    padding: 10px 15px 10px 15px;
+    border-bottom: solid 1px #ccc;
+    text-transform: uppercase;
+}
+
+.bar-button-default {
+    color: #000;
+}
+
+.card-warning {
+    background: #de5050; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #de5050, white); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #de5050, white); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #de5050, white); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #de5050, white); /* Standard syntax */
+    color: #000;
+    font-weight: bold;
+
+    ion-icon {
+        position: absolute;
+        top:20px;
+        right: 20px
+    }
+}
+
+.card-notification {
+    h2 {
+        color: #fff;
+    }
+    p {
+        color: #ccc;
+    }
+    ion-item {
+        background: #de5050; /* For browsers that do not support gradients */
+        background: -webkit-linear-gradient(left top, #000cff, white); /* For Safari 5.1 to 6.0 */
+        background: -o-linear-gradient(bottom right, #000cff, white); /* For Opera 11.1 to 12.0 */
+        background: -moz-linear-gradient(bottom right, #000cff, white); /* For Firefox 3.6 to 15 */
+        background: linear-gradient(to bottom right, #000cff, white); /* Standard syntax */
+    }
+}
+
+.menu-title {
+    display: block;
+    width: 100%;
+}
+
+.menu-subtitle {
+    display: block;
+    width: 100%;
+    font-size: smaller;
+    font-weight: bold;
+}
+
+.transparent-modal {
+    --background: rgba(44, 39, 45, 0.5);
+
+    // Blurs the backdrop
+    &::part(content) {
+        backdrop-filter: blur(12px);
+    }
+}
+
+ion-text {
+    h2 {
+        margin-bottom: 2px;
+        font-size: 18px;
+    }
+
+    p {
+        margin-top: 2px;
+    }
+}

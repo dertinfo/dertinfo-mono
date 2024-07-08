@@ -1,0 +1,31 @@
+.warning {
+    background: #de5050; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #de5050, white); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #de5050, white); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #de5050, white); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #de5050, white); /* Standard syntax */
+    color: #000;
+    font-weight: bold;
+
+    ion-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+}
+
+.notification {
+    background: #de5050; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left top, #000cff, white); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(bottom right, #000cff, white); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(bottom right, #000cff, white); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom right, #000cff, white); /* Standard syntax */
+    color: #fff;
+    font-weight: bold;
+
+    ion-icon {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+    }
+}

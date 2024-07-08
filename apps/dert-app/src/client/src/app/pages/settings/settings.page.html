@@ -1,0 +1,71 @@
+<ion-header>
+    <app-header [pageTitle]="'About'"></app-header>
+</ion-header>
+<ion-content>
+    <ion-card (click)="environmentClick()">
+        <ion-item>
+            <h2>Version: {{appVersionType}}</h2>
+        </ion-item>
+    </ion-card>
+    <ion-card *ngIf="isDeveloperMode">
+        <ion-item>
+            Plaform Is Cordova: {{appPlatformIsCordova}}
+        </ion-item>
+        <ion-item>
+            Plaform Is Android: {{appPlatformIsAndroid}}
+        </ion-item>
+        <ion-item>
+            Plaform Is Ios: {{appPlatformIsIos}}
+        </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="isDeveloperMode">
+        <ion-item>
+            Version: {{appVersion}}
+        </ion-item>
+        <ion-item>
+            Name: {{appName}}
+        </ion-item>
+        <ion-item>
+            Package Name: {{appPackageName}}
+        </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="isDeveloperMode">
+        <ion-item>
+            <h2>Token In Storage</h2>
+            <p>{{tokenId}}</p>
+
+        </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="isDeveloperMode">
+        <ion-item>
+            <h2>Refresh Token In Storage</h2>
+            <p>{{refreshToken}}</p>
+
+        </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="isDeveloperMode">
+        <ion-item>
+            <h2>Profile In Storage</h2>
+            <p>{{profile}}</p>
+
+        </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="isDeveloperMode">
+        <ion-item>
+            <h2>API Target Base Url</h2>
+            <p>{{apiBaseUrl}}</p>
+
+        </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="isDeveloperMode">
+        <ion-item>
+            <button ion-button block (click)="clearAllData()">Clear All Data</button>
+        </ion-item>
+    </ion-card>
+</ion-content>

@@ -1,0 +1,52 @@
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - dertinfo-pwa
+
+variables:
+  buildConfiguration: 'Release'
+
+stages:
+- stage: 'DeployToTest'
+  displayName: 'Deploy To Test'
+  jobs:
+    - deployment: 'DeployToTest'
+      environment: 'Test'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+              submodules: true
+            - task: AzureStaticWebApp@0
+              inputs:
+                app_location: '/dertinfo-pwa/client'
+                api_location: "/dertinfo-pwa/functions"
+                output_location: 'www'
+              env:
+                azure_static_web_apps_api_token: $(staging_deployment_token)
+
+- stage: 'DeployToLive'
+  displayName: 'Deploy To Live'
+  jobs:
+    - deployment: 'DeployToLive'
+      environment: 'Live'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+              submodules: true
+            - task: AzureStaticWebApp@0
+              inputs:
+                app_location: '/dertinfo-pwa/client'
+                api_location: "/dertinfo-pwa/functions"
+                output_location: 'www'
+              env:
+                azure_static_web_apps_api_token: $(live_deployment_token)
+
+
