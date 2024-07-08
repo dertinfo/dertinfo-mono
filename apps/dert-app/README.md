@@ -22,7 +22,7 @@ This project is a Azure Static Web App. It consists of an Angular client and a f
 
 When users launch the application they will see the homepage of the application which looks like this: 
 
-![Screenshot of the homepage](docs/images/screenshot-homepage.png)
+![Screenshot of the homepage](/docs/images/screenshot-homepage.png)
 
 Users can login to the application which uses a third party authentication system of [Auth0](https://auth0.com/)
 
