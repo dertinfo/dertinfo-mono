@@ -1,0 +1,637 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>DertInfo.Models</AssemblyName>
+    <PackageId>dertinfo-models</PackageId>
+    <NetStandardImplicitPackageVersion>1.6.1</NetStandardImplicitPackageVersion>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <RootNamespace>DertInfo.Models</RootNamespace>
+    <ApplicationIcon />
+    <OutputType>Library</OutputType>
+    <StartupObject />
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Staging|AnyCPU'" />
+
+  <ItemGroup>
+    <PackageReference Include="EntityFrameworkCore.DataEncryption" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Typewriter\DataTransferObject\ActivityAttendanceDto.ts">
+      <CustomToolNamespace>DataTransferObject\ActivityAttendanceDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ActivityDetailDto.ts">
+      <CustomToolNamespace>DataTransferObject\ActivityDetailDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ActivityDto.ts">
+      <CustomToolNamespace>DataTransferObject\ActivityDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ActivityLineItemDto.ts">
+      <CustomToolNamespace>DataTransferObject\Emails\ActivityLineItemDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ActivityMemberAttendanceDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\ActivityMemberAttendanceDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ActivityMemberAttendanceDto.ts">
+      <CustomToolNamespace>DataTransferObject\ActivityMemberAttendanceDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ActivityMinimalSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\ActivityMinimalSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ActivitySubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\ActivitySubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ActivityTeamAttendanceDto.ts">
+      <CustomToolNamespace>DataTransferObject\ActivityTeamAttendanceDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ActivityUpdateDto.ts">
+      <CustomToolNamespace>DataTransferObject\ActivityUpdateDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ClientSettingsDto.ts">
+      <CustomToolNamespace>DataTransferObject\ClientSettingsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionAttachEntryAttributeDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionAttachEntryAttributeDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionAttachJudgesSubmissionDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionAttachJudgesSubmissionDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionAttachJudgesSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionAttachJudgesSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionAttachJudgeSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionAttachJudgeSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionAttachVenuesSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionAttachVenuesSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionDanceSummaryDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionDanceSummaryDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionDetachJudgesSubmissionDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionDetachJudgesSubmissionDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionDetachJudgesSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionDetachJudgesSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionDetachJudgeSubmissionDto.ts">
+      <CustomToolNamespace>CompetitionDetachJudgeSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionDetachVenuesSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionDetachVenuesSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionEntryAttributeDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionEntryAttributeDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionFullResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\Results\CompetitionFullResultDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionJudgeAllocationSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionJudgeAllocationSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionLookupDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionLookupDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionOverviewDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionOverviewDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\Results\CompetitionResultDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionSettingsDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionSettingsDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionSettingsDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionSettingsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionSettingsUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionSettingsUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\CompetitionSummaryDto.ts">
+      <CustomToolNamespace>DataTransferObject\CompetitionSummaryDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ContactDetailsDto.ts">
+      <CustomToolNamespace>DataTransferObject\ContactDetailsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ContactInfoDto.ts">
+      <CustomToolNamespace>DataTransferObject\ContactInfoDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceAdditionSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceAdditionSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceCheckedUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceCheckedUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceDetailDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceDetailDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceImageSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceImageSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceMarkingSheetDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceMarkingSheetDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceMarkingSheetSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceMarkingSheetSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\Results\DanceResultDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceResultsSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceResultsSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceScoreDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceScoreDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceScorePartDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceScorePartDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceScorePartsCollectionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceScorePartsCollectionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DanceScoreSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DanceScoreSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DertOfDertSettingsDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DertOfDertSettingsDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DertOfDertSettingsDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DertOfDertSettingsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DertOfDertSettingsUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DertOfDertSettingsUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodBlockUserSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodBlockUserSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodCollatedResultPairDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodCollatedResultPairDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodGroupResultsDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodGroupResultsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodGroupResultsScoreCardDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodGroupResultsScoreCardDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodGroupResultsScoreCategoryDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodGroupResultsScoreCategoryDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodIdentifyJudgeSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DodIdentifyJudgeSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodIdentifyJudgeSubmissionResponseDto.ts">
+      <CustomToolNamespace>DataTransferObject\DodIdentifyJudgeSubmissionResponseDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodJudgeInfoDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodJudgeInfoDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodRecoverSessionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DodRecoverSessionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodRecoverSessionSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DodRecoverSessionSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodReportResultSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodReportResultSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodResultComplaintDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodResultComplaintDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodResultComplaintSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodResultComplaintSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\DodResultDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodResultRejectComplaintSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodResultRejectComplaintSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodResultSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DodResultSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodResultValidateComplaintSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodResultValidateComplaintSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodSettingsDto.ts">
+      <CustomToolNamespace>DataTransferObject\DodSettingsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodSubmissionSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodSubmissionSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodSubmissionUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodSubmissionUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodTalkDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodTalkDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodTalkSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodTalkSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodTalkUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodTalkUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodTeamCollatedResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodTeamCollatedResultDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\DodUserResultsDto.ts">
+      <CustomToolNamespace>DataTransferObject\DertOfDerts\DodUserResultsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EmailActivityLineItemDto.ts">
+      <CustomToolNamespace>DataTransferObject\Emails\EmailActivityLineItemDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EmailBaseDto.ts">
+      <CustomToolNamespace>DataTransferObject\Emails\EmailBaseDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EmailIndividualAttendanceLineItemDto.ts">
+      <CustomToolNamespace>DataTransferObject\Emails\EmailIndividualAttendanceLineItemDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EmailPreviewDto.ts">
+      <CustomToolNamespace>DataTransferObject\Emails\EmailPreviewDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EmailRegistrationConfirmationDataDto.ts">
+      <CustomToolNamespace>DataTransferObject\Emails\EmailRegistrationConfirmationDataDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EmailTeamAttendanceLineItemDto.ts">
+      <CustomToolNamespace>DataTransferObject\Emails\EmailTeamAttendanceLineItemDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EmailTemplateDetailDto.ts">
+      <CustomToolNamespace>DataTransferObject\EmailTemplateDetailDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EmailTemplateDto.ts">
+      <CustomToolNamespace>DataTransferObject\EmailTemplateDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EmailTemplateUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\EmailTemplateUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventActivityDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventActivityDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventCancellationOptions.ts">
+      <CustomToolNamespace>DataTransferObject\EventCancellationOptions.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventCancellationOptionsDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventCancellationOptionsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventCompetitionDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventCompetitionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventCompetitionOverviewDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventCompetitionOverviewDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventConfigurationSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventConfigurationSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventDatesUpdateDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventDatesUpdateDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\EventDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventImageDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventImageDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventImageSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventImageSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventInvoiceDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventInvoiceDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventMinimalSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventMinimalSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventOverviewDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventOverviewDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventOverviewUpdateDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventOverviewUpdateDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventRegistrationDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventRegistrationDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventRegistrationOverviewDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventRegistrationOverviewDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventShowcaseDetailDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventShowcaseDetailDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventShowcaseDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\EventShowcaseDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventShowcaseDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventShowcaseDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\EventSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\EventSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupConfigurationSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupConfigurationSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupImageDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupImageDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupImageSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupImageSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupImageUpdateDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupImageUpdateDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupInvoiceDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\GroupInvoiceDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupInvoiceDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupInvoiceDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupMemberDetailDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupMemberDetailDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupMemberDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\GroupMemberDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupMemberDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupMemberDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupMemberSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupMemberSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupMemberUpdateDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupMemberUpdateDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupMinimalSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupMinimalSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupOverviewDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupOverviewDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupOverviewUpdateDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupOverviewUpdateDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupRegistrationDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupRegistrationDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupRegistrationOverviewDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupRegistrationOverviewDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupRegistrationSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupRegistrationSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupTeamCompetitionEntryDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupTeamCompetitionEntryDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupTeamDetailDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupTeamDetailDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupTeamDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupTeamDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupTeamSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupTeamSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\GroupTeamUpdateDto.ts">
+      <CustomToolNamespace>DataTransferObject\GroupTeamUpdateDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ImageResizeDto.ts">
+      <CustomToolNamespace>DataTransferObject\ImageResizeDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ImageResizeSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\ImageResizeSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\IndividualAttendanceLineItemDto.ts">
+      <CustomToolNamespace>DataTransferObject\IndividualAttendanceLineItemDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\InvoiceDto.ts">
+      <CustomToolNamespace>DataTransferObject\InvoiceDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\InvoicePaidUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\InvoicePaidUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\JudgeDto.ts">
+      <CustomToolNamespace>DataTransferObject\JudgeDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\JudgeSlotDto.ts">
+      <CustomToolNamespace>DataTransferObject\JudgeSlotDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\JudgeSlotInformationDto.ts">
+      <CustomToolNamespace>DataTransferObject\JudgeSlotInformationDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\JudgeSlotJudgeUpdateSubmission.ts">
+      <CustomToolNamespace>DataTransferObject\JudgeSlotJudgeUpdateSubmission.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\JudgeSlotJudgeUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\JudgeSlotJudgeUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\JudgeSubmissionDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\JudgeSubmissionDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\JudgeSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\JudgeSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\JudgeUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\JudgeUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\MemberAttendanceDto.ts">
+      <CustomToolNamespace>DataTransferObject\MemberAttendanceDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\MemberAttendanceSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\MemberAttendanceSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\NotificationDetailDto.ts">
+      <CustomToolNamespace>DataTransferObject\Notifications\NotificationDetailDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\NotificationMessageDto.ts">
+      <CustomToolNamespace>DataTransferObject\Notifications\NotificationMessageDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\NotificationMessageSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\Notifications\NotificationMessageSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\NotificationSummaryDto.ts">
+      <CustomToolNamespace>DataTransferObject\Notifications\NotificationSummaryDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\NotificationThumbnailInfoDto.ts">
+      <CustomToolNamespace>DataTransferObject\Notifications\NotificationThumbnailInfoDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\PinCodeGenerationSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\PinCodeGenerationSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\PinCodeSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\PinCodeSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationAddMemberSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationAddMemberSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationAddTeamSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationAddTeamSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationAttachMemberSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationAttachMemberSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationAttachTeamSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationAttachTeamSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationConfirmationEmailDataDto.ts">
+      <CustomToolNamespace>DataTransferObject\Emails\RegistrationConfirmationEmailDataDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationConfirmSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationConfirmSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationSubmitSubmissionDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationSubmitSubmissionDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationSubmitSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationSubmitSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationTeamAttendanceAttachActivitiesSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationMemberAttendanceAttachActivitiesSubmissionDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationMemberAttendanceAttachActivitiesSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationMemberAttendanceAttachActivitiesSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationMemberAttendanceDeleteSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationMemberAttendanceDeleteSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationTeamAttendanceDetachActivitiesSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationTeamAttendanceDetachActivitiesSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationMemberAttendanceDetachActivitiesSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationMemberAttendanceDetachActivitiesSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationMemberAttendanceSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationMemberAttendanceSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationTeamAttendanceDeleteSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationTeamAttendanceDeleteSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\RegistrationTeamAttendanceSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\RegistrationTeamAttendanceSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ScoreCategoryDto.ts">
+      <CustomToolNamespace>DataTransferObject\ScoreCategoryDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ScoreCategoryUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\ScoreCategoryUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ScoreGroupResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\Results\ScoreGroupResultDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ScoreSetDto.ts">
+      <CustomToolNamespace>DataTransferObject\ScoreSetDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ScoreSetUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\ScoreSetUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ScoreSheetDO.ts">
+      <CustomToolNamespace>DomainObjects\Paperwork\ScoreSheetDO.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\ScoreSheetDto.ts">
+      <CustomToolNamespace>DataTransferObject\Paperwork\ScoreSheetDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\SignInSheetDO.ts">
+      <CustomToolNamespace>DomainObjects\Paperwork\SignInSheetDO.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\SignInSheetDto.ts">
+      <CustomToolNamespace>DataTransferObject\Paperwork\SignInSheetDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\StatusBlockDto.ts">
+      <CustomToolNamespace>DataTransferObject\Structures\StatusBlockDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\SystemSettingDto.ts">
+      <CustomToolNamespace>DataTransferObject\SystemSettingDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\SystemSettingUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\SystemSettingUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamAttendanceDto.ts">
+      <CustomToolNamespace>DataTransferObject\TeamAttendanceDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamAttendanceLineItemDto.ts">
+      <CustomToolNamespace>DataTransferObject\Emails\TeamAttendanceLineItemDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamAttendanceSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\TeamAttendanceSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamCollatedFullResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\TeamCollatedFullResultDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamCollatedResultDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\TeamCollatedResultDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamCollatedResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\TeamCollatedResultDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamImageDto.ts">
+      <CustomToolNamespace>DataTransferObject\TeamImageDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamImageSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\TeamImageSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamResultDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\Results\TeamResultDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\Results\TeamResultDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\TeamShowcaseDto.ts">
+      <CustomToolNamespace>DataTransferObject\TeamShowcaseDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\UserAccessClaimsDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\UserAccessClaimsDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\UserAccessClaimsDto.ts">
+      <CustomToolNamespace>DataTransferObject\UserAccessClaimsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\UserOverviewDto.ts">
+      <CustomToolNamespace>DataTransferObject\UserOverviewDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\UserSettingsDto.ts">
+      <CustomToolNamespace>DataTransferObject\UserSettingsDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\UserGdprInformationDto - Copy.ts">
+      <CustomToolNamespace>DataTransferObject\UserGdprInformationDto - Copy.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\UserGdprInformationDto.ts">
+      <CustomToolNamespace>DataTransferObject\UserGdprInformationDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\UserGdprInformationSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\UserGdprInformationSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\UserSettingsUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\UserSettingsUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\VenueAllocationDto.ts">
+      <CustomToolNamespace>DataTransferObject\VenueAllocationDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\VenueDanceDto.ts">
+      <CustomToolNamespace>DataTransferObject\VenueDanceDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\VenueDto.ts">
+      <CustomToolNamespace>DataTransferObject\VenueDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\VenueSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\VenueSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\VenueUpdateSubmissionDto.ts">
+      <CustomToolNamespace>DataTransferObject\VenueUpdateSubmissionDto.cs</CustomToolNamespace>
+    </None>
+    <None Update="Typewriter\DataTransferObject\_obsolete_TeamResultDto.ts">
+      <CustomToolNamespace>DataTransferObject\Results\_obsolete_TeamResultDto.cs</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+</Project>

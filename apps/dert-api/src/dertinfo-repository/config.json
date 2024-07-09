@@ -1,0 +1,5 @@
+{
+    "MicrosoftAzureStorage": {
+        "dertinfostorage_AzureStorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=[STORAGE_ACCOUNT_NAME];AccountKey[STORAGE ACCOUNT KEY]"
+    }
+}
