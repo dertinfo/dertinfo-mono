@@ -5,7 +5,7 @@
 
 This is the API and business logic code for the DertInfo application.
 
-The producton version of this solution is visible at [https://app.dertinfo.co.uk](https://app.dertinfo.co.uk)
+The producton version of this solution is visible at [[https://api.dertinfo.co.uk]([https://api.dertinfo.co.uk](http://dertinfo-live-api-wa.azurewebsites.net/swagger/index.html))](http://dertinfo-live-api-wa.azurewebsites.net/swagger/index.html)
 
 > **Note:** If you are unfamilar with the collection of services that are part of DertInfo please refer to the repository dertinfo/dertinfo.
 
