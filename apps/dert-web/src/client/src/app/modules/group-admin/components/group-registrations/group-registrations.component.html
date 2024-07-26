@@ -1,0 +1,45 @@
+<div fxLayout="column" fxFlex="100">
+    <mat-card class="p-0">
+  <mat-tab-group>
+    <mat-tab label="Active">
+        <mat-card-content class="mt-1" *ngIf="(groupActiveRegistrations$ | async)?.length > 0">
+            <app-registration-listing-for-group [groupRegistrationOverviews]="groupActiveRegistrations$ | async"></app-registration-listing-for-group>
+        </mat-card-content>
+        <mat-card-content class="mt-1" *ngIf="(groupActiveRegistrations$ | async)?.length === 0">
+          No active registrations.
+        </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Previous">
+      <mat-card-content class="mt-1" *ngIf="(groupPreviousRegistrations$ | async)?.length > 0">
+          <app-registration-listing-for-group [groupRegistrationOverviews]="groupPreviousRegistrations$ | async"></app-registration-listing-for-group>
+      </mat-card-content>
+      <mat-card-content class="mt-1" *ngIf="(groupPreviousRegistrations$ | async)?.length === 0">
+        No previous registrations.
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Available / New">
+      <mat-card-content class="mt-1">
+          <mat-list class="compact-list mb-1">
+              <mat-list-item class="" *ngFor="let event of eventsAvailable$ | async" routerLink="/group-register/{{_groupId}}/{{event.id}}">
+                <img mat-list-avatar class="mr-1" [src]="event.eventPictureUrl | imageDimension: '100x100'" alt="">
+                <div fxLayout="row" fxFlex="100">
+                  <small class="text-muted mr-1">{{event.name}}</small>
+                </div>
+                <div fxLayout="row" fxFlex="50">
+
+                </div>
+              </mat-list-item>
+            </mat-list>
+      </mat-card-content>
+      <mat-card-content class="mt-1" *ngIf="(eventsAvailable$ | async)?.length === 0">
+          No events currently available.
+        </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Other">
+      <mat-card-content class="mt-1">
+          <app-registration-listing-for-group [groupRegistrationOverviews]="otherRegistrations$ | async"></app-registration-listing-for-group>
+      </mat-card-content>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>
+</div>

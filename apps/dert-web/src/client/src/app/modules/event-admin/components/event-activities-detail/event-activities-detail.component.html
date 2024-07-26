@@ -1,0 +1,109 @@
+<mat-card class="p-0" *ngIf="_isReady">
+    <mat-card-title class="mat-bg-primary">
+        <div class="card-title-text">
+            <span>{{activityDetail.title}}</span>
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+                <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item (click)="onActivityRemoveClick(activity)">
+                    <mat-icon>delete</mat-icon>Remove</button>
+            </mat-menu>
+        </div>
+        <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+        Information about capacity / fulfillment
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="p-0" *ngIf="_isReady">
+    <mat-tab-group>
+        <mat-tab label="General">
+            <mat-card-content class="mt-1">
+                <form [formGroup]="activityUpdateForm" novalidate (submit)="onUpdateActivitySubmit()">
+                    <div class="pb-1">
+                        <mat-form-field class="full-width">
+                            <input matInput formControlName="title" placeholder="Activity Title" required>
+                        </mat-form-field>
+                        <small *ngIf="activityUpdateForm.controls.title.errors && (activityUpdateForm.controls.title.dirty || activityUpdateForm.controls.title.touched) && (activityUpdateForm.controls.title.errors.required)"
+                            class="form-error-msg"> Title is required. </small>
+                    </div>
+
+                    <div class="pb-1">
+                        <mat-form-field class="full-width">
+                            <input matInput formControlName="description" placeholder="Activity Description">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="pb-1">
+                        <mat-form-field class="full-width">
+                            <input matInput name="price" formControlName="price" placeholder="Price (£)">
+                        </mat-form-field>
+                        <small *ngIf="activityUpdateForm.controls.price.errors && (activityUpdateForm.controls.price.dirty || activityUpdateForm.controls.price.touched) && (activityUpdateForm.controls.price.errors.required)"
+                            class="form-error-msg"> Price is required. </small>
+                    </div>
+
+                    <div class="pb-1">
+                        <mat-form-field>
+                            <mat-select placeholder="Target Audience" formControlName="audienceTypeId">
+                                <mat-option *ngFor="let audienceType of audienceTypes" [value]="audienceType.id">
+                                    {{audienceType.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="activityUpdateForm.controls.audienceTypeId.required">You must make a selection</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="pb-1">
+                            <mat-checkbox formControlName="isDefault">
+                                    Set as Default
+                                </mat-checkbox>
+                        </div>
+                        <div class="pb-1">
+                            <mat-checkbox formControlName="priceTBC">
+                                    Price TBC
+                                </mat-checkbox>
+                        </div>
+                        <div class="pb-1">
+                            <mat-checkbox formControlName="soldOut">
+                                    Sold Out
+                                </mat-checkbox>
+                        </div>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!activityUpdateForm.dirty">
+                        Save
+                    </button>
+
+                </form>
+            </mat-card-content>
+        </mat-tab>
+        <!--
+        <mat-tab label="Privacy Settings">
+            <mat-card-content>
+                <div class="mb-1 mt-1">
+                    <mat-checkbox> Get weekly news in your email.</mat-checkbox>
+                </div>
+                <div class="mb-1">
+                    <mat-checkbox> Get notification when someone follows you.</mat-checkbox>
+                </div>
+                <div class="mb-1">
+                    <mat-checkbox> Get email when someone follows you.</mat-checkbox>
+                </div>
+                <div class="mb-1">
+                    <p>Choose your admin panel color schemes.</p>
+                    <mat-radio-group fxLayout="column" fxLayoutGap="4px">
+                        <mat-radio-button value="indigo">Indigo</mat-radio-button>
+                        <mat-radio-button value="blue">Blue</mat-radio-button>
+                        <mat-radio-button value="pink">Pink</mat-radio-button>
+                        <mat-radio-button value="purple">Purple</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <button mat-raised-button color="primary">Save</button>
+            </mat-card-content>
+        </mat-tab>
+    -->
+        <mat-tab label="Requirements">
+            Requirements
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>

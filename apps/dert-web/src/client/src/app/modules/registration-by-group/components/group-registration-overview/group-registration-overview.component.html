@@ -1,0 +1,58 @@
+<div fxLayout="row wrap">
+  <div fxLayout="column" fxFlex="50" fxFlex.gt-md="50" fxFlex.lt-sm="100">
+    <mat-card class="default">
+      <mat-card-title>
+        <strong>{{groupName}}</strong> attending
+        <strong>{{eventName}}</strong>
+      </mat-card-title>
+      <mat-card-content>
+        <div fxLayout="row wrap" class="doughnut-grid text-center">
+          <div class="grouppic-left text-center" fxFlex="50">
+            <img [src]="groupPictureUrl | imageDimension: '480x360'" [alt]="groupName">
+          </div>
+          <div class="grouppic-right text-center" fxFlex="50">
+            <img [src]="eventPictureUrl | imageDimension: '480x360'" [alt]="eventName">
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+
+        <div fxLayout="row wrap" class="doughnut-grid text-center">
+          <a routerLink="../teams" fxFlex="50" class="doughnut-grid-item mat-bg-primary">
+            <div class="summary-count-number">{{teamAttendanceCount}}</div>
+            <small>Attending Teams</small>
+          </a>
+          <a routerLink="../members" fxFlex="50" class="doughnut-grid-item light-gray">
+            <div class="summary-count-number">{{memberAttendanceCount}}</div>
+            <small>Attending Members</small>
+          </a>
+          <a routerLink="../invoices" fxFlex="50" class="doughnut-grid-item light-gray">
+            <div class="summary-count-number">{{guestAttendanceCount}}</div>
+            <small>Attending Guests</small>
+          </a>
+          <a routerLink="../registrations" fxFlex="50" class="doughnut-grid-item mat-bg-primary">
+            <div class="summary-count-number">
+                <span [price]="totalPrice" [tbc]="false">{{totalPrice}}</span>
+            </div>
+            <small>Total Price</small>
+          </a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxLayout="column" fxFlex="50" fxFlex.gt-md="50" fxFlex.lt-sm="100">
+    <mat-card class="default">
+        <mat-card-title>Contact Information</mat-card-title>
+        <mat-card-content class="pt-0">
+          <mat-list>
+            <mat-list-item>
+              <mat-icon class="mr-1">person</mat-icon>{{groupContactName}}</mat-list-item>
+            <mat-list-item>
+              <mat-icon class="mr-1">email</mat-icon>{{groupContactEmail}}</mat-list-item>
+            <mat-list-item>
+              <mat-icon class="mr-1">phone</mat-icon>{{groupContactTelephone}}</mat-list-item>
+
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+</div>
+</div>

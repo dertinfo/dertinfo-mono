@@ -1,0 +1,37 @@
+@import url(../../styles/overrides.scss);
+
+mat-card {
+    margin-bottom: 30px;
+}
+
+mat-card:hover {
+    border: 3px solid #FF017E;
+    border-radius: 15px 255px 15px 255px / 255px 15px 255px 15px;
+}
+
+.sub-title {
+    color: #000;
+    margin-top: -5px;
+}
+
+.talk-image-overlay {
+    font-family: ARDarling, Courier;
+    font-size: 2rem;
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+}
+
+.talk-image-overlay-inner {
+    padding: 10%;
+    text-align: center;
+    div {
+        width: 100%;
+    }
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

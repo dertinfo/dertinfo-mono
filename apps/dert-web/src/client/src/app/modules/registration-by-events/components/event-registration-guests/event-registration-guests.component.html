@@ -1,0 +1,47 @@
+<div fxLayout="row wrap">
+  <app-addition-header fxFlex="100" (addClick)="openSelectMemberDialog()" [title]="'Attending Guests'" [icon]="'person'" [disabled]="!capabilities.canAddEditMembers"></app-addition-header>
+  <div *ngFor="let memberAttendance of attendingMembers$ | async" fxFlex="100" fxFlex.lt-sm="100">
+    <mat-card class="user-card p-0">
+      <mat-card-title class="mat-bg-primary">
+        <div class="card-title-text">
+          <span>{{memberAttendance.groupMemberName}}</span>
+          <span fxFlex></span>
+          <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+            <mat-icon class="">more_vert</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="openMemberSelectActivitiesDialog(memberAttendance)" [disabled]="!capabilities.canAddEditMembers">
+              <mat-icon>receipt</mat-icon>Choose Tickets</button>
+            <button mat-menu-item (click)="removeMemberAttendance(memberAttendance)" [disabled]="!capabilities.canDeleteMembers">
+              <mat-icon>delete</mat-icon>Remove</button>
+          </mat-menu>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+      <mat-card-content>
+        <!-- user detail lines-->
+        <div class="user-details">
+          <ngx-datatable class="material bg-white" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10"
+            [rows]="spreadRows(memberAttendance.attendanceActivities)">
+
+            <ngx-datatable-column name="Ticket Type" prop="activityTitle" [flexGrow]="4">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Ticket Price" prop="activityPrice" [flexGrow]="2">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value}}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+          <div fxLayout="row" fxLayoutAlign="end">
+              <button mat-button class="iconpositionfix" *ngIf="capabilities.canAddEditMembers" color="primary" type="submit" (click)="openMemberSelectActivitiesDialog(memberAttendance)">
+                  Add Activities <mat-icon>add</mat-icon>
+              </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

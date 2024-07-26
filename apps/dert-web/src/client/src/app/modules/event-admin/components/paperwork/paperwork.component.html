@@ -1,0 +1,22 @@
+<div>
+    <app-addition-header [title]="'Paperwork'" [icon]="'insert_drive_file'" [hideButton]="true"></app-addition-header>
+    <mat-card class="default">
+        <mat-card-header>
+          <mat-card-title>Sign in sheets</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="mt-1">
+
+            <div class="paperwork-box" fxFlex="50">
+                <div class="title">Sign In Sheets</div>
+                <div class="info">These are the tickets sold broken down by group and also the pin codes to permit team members to access the results via the app.</div>
+
+                <button mat-raised-button color="primary" (click)="onSignInSheetsClick()">
+                  Generate
+                </button>
+              </div>
+
+
+        </mat-card-content>
+      </mat-card>
+</div>
+

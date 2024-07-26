@@ -1,0 +1,33 @@
+:host {
+    display: block;
+    max-width: 350px;
+
+    .marking-criteria-sidebar {
+        padding: 10px 10px;
+    }
+
+    mat-expansion-panel {
+        margin-bottom: 2px;
+    }
+
+    mat-panel-title {
+        font-family: ARDarling, Courier;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 1.2rem !important;
+    }
+
+    mat-panel-description {
+        padding-top:5px;
+        font-family: "Kalam", cursive;
+    }
+
+    h4 {
+        font-family: "Kalam", cursive;
+    }
+
+    p {
+        font-family: "Kalam", cursive;
+        font-size: 1rem;
+    }
+}

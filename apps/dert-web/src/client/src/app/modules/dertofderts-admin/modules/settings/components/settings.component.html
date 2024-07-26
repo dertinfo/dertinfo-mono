@@ -1,0 +1,77 @@
+<div fxLayout="row wrap" fxLayout.lt-md="column" fxFlex="100">
+
+  <mat-card class="p-0" fxFlex="45">
+    <mat-card-title class="mat-bg-primary">
+      <div class="card-title-text">
+        <span>Open to the public?</span>
+        <span fxFlex></span>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <p>This setting will allow the public to get into the judging are of the site and allow them to enter scores. </p>
+      <p>When the event is finished this should remain on.</p>
+      <mat-slide-toggle [(ngModel)]="openToPublic" (change)="onOpenToPublicChange()">Judging open to public</mat-slide-toggle>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="p-0" fxFlex="45">
+    <mat-card-title class="mat-bg-primary">
+      <div class="card-title-text">
+        <span>Results Forwarded</span>
+        <span fxFlex></span>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <p>When turned on then the results that are entered by the public will be forwarded to the teams. </p>
+      <p>This will allow them to review the responses and raise complaints before we publish the end results.</p>
+      <mat-slide-toggle [(ngModel)]="publicResultsForwarded" (change)="onPublicResultsForwardedChange()">Public Results</mat-slide-toggle><br/>
+      <mat-slide-toggle [(ngModel)]="officialResultsForwarded" (change)="onOfficialResultsForwardedChange()">Official Results</mat-slide-toggle>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="p-0" fxFlex="45">
+    <mat-card-title class="mat-bg-primary">
+      <div class="card-title-text">
+        <span>All Done? Publish Results?</span>
+        <span fxFlex></span>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <p>Shows the collated results publically on the site and prevents any further submissions.</p>
+      <mat-slide-toggle [(ngModel)]="resultsPublished" (change)="onResultsPublishedChange()">Results are published</mat-slide-toggle>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="p-0" fxFlex="45">
+    <mat-card-title class="mat-bg-primary">
+      <div class="card-title-text">
+        <span>Valid passwords for Judges</span>
+        <span fxFlex></span>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <p>In the text box below (comma seperated) are the valid passwords that will allow a user to identify as an
+        official judge.</p>
+      <form #form="ngForm" (ngSubmit)="onValidJudgePasswordsSubmit()">
+        <mat-form-field>
+          <mat-label>Valid Passwords</mat-label>
+          <input [(ngModel)]="validJudgePasswords" name="validJudgePasswords" matInput placeholder="pass1,pass2,pass3">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">
+          Update
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="p-0" fxFlex="45">
+    <mat-card-title class="mat-bg-primary">
+      <div class="card-title-text">
+        <span>Clear Results Cache</span>
+        <span fxFlex></span>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <p>This button will clear the cache of the results in the database. This can be done without worry it'll just rebuild from the latest data. The cache is present so that it doesn't try to rebuild the data everytime.</p>
+        <button mat-raised-button color="primary" (click)="onClearCacheClick()">
+          Clear Cache
+        </button>
+    </mat-card-content>
+  </mat-card>
+</div>

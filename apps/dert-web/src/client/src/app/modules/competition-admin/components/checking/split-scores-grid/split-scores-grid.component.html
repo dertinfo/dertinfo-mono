@@ -1,0 +1,38 @@
+
+<div class="mat-elevation-z3" [ngClass]="{'scores-valid' : splitScoresValid}">
+    <mat-table [dataSource]="dancesSplitScoresDataSource" matSort matSortActive="judgeName" matSortDirection="asc"
+        matSortDisableClear>
+
+        <!-- Team Name Column -->
+        <ng-container matColumnDef="judgeName">
+            <mat-header-cell mat-header *matHeaderCellDef class="name-column"> Judge Name
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="name-column">
+                {{element.judgeName}}
+            </mat-cell>
+        </ng-container>
+
+        <!-- Score Categories -->
+        <ng-container *ngFor="let column of collatedColumns" matColumnDef="{{column.columnDef}}">
+            <mat-header-cell mat-header *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+
+                    <input
+                        class="splitscoreinput"
+                        *ngIf="element[column.header].isVisible"
+                        matInput type="number"
+                        placeholder=""
+                        value="{{ element[column.header].markGiven }}"
+                        maintain-original
+                        autocomplete="off"
+                        (keyup)="onScorePartChanged(element.judgeSlotId,element[column.header].danceScoreId,$event)"
+                        >
+                    <br/>
+                    <!--<small>{{element.judgeSlotId}} - {{element[column.header].match}} - {{element[column.header].danceScoreId}}</small>-->
+                </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="collatedDisplayedColumns" fxflex></mat-header-row>
+        <mat-row *matRowDef="let row; columns: collatedDisplayedColumns;" fxflex></mat-row>
+    </mat-table>
+</div>

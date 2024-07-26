@@ -1,0 +1,48 @@
+<mat-card class="p-0" fxFlex="100">
+  <mat-tab-group class="shrink-last-tab">
+    <mat-tab *ngFor="let competition of competitions" [label]="competition.name">
+      <mat-card-content class="mt-1" fxFlex="100">
+        <div class="status-box-container">
+          <div class="status-box" (click)="statusClicked(competition.id)">
+            <div class="status-box-inner">
+              <div class="heading">{{competition.status.heading}}</div>
+              <div [ngClass]="['box-icon', competition.status.iconClass]">
+                <mat-icon class="icon">{{competition.status.icon}}</mat-icon>
+              </div>
+              <div class="subtext">{{competition.status.subtext}}</div>
+            </div>
+          </div>
+          <div class="status-box" (click)="entrantsClicked(competition.id)">
+              <div class="status-box-inner">
+                <div class="heading">{{competition.entries.heading}}</div>
+                <div [ngClass]="['box-icon', competition.entries.iconClass]">
+                  <mat-icon class="icon">{{competition.entries.icon}}</mat-icon>
+                </div>
+                <div class="subtext">{{competition.entries.subtext}}</div>
+              </div>
+            </div>
+          <div class="status-box" (click)="judgesClicked(competition.id)">
+            <div class="status-box-inner">
+              <div class="heading">{{competition.judges.heading}}</div>
+              <div [ngClass]="['box-icon', competition.judges.iconClass]">
+                <mat-icon class="icon">{{competition.judges.icon}}</mat-icon>
+              </div>
+              <div class="subtext">{{competition.judges.subtext}}</div>
+            </div>
+          </div>
+          <div class="status-box" (click)="venuesClicked(competition.id)">
+            <div class="status-box-inner" >
+              <div class="heading">{{competition.venues.heading}}</div>
+              <div [ngClass]="['box-icon', competition.venues.iconClass]">
+                <mat-icon class="icon">{{competition.venues.icon}}</mat-icon>
+              </div>
+              <div class="subtext">{{competition.venues.subtext}}</div>
+            </div>
+          </div>
+        </div>
+
+
+      </mat-card-content>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

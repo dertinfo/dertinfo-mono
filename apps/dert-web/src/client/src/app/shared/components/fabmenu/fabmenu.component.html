@@ -1,0 +1,12 @@
+<div id="app-fabmenu">
+  <div class="flyout" *ngFor="let flyoutItem of menuItems">
+    <button mat-mini-fab color="default" (click)="itemClicked(flyoutItem.name)" *ngIf="isFlyoutOpen">
+      <mat-icon>{{flyoutItem.matIcon}}</mat-icon>
+    </button>
+  </div>
+  <div class="handle">
+    <button mat-fab color="primary" (click)="toggleFlyout()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>

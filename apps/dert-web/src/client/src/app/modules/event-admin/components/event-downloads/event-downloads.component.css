@@ -1,0 +1,17 @@
+.download-image
+{
+    padding: 20px 10px 10px 10px;
+}
+
+.download-info
+{
+    padding: 10px;
+}
+
+
+.download-fab
+{
+    display: flex;
+    flex-flow: row-reverse;
+    margin: -50px 5px 10px 10px;
+}

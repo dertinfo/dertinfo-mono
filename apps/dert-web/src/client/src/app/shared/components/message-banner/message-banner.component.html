@@ -1,0 +1,16 @@
+<div fxLayout="row" fxFlex="100" fxLayoutAlign="left center">
+    <div fxFlex="10">
+        <mat-icon>warning</mat-icon>
+    </div>
+    <div fxFlex="70">
+        <div fxLayout="column" fxLayoutAlign="space-around" fxFlex="100">
+            <ng-content></ng-content>
+        </div>
+    </div>
+    <div fxFlex="20">
+        <button *ngIf="!active && !hideButton" mat-raised-button color="secondary" (click)="onButtonClick($event)">
+            {{buttonText}}
+        </button>
+        <app-spinner *ngIf="active"></app-spinner>
+    </div>
+</div>

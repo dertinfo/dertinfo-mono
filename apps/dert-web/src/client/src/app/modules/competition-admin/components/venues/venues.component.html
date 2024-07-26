@@ -1,0 +1,45 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+  <app-addition-header fxFlex="100" (addClick)="openCreateVenueDialog()" [title]="'Venues'" [icon]="'domain'" [hideButton]="false" [disabled]="editingBlocked"></app-addition-header>
+
+  <div class="mat-elevation-z3 inline-table" fxFlex>
+    <mat-table [dataSource]="dataSource">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell mat-header-cell *matHeaderCellDef class="cell-2x"> Name </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-2x"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <!-- Judges Allocated -->
+      <ng-container matColumnDef="judgesAllocated">
+        <mat-header-cell mat-header-cell *matHeaderCellDef> Judges Allocated </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-judgeallocation">
+          <div>
+            <mat-icon *ngIf="element.judgesAllocated">check</mat-icon>
+            <mat-icon *ngIf="!element.judgesAllocated">close</mat-icon>
+          </div>
+          <div>
+            <span *ngFor="let slot of element.judgeSlots">
+              <small>{{slot.judgeName}}</small><br />
+            </span>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Edit -->
+      <ng-container matColumnDef="edit">
+        <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+          <button mat-icon-button matTooltip="Details" (click)="editVenue(element)" [style.overflow]="'visible'" class="topbar-button-right" [disabled]="editingBlocked">
+            <mat-icon>edit</mat-icon>
+            <!--
+                  <span class="notification-number mat-bg-warn">0</span>
+                  -->
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns" fxflex></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" fxflex></mat-row>
+    </mat-table>
+  </div>

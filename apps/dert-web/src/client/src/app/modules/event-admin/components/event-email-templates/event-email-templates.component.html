@@ -1,0 +1,56 @@
+<div *ngIf="isReady">
+  <div id="app-addition-header">
+    <mat-card class="mat-bg-default">
+      <mat-card-title>
+        <mat-icon>email</mat-icon>Email Templates X {{isReady}} Y {{showEditor}} Z
+      </mat-card-title>
+    </mat-card>
+  </div>
+  <mat-card class="default">
+    <mat-card-content>
+      <mat-form-field>
+        <mat-select placeholder="Choose Email Template" [(ngModel)]="selectedTemplate"
+          (selectionChange)="onEmailTemplateSelectChange()">
+          <mat-option *ngFor="let template of emailTemplates" [value]="template">
+            {{template.templateName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="default" *ngIf="showEditor">
+    <mat-card-title>Edit Template</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="emailTemplateUpdateForm" (submit)="onEmailTemplateSubmit()">
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="emailTemplateName" placeholder="Template Name" required>
+          </mat-form-field>
+          <small
+            *ngIf="emailTemplateUpdateForm.controls.emailTemplateName.errors && (emailTemplateUpdateForm.controls.emailTemplateName.dirty || emailTemplateUpdateForm.controls.emailTemplateName.touched) && (emailTemplateUpdateForm.controls.emailTemplateName.errors.required)"
+            class="form-error-msg"> Template Name is required. </small>
+        </div>
+        <div class="pb-1">
+
+          <mat-form-field class="full-width">
+            <input matInput formControlName="emailTemplateSubject" placeholder="Template Subject" required>
+          </mat-form-field>
+
+          <small
+            *ngIf="emailTemplateUpdateForm.controls.emailTemplateSubject.errors && (emailTemplateUpdateForm.controls.emailTemplateSubject.dirty || emailTemplateUpdateForm.controls.emailTemplateSubject.touched) && (emailTemplateUpdateForm.controls.emailTemplateSubject.errors.required)"
+            class="form-error-msg"> Email Subject is required. </small>
+        </div>
+        <div class="pb-1">
+          <button mat-raised-button color="primary" [disabled]="!emailTemplateUpdateForm.dirty">Save</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="p-0" *ngIf="showEditor">
+    <mat-card-content class="p-0">
+      <quill-editor theme="snow" [(ngModel)]="editorData" (onContentChanged)="onEditorContentChanged()"
+        (onSelectionChanged)="onEditorSelectionChanged()"></quill-editor>
+    </mat-card-content>
+  </mat-card>
+</div>

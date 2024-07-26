@@ -1,0 +1,49 @@
+<!-- todo - create framework module and include public header-->
+<header id="home-header">
+  <div class="container" fxLayout="row wrap" fxLayoutAlign="start center">
+    <div class="home-logo">
+      <!--<img src="assets/images/logo-full-strong.png" alt="Egret logo">-->
+      <a class="navbar-brand" routerLink="/home"><span class="">Dert</span>Info</a>
+    </div>
+    <span fxFlex></span>
+    <button mat-button id="dashboard-topbtn" class="hometop-btn" routerLink="/dashboard"><strong>My Dashboard</strong></button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="section-header">
+
+    <div fxLayout="row wrap" fxLayoutGap="">
+
+      <mat-card class="p-0" fxFlex="100">
+        <mat-card-title class="mat-bg-primary m-0">
+          <div class="card-title-text">
+            <span>{{pEventDetail?.name}}</span>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+
+        <div fxLayout="row" fxLayoutWrap="nowrap" >
+          <div fxflex class="p-1">
+            <img [src]="pEventDetail?.eventPictureUrl  | imageDimension: '480x360' ">
+          </div>
+          <div fxflex class="p-1">
+            <h2>{{pEventDetail?.name}}</h2>
+            <p>{{pEventDetail?.eventSynopsis}}</p>
+
+            <p><strong>Registration Opens:</strong> {{pEventDetail?.registrationOpenDate | dateFormat}}</p>
+
+            <p><strong>Registration Closes:</strong> {{pEventDetail?.registrationCloseDate | dateFormat}}</p>
+
+            <p><strong>Event Starts:</strong> {{pEventDetail?.eventStartDate | dateFormat}}</p>
+
+            <p><strong>Event Ends:</strong> {{pEventDetail?.eventEndDate | dateFormat}}</p>
+
+          </div>
+        </div>
+      </mat-card>
+
+
+    </div>
+  </div>
+</div>

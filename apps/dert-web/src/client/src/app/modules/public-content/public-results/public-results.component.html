@@ -1,0 +1,43 @@
+<!-- todo - create framework module and include public header-->
+<header id="home-header">
+  <div class="container" fxLayout="row wrap" fxLayoutAlign="start center">
+    <div class="home-logo">
+      <!--<img src="assets/images/logo-full-strong.png" alt="Egret logo">-->
+      <a class="navbar-brand" routerLink="/home"><span class="">Dert</span>Info</a>
+    </div>
+    <span fxFlex></span>
+    <button mat-button id="dashboard-topbtn" class="hometop-btn" routerLink="/dashboard"><strong>My Dashboard</strong></button>
+  </div>
+</header>
+<div class="container">
+  <div class="section-header">
+
+    <div fxLayout="row wrap" fxLayoutGap="">
+      <mat-form-field *ngIf="eventLookups" style="width:100%">
+        <mat-select placeholder="Select Competition" (selectionChange)="onSelectionChange($event.value)">
+          <mat-option>-- None --</mat-option>
+          <mat-optgroup *ngFor="let event of eventLookups.events" [label]="event.eventName">
+            <mat-option *ngFor="let competition of event.competitions" [value]="competition">
+              {{competition.competitionName}}
+            </mat-option>
+          </mat-optgroup>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <mat-tab-group *ngIf="selectedCompetition" (selectedTabChange)="onSelectedTabChange($event)">
+    <mat-tab *ngFor="let resultType of selectedCompetition.resultTypes" [label]="resultType.resultTypeName">
+      <mat-list>
+        <div *ngFor="let teamResult of getTabResults(resultType)">
+          <mat-list-item>
+            <div fxFlex="100" fxLayout="row">
+              <div fxFlex="90">{{teamResult.teamName}}</div>
+              <div fxFlex="10">{{teamResult.collatedScore}}</div>
+            </div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </div>
+      </mat-list>
+    </mat-tab>
+  </mat-tab-group>

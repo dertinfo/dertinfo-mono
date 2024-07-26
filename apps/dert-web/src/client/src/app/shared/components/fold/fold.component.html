@@ -1,0 +1,11 @@
+<div class="fold" [style]="foldStyle">
+  <div #content class="content">
+    <ng-content></ng-content>
+  </div>
+  <div class="opacity" *ngIf="!isExpanded && allowFold"></div>
+  <div class="viewmore" (click)="onViewMoreClick()" *ngIf="allowFold">
+    <mat-icon [ngClass]="{'arrow-contracted': !isExpanded, 'arrow-expanded': isExpanded}">arrow_right</mat-icon>
+    <span>{{foldText}}</span>
+    <mat-icon [ngClass]="{'arrow-contracted': !isExpanded, 'arrow-expanded': isExpanded}">arrow_right</mat-icon>
+  </div>
+</div>

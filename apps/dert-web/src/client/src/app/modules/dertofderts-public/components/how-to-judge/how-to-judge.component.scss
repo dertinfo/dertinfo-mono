@@ -1,0 +1,66 @@
+@import url(../../styles/overrides.scss);
+
+
+
+    h2 {
+        font-family: ARDarling, Courier;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 2rem;
+        padding-top: 20px;
+        margin-top: 0px;
+    }
+
+    li {
+        font-family: "Kalam", cursive;
+        font-size: 1rem;
+    }
+
+    .step-box {
+        position:relative;
+
+        mat-card {
+            margin-top: -25px;
+        }
+    }
+
+    .intro-product-link {
+        position: relative;
+        top: 0;
+        left: -25px;
+        text-align: center;
+        display: block;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background-color: #FE007C;
+        color: rgba(0, 0, 0, 0.87);
+        padding: 37px 20px;
+        box-sizing: border-box;
+        overflow: hidden;
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        z-index: 999;
+    }
+    .intro-product-link:hover {
+        box-shadow: 0 19px 32px rgba(0, 0, 0, 0.4);
+    }
+    .intro-product-link .price {
+        font-family: "Kalam", cursive;
+    }
+    .intro-product-link .price-text {
+        font-size: 14px;
+    }
+
+    .price {
+        font-family: "Kalam", cursive;
+        font-size: 24px;
+    }
+
+    .price-position {
+        position:relative;
+        top:-15px;
+    }
+
+
+

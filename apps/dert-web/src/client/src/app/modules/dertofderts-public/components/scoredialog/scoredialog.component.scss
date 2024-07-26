@@ -1,0 +1,23 @@
+@import url(../../styles/overrides.scss);
+
+.checkbox-invalid {
+    border: solid 1px red;
+}
+
+.info-focus {
+    font-family: "Kalam", cursive;
+    width: 100%;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.cursor-pointer
+{
+    cursor: pointer !important;
+    color: #8FBE36;
+}
+
+.full-width {
+    width:100%;
+    display:block;
+}

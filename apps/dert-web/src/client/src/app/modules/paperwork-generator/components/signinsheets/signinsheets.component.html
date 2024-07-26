@@ -1,0 +1,60 @@
+<div *ngIf="!dataLoaded">
+    <!-- Trigger/Open The Modal -->
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <p>Rendering your signinsheets..</p>
+            <app-spinner></app-spinner>
+        </div>
+
+    </div>
+
+</div>
+<div *ngIf="dataLoaded">
+    <div class="container">
+        <div *ngFor="let signInSheet of signInSheetData" class="innercontainer">
+            <img [src]="signInSheet.event.eventPictureUrl | imageDimension: '480x360' " alt="" class="headerimage">
+            <table class="infotable">
+                <thead>
+                </thead>
+                <tbody>
+                    <tr colspan="2">
+                        <td colspan="2">{{signInSheet.groupName}}</td>
+                    </tr>
+                    <tr>
+                        <td>Members: {{signInSheet.memberAttendanceCount}}&nbsp;&nbsp;&nbsp;Teams: {{signInSheet.teamAttendanceCount}}</td>
+                        <td>Member Pin: {{signInSheet.groupMemberPinCode}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col1">Name</th>
+                        <th class="col3">TicketType</th>
+                        <th class="col4">Collected</th>
+                        <th class="col6">Signature</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let dataRow of signInSheet.memberAttendances">
+                        <td>{{dataRow.groupMemberName}}</td>
+                        <td><span *ngFor="let activityMemberAttendance of dataRow.attendanceActivities">[{{activityMemberAttendance.activityTitle}}]</span></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr *ngFor="let spareRow of spareRows">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

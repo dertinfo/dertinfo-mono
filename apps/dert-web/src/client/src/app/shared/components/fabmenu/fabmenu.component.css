@@ -1,0 +1,16 @@
+#app-fabmenu {
+  position: fixed;
+  z-index: 100;
+  bottom: 16px;
+  right: 24px;
+}
+#app-fabmenu .handle {
+  float: right;
+}
+#app-fabmenu .flyout {
+  padding-bottom:10px;
+  padding-left:8px;
+}
+#app-fabmenu .mat-card-content  {
+  padding: 1rem 1.5rem 2rem;
+}

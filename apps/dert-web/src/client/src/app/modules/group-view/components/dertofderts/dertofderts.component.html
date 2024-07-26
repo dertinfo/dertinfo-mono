@@ -1,0 +1,65 @@
+<mat-card class="profile-sidebar mb-1">
+  <app-youtube-embed [youtubeLink]="embedLink" *ngIf="showVideo && embedOrigin === 'youtube'"></app-youtube-embed>
+  <app-facebook-embed [facebookLink]="embedLink" *ngIf="showVideo && embedOrigin === 'facebook'"></app-facebook-embed>
+</mat-card>
+<mat-card *ngIf="!showResults">
+  <mat-card-title>
+    Is that me in that video?
+  </mat-card-title>
+  <mat-card-content>
+    <p>
+      We've put this video here so that you can have a watch of yourself for a bit. When we publish the results we'll
+      show all the scores and comments from everyone instead of this box.
+    </p>
+  </mat-card-content>
+</mat-card>
+<mat-card *ngIf="showResults && showAwaitingResults">
+  <mat-card-title>
+    Not got any results yet?
+  </mat-card-title>
+  <mat-card-content>
+    <div fxLayout="row" fxLayout.lt-sm="column">
+      <div fxFlex="75">
+        <p>We're still waiting for some results to come in to show you. Click the button to refresh but not too much someone has to pay for this stuff.</p>
+      </div>
+      <div fxFlex="25" fxLayoutAlign="end center">
+        <button type="button" mat-raised-button color="primary"
+          (click)="onRefreshCards()">Refresh</button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="showResults && !showAwaitingResults">
+  <mat-card-title>
+    Get an Update?
+  </mat-card-title>
+  <mat-card-content>
+    <div fxLayout="row" fxLayout.lt-sm="column">
+      <div fxFlex="75">
+        <p>If you want to refresh your list click the button. Please don't go mad on it someone has to pay for this stuff.</p>
+      </div>
+      <div fxFlex="25" fxLayoutAlign="end center">
+        <button type="button" mat-raised-button color="primary"
+          (click)="onRefreshCards()">Refresh</button>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="showSwitcher">
+  <mat-card-content>
+    <p>Show "Official" or "Public" score cards by clicking on this thing -->
+      <mat-checkbox [(ngModel)]="showPublicOnly" (change)="onTogglePublicOfficial()">{{showPublicOnly ? 'Show official ones' : 'Show public ones'}}</mat-checkbox>
+    </p>
+  </mat-card-content>
+</mat-card>
+
+
+<div fxLayout="row wrap" *ngIf="showResults" fxLayout.lt-sm="column">
+  <ng-container *ngFor="let scoreCard of displayedScoreCards">
+    <div fxFlex="50">
+      <app-score-card [scoreCard]="scoreCard" (reported)="onScoreCardReported($event)"></app-score-card>
+    </div>
+  </ng-container>
+</div>

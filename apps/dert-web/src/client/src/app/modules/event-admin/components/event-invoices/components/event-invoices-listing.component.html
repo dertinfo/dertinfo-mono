@@ -1,0 +1,35 @@
+<div fxFlex="100">
+
+
+  <mat-list class="compact-list mb-1">
+    <mat-list-item *ngFor="let invoice of invoices" (click)="OnInvoiceRowClick(invoice)" [ngClass]="{'selected' : invoice.invoiceId === selectedInvoice?.invoiceId, 'list-item': true}">
+      <img mat-list-avatar class="mr-1" [src]="invoice.imageResourceUri | imageDimension: '100x100'" alt="">
+      <div fxLayout="row" fxFlex="100">
+        <small class="text-muted mr-1">{{invoice.dateCreated | dateTimeFormat}} <br />{{invoice.title}} </small>
+      </div>
+      <div fxLayout="row" fxFlex="50" *ngIf="compareEnabled">
+        <div class="m-0 mr-1 icon-count">
+          <small class="text-muted mr-1 pad-up">
+            Registration&nbsp;Total <br />
+            <span [price]="invoice.currentRegistrationTotal" [tbc]="false">{{invoice.currentRegistrationTotal}}</span></small>
+        </div>
+        <span fxFlex></span>
+      </div>
+      <div fxLayout="row" fxFlex="10">
+        <mat-icon color="warn" *ngIf="invoice.currentRegistrationTotal !== invoice.invoiceTotal && compareEnabled">forward</mat-icon>
+      </div>
+      <div fxLayout="row" fxFlex="50">
+        <div class="m-0 mr-1 icon-count">
+          <small class="text-muted mr-1 pad-up">
+            <span *ngIf="compareEnabled" >Last&nbsp;</span><span>Invoice&nbsp;Total</span> <br />
+            <span [price]="invoice.invoiceTotal" [tbc]="false">{{invoice.invoiceTotal}}</span>
+          </small>
+        </div>
+        <span fxFlex></span>
+      </div>
+
+      <mat-chip mat-sm-chip [selected]="true">{{invoice.hasPaid ? 'Received' : 'Not&nbsp;yet&nbsp;received'}}</mat-chip>
+      <mat-icon (click)="OnHasPaidClick(invoice.invoiceId)" *ngIf="changeStateEnabled">sync</mat-icon>
+    </mat-list-item>
+  </mat-list>
+</div>

@@ -1,0 +1,54 @@
+<div class="filter-area">
+    <mat-form-field>
+        <mat-select [(ngModel)]="teamFilter" placeholder="Team Filter" (selectionChange)="onTeamFilterChanged()">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let teamFilterItem of teamFilterItems" value="{{teamFilterItem.teamName}}">{{teamFilterItem.teamName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select [(ngModel)]="venueFilter" placeholder="Venue Filter" (selectionChange)="onVenueFilterChanged()">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let venueFilterItem of venueFilterItems" value="{{venueFilterItem.venueName}}">{{venueFilterItem.venueName}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div class="mat-elevation-z3">
+    <mat-table [dataSource]="dancesDataSource" matSort matSortActive="teamName" matSortDirection="asc"
+        matSortDisableClear>
+
+        <!-- Team Name Column -->
+        <ng-container matColumnDef="teamName">
+            <mat-header-cell mat-sort-header *matHeaderCellDef class="name-column"> Team Name
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="name-column">
+                {{element.teamName}}
+                <small class="teamSubText"><span>{{element.venueName}}&nbsp;</span></small>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Score Categories -->
+        <ng-container *ngFor="let column of collatedColumns" matColumnDef="{{column.columnDef}}">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ column.cell(element) }}</mat-cell>
+        </ng-container>
+
+        <!-- All -->
+        <ng-container matColumnDef="scoreTotal">
+                <mat-header-cell mat-sort-header *matHeaderCellDef > All
+                </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.scoreTotal}} </mat-cell>
+            </ng-container>
+
+            <!-- Time Entered -->
+        <ng-container matColumnDef="timeScoresEntered">
+                <mat-header-cell mat-sort-header *matHeaderCellDef > Time Entered
+                </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.timeScoresEntered}} </mat-cell>
+            </ng-container>
+
+        <mat-header-row *matHeaderRowDef="collatedDisplayedColumns" fxflex></mat-header-row>
+        <mat-row *matRowDef="let row; columns: collatedDisplayedColumns;" fxflex></mat-row>
+    </mat-table>
+    <br/>
+    <button (click)="downloadCSV()" mat-raised-button class="mat-primary">Download As CSV</button>
+</div>

@@ -1,0 +1,10 @@
+
+<div fxLayout="row wrap" fxLayout.lt-sm="column">
+  <app-addition-header fxFlex="100" [title]="title" [icon]="icon" [hideButton]="true">
+  </app-addition-header>
+  <ng-container *ngFor="let scorecard of scorecards">
+    <div fxFlex="50">
+      <app-score-card [scoreCard]="scorecard" [allowReport]="false" [linkSubmission]="true" (view)="onScoreCardView($event)"></app-score-card>
+    </div>
+  </ng-container>
+</div>

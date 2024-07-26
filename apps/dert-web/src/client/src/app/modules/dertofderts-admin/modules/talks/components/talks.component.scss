@@ -1,0 +1,12 @@
+.cell-3x {
+    flex: 3;
+}
+
+.cell-2x {
+    flex: 2;
+}
+
+.cell-pull-right {
+    display: flex !important;
+    justify-content: flex-end!important;
+}

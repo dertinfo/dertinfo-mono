@@ -1,0 +1,26 @@
+{
+    "group-details": {
+        "header": "Group Details",
+        "body": "<p><strong>Location Town</strong> This will be used to see how far people travel to come to the event.</p>"
+    },
+    "contact-details": {
+        "header": "Contact Details",
+        "body":  "<p><strong>Contact Name: </strong> This will be the main contact shared with the event.</p><p><strong>Contact Email: </strong>This will be the email address that correspondance will be sent to.</p><p><strong>Contact Telephone: </strong>This will be the contact number passed to events if they need to contact you about something.</p>"
+    },
+    "group-image": {
+        "header": "Group Image",
+        "body": "<p>This will be the main image used when displaying your group</p>"
+    },
+    "visibility": {
+        "header": "Visibility",
+        "body": "<p>The specified group visibility can be changed at any time.</p><p><strong>Public:</strong> We’ll be able to list you on the website and use your image and bio publicly so that people that do not have an account with the website can see this information. </p><p><strong>Restricted:</strong> We’ll not show your information publicly but you will be able to be found by other users of the website if they wish to contact you through the mechanisms that we provide to them. This will likely to be that the next DERT organiser sends you and email through our system to invite you.</p><p><strong>Private:</strong> Your group information will not be shown on the public part of the site (Except in league tables) and you will not be contactable by other users of the system.</p>"
+    },
+    "terms": {
+        "header": "Terms",
+        "body": "<p>Agree to the terms and conditions.</p>"
+    },
+    "done": {
+        "header": "Done",
+        "body": "<p>On submit your group will be setup and will you will be able to register for events.</p>"
+    }
+}

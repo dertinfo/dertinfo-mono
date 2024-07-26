@@ -1,0 +1,21 @@
+.name-column {
+    flex:3;
+}
+
+
+.filter-area {
+    padding: 20px 0px;
+}
+
+.teamSubText
+{
+    color: #CCC;
+    width: 100%;
+    display: block;
+    font-size: 8px;
+}
+
+.refresh-button
+{
+    margin: 10px;
+}

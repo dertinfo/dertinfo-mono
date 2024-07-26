@@ -1,0 +1,73 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <app-flow-breadcrumb [states]="flowStates" [selectedState]="flowStateSelection" [additionalMessage]="flowStateMessage"></app-flow-breadcrumb>
+  </div>
+  <div fxFlex="100" fxFlex.gt-sm="calc(100% - 300px)">
+    <router-outlet></router-outlet>
+  </div>
+  <div fxFlex="100" fxFlex.gt-sm="300px">
+    <mat-card class="registration-sidebar mb-1 p-0">
+      <mat-card-title class="">
+        <div class="card-title-text">Summary</div>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+      <div class="profile-nav">
+        <mat-nav-list>
+          <mat-list-item routerLink="./overview" routerLinkActive="list-item-active">
+            <mat-icon>home</mat-icon>
+            Overview
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="./members" routerLinkActive="list-item-active">
+            <mat-icon>person</mat-icon>
+            Attending Members
+            <span fxflex="" style="flex: 1 1 0%; box-sizing: border-box;"></span>
+            <mat-basic-chip color="primary">{{attendingMembersCount}}</mat-basic-chip>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="./guests" routerLinkActive="list-item-active">
+            <mat-icon>person</mat-icon>
+            Attending Guests
+            <span fxflex="" style="flex: 1 1 0%; box-sizing: border-box;"></span>
+            <mat-basic-chip color="primary">{{attendingGuestsCount}}</mat-basic-chip>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="./teams" routerLinkActive="list-item-active">
+            <mat-icon>people</mat-icon>
+            Attending Teams
+            <span fxflex="" style="flex: 1 1 0%; box-sizing: border-box;"></span>
+            <mat-basic-chip color="primary">{{attendingTeamsCount}}</mat-basic-chip>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <!--
+          <mat-list-item routerLink="./activities" routerLinkActive="list-item-active">
+            <mat-icon>settings</mat-icon>
+            Activities
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="./tickets" routerLinkActive="list-item-active">
+            <mat-icon>settings</mat-icon>
+            Tickets
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          -->
+        </mat-nav-list>
+      </div>
+      <mat-card-content>
+        <div>
+          <button mat-raised-button color="default" fxFlex class="mt-1" (click)="onPreviewConfirmationEmail()"
+            [disabled]="!capabilities.canConfirm">
+            <mat-icon>email</mat-icon>&nbsp;Preview Confirmation Email
+          </button>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" fxFlex class="mt-1" (click)="onRegistrationConfirm()" [disabled]="!capabilities.canConfirm">
+            <mat-icon>check_box</mat-icon>&nbsp;Confirm
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<app-system-dialog-modal #systemDialog></app-system-dialog-modal>

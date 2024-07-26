@@ -1,0 +1,52 @@
+<div class="modal-min">
+    <mat-card-title>Update Score Category</mat-card-title>
+    <mat-card-content>
+        <div class="mb-1 mt-1">
+            <p>Update the details of the score category.</p>
+        </div>
+    </mat-card-content>
+    <form [formGroup]="scoreCategoryForm" novalidate (submit)="onEditScoreCategorySubmit()">
+        <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
+            <div class="pb-1" fxFlex="100">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="name" placeholder="Score Category Name">
+                </mat-form-field>
+                <small *ngIf="scoreCategoryForm.controls.name.errors && (scoreCategoryForm.controls.name.dirty || scoreCategoryForm.controls.name.touched) && (scoreCategoryForm.controls.name.errors.required)"
+                    class="form-error-msg"> Score Category Name is required. </small>
+                <small *ngIf="scoreCategoryForm.controls.name.errors && (scoreCategoryForm.controls.name.dirty || scoreCategoryForm.controls.name.touched) && (scoreCategoryForm.controls.name.errors.pattern)"
+                    class="form-error-msg"> Forward slash not permitted </small>
+            </div>
+            <div class="pb-1" fxFlex="100">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="maxMarks" placeholder="MaxMarks">
+                </mat-form-field>
+                <small *ngIf="scoreCategoryForm.controls.maxMarks.errors && (scoreCategoryForm.controls.maxMarks.dirty || scoreCategoryForm.controls.maxMarks.touched) && (scoreCategoryForm.controls.maxMarks.errors.required)"
+                    class="form-error-msg"> MaxMarks is required. </small>
+            </div>
+            <div class="pb-1" fxFlex="100">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="tag" placeholder="Tag">
+                </mat-form-field>
+                <small *ngIf="scoreCategoryForm.controls.tag.errors && (scoreCategoryForm.controls.tag.dirty || scoreCategoryForm.controls.tag.touched) && (scoreCategoryForm.controls.tag.errors.required)"
+                    class="form-error-msg"> Tag is required. </small>
+            </div>
+            <div class="pb-1" fxFlex="100">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="sortOrder" placeholder="Sort Order">
+                </mat-form-field>
+                <small *ngIf="scoreCategoryForm.controls.sortOrder.errors && (scoreCategoryForm.controls.sortOrder.dirty || scoreCategoryForm.controls.sortOrder.touched) && (scoreCategoryForm.controls.sortOrder.errors.required)"
+                    class="form-error-msg"> SortOrder is required. </small>
+            </div>
+            <div class="" fxFlex="100">
+                <button type="button" mat-button (click)="onCancel()">Cancel</button>
+                <span fxFlex></span>
+
+                <button mat-raised-button color="primary" type="submit" [disabled]="isSubmitting">
+                    Update ScoreCategory
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

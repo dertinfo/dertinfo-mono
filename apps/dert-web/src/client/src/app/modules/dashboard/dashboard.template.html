@@ -1,0 +1,292 @@
+<div [ngClass]="{'groups-empty': totalGroupsCount === 0 }">
+  <mat-tab-group>
+    <mat-tab *ngIf="totalGroupsCount > 0">
+      <ng-template mat-tab-label>
+        <mat-icon>group_work</mat-icon>&nbsp;Groups&nbsp;
+        <mat-basic-chip>({{totalGroupsCount}})</mat-basic-chip>
+      </ng-template>
+
+      <div fxLayout="row wrap">
+        <!--Groups-->
+        <div *ngFor="let group of groupsData" fxFlex.gt-xs="33">
+          <mat-card class="p-0">
+            <mat-card-title class="mat-bg-primary m-0">
+              <div class="card-title-text">
+                <span>{{group.groupName}}</span>
+                <span fxFlex></span>
+                <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu1="matMenu">
+                  <button *ngIf="group.isConfigured" mat-menu-item [routerLink]="getGroupDetailRouteLink(group)">
+                    <mat-icon>settings</mat-icon>
+                    <span>Admin</span>
+                  </button>
+                  <button *ngIf="group.isConfigured" mat-menu-item [routerLink]="getGroupDetailRouteLinkForMember(group)">
+                    <mat-icon>visibility</mat-icon>
+                    <span>View</span>
+                  </button>
+                  <button *ngIf="!group.isConfigured" mat-menu-item [routerLink]="getGroupConfigureRouteLink(group)">
+                    <mat-icon>settings</mat-icon>
+                    <span>Configure</span>
+                  </button>
+                  <!--
+              <button mat-menu-item>
+                <mat-icon>notifications_off</mat-icon>
+                <span>Disable alerts</span>
+              </button>
+              <button mat-menu-item>
+                <mat-icon>close</mat-icon>
+                <span>Remove panel</span>
+              </button>
+              -->
+                </mat-menu>
+              </div>
+              <mat-divider></mat-divider>
+            </mat-card-title>
+
+            <div class="dashboard-card-image">
+              <div *ngIf="!group.isConfigured" class="configuration-warn"></div>
+              <div *ngIf="!group.isConfigured" class="configuration-warn-text">Needs more information</div>
+              <img [src]="group.groupPictureUrl  | imageDimension: '480x360' " [routerLink]="!group.isConfigured ? getGroupConfigureRouteLink(group) : getGroupDetailRouteLink(group)">
+            </div>
+            <!--
+          <mat-card-content>
+            <button mat-icon-button><mat-icon class="text-muted">favorite</mat-icon></button>
+            <button mat-icon-button><mat-icon class="text-muted">share</mat-icon></button>
+          </mat-card-content>
+        -->
+          </mat-card>
+        </div>
+        <div *ngFor="let group of memberGroupsData" fxFlex="100" fxFlex.gt-xs="33">
+          <mat-card class="p-0" fxFlex>
+            <mat-card-title class="mat-bg-primary m-0">
+              <div class="card-title-text">
+                <span>{{group.groupName}}</span>
+                <span fxFlex></span>
+                <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu1="matMenu">
+                  <button mat-menu-item [routerLink]="getGroupDetailRouteLinkForMember(group)">
+                    <mat-icon>visibility</mat-icon>
+                    <span>View</span>
+                  </button>
+                  <!--
+                <button mat-menu-item>
+                  <mat-icon>notifications_off</mat-icon>
+                  <span>Disable alerts</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>close</mat-icon>
+                  <span>Remove panel</span>
+                </button>
+                -->
+                </mat-menu>
+              </div>
+              <mat-divider></mat-divider>
+            </mat-card-title>
+
+            <div class="dashboard-card-image">
+              <div *ngIf="!group.isConfigured" class="configuration-warn"></div>
+              <div *ngIf="!group.isConfigured" class="configuration-warn-text">Needs more information</div>
+              <div *ngIf="group.isConfigured && group.userAccessContext === GroupAccessContext.memberaccess" class="configuration-access"></div>
+              <div *ngIf="group.isConfigured && group.userAccessContext === GroupAccessContext.memberaccess" class="configuration-access-text">Member Access Only</div>
+              <img [src]="group.groupPictureUrl  | imageDimension: '480x360' " [routerLink]="getGroupDetailRouteLinkForMember(group)">
+            </div>
+            <!--
+            <mat-card-content>
+              <button mat-icon-button><mat-icon class="text-muted">favorite</mat-icon></button>
+              <button mat-icon-button><mat-icon class="text-muted">share</mat-icon></button>
+            </mat-card-content>
+          -->
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab *ngIf="eventsData && eventsData.length > 0">
+      <ng-template mat-tab-label>
+        <mat-icon>event</mat-icon>&nbsp;Events&nbsp;
+        <mat-basic-chip>({{eventsData.length}})</mat-basic-chip>
+      </ng-template>
+
+      <div fxLayout="row wrap" fxFlex="100">
+        <!--Groups-->
+        <div *ngFor="let event of eventsData" fxFlex="100" fxFlex.gt-xs="33">
+          <mat-card class="p-0" fxFlex>
+            <mat-card-title class="mat-bg-primary m-0">
+              <div class="card-title-text">
+                <span>{{event.name}}</span>
+                <span fxFlex></span>
+                <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu1="matMenu">
+                  <button *ngIf="event.isConfigured" mat-menu-item [routerLink]="getEventDetailRouteLink(event)">
+                    <mat-icon>settings</mat-icon>
+                    <span>Details</span>
+                  </button>
+                  <button *ngIf="!event.isConfigured" mat-menu-item [routerLink]="getEventConfigureRouteLink(event)">
+                    <mat-icon>settings</mat-icon>
+                    <span>Configure</span>
+                  </button>
+                  <!--
+                          <button mat-menu-item>
+                            <mat-icon>notifications_off</mat-icon>
+                            <span>Disable alerts</span>
+                          </button>
+                          <button mat-menu-item>
+                            <mat-icon>close</mat-icon>
+                            <span>Remove panel</span>
+                          </button>
+                          -->
+                </mat-menu>
+              </div>
+              <mat-divider></mat-divider>
+            </mat-card-title>
+
+            <div class="dashboard-card-image">
+              <div *ngIf="!event.isConfigured" class="configuration-warn"></div>
+              <div *ngIf="!event.isConfigured" class="configuration-warn-text">Needs more information</div>
+              <img [src]="event.eventPictureUrl  | imageDimension: '480x360' " [routerLink]="!event.isConfigured ? getEventConfigureRouteLink(event) : getEventDetailRouteLink(event)">
+            </div>
+
+            <!--
+                      <mat-card-content>
+                        <button mat-icon-button><mat-icon class="text-muted">favorite</mat-icon></button>
+                        <button mat-icon-button><mat-icon class="text-muted">share</mat-icon></button>
+                      </mat-card-content>
+                    -->
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <!--/Groups-->
+  <!--Events-->
+
+  <!--/Events-->
+</div>
+
+<div class="add-handle">
+  <!--
+  <button mat-fab color="primary" (click)="openCreateEventDialog()">
+    <mat-icon>add</mat-icon>
+  </button>
+  -->
+
+
+  <app-fabmenu [menuItems]="flyoutMenuItems" (menuItemClicked)="onFabFlyoutItemClicked($event)"></app-fabmenu>
+
+</div>
+
+
+<!-- Dashboard card row -->
+<!--
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50">
+    <mat-card>
+      <mat-card-title fxLayoutAlign="start center">
+        <small class="text-muted">Total Sales</small>
+        <span fxFlex></span>
+        <mat-chip
+        class="icon-chip"
+        color="primary"
+        selected="true"><mat-icon>trending_up</mat-icon>20%</mat-chip>
+      </mat-card-title>
+      <mat-card-content>
+        <h3 class="m-0 font-normal">22,450</h3>
+        <small class="text-muted">Monthly</small>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50">
+    <mat-card>
+      <mat-card-title>
+        <small class="text-muted">Income</small>
+        <span fxFlex></span>
+        <mat-chip
+        class="icon-chip"
+        color="accent"
+        selected="true"><mat-icon>trending_up</mat-icon>10%</mat-chip>
+      </mat-card-title>
+      <mat-card-content>
+        <h3 class="m-0 font-normal">377,670</h3>
+        <small class="text-muted">Monthly</small>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50">
+    <mat-card>
+      <mat-card-title>
+        <small class="text-muted">Traffic</small>
+        <span fxFlex></span>
+        <mat-chip
+        class="icon-chip"
+        color="accent"
+        selected="true"><mat-icon>trending_up</mat-icon>9%</mat-chip>
+      </mat-card-title>
+      <mat-card-content>
+        <h3 class="m-0 font-normal">54,845</h3>
+        <small class="text-muted">Monthly</small>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50">
+    <mat-card>
+      <mat-card-title>
+        <small class="text-muted">New User</small>
+        <span fxFlex></span>
+        <mat-chip
+        class="icon-chip"
+        color="warn"
+        selected="true"><mat-icon>trending_down</mat-icon>2%</mat-chip>
+      </mat-card-title>
+      <mat-card-content>
+        <h3 class="m-0 font-normal">245</h3>
+        <small class="text-muted">Monthly</small>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+-->
+<!-- Fullwidth chart -->
+<!--
+<div fxLayout="row wrap">
+  <div fxFlex="100">
+    <mat-card class="default">
+      <mat-card-title class="">
+        <span>Orders</span>
+        <span fxFlex></span>
+      </mat-card-title>
+      <mat-card-subtitle>Orders vs New user registrations</mat-card-subtitle>
+      <mat-card-content class="p-0" [style.height]="'240px'">
+        <canvas
+          height="240"
+          baseChart
+          class="chart m-0"
+          [datasets]="lineChartSteppedData"
+          [labels]="lineChartLabels"
+          [options]="lineChartOptions"
+          [colors]="lineChartColors"
+          [legend]="lineChartLegend"
+          [chartType]="lineChartType"></canvas>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+-->
+
+<div fxLayout="row wrap">
+  <!-- Gallery and chart column -->
+  <div fxFlex="100" fxFlex.gt-sm="33.33" fxLayout="column">
+  </div>
+
+  <!-- ticket and project table column -->
+  <div fxFlex="100" fxFlex.gt-sm="66.66" fxLayout="column" fxLayoutWrap="wrap">
+  </div>
+  <!-- End tables and users column -->
+</div>

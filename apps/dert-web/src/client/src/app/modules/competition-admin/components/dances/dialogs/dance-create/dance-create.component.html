@@ -1,0 +1,47 @@
+<div class="modal-min">
+    <mat-card-title>Add Dance</mat-card-title>
+    <mat-card-content>
+        <div class="mb-1 mt-1">
+            <p>Add an additional dance to this competition</p>
+        </div>
+    </mat-card-content>
+    <form [formGroup]="form" novalidate (submit)="onCreateSubmit()">
+        <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
+
+            <!-- Venue Name -->
+            <div class="pb-1" fxFlex="100">
+                <mat-form-field class="full-width">
+                    <mat-select formControlName="competitionEntryId" placeholder="Team" required>
+                        <mat-option *ngFor="let entrant of teamEntrants | async" value="{{entrant.competitionEntryId}}" [disabled]="!entrant.hasBeenAddedToCompetition">{{entrant.teamName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <small
+                    *ngIf="form.controls.competitionEntryId.errors && (form.controls.competitionEntryId.dirty || form.controls.competitionEntryId.touched) && (form.controls.competitionEntryId.errors.required)"
+                    class="form-error-msg"> You must select a team. </small>
+                <mat-form-field class="full-width">
+                    <mat-select formControlName="venueId" placeholder="Venue" required>
+                        <mat-option *ngFor="let venue of venues | async" value="{{venue.id}}">{{venue.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <small
+                    *ngIf="form.controls.venueId.errors && (form.controls.venueId.dirty || form.controls.venueId.touched) && (form.controls.venueId.errors.required)"
+                    class="form-error-msg"> You must select a venue. </small>
+
+            </div>
+
+            <!-- Buttons -->
+            <div class="" fxFlex="100">
+                <button type="button" mat-button (click)="onCancel()">Cancel</button>
+                <span fxFlex></span>
+
+                <button mat-raised-button color="primary" type="submit">
+                    Add Dance
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

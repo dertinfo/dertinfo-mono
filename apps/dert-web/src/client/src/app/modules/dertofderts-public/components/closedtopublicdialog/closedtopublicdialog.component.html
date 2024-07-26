@@ -1,0 +1,42 @@
+<h1>Hold your Horses!</h1>
+<app-dod-message-banner *ngIf="hasSubmissionError">
+  {{submissionErrorMessage}}
+</app-dod-message-banner>
+<div>
+  <p>We'll be opening judging to the public on Saturday the 27<sup>th</sup> of March for one day only.</p>
+  <p>If you have been contacted as one of the official judges for DERT of DERTs please enter your email and provided
+    password below.</p>
+</div>
+<div class="back-to-home-container">
+  <button type="menu" mat-raised-button (click)="onBackToHomeClick()">Get me out of here!</button>
+</div>
+<form [formGroup]="formGroup" (submit)="submitForm()">
+  <mat-slide-toggle formControlName="officialJudge">I've been asked to be an official judge at DERT of DERTs
+  </mat-slide-toggle>
+  <mat-form-field class="full-width" *ngIf="formGroup.controls.officialJudge.value">
+    <input matInput formControlName="name" placeholder="Your name" required>
+  </mat-form-field>
+  <mat-form-field class="full-width" *ngIf="formGroup.controls.officialJudge.value">
+    <input matInput formControlName="email" placeholder="Your email" required>
+  </mat-form-field>
+  <mat-form-field class="full-width" *ngIf="formGroup.controls.officialJudge.value">
+    <input matInput type="password" formControlName="officialJudgePassword" placeholder="Provided Judge Password"
+      required>
+  </mat-form-field>
+  <mat-checkbox *ngIf="formGroup.controls.officialJudge.value" formControlName="agreeToTermsAndConditions" required
+    [ngClass]="{'checkbox-invalid' : !formGroup.controls.agreeToTermsAndConditions.valid && formGroup.controls.agreeToTermsAndConditions.touched}">
+    I agree to the terms and conditions
+  </mat-checkbox><br/>
+  <small *ngIf="formGroup.controls.officialJudge.value">Details on our
+    <a (click)="onTermsAndConditionsClick()" class="cursor-pointer">terms &amp; conditions</a>
+    can be found
+    <a (click)="onTermsAndConditionsClick()" class="cursor-pointer">here</a>.
+  </small>
+  <div mat-dialog-actions *ngIf="formGroup.controls.officialJudge.value">
+    <div class="" fxFlex="100">
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </div>
+  </div>
+
+</form>

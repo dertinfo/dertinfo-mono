@@ -1,0 +1,21 @@
+#app-addition-header {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+#app-addition-header .fab-button-overlay {
+  position: absolute;
+  right:20px;
+  bottom:-25px;
+}
+
+#app-addition-header .mat-card-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#app-addition-header .mat-card-title .mat-icon {
+  margin-right:15px;
+}
+

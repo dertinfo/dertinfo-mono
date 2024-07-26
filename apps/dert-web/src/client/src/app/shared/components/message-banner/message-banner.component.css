@@ -1,0 +1,15 @@
+:host {
+    border-radius: 10px;
+    border: solid 1px orange;
+    padding: 15px;
+    display: block;
+    margin-bottom: 10px;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+mat-icon {
+    margin:10px 10px 10px 5px;
+    color: orange;
+}

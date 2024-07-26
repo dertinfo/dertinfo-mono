@@ -1,0 +1,29 @@
+<div fxLayout="column" fxFlex="100">
+    <mat-card class="default">
+        <mat-card-title>Downloads</mat-card-title>
+        <mat-card-content class="p-0">
+            <mat-list class="compact-list mb-1">
+                <div fxFlex="100">
+                    <div *ngFor="let team of confirmedTeams">
+                        <div class="download-image" fxFlex="30">
+                            <img [src]="team?.teamPictureUrl | imageDimension: '480x360' " alt="">
+                            <div class="download-fab">
+                                <a mat-mini-fab color="default" [href]="team?.teamPictureUrl" *ngIf="team?.teamPictureUrl" download><mat-icon>file_download</mat-icon></a>
+                            </div>
+                        </div>
+                        <div class="download-info" fxFlex="70">
+                            <h3>{{team?.teamName}}</h3>
+                            <p>{{team?.teamBio}}</p>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+            </mat-list>
+            <!--
+        <div class="text-center">
+          <button mat-button class="full-width">View all</button>
+        </div>
+      -->
+        </mat-card-content>
+    </mat-card>
+</div>

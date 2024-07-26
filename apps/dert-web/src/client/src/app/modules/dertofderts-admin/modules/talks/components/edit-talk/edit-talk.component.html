@@ -1,0 +1,54 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+<app-addition-header fxFlex="100" [title]="'Talks'"
+    [icon]="'supervised_user_circle'" [hideButton]="true"></app-addition-header>
+
+<mat-card class="p-0" *ngIf="isReady" fxFlex="100">
+  <mat-card-content class="mt-1">
+    <form [formGroup]="form" novalidate (submit)="onSubmit()">
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput formControlName="title" placeholder="Talk Title">
+        </mat-form-field>
+        <small
+          *ngIf="form.controls.title.errors && (form.controls.title.dirty || form.controls.title.touched) && (form.controls.title.errors.required)"
+          class="form-error-msg"> Talk Title is required. </small>
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput formControlName="subTitle" placeholder="SubTitle">
+        </mat-form-field>
+
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput name="description" formControlName="description" placeholder="Description">
+        </mat-form-field>
+        <small
+          *ngIf="form.controls.description.errors && (form.controls.description.dirty || form.controls.description.touched)"
+          class="form-error-msg"> Description is required </small>
+      </div>
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput type="datetime-local" name="broadcastDateTime" formControlName="broadcastDateTime" placeholder="Broadcast date/time">
+        </mat-form-field>
+        <small
+          *ngIf="form.controls.broadcastDateTime.errors && (form.controls.broadcastDateTime.dirty || form.controls.broadcastDateTime.touched)"
+          class="form-error-msg"> Broadcast date/time is required </small>
+      </div>
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput formControlName="broadcastWebLink" placeholder="Web Link">
+        </mat-form-field>
+
+      </div>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.dirty">
+        Save
+      </button>
+
+    </form>
+  </mat-card-content>
+
+</mat-card>
+</div>

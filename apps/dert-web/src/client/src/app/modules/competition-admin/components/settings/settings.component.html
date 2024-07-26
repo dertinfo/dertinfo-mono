@@ -1,0 +1,36 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+  <app-addition-header fxFlex="100" [title]="'Settings'" [icon]="'settings'" [hideButton]="true"></app-addition-header>
+  <mat-card class="default" fxFlex="100">
+    <mat-tab-group>
+      <mat-tab label="Settings">
+        <mat-card-content class="mt-1">
+          <form [formGroup]="settingsForm" novalidate (submit)="onSettingsUpdateSubmit()">
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput formControlName="noOfJudgesPerVenue" placeholder="Judges Per Venue" name="di-competition-settings-judge_requirement"
+                  required>
+              </mat-form-field>
+              <small *ngIf="settingsForm.controls.noOfJudgesPerVenue.errors && (settingsForm.controls.noOfJudgesPerVenue.dirty || settingsForm.controls.noOfJudgesPerVenue.touched) && (settingsForm.controls.noOfJudgesPerVenue.errors.required)"
+                class="form-error-msg"> No of judges per venue is required. </small>
+              <mat-checkbox formControlName="resultsPublished">
+                Results Published
+              </mat-checkbox>
+              <mat-checkbox formControlName="resultsCollated">
+                  Results Collated
+                </mat-checkbox>
+                <mat-checkbox formControlName="allowAdHocDanceAddition">
+                  Allow AdHoc Dance Addition
+                </mat-checkbox>
+                <mat-checkbox formControlName="inTestingMode">
+                  InTestingMode
+                </mat-checkbox>
+            </div>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!settingsForm.dirty">
+              Save
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>

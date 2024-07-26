@@ -1,0 +1,104 @@
+<app-top-header></app-top-header>
+<app-dod-header></app-dod-header>
+<section id="portfolio-section" class="light-gray">
+  <div class="container" fxLayout="column">
+    <div class="section-header">
+      <h1>Judging</h1>
+      <!--
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat unde inventore molestias ab adipisci eius nisi placeat
+        at.
+      </p>
+      -->
+    </div>
+    <mat-card class="default" fxFlex="100" *ngIf="!resultsPublished">
+      <mat-card-title>Lets Make it Fair(ish)</mat-card-title>
+      <mat-card-content>
+        <div fxLayout="row" fxLayout.lt-sm="column">
+          <div fxFlex="75">
+            <p>We all know you want to see the "best of the best" (bestest) but who knows which team submitted the most
+              awesome
+              video. Choose one randomly from those that you've not already seen.</p>
+          </div>
+          <div fxFlex="25" fxLayoutAlign="end center">
+            <button type="button" [disabled]="allDancesCompleted" mat-raised-button color="primary"
+              (click)="onSelectRandomClick()">View Random</button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="default" fxFlex="100" *ngIf="resultsPublished">
+      <mat-card-title>We're all done! The results are out.</mat-card-title>
+      <mat-card-content>
+        <div fxLayout="row" fxLayout.lt-sm="column">
+          <div fxFlex="100">
+            <p>It's all over the results are out but we've left the videos here so you can still watch them.</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div fxLayout="row" fxLayout.lt-md="column">
+      <div fxFlex="75">
+        <mat-card class="default" fxFlex="100">
+          <mat-card-title>Dance List</mat-card-title>
+          <mat-card-content>
+            <mat-tab-group>
+              <mat-tab label="Premier Teams">
+                <app-list [submissions]="submissions_premier"></app-list>
+              </mat-tab>
+              <mat-tab label="Championship Teams">
+                <app-list [submissions]="submissions_championship"></app-list>
+              </mat-tab>
+              <mat-tab label="Open Teams">
+                <app-list [submissions]="submissions_open"></app-list>
+              </mat-tab>
+            </mat-tab-group>
+
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div fxFlex="25" fxLayout="column">
+        <mat-card class="default">
+          <mat-card-title>Progress</mat-card-title>
+          <mat-card-content>
+            <div class="user-info-content" fxLayout="row" fxLayoutAlign="left center">
+              <p>Done:&nbsp;</p>
+              <div class="info-focus" fxFlex>{{numberOfDancesJudged}} of {{submissions_all.length}}<mat-icon
+                  *ngIf="allDancesCompleted" title="Official Judge" class="verified">done_all</mat-icon>
+              </div>
+            </div>
+            <div *ngIf="isOfficialJudge && !allDancesCompleted">
+              <span class="small-text">As an official judge please score every dance in the list. Select a submitted dance on the left and
+                you will be presented the submitted video and a score card.</span>
+            </div>
+            <div *ngIf="!isOfficialJudge && !allDancesCompleted">
+              <small>Click on one of the dances in the list and you'll be taken to the video and score card. Do as many
+                or as few as you like.</small>
+            </div>
+            <div *ngIf="allDancesCompleted">
+              <small>All dances viewed and scored. Thank you.</small>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <mat-card class="default" >
+          <mat-card-title>User Information</mat-card-title>
+          <mat-card-content fxLayout="column">
+            <div class="user-info-content" fxLayout="row" fxLayoutAlign="left center">
+              <p>Hi:&nbsp;</p>
+
+              <div class="info-focus" fxFlex>{{currentUserName}}
+              </div>
+              <mat-icon *ngIf="isOfficialJudge" title="Official Judge" class="official-judge-badge">verified</mat-icon>
+            </div>
+            <div *ngIf="!sessionPresent">
+              <small>Carry on and we'll find out who you are when you submit your first result.</small>
+            </div>
+
+            <button *ngIf="sessionPresent" type="button" mat-raised-button (click)="onClearSessionClick()">You ain't
+              seen me right?</button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</section>

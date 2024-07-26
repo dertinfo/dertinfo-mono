@@ -1,0 +1,8 @@
+<div *ngFor="let item of selectItems">
+    <div *ngIf="!disabled">
+            <div (click)="onItemClick(item)" [ngClass]="{'selected': item.isSelected, 'attribute-badge': true}" [title]="item.name" >{{item.tag}}</div>
+    </div>
+    <div *ngIf="disabled">
+            <div [ngClass]="{'selected': item.isSelected, 'disabled': disabled, 'attribute-badge': true}" [title]="item.name" >{{item.tag}}</div>
+    </div>
+</div>

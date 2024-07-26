@@ -1,0 +1,92 @@
+<app-top-header></app-top-header>
+<!-- Header -->
+<app-dod-header></app-dod-header>
+<!-- Header -->
+<section id="portfolio-section" class="portfolio light-gray">
+  <div class="container">
+    <div class="section-header">
+      <h1>Talks</h1>
+      <!--
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat unde inventore molestias ab adipisci eius nisi placeat
+        at.
+      </p>
+      -->
+    </div>
+
+
+    <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutGap="35px">
+      <div fxFlex="30" *ngFor="let talk of talks">
+        <mat-card class="p-0" *ngIf="hasLink(talk)">
+          <a (click)="openLink(talk.broadcastWebLink)" target="_blank" class="cursor-pointer">
+            <div class="talk-image-overlay">
+              <div class="talk-image-overlay-inner">
+                <span>{{talk.broadcastDateTime | dayFormat }}</span>
+                <span>{{talk.broadcastDateTime | dateFormat }}</span>
+                <span>{{talk.broadcastDateTime | timeFormat }}</span>
+              </div>
+            </div>
+            <img mat-card-image src="assets/images/dod-talk-background.png">
+            <mat-card-content>
+              <h5><strong>{{talk.title}}</strong></h5>
+              <div class="sub-title" *ngIf="talk.subTitle">{{talk.subTitle}}</div>
+              <hr />
+              <p>
+                {{talk.description}}
+              </p>
+            </mat-card-content>
+          </a>
+        </mat-card>
+        <mat-card class="p-0" *ngIf="!hasLink(talk)">
+          <div class="talk-image-overlay">
+            <div class="talk-image-overlay-inner">
+              <div>{{talk.broadcastDateTime | dayFormat }}</div>
+              <div>{{talk.broadcastDateTime | dateFormat }}</div>
+              <div>{{talk.broadcastDateTime | timeFormat }}</div>
+            </div>
+          </div>
+          <img mat-card-image src="assets/images/dod-talk-background.png">
+          <mat-card-content>
+            <h5><strong>{{talk.title}}</strong></h5>
+            <div class="sub-title" *ngIf="talk.subTitle">{{talk.subTitle}}</div>
+            <hr />
+            <p>
+              {{talk.description}}
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <!--
+      <div fxFlex="33.33">
+        <mat-card class="p-0 m-0">
+          <img mat-card-image src="assets/images/placeholder-720-540.png">
+          <mat-card-content>
+            <h5><strong>Sat 27<sup>th</sup> March 2021 @ 14:30</strong></h5>
+            <p>
+              Tom Besford interviews Phil Heaton and discusses the Traditional competiion and it's validty in the
+              context of DERT
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div fxFlex="33.33">
+        <mat-card class="p-0 m-0">
+          <img mat-card-image src="assets/images/placeholder-720-540.png">
+          <mat-card-content>
+            <h5><strong>Sun 28<sup>th</sup> March 2021 @ 12:00</strong></h5>
+            <p>
+              Publish of the meeting between the steering group and team representivives discussing DERT,covid and
+              everything inbetween.
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    -->
+    </div>
+    <!--
+    <div class="text-center home-section-action">
+      <button mat-raised-button mat-lg-button color="accent">LOAD MORE</button>
+    </div>
+    -->
+  </div>
+</section>

@@ -1,0 +1,25 @@
+.name-column {
+    flex:3;
+}
+
+
+.filter-area {
+    padding: 20px 0px;
+}
+
+.teamSubText
+{
+    color: #CCC;
+    width: 100%;
+    display: block;
+    font-size: 10px;
+}
+
+.splitscoreinput {
+    margin: 2px 5px;
+    border:solid 1px #CCC
+}
+
+.scores-valid {
+    border:solid 1px green;
+}

@@ -1,0 +1,78 @@
+<app-competition-dancesummary [summary]="summary?.competitionDanceSummaryDto"></app-competition-dancesummary>
+<div fxLayout="row wrap">
+  <div fxFlex="50" fxFlex.lt-sm="100">
+    <mat-card class="user-card p-0">
+      <mat-card-title class="mat-bg-primary">
+        <div class="card-title-text">
+          <span>Competition Entries</span>
+          <span fxFlex></span>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+      <mat-card-content>
+        <p><strong>Configured For:</strong> {{summary?.numberOfCompetitionEntries}}</p>
+        <p><strong>Entries Confirmed:</strong> {{summary?.numberOfTicketsSold}}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex="50" fxFlex.lt-sm="100">
+    <mat-card class="user-card p-0">
+      <mat-card-title class="mat-bg-primary">
+        <div class="card-title-text">
+          <span>Attributes</span>
+          <span fxFlex></span>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+      <mat-card-content>
+          <div *ngFor="let entryAttribute of summary?.entryAttributes">
+              <div class="attribute-badge" [title]="entryAttribute.name" >{{entryAttribute.tag}}</div>
+          </div>
+          <br/>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex="50" fxFlex.lt-sm="100">
+    <mat-card class="user-card p-0">
+      <mat-card-title class="mat-bg-primary">
+        <div class="card-title-text">
+          <span>Paperwork</span>
+          <span fxFlex></span>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+      <mat-card-content>
+          <div class="paperwork-box-container" fxFlex="100">
+              <div class="paperwork-box" fxFlex="50">
+                <div class="title">Paperwork</div>
+                <button mat-raised-button color="primary" (click)="onPopulatedClick()">
+                  Generate
+                </button>
+              </div>
+              <div class="paperwork-box" fxFlex="50">
+                <div class="title">Spares</div>
+                <button mat-raised-button color="primary" (click)="onSparesClick()" class=".button">
+                  Generate
+                </button>
+              </div>
+            </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxFlex="50" fxFlex.lt-sm="100" *ngIf="!hideLinkToDetails">
+    <mat-card class="user-card p-0">
+      <mat-card-title class="mat-bg-primary">
+        <div class="card-title-text">
+          <span>Configure</span>
+          <span fxFlex></span>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+      <mat-card-content>
+          <button mat-raised-button color="primary" (click)="onConfigureCompetitionClick()">
+              Go to Competition Details
+          </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

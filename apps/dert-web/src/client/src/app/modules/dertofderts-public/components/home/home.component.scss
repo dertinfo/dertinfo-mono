@@ -1,0 +1,32 @@
+@import url(../../styles/overrides.scss);
+
+:host {
+    h1 {
+        font-family: ARDarling, Courier;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 50px;
+    }
+
+    h5 {
+        font-family: ARDarling, Courier;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 1.5rem;
+    }
+
+    .dod-title {
+        background: url("../../../../../assets/images/home-bg-cta.png") no-repeat center center;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+        color: #ffd97d;
+        min-height: 130px;
+    }
+
+    mat-card:hover {
+        border: 3px solid #FF017E;
+        border-radius: 15px 255px 15px 255px / 255px 15px 255px 15px;
+    }
+}

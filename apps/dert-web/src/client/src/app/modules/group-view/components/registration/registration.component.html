@@ -1,0 +1,43 @@
+<div fxLayout="row wrap">
+    <app-avatar-header fxFlex="100" [title]="registration.eventName" [imageUrl]="registration.eventPictureUrl"></app-avatar-header>
+    <mat-card fxFlex="100">
+        <div class="filter-area">
+            <mat-form-field>
+                <mat-select [(ngModel)]="teamAttendanceFilter" placeholder="Team Filter" (selectionChange)="onTeamFilterChange()">
+                    <mat-option *ngFor="let teamAttendance of teamAttendanceFilterData" [value]="teamAttendance">{{teamAttendance.groupTeamName}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <mat-tab-group *ngIf="teamAttendanceFilter?.attendanceActivities" #activityTabGroup class="shrink-last-tab" (selectedTabChange)="onSelectedTabChange($event)">
+            <mat-tab *ngFor="let activity of teamAttendanceFilter.attendanceActivities" [label]="activity.activityTitle">
+                <mat-card-content class="mt-1" fxFlex="100" *ngIf="!isLoadingData">
+                    <app-message-banner *ngIf="danceResults && danceResults.length === 0" [hideButton]="true">
+                        <div>Results not yet published</div>
+                    </app-message-banner>
+
+                    <app-groupview-registration-dances-grid *ngIf="danceResults && danceResults.length > 0" [danceResults]="danceResults"></app-groupview-registration-dances-grid>
+
+                    <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                        <ng-container *ngFor="let danceResult of danceResults">
+                            <div *ngIf="danceResult.danceMarkingSheets.length > 0" fxFlex="49" class="scoresheet-box mt-1">
+
+                                <div class="scoresheet-box-header">
+                                    {{danceResult.venueName}} ( {{danceResult.danceMarkingSheets.length}} )
+                                </div>
+                                <div class="scoresheet-box-body">
+                                    <div *ngFor="let markingSheet of danceResult.danceMarkingSheets">
+                                        <img [src]="markingSheet.imageResourceUri | imageDimension: '480x360'" alt="" (click)="onMarkingSheetClick(markingSheet)">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </ng-container>
+                    </div>
+                </mat-card-content>
+
+
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card>
+</div>

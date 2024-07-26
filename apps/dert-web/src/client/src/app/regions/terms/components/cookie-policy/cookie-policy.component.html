@@ -1,0 +1,112 @@
+<header id="home-header">
+    <div class="container" fxLayout="row wrap" fxLayoutAlign="start center">
+        <div class="home-logo">
+            <!--<img src="assets/images/logo-full-strong.png" alt="Egret logo">-->
+            <a class="navbar-brand" href="/"><span class="">Dert</span>Info</a>
+        </div>
+        <span fxFlex></span>
+    </div>
+</header>
+<section class="terms-section">
+    <div class="container">
+        <div fxLayout="row" fxLayoutWrap="nowrap" fxLayoutGap="10px">
+            <div fxFlex="35" (scrollTo)="onScrollToClick($event)" class="sidebar">
+                <mat-vertical-stepper #stepper>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>1. What are cookies?</ng-template>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>2. What types of cookies does we use?</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_2a)">Strictly Necessary Cookies.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_2b)">Performance Cookies.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_2c)">Functionality Cookies.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_2d)">Targeting Cookies.</a></li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>3. How long will cookies stay on my device?</ng-template>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>4. First and third party cookies</ng-template>
+                    </mat-step>
+                </mat-vertical-stepper>
+
+
+            </div>
+            <div fxFlex="65" class="content-section body-content">
+
+                <h1 #bookmark_top>Cookie Policy</h1>
+                <p>
+                    Here at DertInfo we do our utmost to only identify you only where we need to in order to provide our services and features. We don’t directly have any advertising functionality nor do we directly create any cookies apart from one. (This is the one that tells us you’ve ok’d our cookies)
+                </p>
+
+                <p>
+                    However we do use some third parties such as YouTube, Facebook and Auth0. Our use of these services means that these services can use cookies in your device or browser.
+                </p>
+                <p>
+                    Through the use of third party services we are required to let you know what cookies may be placed on your device in the process of using this website. This policy attempts to outline those cookies.
+                </p>
+
+                <h1 #bookmark_1>1. What are cookies?</h1>
+                <p>
+                    Cookies are small text files containing a string of characters that can be placed on your computer or mobile device that uniquely identify your browser or device. What are cookies used for?
+                </p>
+                <p>
+                    Cookies allow a site or services to know if your computer or device has visited that site or service before. Cookies can then be used to help understand how the site or service is being used, help you navigate between pages efficiently, help remember your preferences, and generally improve your browsing experience. Cookies can also help ensure marketing you see online is more relevant to you and your interests.
+                </p>
+
+                <h1 #bookmark_2>2. What types of cookies do we use?</h1>
+
+
+                <h2 #bookmark_2a>Strictly Necessary Cookies.</h2>
+
+
+                <p>
+                    These cookies are essential, as they enable you to move around the Service and use its features, such as accessing logged in or secure areas.
+
+                </p>
+                <h2 #bookmark_2b>Performance Cookies.                 </h2>
+
+
+                <p>
+                    These cookies collect information about how you have used the Service, for example, information related to the unique username you have provided, so that less strain is placed on our backend infrastructure. These cookies may also be used to allow us to know that you have logged in so that we can serve you fresher content than a user who has never logged in. We also use cookies to track aggregate Service usage and experiment with new features and changes on the Service. The information collected is used to improve how the Service works.
+
+                </p>
+                <h2 #bookmark_2c>Functionality Cookies.
+                </h2>
+
+
+                <p>
+                    These cookies allow us to remember how you’re logged in, whether you chose to no longer see advertisements, whether you made an edit to an article on the Service while logged out, when you logged in or out, the state or history of Service tools you’ve used. These cookies also allow us to tailor the Service to provide enhanced features and content for you and to remember how you’ve customized the Service in other ways, such as customizing the toolbars we offer in the right column of every page. The information these cookies collect may be anonymous, and they are not used to track your browsing activity on other sites or services.
+
+                </p>
+
+                <h2 #bookmark_2d>Targeting Cookies.</h2>
+
+
+                <p>
+                    Our third party partners may use these types of cookies to deliver advertising that is relevant to your interests. These cookies can remember that your device has visited a site or service, and may also be able to track your device’s browsing activity on other sites or services other than wikiHow. This information may be shared with organizations outside dertinfo, such as advertisers and/or advertising networks to deliver the advertising, and to help measure the effectiveness of an advertising campaign, or other business partners for the purpose of providing aggregate Service usage statistics and aggregate Service testing.
+                </p>
+                <p>
+                    These types of cookies are typically added through our use of YouTube and Facebook for embedding content from those providers.
+                </p>
+
+                <h1 #bookmark_3>3.  How long will cookies stay on my device?.</h1>
+                <p>
+                    The length of time a cookie will stay on your computer or mobile device depends on whether it is a “persistent” or “session” cookie. Session cookies will only stay on your device until you stop browsing. Persistent cookies stay on your computer or mobile device until they expire or are deleted.
+                </p>
+
+                <h1 #bookmark_4>4. First and third party cookies: </h1>
+                <p>
+                    First-party cookies are cookies that belong to dertinfo, third-party cookies are cookies that another party places on your device through our Service. Third-party cookies may be placed on your device by someone providing a service for dertinfo, for example to help us understand how our service is being used. Third-party cookies may also be placed on your device by our providers that they can use them to advertise products and services to you elsewhere on the Internet.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="backtotop">
+    <a (click)="onScrollToClick(bookmark_top)">
+        <mat-icon>arrow_drop_down_circle</mat-icon>
+    </a>
+</div>

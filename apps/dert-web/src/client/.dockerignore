@@ -1,0 +1,26 @@
+# Ignore node_modules directory
+**/node_modules
+
+# Ignire Docker specific files
+**/Dockerfile
+**/docker-compose.yml
+**/docker-compose.override.yml
+**/.dockerignore
+
+
+# Ignore build artifacts
+**/dist/
+**/www/ 
+
+# Ignore node modules
+**/node_modules
+
+# Ignore editor-specific files
+.vscode/
+.idea/
+
+# Ignore version control files
+.git/
+.gitignore
+
+# Ignore function app specific files

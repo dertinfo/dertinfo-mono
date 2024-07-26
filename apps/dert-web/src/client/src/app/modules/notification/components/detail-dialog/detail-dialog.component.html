@@ -1,0 +1,21 @@
+<div *ngIf="hasDetailLoaded">
+  <mat-card-title>{{notificationDetail.title}}</mat-card-title>
+  <mat-card-content>
+    <div fxLayout="column wrap" fxLayoutAlign="space-between">
+      <div class="mb-1 mt-1 normalise-message-paragraphs" fxFlex [innerHTML]="notificationDetail.body">
+      </div>
+      <div fxFlex>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+          <button type="button" mat-button (click)="onCancel()" *ngIf="!hideCancelButton">Close</button>
+          <span fxFlex></span>
+
+          <button *ngIf="notificationDetail.requestAcknowledgement" mat-raised-button color="primary" (click)="onAcknowledgeClick()" [disabled]="isAcknowledging">
+              Ok
+          </button>
+
+        </div>
+
+    </div>
+  </div>
+  </mat-card-content>
+</div>

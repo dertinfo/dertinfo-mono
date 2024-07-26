@@ -1,0 +1,71 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap" >
+
+  <app-addition-header fxFlex="100" (click)="openAddSubmissionDialog()" [title]="'Submissions'"
+    [icon]="'receipt'" [hideButton]="false" [disabled]="editingBlocked"></app-addition-header>
+
+  <div class="mat-elevation-z3" fxFlex="100" class="table-container">
+    <mat-table [dataSource]="dataSource" matSort matSortActive="groupName" matSortDirection="asc" matSortDisableClear>
+
+      <!-- Group Name Column -->
+      <ng-container matColumnDef="groupName">
+        <mat-header-cell mat-sort-header *matHeaderCellDef class="cell-2x">Group Name</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-2x">{{element.groupName}} </mat-cell>
+      </ng-container>
+
+      <!-- You Tube Link Name Column -->
+      <ng-container matColumnDef="embedOrigin">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-1x">Source
+        </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-1x"> {{element.embedOrigin}} </mat-cell>
+      </ng-container>
+
+      <!-- DertYearFrom Name Column -->
+      <ng-container matColumnDef="dertYearFrom">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>Year From</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.dertYearFrom}} </mat-cell>
+      </ng-container>
+
+      <!-- You Tube Link Name Column -->
+      <ng-container matColumnDef="category">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element">
+          <span *ngIf="element.isPremier">Premier</span>
+          <span *ngIf="element.isChampionship">Championship</span>
+          <span *ngIf="element.isOpen">Open</span>
+        </mat-cell>
+      </ng-container>
+
+      <!-- View Cards -->
+      <ng-container matColumnDef="viewCards">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-pull-right">View Cards</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+          <button mat-icon-button matTooltip="View?" (click)="onViewCardsClick(element)"
+            class="topbar-button-right" [disabled]="element.countCompleted === 0">
+            <mat-icon color="primary">class</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Delete -->
+      <ng-container matColumnDef="delete">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+          <a mat-menu-item [routerLink]="getEditRouteLink(element) ">
+            <mat-icon>edit</mat-icon>
+          </a>
+          <button mat-icon-button matTooltip="Delete" (click)="deleteSubmission(element)" [style.overflow]="'visible'"
+            class="topbar-button-right" [disabled]="element.hasAnyResults">
+            <mat-icon>delete</mat-icon>
+            <!--
+                    <span class="notification-number mat-bg-warn">0</span>
+                    -->
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns" fxflex></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" fxflex></mat-row>
+    </mat-table>
+  </div>
+
+</div>

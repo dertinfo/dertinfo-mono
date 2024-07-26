@@ -1,0 +1,79 @@
+<div>
+  <app-addition-header (addClick)="openCreateMemberDialog()" [title]="'Members &amp; Guests'" [icon]="'person'">
+  </app-addition-header>
+
+  <mat-tab-group>
+    <mat-tab label="Members">
+      <mat-card-content class="mt-1 ">
+        <mat-table [dataSource]="membersDataSource">
+          <!-- Gravitar -->
+          <ng-container matColumnDef="gravitar">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Gravitar</mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+              <a class="table-avatar md mr-1 " [routerLink]="getDetailRouteLink(element) ">
+                <img [src]="element.emailAddress | gravitar:element.name " alt=" ">
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Name -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+          </ng-container>
+
+          <!-- Edit -->
+          <ng-container matColumnDef="edit">
+            <mat-header-cell mat-header-cell *matHeaderCellDef>Edit </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+              <a [routerLink]="getDetailRouteLink(element)">
+                <mat-icon>edit</mat-icon>
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <!-- headers and rows-->
+          <mat-header-row *matHeaderRowDef="tableColumnsAll" fxflex></mat-header-row>
+          <mat-row *matRowDef="let row; columns: tableColumnsAll;" fxflex></mat-row>
+        </mat-table>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Guests">
+      <mat-card-content class="mt-1 ">
+          <mat-table [dataSource]="guestsDataSource">
+            <!-- Gravitar -->
+            <ng-container matColumnDef="gravitar">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Gravitar</mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element">
+                <a class="table-avatar md mr-1 " [routerLink]="getDetailRouteLink(element) ">
+                  <img [src]="element.emailAddress | gravitar:element.name " alt=" ">
+                </a>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Name -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            </ng-container>
+
+            <!-- Edit -->
+            <ng-container matColumnDef="edit">
+              <mat-header-cell mat-header-cell *matHeaderCellDef>Edit </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+                <a [routerLink]="getDetailRouteLink(element)">
+                  <mat-icon>edit</mat-icon>
+                </a>
+              </mat-cell>
+            </ng-container>
+
+            <!-- headers and rows-->
+            <mat-header-row *matHeaderRowDef="tableColumnsAll" fxflex></mat-header-row>
+            <mat-row *matRowDef="let row; columns: tableColumnsAll;" fxflex></mat-row>
+          </mat-table>
+      </mat-card-content>
+    </mat-tab>
+  </mat-tab-group>
+
+
+</div>

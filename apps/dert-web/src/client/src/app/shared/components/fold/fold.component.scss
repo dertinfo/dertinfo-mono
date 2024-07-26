@@ -1,0 +1,50 @@
+:host {
+
+
+    .fold {
+        position: relative;
+        min-height: 50px;
+        display: block;
+        transition: max-height 1s;
+        overflow: hidden;
+    }
+
+    .content {
+        display: block;
+        padding-bottom: 30px;
+    }
+
+    .opacity {
+        position: absolute;
+        width:100%;
+        display:block;
+        bottom: 20px;
+        height:60px;
+        background-image: linear-gradient(rgba(255,255,255,0), rgba(255,255,255,1));
+    }
+
+    .viewmore {
+        position: absolute;
+        width:100%;
+        bottom: 0;
+        cursor: pointer;
+        height:24px;
+        background-color: #fff;
+
+        span {
+            position: relative;
+            top: -7px;
+            display: inline-block;
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .arrow-contracted {
+        transform: rotate(90deg);
+    }
+
+    .arrow-expanded {
+        transform: rotate(-90deg);
+    }
+}

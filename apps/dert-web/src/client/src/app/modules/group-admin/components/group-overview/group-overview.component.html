@@ -1,0 +1,77 @@
+<div fxLayout="row wrap">
+  <div fxLayout="column" fxFlex="100" fxFlex.gt-md="50">
+    <!-- Chart grid -->
+    <mat-card class="default">
+      <mat-card-title>Summary</mat-card-title>
+      <mat-card-content>
+        <div fxLayout="row wrap" class="doughnut-grid text-center">
+          <a routerLink="../teams" fxFlex="50" class="doughnut-grid-item mat-bg-primary">
+            <div class="summary-count-number">{{vm.teamsCount}}</div>
+            <small>Teams</small>
+          </a>
+          <a routerLink="../members" fxFlex="50" class="doughnut-grid-item light-gray">
+              <div class="summary-count-number">{{vm.membersCount}}</div>
+            <small>Members &amp; Guests</small>
+          </a>
+          <a routerLink="../invoices" fxFlex="50" class="doughnut-grid-item light-gray">
+              <div class="summary-count-number">{{vm.unpaidInvoicesCount}}</div>
+            <small>Unpaid Invoices</small>
+          </a>
+          <a routerLink="../registrations" fxFlex="50" class="doughnut-grid-item mat-bg-primary">
+              <div class="summary-count-number">{{vm.registrationsCount}}</div>
+            <small>Active Registrations</small>
+          </a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- Contact Information -->
+    <mat-card class="default">
+      <mat-card-title>Contact Information</mat-card-title>
+      <mat-card-content class="pt-0">
+        <mat-list>
+          <mat-list-item>
+            <mat-icon class="mr-1">person</mat-icon>{{vm.contactName}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">email</mat-icon>{{vm.contactEmail}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">phone</mat-icon>{{vm.contactTelephone}}</mat-list-item>
+
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxFlex="100" fxFlex.gt-md="50">
+
+    <mat-card class="default">
+      <mat-card-title>Active Registrations</mat-card-title>
+      <mat-card-content class="p-0">
+          <app-registration-listing-for-group [groupRegistrationOverviews]="vm.activeRegistrations"></app-registration-listing-for-group>
+      </mat-card-content>
+    </mat-card>
+
+    <div *ngFor="let promotedEvent of vm.promotedEvents" fxFlex="100">
+      <mat-card class="p-0 primary" fxFlex>
+        <mat-card-title class="mat-bg-primary m-0">
+          <div class="card-title-text">
+            <span>{{promotedEvent.name}}</span>
+            <span fxFlex></span>
+            <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu1="matMenu">
+              <button mat-menu-item [routerLink]="getRegistrationRouteLink(promotedEvent)">
+                <mat-icon>assignment</mat-icon>
+                <span>Register</span>
+              </button>
+            </mat-menu>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+        <div class="dashboard-card-image">
+          <img [src]="promotedEvent.eventPictureUrl  | imageDimension: '480x360' " [routerLink]="getRegistrationRouteLink(promotedEvent)">
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</div>

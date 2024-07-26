@@ -1,0 +1,16 @@
+<mat-list class="compact-list mb-1">
+  <mat-list-item *ngFor="let submission of submissions" [routerLink]="['/dertofderts/score',submission.id]">
+    <img mat-list-avatar class="mr-1" [src]="submission.groupPictureUrl | imageDimension: '100x100'"
+      [alt]="submission.groupName">
+    <div fxLayout="column" fxFlex="75">
+      <div class="group-name">{{submission.groupName}}</div>
+      <div class="group-subtext">{{submission.dertYearFrom}} - {{submission.dertVenueFrom}}</div>
+    </div>
+    <div fxFlex="25" fxLayoutAlign="flex-end">
+      <div [ngClass]="{'chip-done': submission.alreadyJudged,'chip-pending':!submission.alreadyJudged, 'chip': true}">
+        {{submission.tagText}}
+      </div>
+      <!--<mat-chip mat-sm-chip [color]="submission.alreadyJudged ? 'success' : 'primary'" [selected]="true">>{{submission.tagText}}</mat-chip>-->
+    </div>
+  </mat-list-item>
+</mat-list>

@@ -1,0 +1,45 @@
+<mat-card class="card" [ngClass]="colour">
+  <mat-card-title class="card-title">
+    {{title}}
+  </mat-card-title>
+  <mat-card-content class="card-content">
+    <div class="card-body">
+      <div fxLayout="row">
+        <div fxFlex>
+          <ng-content *ngIf="isNormal"></ng-content>
+        </div>
+        <div *ngIf="options && isNormal" class="card-body-options">
+          <mat-form-field>
+            <mat-select [(value)]="selectedOption">
+              <mat-option *ngFor="let option of options" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex>
+          <ng-content *ngIf="isConfirming" select="confirm"></ng-content>
+        </div>
+        <div *ngIf="options && isConfirming" class="card-body-options">
+          {{selectedOption}}
+        </div>
+      </div>
+      <ng-content *ngIf="isActioning" select="actioning"></ng-content>
+      <ng-content *ngIf="isActioned" select="actioned"></ng-content>
+    </div>
+    <div class="card-actions">
+      <div fxLayout="row">
+        <div fxFlex>
+          <button *ngIf="isNormal" mat-raised-button [color]="colour" (click)="onActionClick()">{{actionName}}</button>
+          <button *ngIf="!isNormal" mat-raised-button [color]="colour" (click)="onConfirmClick()"
+            [disabled]="isActioning || isActioned">Confirm {{actionName}}</button>
+        </div>
+        <div *ngIf="isConfirming">
+          <button mat-raised-button (click)="onBackClick()">Back</button>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,72 @@
+<div class="modal-min">
+    <mat-card-title>Add a new activity</mat-card-title>
+    <mat-card-content>
+        <div class="mb-1 mt-1">
+            <p>Enter the details below of your new team member.</p>
+        </div>
+    </mat-card-content>
+    <form [formGroup]="activityForm" novalidate (submit)="onCreateActivitySubmit()">
+        <div fxLayout="row wrap" fxLayoutAlign="space-between">
+            <div class="pb-1" fxFlex="100">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="title" placeholder="Activity Title" required>
+                </mat-form-field>
+                <small *ngIf="activityForm.controls.title.errors && (activityForm.controls.title.dirty || activityForm.controls.title.touched) && (activityForm.controls.title.errors.required)"
+                    class="form-error-msg"> Title is required. </small>
+            </div>
+
+            <div class="pb-1" fxFlex="100">
+                <mat-form-field class="full-width">
+                    <input matInput formControlName="description" placeholder="Activity Description">
+                </mat-form-field>
+            </div>
+
+            <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
+                <mat-form-field class="full-width">
+                    <input matInput name="price" formControlName="price" placeholder="Price (£)">
+                </mat-form-field>
+                <small *ngIf="activityForm.controls.price.errors && (activityForm.controls.price.dirty || activityForm.controls.price.touched) && (activityForm.controls.price.errors.required)"
+                    class="form-error-msg"> Price is required. </small>
+            </div>
+
+            <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
+                <mat-form-field>
+                    <mat-select placeholder="Target Audience" formControlName="audienceTypeId">
+                        <mat-option *ngFor="let audienceType of audienceTypes" [value]="audienceType.id">
+                            {{audienceType.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="activityForm.controls.audienceTypeId.errors && (activityForm.controls.audienceTypeId.dirty || activityForm.controls.audienceTypeId.touched) && (activityForm.controls.audienceTypeId.errors.required)"
+                    class="form-error-msg">You must make a selection</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="pb-1">
+                <mat-checkbox formControlName="isDefault">
+                    Set as Default
+                </mat-checkbox>
+            </div>
+            <div class="pb-1">
+
+                <mat-checkbox formControlName="priceTBC">
+                    PriceTBC
+                </mat-checkbox>
+            </div>
+            <div class="pb-1">
+
+                <mat-checkbox formControlName="soldOut">
+                    SoldOut
+                </mat-checkbox>
+            </div>
+            <div class="" fxFlex="100">
+                <button type="button" mat-button (click)="onCancel()">Cancel</button>
+                <span fxFlex></span>
+
+                <button mat-raised-button color="primary" type="submit">
+                    Add Activity
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
+    </form>
+
+</div>

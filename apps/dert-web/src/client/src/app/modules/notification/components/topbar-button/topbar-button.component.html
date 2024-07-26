@@ -1,0 +1,8 @@
+<button
+  mat-icon-button
+  matTooltip="Notifications"
+  [style.overflow]="'visible'"
+  class="topbar-button-right">
+    <mat-icon>notifications</mat-icon>
+    <span class="notification-number" *ngIf="hasNotifications" [ngClass]="getSeverityClass()"></span>
+  </button>

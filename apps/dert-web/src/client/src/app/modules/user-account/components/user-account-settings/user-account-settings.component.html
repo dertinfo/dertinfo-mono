@@ -1,0 +1,70 @@
+<mat-card class="p-0" *ngIf="isReady">
+  <mat-tab-group>
+    <mat-tab label="User Settings">
+      <mat-card-content class="mt-1">
+        <form [formGroup]="userSettingsForm" (submit)="onUserSettingsSubmit()">
+          <mat-form-field class="full-width">
+            <input matInput formControlName="firstName" placeholder="First name" required>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="lastName" placeholder="Family name" required>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="telephone" placeholder="Telephone Number" required>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="email" placeholder="Email">
+          </mat-form-field>
+          <button mat-raised-button color="primary" [disabled]="!userSettingsForm.dirty">Save</button>
+        </form>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Privacy Settings">
+      <mat-card-content>
+        <div class="mb-1 mt-1">
+          <mat-checkbox [checked]="gdprConsentGained" [disabled]="true"> Gdpr Consent Gained. ({{gdprConsentGainedDate
+            | date}})</mat-checkbox>
+        </div>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Manage Account">
+      <mat-card-content class="mt-1">
+        <div fxFlex="100">
+          <mat-card class="p-0">
+            <mat-card-title class="mat-bg-warn m-0">
+              <div class="card-title-text">
+                <span>Delete Account</span>
+                <span fxFlex></span>
+              </div>
+              <mat-divider></mat-divider>
+            </mat-card-title>
+            <mat-card-content>
+              <br/>
+              <p *ngIf="!isActiveConfirmDeleteView">
+                This will delete your account from the system. All access to this account will be lost and all data assosiated with this account will be deleted.
+              </p>
+              <p *ngIf="!isActiveConfirmDeleteView">
+                Attendance data and other activity based data will be retained for reporting purposes but any personally identifiable information will be obfuscated. This will apply to all groups and member information that is under your account.
+              </p>
+              <p *ngIf="isActiveConfirmDeleteView && !useraccountIsDeleting && !useraccountIsDeleted">
+                Are you absolutely sure?
+              </p>
+              <p *ngIf="useraccountIsDeleting">
+                Deleting User Account
+              </p>
+              <p *ngIf="useraccountIsDeleted">
+                Your account has now been deleted you are being redirected back to the home page.
+              </p>
+              <mat-divider class="mb-1"></mat-divider>
+              <button *ngIf="!isActiveConfirmDeleteView" mat-raised-button color="warn" class="mr-1" (click)="onUserDeleteClick()">Delete
+                User Account
+              </button>
+              <button *ngIf="isActiveConfirmDeleteView" mat-raised-button color="warn" class="mr-1" (click)="onUserConfirmDeleteClick()"
+                [disabled]="useraccountIsDeleting || useraccountIsDeleted">Confirm Delete</button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-card-content>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

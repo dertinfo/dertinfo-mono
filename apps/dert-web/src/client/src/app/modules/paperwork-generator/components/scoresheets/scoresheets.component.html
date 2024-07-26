@@ -1,0 +1,75 @@
+<div *ngIf="!dataLoaded">
+    <!-- Trigger/Open The Modal -->
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <p>Rendering your scoresheets..</p>
+            <app-spinner></app-spinner>
+        </div>
+
+    </div>
+
+</div>
+<div *ngIf="dataLoaded">
+    <div *ngFor="let scoreSheet of scoreSheetData" class="scoresheet-container">
+        <img [src]="scoreSheet.event.eventPictureUrl | imageDimension: '480x360' " alt="" class="headerimage">
+        <table class="infotable">
+            <thead>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="shade">Competition</td>
+                    <td>{{scoreSheet.competitionName}}</td>
+                    <td class="shade">Team Attributes</td>
+                    <td>
+                        <div *ngFor="let entryAtt of scoreSheet.competitionEntryAttributes" class="attribute-badge">{{entryAtt.tag}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="shade">Team</td>
+                    <td>{{scoreSheet.teamName}}</td>
+                    <td class="shade">Judge</td>
+                    <td>{{scoreSheet.judgeName}}</td>
+                </tr>
+                <tr>
+                    <td class="shade">Venue</td>
+                    <td>{{scoreSheet.venueName}}</td>
+                    <td class="shade">Time</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="scoretable">
+            <thead>
+                <tr>
+                    <th class="shade">Category</th>
+                    <th class="shade">Comments</th>
+                    <th class="shade">Mark</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr *ngFor="let scoreCategory of scoreSheet.scoreCategories">
+                    <td class="shade scorecategorytitle">{{scoreCategory.name}}</td>
+                    <td>&nbsp;</td>
+                    <td class="marks">
+                        <span class="subtext">({{scoreCategory.maxMarks}} Max)</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="shade">Additonal Comments</td>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="footer">
+                    <td colspan="3">Code: {{scoreSheet.danceId}}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <br />
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+
+  <app-addition-header fxFlex="100" [title]="'Judges'" [icon]="'people'" [hideButton]="true"></app-addition-header>
+
+  <div class="mat-elevation-z3" fxFlex="100" class="table-container">
+    <mat-tab-group>
+      <mat-tab label="Official Judges">
+    <mat-table [dataSource]="dataSourceOfficial" matSort matSortActive="judgeName" matSortDirection="asc" matSortDisableClear>
+
+      <!-- Group Name Column -->
+      <ng-container matColumnDef="judgeName">
+        <mat-header-cell mat-sort-header *matHeaderCellDef class="cell-2x">Name</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-2x">{{element.judgeName}} </mat-cell>
+      </ng-container>
+
+      <!-- You Tube Link Name Column -->
+      <ng-container matColumnDef="judgeEmail">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-3x">Email
+        </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-3x"> {{element.judgeEmail}} </mat-cell>
+      </ng-container>
+
+      <!-- DertYearFrom Name Column -->
+      <ng-container matColumnDef="stillToJudge">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-pull-right">Still To Judge</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right"> {{element.countToComplete - element.countCompleted}} </mat-cell>
+      </ng-container>
+
+      <!-- View Cards -->
+      <ng-container matColumnDef="viewCards">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-pull-right">View Cards</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+          <button mat-icon-button matTooltip="View?" color="primary" (click)="onViewCardsClick(element)"
+            class="topbar-button-right" [disabled]="element.countCompleted === 0">
+            <mat-icon>class</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <!-- Delete -->
+      <ng-container matColumnDef="toggleInclusion">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-pull-right">Results Blocked</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+          <button mat-icon-button matTooltip="Include?" (click)="toggleJudgeInclusion(element)" [style.overflow]="'visible'"
+            class="topbar-button-right">
+            <mat-icon color="primary" *ngIf="!element.resultsBlocked">visibility</mat-icon>
+            <mat-icon color="warn" *ngIf="element.resultsBlocked">visibility_off</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumnsOfficial" fxflex></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsOfficial;" fxflex></mat-row>
+    </mat-table>
+  </mat-tab>
+  <mat-tab label="Public Judges">
+    <mat-table [dataSource]="dataSourcePublic" matSort matSortActive="judgeName" matSortDirection="asc" matSortDisableClear>
+
+      <!-- Group Name Column -->
+      <ng-container matColumnDef="judgeName">
+        <mat-header-cell mat-sort-header *matHeaderCellDef class="cell-2x">Name</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-2x">{{element.judgeName}} </mat-cell>
+      </ng-container>
+
+      <!-- You Tube Link Name Column -->
+      <ng-container matColumnDef="judgeEmail">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-3x">Email
+        </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-3x"> {{element.judgeEmail}} </mat-cell>
+      </ng-container>
+
+      <!-- DertYearFrom Name Column -->
+      <ng-container matColumnDef="stillToJudge">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>Completed</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.countCompleted}} </mat-cell>
+      </ng-container>
+
+      <!-- Interested In Judging-->
+      <ng-container matColumnDef="interestedInJudging">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>Interested In Judging</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.interestedInJudging}} </mat-cell>
+      </ng-container>
+
+      <!-- View Cards -->
+      <ng-container matColumnDef="viewCards">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-pull-right">View Cards</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+          <button mat-icon-button matTooltip="View?" (click)="onViewCardsClick(element)"
+            class="topbar-button-right" [disabled]="element.countCompleted === 0">
+            <mat-icon color="primary">class</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <!-- Delete -->
+      <ng-container matColumnDef="toggleInclusion">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-pull-right">Results Blocked</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+          <button mat-icon-button matTooltip="Include?" (click)="toggleJudgeInclusion(element)" [style.overflow]="'visible'"
+            class="topbar-button-right" [disabled]="element.hasAnyResults">
+            <mat-icon color="primary" *ngIf="!element.resultsBlocked">visibility</mat-icon>
+            <mat-icon color="warn" *ngIf="element.resultsBlocked">visibility_off</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumnsPublic" fxflex></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumnsPublic;" fxflex></mat-row>
+    </mat-table>
+  </mat-tab>
+</mat-tab-group>
+  </div>
+
+</div>

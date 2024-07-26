@@ -1,0 +1,30 @@
+{
+    "event-details": {
+        "header": "Event Details",
+        "body": "<p><strong>Location Town</strong> This will be used in public events to indicate where the event is held.</p>"
+    },
+    "contact-details": {
+        "header": "Contact Details",
+        "body": "<p><strong>Contact Name: </strong> Will be the name used on correspondance such as signing off emails.</p><p><strong>Contact Email: </strong>This will be the email address that correspondance will be in the from field of the emails.</p><p><strong>Contact Telephone: </strong>This will not be made public and will only be used where we need to contact you with something important.</p>"
+    },
+    "event-image": {
+        "header": "Event Image",
+        "body": "<p>This will be the main image used when displaying the event</p>"
+    },
+    "visibility": {
+        "header": "Visibility",
+        "body": "<p>The specified event visibility can be changed at any time allowing you to prepare your event and then make it available to the public or system users.</p><p><strong>Public</strong> The event will be shown publicly on the website. It will display the provided image and synopsis.</p><p><strong>Restricted</strong> The event will not be shown publicly on the website. But it will be available for all system users to register to attend based on the specified registration dates. It will show in their available listings.</p><p><strong>Private</strong> The event will not be shown publicly on the website nor will it show in any available listings. Groups will have to be specifically invited.</p>"
+    },
+    "event-type": {
+        "header": "Event Type",
+        "body": "<p><strong>Basic</strong> The event will be created with basic registration and confirmation emails and will only have 1 ticket type.</p><p><strong>Dancing England Rapper Tournament</strong> This template will create an event with multiple activities represeting the competitions and several ticket types. It will create all the scoring groupings and marking categories.</p>"
+    },
+    "terms": {
+        "header": "Terms",
+        "body": "<p>Agree to the terms and conditions.</p>"
+    },
+    "done": {
+        "header": "Done",
+        "body": "<p>On submit your event will be setup and will be available as per the settings outlined above</p>"
+    }
+}

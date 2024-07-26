@@ -1,0 +1,26 @@
+
+
+.grouppic-left {
+    padding-right: 3px;
+}
+
+.grouppic-right {
+    padding-left: 3px;
+}
+
+.grouppic-left img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.grouppic-right img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+mat-divider {
+    margin-top:10px;
+    margin-bottom:10px;
+}

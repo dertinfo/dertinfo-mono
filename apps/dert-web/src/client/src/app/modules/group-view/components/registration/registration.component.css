@@ -1,0 +1,14 @@
+.scoresheet-box {
+    border:solid 1px #CCC;
+}
+
+.scoresheet-box-header {
+    width:100%;
+    background-color: #247ba0;
+    padding: 10px;
+    color: #fff;
+}
+
+.scoresheet-box-body {
+    padding: 10px;
+}

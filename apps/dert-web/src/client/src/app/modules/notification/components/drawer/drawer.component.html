@@ -1,0 +1,22 @@
+<div class="notifications-drawer">
+  <div class="text-center mat-bg-primary pt-1 pb-1">
+    <h6 class="m-0">Notifications</h6>
+  </div>
+  <mat-nav-list class="notification-list" role="list">
+    <!-- Notification item -->
+    <mat-list-item *ngFor="let n of notificationSummaries" role="listitem" routerLinkActive="open">
+      <app-notification-summary-item-active *ngIf="!n.showAsDeleted" [title]="n.title" [summary]="n.summary"
+        [severity]="n.severity" [time]="n.time" [icon]="n.icon" [isNew]="n.showAsNew" [canOpen]="n.canOpen"
+        [canDismiss]="n.canDismiss" (open)="onOpenClick(n)" (dismiss)="onDismissClick(n)">
+      </app-notification-summary-item-active>
+      <app-notification-summary-item-deleted *ngIf="n.showAsDeleted" (dismiss)="onDismissClick(n)">
+      </app-notification-summary-item-deleted>
+    </mat-list-item>
+  </mat-nav-list>
+
+  <!-- note doesn't update the api - left out
+  <div class="text-center mt-1" *ngIf="notifications.length">
+    <small><a href="#" (click)="clearAll($event)">Clear all notifications</a></small>
+  </div>
+  -->
+</div>

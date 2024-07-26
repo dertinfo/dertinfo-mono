@@ -1,0 +1,50 @@
+@import url(../../styles/overrides.scss);
+
+:host {
+    p {
+        font-family: "Kalam", cursive;
+        font-size: 1rem;
+    }
+
+    .group-name {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .group-subtext {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    .mat-list-item-disabled {
+        background-color: #fff;
+        .group-name {
+            color: #ccc;
+        }
+
+        .group-subtext {
+            color: #ccc;
+        }
+    }
+
+    .info-focus {
+        font-family: "Kalam", cursive;
+        width: 100%;
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .official-judge-badge {
+        position: absolute;
+        top:0;
+        right:30px;
+        color: green;
+        display: block;
+        font-size: 2.5rem;
+        cursor: pointer;
+    }
+
+    .user-info-content {
+        margin-bottom: 5px;
+    }
+}

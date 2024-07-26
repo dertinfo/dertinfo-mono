@@ -1,0 +1,175 @@
+<mat-card class="p-0" *ngIf="_isReady">
+  <mat-tab-group>
+    <mat-tab label="Event Settings">
+      <mat-card-content class="mt-1">
+        <form [formGroup]="eventUpdateForm" novalidate (submit)="onEventUpdateSubmit()">
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput formControlName="eventName" placeholder="Event Name">
+            </mat-form-field>
+            <small *ngIf="eventUpdateForm.controls.eventName.errors && (eventUpdateForm.controls.eventName.dirty || eventUpdateForm.controls.eventName.touched) && (eventUpdateForm.controls.eventName.errors.required)"
+              class="form-error-msg"> Event Name is required. </small>
+            <small *ngIf="eventUpdateForm.controls.eventName.errors && (eventUpdateForm.controls.eventName.dirty || eventUpdateForm.controls.eventName.touched) && (eventUpdateForm.controls.eventName.errors.pattern)"
+              class="form-error-msg"> Forward slash not permitted </small>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="contactName" formControlName="contactName" placeholder="Event Contact Name">
+            </mat-form-field>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput formControlName="contactEmail" placeholder="Email">
+            </mat-form-field>
+            <small *ngIf="eventUpdateForm.controls.contactEmail.errors && (eventUpdateForm.controls.contactEmail.dirty || eventUpdateForm.controls.contactEmail.touched) && (eventUpdateForm.controls.contactEmail.errors.email)"
+              class="form-error-msg"> Invaild email address </small>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="telephone" formControlName="contactTelephone" placeholder="Event Contact Number">
+            </mat-form-field>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width text-area-field">
+              <textarea matInput formControlName="eventSynopsis" placeholder="Event Synopsis" rows="4"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="locationTown" formControlName="locationTown" placeholder="Based in Town">
+            </mat-form-field>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="locationPostcode" formControlName="locationPostcode" placeholder="Based In Postcode">
+            </mat-form-field>
+          </div>
+          <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput name="sentEmailsBcc" formControlName="sentEmailsBcc" placeholder="Sent Emails Bcc">
+              </mat-form-field>
+              <small class="formfield-subtext"> Comma ',' seperate to add multiple bcc.</small>
+            </div>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!eventUpdateForm.dirty">
+            Save
+          </button>
+
+        </form>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Event Dates">
+      <mat-card-content class="mt-1">
+        <form [formGroup]="eventDatesUpdateForm" novalidate (submit)="onEventDatesUpdateSubmit()">
+            <div fxLayout="row" fxLayoutGap="20px" >
+                <div fxFlex="100" fxFlex.gt-xs="50" >
+                  <mat-form-field class="full-width">
+                    <input matInput [matDatepicker]="eventStartDate" name="eventStartDate" formControlName="eventStartDate" placeholder="Event Starts" required>
+                    <mat-datepicker-toggle matSuffix [for]="eventStartDate"></mat-datepicker-toggle>
+                    <mat-datepicker #eventStartDate></mat-datepicker>
+                  </mat-form-field>
+                  <small *ngIf="eventDatesUpdateForm.controls.eventStartDate.errors && (eventDatesUpdateForm.controls.eventStartDate.dirty || eventDatesUpdateForm.controls.eventEndDate.touched) && (eventDatesUpdateForm.controls.eventStartDate.errors.required)"
+              class="form-error-msg"> Event Start Date Is Required </small>
+                </div>
+                <div fxFlex="100" fxFlex.gt-xs="50">
+                  <mat-form-field class="full-width">
+                    <input matInput [matDatepicker]="eventEndDate" name="eventEndDate" formControlName="eventEndDate" placeholder="Event Finishes" required>
+                    <mat-datepicker-toggle matSuffix [for]="eventEndDate"></mat-datepicker-toggle>
+                    <mat-datepicker #eventEndDate></mat-datepicker>
+                  </mat-form-field>
+                  <small *ngIf="eventDatesUpdateForm.controls.eventEndDate.errors && (eventDatesUpdateForm.controls.eventEndDate.dirty || eventDatesUpdateForm.controls.eventEndDate.touched) && (eventDatesUpdateForm.controls.eventEndDate.errors.required)"
+              class="form-error-msg"> Event End Date Is Required </small>
+                </div>
+              </div>
+              <div fxLayout="row" fxLayoutGap="20px" >
+                  <div fxFlex="100" fxFlex.gt-xs="50" >
+                    <mat-form-field class="full-width">
+                      <input matInput [matDatepicker]="registrationOpenDate" name="registrationOpenDate" formControlName="registrationOpenDate" placeholder="Registration Opens">
+                      <mat-datepicker-toggle matSuffix [for]="registrationOpenDate"></mat-datepicker-toggle>
+                      <mat-datepicker #registrationOpenDate></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="100" fxFlex.gt-xs="50">
+                    <mat-form-field class="full-width">
+                      <input matInput [matDatepicker]="registrationCloseDate" name="registrationCloseDate" formControlName="registrationCloseDate" placeholder="Registration Closes">
+                      <mat-datepicker-toggle matSuffix [for]="registrationCloseDate"></mat-datepicker-toggle>
+                      <mat-datepicker #registrationCloseDate></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                </div>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!eventDatesUpdateForm.dirty">
+            Save
+          </button>
+
+        </form>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Manage Event">
+      <mat-card-content class="mt-1">
+        <div fxFlex="100">
+
+      <app-action-confirm-navigate title="Close Event" actionName="Close Event"  colour="success" navigateTo="" [complete]="eventClosed" (confirmed)="onCloseEventConfirmed()">
+        <p>
+          All registrations will be moved to a state of closed you will no longer be permitted to make any changes to registration information.
+        </p>
+        <ng-container ngProjectAs="confirm">
+          <p>Are you absolutely sure?</p>
+        </ng-container>
+        <ng-container ngProjectAs="actioning">
+          <p>We are in the process of closing the event, please wait.</p>
+        </ng-container>
+        <ng-container ngProjectAs="actioned">
+          <p>Event has now been closed you will no longer be able to make any changes.</p>
+        </ng-container>
+      </app-action-confirm-navigate>
+      <app-action-confirm-navigate title="Cancel Event" actionName="Cancel Event"  colour="accent" navigateTo="dashboard" [complete]="eventCancelled" (confirmed)="onCancelEventConfirmed($event)" [options]="eventCancelOptions">
+        <p>
+          This will cancel this event. This action will automatcially set all registrations to cancelled. Please select the communication options from the dropdown.
+        </p>
+        <ng-container ngProjectAs="confirm">
+          <p>Are you absolutely sure?</p>
+        </ng-container>
+        <ng-container ngProjectAs="actioning">
+          <p>We are in the process of cacelling the event, please wait.</p>
+        </ng-container>
+        <ng-container ngProjectAs="actioned">
+          <p>Event has now been cancelled you will no longer be able to make any changes.</p>
+        </ng-container>
+      </app-action-confirm-navigate>
+      <app-action-confirm-navigate title="Delete Event" actionName="Delete Event"  colour="warn" navigateTo="dashboard" [complete]="eventDeleted" (confirmed)="onDeleteEventConfirmed()">
+        <p>
+          This will delete this event from the system. All access to this event will be lost. Deleting this event will automatcially set all registrations to cancelled and notify all groups who have active registrations.
+        </p>
+        <ng-container ngProjectAs="confirm">
+          <p>Are you absolutely sure?</p>
+        </ng-container>
+        <ng-container ngProjectAs="actioning">
+          <p>We are in the process of deleting the event, please wait.</p>
+        </ng-container>
+        <ng-container ngProjectAs="actioned">
+          <p>Event has now been deleted you are being redirected back to your dashboard.</p>
+        </ng-container>
+      </app-action-confirm-navigate>
+    </div>
+  </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Privacy Settings">
+        <mat-card-content>
+          <form [formGroup]="eventPrivacySettingsForm" novalidate (submit)="onEventPrivacySubmit()">
+            <div class="pb-1">
+              <mat-radio-group fxLayout="column" formControlName="visibility">
+                <mat-radio-button class="pt-1" *ngFor="let visibilityOption of visibilityOptions" [value]="visibilityOption.id">
+                  {{visibilityOption.name}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <mat-divider class="mb-1"></mat-divider>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!eventPrivacySettingsForm.dirty">
+              Save
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-tab>
+  </mat-tab-group>
+</mat-card>
