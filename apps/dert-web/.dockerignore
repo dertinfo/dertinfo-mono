@@ -8,8 +8,8 @@
 **/.dockerignore
 
 # Ignore local build artifacts (as we build in the container)
-**/dist/ 
-**/www/
+# **/dist/ 
+# **/www/
 
 # Ignore node modules
 **/node_modules
