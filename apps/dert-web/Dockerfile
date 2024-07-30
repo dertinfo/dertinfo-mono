@@ -1,3 +1,19 @@
+##################################################################
+# Docker File For DertInfo Web App
+# Author: David Hall
+# Optimised / Hardend: No
+# Last Chnage: 
+# - Initial Creation - David Hall - 2024/07/30
+# Notes:
+# - This file produces a very large image and should be optimised 
+#   and hardened. The purpose of this file is to allow other artifacts 
+#   in the dertinfo estate to be have a running version of the web app.
+# - This file is not intended for production use as the cloud native SWA 
+#   is a better option.
+# - It is layered to help build the image faster. However these layers
+#   do not particualrily reduce the size.
+##################################################################
+
 # Base Stage
 FROM node:lts AS base
 
@@ -31,7 +47,7 @@ COPY ./src /build
 RUN cd /build/client && ng build
 
 # Build the Function App
-# RUN cd /build/functions && npm run build 
+RUN cd /build/functions && npm run build 
 
 # Final Stage
 FROM base AS final
