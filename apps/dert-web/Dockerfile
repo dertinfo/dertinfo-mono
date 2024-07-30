@@ -28,7 +28,7 @@ RUN cd /build/client && npm install --force && \
 COPY ./src /build
 
 # Build the Angular Client
-RUN cd /build/client && ng build --configuration production
+RUN cd /build/client && ng build
 
 # Build the Function App
 # RUN cd /build/functions && npm run build 
@@ -40,8 +40,11 @@ FROM base AS final
 WORKDIR /app
 
 # Copy only the necessary files from the builder stage
-COPY --from=builder /build/client/dist /app/client/dist
+COPY --from=builder /build/client /app/client 
 COPY --from=builder /build/functions /app/functions
+# note - on the client just copying the dist folder causes us routing errors. 
+# todo - We need to come back to this to see if we can reduce the image size. 
+#      - moving on as we need to get this opensourced to get some help.  
 
 # Clean up unnecessary files
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
