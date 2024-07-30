@@ -1,6 +1,6 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
 import { EventDatesUpdateDto, EventOverviewDto, EventOverviewUpdateDto } from 'app/models/dto';
@@ -20,9 +20,9 @@ export class EventSettingsComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
   private _eventNamePattern = '^(?!.*\/).*$';
   private eventOverview: EventOverviewDto;
-  private eventUpdateForm: FormGroup;
-  private eventDatesUpdateForm: FormGroup;
-  private eventPrivacySettingsForm: FormGroup;
+  private eventUpdateForm: UntypedFormGroup;
+  private eventDatesUpdateForm: UntypedFormGroup;
+  private eventPrivacySettingsForm: UntypedFormGroup;
 
   private isActiveConfirmDeleteView = false;
   private isActiveConfirmCloseView = false;
@@ -71,32 +71,32 @@ export class EventSettingsComponent implements OnInit, OnDestroy {
         if (doBinding) {
           this.eventOverview = eventOverview;
 
-          this.eventUpdateForm = new FormGroup({
-            eventName: new FormControl(this.eventOverview.name, [
+          this.eventUpdateForm = new UntypedFormGroup({
+            eventName: new UntypedFormControl(this.eventOverview.name, [
               Validators.required,
               Validators.pattern(this._eventNamePattern)
             ]),
-            contactEmail: new FormControl(this.eventOverview.contactEmail, [
+            contactEmail: new UntypedFormControl(this.eventOverview.contactEmail, [
               Validators.required,
               customEmailValidator()
             ]),
-            contactTelephone: new FormControl(this.eventOverview.contactTelephone, [Validators.required]),
-            contactName: new FormControl(this.eventOverview.contactName, []),
-            eventSynopsis: new FormControl(this.eventOverview.eventSynopsis, []),
-            locationTown: new FormControl(this.eventOverview.locationTown, []),
-            locationPostcode: new FormControl(this.eventOverview.locationPostcode, []),
-            sentEmailsBcc: new FormControl(this.eventOverview.sentEmailsBcc, [])
+            contactTelephone: new UntypedFormControl(this.eventOverview.contactTelephone, [Validators.required]),
+            contactName: new UntypedFormControl(this.eventOverview.contactName, []),
+            eventSynopsis: new UntypedFormControl(this.eventOverview.eventSynopsis, []),
+            locationTown: new UntypedFormControl(this.eventOverview.locationTown, []),
+            locationPostcode: new UntypedFormControl(this.eventOverview.locationPostcode, []),
+            sentEmailsBcc: new UntypedFormControl(this.eventOverview.sentEmailsBcc, [])
           });
 
-          this.eventDatesUpdateForm = new FormGroup({
-            eventStartDate: new FormControl(this.eventOverview.eventStartDate, [Validators.required]),
-            eventEndDate: new FormControl(this.eventOverview.eventEndDate, [Validators.required]),
-            registrationOpenDate: new FormControl(this.eventOverview.registrationOpenDate, []),
-            registrationCloseDate: new FormControl(this.eventOverview.registrationCloseDate, []),
+          this.eventDatesUpdateForm = new UntypedFormGroup({
+            eventStartDate: new UntypedFormControl(this.eventOverview.eventStartDate, [Validators.required]),
+            eventEndDate: new UntypedFormControl(this.eventOverview.eventEndDate, [Validators.required]),
+            registrationOpenDate: new UntypedFormControl(this.eventOverview.registrationOpenDate, []),
+            registrationCloseDate: new UntypedFormControl(this.eventOverview.registrationCloseDate, []),
           });
 
-          this.eventPrivacySettingsForm = new FormGroup({
-            visibility: new FormControl(this.eventOverview.visibility, [Validators.required])
+          this.eventPrivacySettingsForm = new UntypedFormGroup({
+            visibility: new UntypedFormControl(this.eventOverview.visibility, [Validators.required])
           });
 
           this._isReady = true;

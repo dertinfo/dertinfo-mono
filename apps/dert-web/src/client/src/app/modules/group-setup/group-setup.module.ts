@@ -18,31 +18,27 @@ import { GroupSetupResolver } from './services/group-setup.resolver';
 import { GroupSetupTracker } from './services/group-setup.tracker';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    FileUploadModule,
-    RouterModule.forChild(GroupSetupRoutes),
-    TermsRegionModule
-  ],
-  declarations: [
-    GroupSetupComponent,
-    StartComponent,
-    UploadImageComponent
-  ],
-  providers: [
-    GroupSetupConductor,
-    GroupSetupTracker,
-    GroupSetupResolver,
-    GroupSetupRepository
-  ],
-  entryComponents: [
-    UploadImageComponent,
-    GroupConfigureTermsComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        FileUploadModule,
+        RouterModule.forChild(GroupSetupRoutes),
+        TermsRegionModule
+    ],
+    declarations: [
+        GroupSetupComponent,
+        StartComponent,
+        UploadImageComponent
+    ],
+    providers: [
+        GroupSetupConductor,
+        GroupSetupTracker,
+        GroupSetupResolver,
+        GroupSetupRepository
+    ]
 })
 export class GroupSetupModule { }

@@ -17,32 +17,27 @@ import { GroupCreateComponent } from './group-create/group-create.component';
 import { DashboardRepository } from './services/dashboard.repository';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    RouterModule.forChild(DashboardRoutes)
-  ],
-  declarations: [
-    DashboardComponent,
-    EventCreateComponent,
-    GroupCreateComponent,
-    GdprDialogComponent
-  ],
-  exports: [],
-  providers: [
-    DashboardConductor,
-    EventRepository,
-    DashboardRepository
-  ],
-  entryComponents: [
-    EventCreateComponent,
-    GdprDialogComponent,
-    GroupCreateComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        RouterModule.forChild(DashboardRoutes)
+    ],
+    declarations: [
+        DashboardComponent,
+        EventCreateComponent,
+        GroupCreateComponent,
+        GdprDialogComponent
+    ],
+    exports: [],
+    providers: [
+        DashboardConductor,
+        EventRepository,
+        DashboardRepository
+    ]
 })
 export class DashboardModule {
 

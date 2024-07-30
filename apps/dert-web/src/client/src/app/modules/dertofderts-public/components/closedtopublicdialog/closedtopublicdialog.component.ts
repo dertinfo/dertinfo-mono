@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DodIdentifyJudgeSubmissionResponseDto } from 'app/models/dto/DodIdentifyJudgeSubmissionResponseDto';
@@ -14,7 +14,7 @@ import { Conductor } from '../../services/dertofderts-public.conductor';
 })
 export class ClosedToPublicDialogComponent implements OnInit {
 
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public hasSubmissionError: boolean = false;
   public submissionErrorMessage: string = '';
 
@@ -72,12 +72,12 @@ export class ClosedToPublicDialogComponent implements OnInit {
   private prepareForm() {
 
     // Build the form group
-    this.formGroup = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, customEmailValidator()]),
-      officialJudge: new FormControl(false, []),
-      officialJudgePassword: new FormControl('', []),
-      agreeToTermsAndConditions: new FormControl(false, []),
+    this.formGroup = new UntypedFormGroup({
+      name: new UntypedFormControl('', [Validators.required]),
+      email: new UntypedFormControl('', [Validators.required, customEmailValidator()]),
+      officialJudge: new UntypedFormControl(false, []),
+      officialJudgePassword: new UntypedFormControl('', []),
+      agreeToTermsAndConditions: new UntypedFormControl(false, []),
     });
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RangeValidatorDirective } from 'app/shared/directives/range-validator.directive';
@@ -75,7 +75,7 @@ export class ScoreComponent implements OnInit, OnDestroy {
 
   ];
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public embedLink: string;
   public embedOrigin: string;
   public groupName: string;
@@ -150,7 +150,7 @@ export class ScoreComponent implements OnInit, OnDestroy {
    * toFormControlGroup
    * Takes the scores against the current dance object and creates a form group for these items with validation.
    */
-  private toFormControlGroup(): FormGroup {
+  private toFormControlGroup(): UntypedFormGroup {
 
     const group: any = {};
     this.scoreCategories.forEach((scoreCategory) => {
@@ -160,14 +160,14 @@ export class ScoreComponent implements OnInit, OnDestroy {
       // Add to the group always with required validation
 
       const validators = [Validators.required, rangeValidator.validatorFunction];
-      group[scoreCategory.scoreFieldName] = new FormControl({ value: '0', disabled: this.formSubmitted }, validators);
-      group[scoreCategory.commentFieldName] = new FormControl({ value: '', disabled: this.formSubmitted });
+      group[scoreCategory.scoreFieldName] = new UntypedFormControl({ value: '0', disabled: this.formSubmitted }, validators);
+      group[scoreCategory.commentFieldName] = new UntypedFormControl({ value: '', disabled: this.formSubmitted });
 
     });
 
-    group['overallComments'] = new FormControl({ value: '', disabled: this.formSubmitted });
+    group['overallComments'] = new UntypedFormControl({ value: '', disabled: this.formSubmitted });
 
-    return new FormGroup(group); // return the group.
+    return new UntypedFormGroup(group); // return the group.
   }
 
   private openDialog() {

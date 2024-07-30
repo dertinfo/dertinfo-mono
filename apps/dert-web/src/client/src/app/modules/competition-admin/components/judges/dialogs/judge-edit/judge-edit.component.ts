@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import {
@@ -18,7 +18,7 @@ export class JudgeEditComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
   private _namePattern = '^(?!.*\/).*$';
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   public judge: JudgeDto;
   public allJudges: Array<JudgeDto>;
@@ -32,10 +32,10 @@ export class JudgeEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      name: new FormControl(this.judge.name, [Validators.required, Validators.pattern(this._namePattern)]),
-      telephone: new FormControl(this.judge.telephone, []),
-      email: new FormControl(this.judge.email, [])
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl(this.judge.name, [Validators.required, Validators.pattern(this._namePattern)]),
+      telephone: new UntypedFormControl(this.judge.telephone, []),
+      email: new UntypedFormControl(this.judge.email, [])
     });
   }
 

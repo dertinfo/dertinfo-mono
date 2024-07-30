@@ -17,29 +17,26 @@ import { GroupRegisterResolver } from './services/group-register.resolver';
 import { GroupRegisterTracker } from './services/group-register.tracker';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    FileUploadModule,
-    RouterModule.forChild(GroupRegisterRoutes),
-    TermsRegionModule
-  ],
-  declarations: [
-    GroupRegisterComponent,
-    StartComponent
-  ],
-  providers: [
-    GroupRegisterConductor,
-    GroupRegisterTracker,
-    GroupRegisterResolver,
-    GroupRegisterRepository
-  ],
-  entryComponents: [
-    GroupConfigureTermsComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        FileUploadModule,
+        RouterModule.forChild(GroupRegisterRoutes),
+        TermsRegionModule
+    ],
+    declarations: [
+        GroupRegisterComponent,
+        StartComponent
+    ],
+    providers: [
+        GroupRegisterConductor,
+        GroupRegisterTracker,
+        GroupRegisterResolver,
+        GroupRegisterRepository
+    ]
 })
 export class GroupRegisterModule { }

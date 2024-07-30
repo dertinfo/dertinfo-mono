@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ScoreSetDto, ScoreSetUpdateSubmissionDto } from 'app/models/dto';
@@ -15,7 +15,7 @@ export class ScoreSetEditComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
   private _namePattern = '^(?!.*\/).*$';
 
-  public scoreSetForm: FormGroup;
+  public scoreSetForm: UntypedFormGroup;
 
   public scoreSet: ScoreSetDto;
   public isSubmitting = false;
@@ -29,8 +29,8 @@ export class ScoreSetEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-      this.scoreSetForm = new FormGroup({
-        name: new FormControl(this.scoreSet.name, [Validators.required, Validators.pattern(this._namePattern)])
+      this.scoreSetForm = new UntypedFormGroup({
+        name: new UntypedFormControl(this.scoreSet.name, [Validators.required, Validators.pattern(this._namePattern)])
       });
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivitySubmissionDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ export class EventActivitiesCreateComponent implements OnInit, OnDestroy {
 
   private hasUploadChanges = false;
 
-  activityForm: FormGroup;
+  activityForm: UntypedFormGroup;
   public audienceTypes = [];
 
   constructor(
@@ -31,16 +31,16 @@ export class EventActivitiesCreateComponent implements OnInit, OnDestroy {
 
     this.audienceTypes = this.eventConductor.activityAudienceTypes;
 
-    this.activityForm = new FormGroup({
-      title: new FormControl('', [
+    this.activityForm = new UntypedFormGroup({
+      title: new UntypedFormControl('', [
         Validators.required
       ]),
-      description: new FormControl('', []),
-      price: new FormControl(0.00, [Validators.required]),
-      audienceTypeId: new FormControl(1, [Validators.required]),
-      isDefault: new FormControl(false),
-      priceTBC: new FormControl(false),
-      soldOut: new FormControl(false),
+      description: new UntypedFormControl('', []),
+      price: new UntypedFormControl(0.00, [Validators.required]),
+      audienceTypeId: new UntypedFormControl(1, [Validators.required]),
+      isDefault: new UntypedFormControl(false),
+      priceTBC: new UntypedFormControl(false),
+      soldOut: new UntypedFormControl(false),
     });
   }
 

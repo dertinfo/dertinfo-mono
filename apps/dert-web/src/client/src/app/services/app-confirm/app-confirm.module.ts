@@ -7,14 +7,13 @@ import { AppConfirmService } from './app-confirm.service';
 import { AppComfirmComponent } from './app-confirm.component';
 
 @NgModule({
-  imports: [
-    MatDialogModule,
-    MatButtonModule,
-    FlexLayoutModule
-  ],
-  exports: [AppComfirmComponent],
-  declarations: [AppComfirmComponent],
-  providers: [AppConfirmService],
-  entryComponents: [AppComfirmComponent]
+    imports: [
+        MatDialogModule,
+        MatButtonModule,
+        FlexLayoutModule
+    ],
+    exports: [AppComfirmComponent],
+    declarations: [AppComfirmComponent],
+    providers: [AppConfirmService]
 })
 export class AppConfirmModule { }

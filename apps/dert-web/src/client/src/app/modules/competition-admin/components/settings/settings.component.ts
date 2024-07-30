@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CompetitionSettingsUpdateSubmissionDto, CompetitionSummaryDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   private _subscriptions: Subscription[] = [];
 
-  public settingsForm: FormGroup;
+  public settingsForm: UntypedFormGroup;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -56,12 +56,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
   private prepareForms() {
 
     if (this._tracker.hasLoadedSettings()) {
-      this.settingsForm = new FormGroup({
-        noOfJudgesPerVenue: new FormControl(this._tracker.settings.noOfJudgesPerVenue, [Validators.required]),
-        resultsPublished: new FormControl(this._tracker.settings.resultsPublished, []),
-        resultsCollated: new FormControl(this._tracker.settings.resultsCollated, []),
-        inTestingMode: new FormControl(this._tracker.settings.inTestingMode, []),
-        allowAdHocDanceAddition: new FormControl(this._tracker.settings.allowAdHocDanceAddition, []),
+      this.settingsForm = new UntypedFormGroup({
+        noOfJudgesPerVenue: new UntypedFormControl(this._tracker.settings.noOfJudgesPerVenue, [Validators.required]),
+        resultsPublished: new UntypedFormControl(this._tracker.settings.resultsPublished, []),
+        resultsCollated: new UntypedFormControl(this._tracker.settings.resultsCollated, []),
+        inTestingMode: new UntypedFormControl(this._tracker.settings.inTestingMode, []),
+        allowAdHocDanceAddition: new UntypedFormControl(this._tracker.settings.allowAdHocDanceAddition, []),
       });
 
     } else {
@@ -70,12 +70,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   private resetForms() {
-    this.settingsForm = new FormGroup({
-      noOfJudgesPerVenue: new FormControl(0, [Validators.required]),
-      resultsPublished: new FormControl(false, []),
-      resultsCollated: new FormControl(true, []),
-      inTestingMode: new FormControl(false, []),
-      allowAdHocDanceAddition: new FormControl(false, []),
+    this.settingsForm = new UntypedFormGroup({
+      noOfJudgesPerVenue: new UntypedFormControl(0, [Validators.required]),
+      resultsPublished: new UntypedFormControl(false, []),
+      resultsCollated: new UntypedFormControl(true, []),
+      inTestingMode: new UntypedFormControl(false, []),
+      allowAdHocDanceAddition: new UntypedFormControl(false, []),
     });
   }
 

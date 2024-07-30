@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -15,7 +15,7 @@ export class DanceCreateComponent implements OnInit, OnDestroy {
 
     private _subscriptions: Subscription[] = [];
 
-    form: FormGroup;
+    form: UntypedFormGroup;
 
     public get teamEntrants() {
         return this._tracker.entrants$;
@@ -43,9 +43,9 @@ export class DanceCreateComponent implements OnInit, OnDestroy {
             this._conductor.initEntrants();
         }
 
-        this.form = new FormGroup({
-            competitionEntryId: new FormControl('', [Validators.required]),
-            venueId: new FormControl('', [Validators.required])
+        this.form = new UntypedFormGroup({
+            competitionEntryId: new UntypedFormControl('', [Validators.required]),
+            venueId: new UntypedFormControl('', [Validators.required])
         });
     }
 

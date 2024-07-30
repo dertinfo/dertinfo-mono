@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GroupImage } from 'app/models/app';
 import { GroupTeamDetailDto, GroupTeamDto, GroupTeamUpdateDto, TeamImageSubmissionDto } from 'app/models/dto';
@@ -18,7 +18,7 @@ export class GroupTeamsDetailComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
   private _teamNamePattern = '^(?!.*\/).*$';
   private groupTeam: GroupTeamDetailDto;
-  private teamUpdateForm: FormGroup;
+  private teamUpdateForm: UntypedFormGroup;
 
   private rows = [];
 
@@ -44,12 +44,12 @@ export class GroupTeamsDetailComponent implements OnInit, OnDestroy {
         this.groupTeam = groupTeamDetail;
         this.rows = this.groupTeam.teamAttendances;
 
-        this.teamUpdateForm = new FormGroup({
-          teamName: new FormControl(this.groupTeam.teamName, [
+        this.teamUpdateForm = new UntypedFormGroup({
+          teamName: new UntypedFormControl(this.groupTeam.teamName, [
             Validators.required,
             Validators.pattern(this._teamNamePattern)
           ]),
-          teamBio: new FormControl(this.groupTeam.teamBio, [])
+          teamBio: new UntypedFormControl(this.groupTeam.teamBio, [])
         });
 
         this._isReady = true;

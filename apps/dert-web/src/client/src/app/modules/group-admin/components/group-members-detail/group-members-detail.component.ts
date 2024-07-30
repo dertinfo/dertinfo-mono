@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GroupMemberDetailDto, GroupMemberUpdateDto } from 'app/models/dto';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
@@ -17,7 +17,7 @@ export class GroupMembersDetailComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
 
   private groupMember: GroupMemberDetailDto;
-  private memberUpdateForm: FormGroup;
+  private memberUpdateForm: UntypedFormGroup;
 
   private rows = [];
 
@@ -37,17 +37,17 @@ export class GroupMembersDetailComponent implements OnInit, OnDestroy {
         this.groupMember = groupMemberDetail;
         this.rows = this.groupMember.memberAttendances;
 
-        this.memberUpdateForm = new FormGroup({
-          name: new FormControl(this.groupMember.name, [
+        this.memberUpdateForm = new UntypedFormGroup({
+          name: new UntypedFormControl(this.groupMember.name, [
             Validators.required
           ]),
-          email: new FormControl(this.groupMember.emailAddress, [
+          email: new UntypedFormControl(this.groupMember.emailAddress, [
             customEmailValidator()
           ]),
-          telephone: new FormControl(this.groupMember.telephoneNumber, []),
-          dateOfBirth: new FormControl(this.groupMember.dateOfBirth, []),
-          dateJoined: new FormControl(this.groupMember.dateJoined, []),
-          memberType: new FormControl(this.groupMember.memberType, [])
+          telephone: new UntypedFormControl(this.groupMember.telephoneNumber, []),
+          dateOfBirth: new UntypedFormControl(this.groupMember.dateOfBirth, []),
+          dateJoined: new UntypedFormControl(this.groupMember.dateJoined, []),
+          memberType: new UntypedFormControl(this.groupMember.memberType, [])
         });
 
         this._isReady = true;

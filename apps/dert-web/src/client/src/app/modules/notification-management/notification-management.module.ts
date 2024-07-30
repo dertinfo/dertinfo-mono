@@ -15,30 +15,27 @@ import { NotificationAdminRepository } from './services/notification-management.
 import { NotificationManagementTracker } from './services/notification-management.tracker';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    RouterModule,
-    QuillModule,
-    NotificationManagementRoutes
-  ],
-  declarations: [
-    AdminListComponent,
-    AdminDetailComponent,
-    CreateDialogComponent
-  ],
-  exports: [],
-  entryComponents: [
-    CreateDialogComponent
-  ],
-  providers: [
-    NotificationAdminRepository,
-    NotificationAdminConductor,
-    NotificationManagementTracker,
-    NotificationAdminMediator
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        QuillModule,
+        NotificationManagementRoutes
+    ],
+    declarations: [
+        AdminListComponent,
+        AdminDetailComponent,
+        CreateDialogComponent
+    ],
+    exports: [],
+    providers: [
+        NotificationAdminRepository,
+        NotificationAdminConductor,
+        NotificationManagementTracker,
+        NotificationAdminMediator
+    ]
 })
 export class NotificationManagementModule { }

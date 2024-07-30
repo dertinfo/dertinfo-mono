@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppConstants } from 'app/app.constants';
@@ -19,12 +19,12 @@ export class StartComponent implements OnInit, OnDestroy {
 
   private _subscriptions: Subscription[] = [];
 
-  contactDetailsFormGroup: FormGroup;
-  visabilityFormGroup: FormGroup;
-  eventDetailsFormGroup: FormGroup;
-  eventImageFormGroup: FormGroup;
-  configurationTemplateFormGroup: FormGroup;
-  termsAndConditionsFormGroup: FormGroup;
+  contactDetailsFormGroup: UntypedFormGroup;
+  visabilityFormGroup: UntypedFormGroup;
+  eventDetailsFormGroup: UntypedFormGroup;
+  eventImageFormGroup: UntypedFormGroup;
+  configurationTemplateFormGroup: UntypedFormGroup;
+  termsAndConditionsFormGroup: UntypedFormGroup;
 
   public eventName: string;
   public eventPictureUrl: string;
@@ -67,7 +67,7 @@ export class StartComponent implements OnInit, OnDestroy {
 
   constructor(
 
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private _conductor: EventSetupConductor,
     private _tracker: EventSetupTracker,
     public composeDialog: MatDialog,

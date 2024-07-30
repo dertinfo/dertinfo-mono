@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { GroupTeamDto, GroupTeamSubmissionDto } from 'app/models/dto';
@@ -29,7 +29,7 @@ export class TeamsSelectComponent implements OnInit, OnDestroy {
   public edited: GroupTeamDto[] = [];
 
   public items: TeamsSelectItemModel[] = [];
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   constructor(
 
@@ -39,12 +39,12 @@ export class TeamsSelectComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.form = new FormGroup({
-      teamName: new FormControl('', [
+    this.form = new UntypedFormGroup({
+      teamName: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern(this._teamNamePattern)
       ]),
-      teamBio: new FormControl('', [])
+      teamBio: new UntypedFormControl('', [])
     });
 
     const allGroupTeamsSubs = this.teamSelectMediator.fullSetChange$.subscribe((all) => {

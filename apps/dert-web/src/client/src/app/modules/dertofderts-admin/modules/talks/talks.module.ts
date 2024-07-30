@@ -16,31 +16,28 @@ import { CreateTalkComponent } from './components/create-talk/create-talk.compon
 import { EditTalkComponent } from './components/edit-talk/edit-talk.component';
 import { TalksComponent } from './components/talks.component';
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    FlexLayoutModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatDialogModule,
-    MatIconModule,
-    MatTableModule,
-    ReactiveFormsModule,
-    RouterModule
-  ],
-  declarations: [
-    TalksComponent,
-    CreateTalkComponent,
-    EditTalkComponent
-  ],
-  exports: [TalksComponent],
-  entryComponents: [
-    CreateTalkComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        FlexLayoutModule,
+        MatButtonModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatDialogModule,
+        MatIconModule,
+        MatTableModule,
+        ReactiveFormsModule,
+        RouterModule
+    ],
+    declarations: [
+        TalksComponent,
+        CreateTalkComponent,
+        EditTalkComponent
+    ],
+    exports: [TalksComponent]
 })
 export class TalksModule { }

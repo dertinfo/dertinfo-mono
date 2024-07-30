@@ -46,9 +46,6 @@ import { SubmissionsComponent } from './components/submissions.component';
     exports: [
         SubmissionsComponent,
         EditSubmissionComponent
-    ],
-    entryComponents: [
-        DodSubmissionCreateComponent
     ]
 })
 export class SubmissionsModule { }

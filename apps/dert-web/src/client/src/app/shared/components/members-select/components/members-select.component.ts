@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { GroupMemberDto, GroupMemberSubmissionDto } from 'app/models/dto';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
 import { Subscription } from 'rxjs';
@@ -31,7 +31,7 @@ export class MembersSelectComponent implements OnInit, OnDestroy {
   public edited: GroupMemberDto[] = [];
 
   public items: MembersSelectItemModel[] = [];
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   constructor(
     private memberSelectMediator: MemberSelectMediator
@@ -40,17 +40,17 @@ export class MembersSelectComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.form = new FormGroup({
-      name: new FormControl('', [
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl('', [
         Validators.required
       ]),
-      email: new FormControl('', [
+      email: new UntypedFormControl('', [
         customEmailValidator()
       ]),
-      telephone: new FormControl('', []),
-      dateOfBirth: new FormControl('', []),
-      dateJoined: new FormControl('', []),
-      memberType: new FormControl(MemberType.active, [])
+      telephone: new UntypedFormControl('', []),
+      dateOfBirth: new UntypedFormControl('', []),
+      dateJoined: new UntypedFormControl('', []),
+      memberType: new UntypedFormControl(MemberType.active, [])
     });
 
     const allGroupMembersSubs = this.memberSelectMediator.fullSetChange$.subscribe((all) => {

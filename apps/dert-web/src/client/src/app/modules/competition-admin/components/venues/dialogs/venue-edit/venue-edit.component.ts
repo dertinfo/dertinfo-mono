@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { JudgeDto, JudgeSlotJudgeUpdateSubmissionDto, VenueAllocationDto, VenueUpdateSubmissionDto } from 'app/models/dto';
@@ -15,7 +15,7 @@ export class VenueEditComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
   private _namePattern = '^(?!.*\/).*$';
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   public venue: VenueAllocationDto;
   public allJudges: Array<JudgeDto>;
@@ -30,12 +30,12 @@ export class VenueEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      name: new FormControl(this.venue.name, [Validators.required, Validators.pattern(this._namePattern)])
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl(this.venue.name, [Validators.required, Validators.pattern(this._namePattern)])
     });
 
     for (let i = 0; i < this.venue.judgeSlots.length; i++) {
-      this.form.addControl(`slot_${i}`, new FormControl(this.venue.judgeSlots[i].judgeId, []));
+      this.form.addControl(`slot_${i}`, new UntypedFormControl(this.venue.judgeSlots[i].judgeId, []));
     }
   }
 

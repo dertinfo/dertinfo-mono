@@ -30,41 +30,38 @@ import { DanceSummaryComponent } from './components/dance-summary/dance-summary.
 import { SummaryComponent } from './components/summary/summary.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatListModule,
-    MatIconModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatMomentDateModule,
-    MatSlideToggleModule,
-    MatGridListModule,
-    MatChipsModule,
-    MatCheckboxModule,
-    MatRadioModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatProgressBarModule,
-    MatStepperModule,
-    FlexLayoutModule,
-    AppSharedModule,
-  ],
-  declarations: [
-    SummaryComponent,
-    DanceSummaryComponent
-  ],
-  exports: [
-    SummaryComponent
-  ],
-  providers: [
-  ],
-  entryComponents: [
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatListModule,
+        MatIconModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatMenuModule,
+        MatMomentDateModule,
+        MatSlideToggleModule,
+        MatGridListModule,
+        MatChipsModule,
+        MatCheckboxModule,
+        MatRadioModule,
+        MatTabsModule,
+        MatToolbarModule,
+        MatInputModule,
+        MatProgressBarModule,
+        MatStepperModule,
+        FlexLayoutModule,
+        AppSharedModule,
+    ],
+    declarations: [
+        SummaryComponent,
+        DanceSummaryComponent
+    ],
+    exports: [
+        SummaryComponent
+    ],
+    providers: []
 })
 export class AppCompetitionSharedModule { }

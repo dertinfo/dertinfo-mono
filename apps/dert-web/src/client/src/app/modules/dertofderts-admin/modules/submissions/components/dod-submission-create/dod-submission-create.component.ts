@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { GroupDto } from 'app/models/dto';
 import { DodSubmissionSubmissionDto } from 'app/models/dto/DodSubmissionSubmissionDto';
 import { Observable } from 'rxjs';
@@ -16,7 +16,7 @@ export class DodSubmissionCreateComponent implements OnInit {
 
   public groups$: Observable<GroupDto[]>;
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   constructor(
     private _conductor: Conductor,
@@ -30,13 +30,13 @@ export class DodSubmissionCreateComponent implements OnInit {
 
     this.groups$ = this._tracker.groups$;
 
-    this.form = new FormGroup({
-      groupId: new FormControl('', [Validators.required]),
-      embedLink: new FormControl('', [Validators.required]),
-      embedOrigin: new FormControl('youtube', []),
-      dertYearFrom: new FormControl('', [Validators.required]),
-      dertVenueFrom: new FormControl('', []),
-      entryCategory: new FormControl('Premier', []),
+    this.form = new UntypedFormGroup({
+      groupId: new UntypedFormControl('', [Validators.required]),
+      embedLink: new UntypedFormControl('', [Validators.required]),
+      embedOrigin: new UntypedFormControl('youtube', []),
+      dertYearFrom: new UntypedFormControl('', [Validators.required]),
+      dertVenueFrom: new UntypedFormControl('', []),
+      entryCategory: new UntypedFormControl('Premier', []),
     });
   }
 

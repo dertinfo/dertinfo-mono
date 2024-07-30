@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
@@ -29,7 +29,7 @@ export class VenuesSelectComponent implements OnInit, OnDestroy {
   public edited: VenueDto[] = [];
 
   public items: VenueSelectItemModel[] = [];
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   constructor(
 
@@ -39,10 +39,10 @@ export class VenuesSelectComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.form = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      telephone: new FormControl('', []),
-      email: new FormControl('', [customEmailValidator()])
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl('', [Validators.required]),
+      telephone: new UntypedFormControl('', []),
+      email: new UntypedFormControl('', [customEmailValidator()])
     });
 
     this._subscriptions.push(this._mediator.fullSetChange$.subscribe((all) => {

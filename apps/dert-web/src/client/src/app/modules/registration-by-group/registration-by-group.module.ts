@@ -28,45 +28,38 @@ import { RegistrationByGroupResolver } from './services/registration-by-group.re
 import { RegistrationByGroupTracker } from './services/registration-by-group.tracker';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    FileUploadModule,
-    RouterModule.forChild(RegistrationByGroupRoutes),
-    MembersSelectModule.forRoot(),
-    TeamsSelectModule.forRoot(),
-  ],
-  declarations: [
-    EventDeletedDialogComponent,
-    GroupMembersSelectComponent,
-    GroupTeamsSelectComponent,
-    RegistrationByGroupComponent,
-    GroupRegistrationOverviewComponent,
-    GroupRegistrationMembersComponent,
-    GroupRegistrationGuestsComponent,
-    GroupRegistrationTeamsComponent,
-    GroupRegistrationActivitiesComponent,
-    GroupRegistrationTicketsComponent,
-    MemberActivitiesSelectComponent,
-    SystemDialogModalComponent,
-    TeamActivitiesSelectComponent,
-  ],
-  providers: [
-    RegistrationByGroupConductor,
-    RegistrationByGroupResolver,
-    RegistrationByGroupTracker,
-    RegistrationByGroupRepository
-  ],
-  entryComponents: [
-    EventDeletedDialogComponent,
-    GroupMembersSelectComponent,
-    GroupTeamsSelectComponent,
-    MemberActivitiesSelectComponent,
-    TeamActivitiesSelectComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        FileUploadModule,
+        RouterModule.forChild(RegistrationByGroupRoutes),
+        MembersSelectModule.forRoot(),
+        TeamsSelectModule.forRoot(),
+    ],
+    declarations: [
+        EventDeletedDialogComponent,
+        GroupMembersSelectComponent,
+        GroupTeamsSelectComponent,
+        RegistrationByGroupComponent,
+        GroupRegistrationOverviewComponent,
+        GroupRegistrationMembersComponent,
+        GroupRegistrationGuestsComponent,
+        GroupRegistrationTeamsComponent,
+        GroupRegistrationActivitiesComponent,
+        GroupRegistrationTicketsComponent,
+        MemberActivitiesSelectComponent,
+        SystemDialogModalComponent,
+        TeamActivitiesSelectComponent,
+    ],
+    providers: [
+        RegistrationByGroupConductor,
+        RegistrationByGroupResolver,
+        RegistrationByGroupTracker,
+        RegistrationByGroupRepository
+    ]
 })
 export class RegistrationByGroupModule { }

@@ -20,37 +20,33 @@ import { NotificationRepository } from './services/notification.repository';
 import { NotificationTracker } from './services/notification.tracker';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDialogModule,
-    MatIconModule,
-    MatListModule,
-    MatTableModule,
-    FlexLayoutModule,
-
-  ],
-  declarations: [
-    DrawerComponent,
-    TopbarButtonComponent,
-    DetailDialogComponent,
-    SummaryItemActiveComponent,
-    SummaryItemDeletedComponent
-  ],
-  exports: [
-    DrawerComponent,
-    TopbarButtonComponent,
-  ],
-  entryComponents: [
-    DetailDialogComponent
-  ],
-  providers: [
-    NotificationRepository,
-    NotificationConductor,
-    NotificationCheckResolver,
-    NotificationTracker
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDialogModule,
+        MatIconModule,
+        MatListModule,
+        MatTableModule,
+        FlexLayoutModule,
+    ],
+    declarations: [
+        DrawerComponent,
+        TopbarButtonComponent,
+        DetailDialogComponent,
+        SummaryItemActiveComponent,
+        SummaryItemDeletedComponent
+    ],
+    exports: [
+        DrawerComponent,
+        TopbarButtonComponent,
+    ],
+    providers: [
+        NotificationRepository,
+        NotificationConductor,
+        NotificationCheckResolver,
+        NotificationTracker
+    ]
 })
 export class NotificationModule { }

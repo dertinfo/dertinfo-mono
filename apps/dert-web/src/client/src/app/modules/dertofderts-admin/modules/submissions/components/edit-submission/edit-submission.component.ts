@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GroupDto } from 'app/models/dto';
 import { DodSubmissionDto } from 'app/models/dto/DodSubmissionDto';
@@ -19,7 +19,7 @@ export class EditSubmissionComponent implements OnInit, OnDestroy {
 
   public isReady = false;
   public submission: DodSubmissionDto;
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   public groups$: Observable<GroupDto[]>;
 
@@ -48,13 +48,13 @@ export class EditSubmissionComponent implements OnInit, OnDestroy {
         if (this.submission.isChampionship) { entryCategory = 'Championship'; }
         if (this.submission.isOpen) { entryCategory = 'Open'; }
 
-        this.form = new FormGroup({
-          groupId: new FormControl(this.submission.groupId, [Validators.required]),
-          embedLink: new FormControl(this.submission.embedLink, [Validators.required]),
-          embedOrigin: new FormControl(this.submission.embedOrigin, []),
-          dertYearFrom: new FormControl(this.submission.dertYearFrom, [Validators.required]),
-          dertVenueFrom: new FormControl(this.submission.dertVenueFrom, []),
-          entryCategory: new FormControl(entryCategory, []),
+        this.form = new UntypedFormGroup({
+          groupId: new UntypedFormControl(this.submission.groupId, [Validators.required]),
+          embedLink: new UntypedFormControl(this.submission.embedLink, [Validators.required]),
+          embedOrigin: new UntypedFormControl(this.submission.embedOrigin, []),
+          dertYearFrom: new UntypedFormControl(this.submission.dertYearFrom, [Validators.required]),
+          dertVenueFrom: new UntypedFormControl(this.submission.dertVenueFrom, []),
+          entryCategory: new UntypedFormControl(entryCategory, []),
         });
 
         this.isReady = true;

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'app/core/authentication/auth.service';
 import { UserSettingsDto, UserSettingsUpdateSubmissionDto } from 'app/models/dto';
@@ -15,7 +15,7 @@ export class UserAccountSettingsComponent implements OnInit, OnDestroy {
 
   private _subscriptions = [];
 
-  private userSettingsForm: FormGroup;
+  private userSettingsForm: UntypedFormGroup;
 
   public isReady = false;
   public userSettings = null;
@@ -42,11 +42,11 @@ export class UserAccountSettingsComponent implements OnInit, OnDestroy {
       if (userSettings != null) {
         this.userSettings = userSettings;
 
-        this.userSettingsForm = new FormGroup({
-          firstName: new FormControl(this.userSettings.firstName, [Validators.required]),
-          lastName: new FormControl(this.userSettings.lastName, [Validators.required]),
-          telephone: new FormControl(this.userSettings.telephone, [Validators.required]),
-          email: new FormControl({ value: this.userSettings.email, disabled: true }),
+        this.userSettingsForm = new UntypedFormGroup({
+          firstName: new UntypedFormControl(this.userSettings.firstName, [Validators.required]),
+          lastName: new UntypedFormControl(this.userSettings.lastName, [Validators.required]),
+          telephone: new UntypedFormControl(this.userSettings.telephone, [Validators.required]),
+          email: new UntypedFormControl({ value: this.userSettings.email, disabled: true }),
         });
 
         this.gdprConsentGained = userSettings.gdprConsentGained;

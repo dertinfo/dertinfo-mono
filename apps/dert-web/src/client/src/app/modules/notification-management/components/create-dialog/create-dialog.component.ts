@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NotificationMessageSubmissionDto } from '../../models/NotificationMessageSubmissionDto';
 import { NotificationAdminMediator } from '../../services/notification-management.mediator';
 
@@ -10,8 +10,8 @@ import { NotificationAdminMediator } from '../../services/notification-managemen
 })
 export class CreateDialogComponent implements OnInit {
 
-  public form: FormGroup;
-  public editorData: FormGroup;
+  public form: UntypedFormGroup;
+  public editorData: UntypedFormGroup;
 
   constructor(
     private _mediator: NotificationAdminMediator,
@@ -19,15 +19,15 @@ export class CreateDialogComponent implements OnInit {
 
   ngOnInit() {
 
-    this.form = new FormGroup({
-      messageHeader: new FormControl('', [Validators.required]),
-      messageSummary: new FormControl('', [Validators.required]),
-      messageBody: new FormControl('', []),
-      hasDetails: new FormControl('', []),
-      requiresOpening: new FormControl('', []),
-      requiresAcknowledgement: new FormControl('', []),
-      severity: new FormControl(1, [Validators.required]),
-      blocksUser: new FormControl('', []),
+    this.form = new UntypedFormGroup({
+      messageHeader: new UntypedFormControl('', [Validators.required]),
+      messageSummary: new UntypedFormControl('', [Validators.required]),
+      messageBody: new UntypedFormControl('', []),
+      hasDetails: new UntypedFormControl('', []),
+      requiresOpening: new UntypedFormControl('', []),
+      requiresAcknowledgement: new UntypedFormControl('', []),
+      severity: new UntypedFormControl(1, [Validators.required]),
+      blocksUser: new UntypedFormControl('', []),
     });
   }
 

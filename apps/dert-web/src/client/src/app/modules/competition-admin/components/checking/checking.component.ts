@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RangeValidatorDirective } from 'app/shared/directives/range-validator.directive';
 import {
@@ -34,7 +34,7 @@ export class CheckingComponent implements OnInit, OnDestroy {
     public danceMarkingSheets: DanceMarkingSheetDto[];
     public scoresLocked = false;
     public currentSlide = 'scores';
-    public danceScoresFormGroup: FormGroup = new FormGroup({});
+    public danceScoresFormGroup: UntypedFormGroup = new UntypedFormGroup({});
     public errorMessage: any;
     public overrun = false;
     public hasScoresChecked = false;
@@ -171,14 +171,14 @@ export class CheckingComponent implements OnInit, OnDestroy {
             // Add to the group always with required validation
 
             const validators = this.scoresLocked ? null : [Validators.required, rangeValidator.validatorFunction];
-            group[danceScore.scoreCatagoryId] = new FormControl({
+            group[danceScore.scoreCatagoryId] = new UntypedFormControl({
                 value: danceScore.markGiven,
                 disabled: this.hasScoresChecked
             }, validators);
 
         });
         // group['overrun'] = new FormControl(this.overrun);
-        return new FormGroup(group); // return the group.
+        return new UntypedFormGroup(group); // return the group.
     }
 
     private reset() {

@@ -32,47 +32,43 @@ import { EventAdminConductor } from './services/event-admin.conductor';
 import { EventAdminResolver } from './services/event-admin.resolver';
 import { EventAdminTracker } from './services/event-admin.tracker';
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    ActionConfirmNavigateModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    QuillModule,
-    NgxDatatableModule,
-    FileUploadModule,
-    RouterModule.forChild(EventAdminRoutes),
-    AppCompetitionSharedModule
-  ],
-  declarations: [
-    EventActivitiesComponent,
-    EventActivitiesCreateComponent,
-    EventActivitiesDetailComponent,
-    EventCompetitionsComponent,
-    EventComponent,
-    EventEmailTemplatesComponent,
-    EventInvoicesComponent,
-    EventInvoiceListingComponent,
-    EventOverviewComponent,
-    EventSettingsComponent,
-    EventGalleryComponent,
-    EventBlankComponent,
-    RegistrationsListingForEventComponent,
-    EventRegistrationsComponent,
-    UploadImageComponent,
-    EventDownloadsComponent,
-    PaperworkComponent
-  ],
-  providers: [
-    EventAdminConductor,
-    EventAdminTracker,
-    EventAdminResolver,
-    EmailTemplatesResolver
-  ],
-  entryComponents: [
-    UploadImageComponent,
-    EventActivitiesCreateComponent,
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        ActionConfirmNavigateModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        QuillModule,
+        NgxDatatableModule,
+        FileUploadModule,
+        RouterModule.forChild(EventAdminRoutes),
+        AppCompetitionSharedModule
+    ],
+    declarations: [
+        EventActivitiesComponent,
+        EventActivitiesCreateComponent,
+        EventActivitiesDetailComponent,
+        EventCompetitionsComponent,
+        EventComponent,
+        EventEmailTemplatesComponent,
+        EventInvoicesComponent,
+        EventInvoiceListingComponent,
+        EventOverviewComponent,
+        EventSettingsComponent,
+        EventGalleryComponent,
+        EventBlankComponent,
+        RegistrationsListingForEventComponent,
+        EventRegistrationsComponent,
+        UploadImageComponent,
+        EventDownloadsComponent,
+        PaperworkComponent
+    ],
+    providers: [
+        EventAdminConductor,
+        EventAdminTracker,
+        EventAdminResolver,
+        EmailTemplatesResolver
+    ]
 })
 export class EventAdminModule { }

@@ -28,42 +28,38 @@ import { GroupViewResolver } from './services/group-view.resolver';
 import { GroupViewTracker } from './services/group-view.tracker';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatCheckboxModule,
-    MatSlideToggleModule,
-    NgxDatatableModule,
-    RouterModule.forChild(GroupViewRoutes)
-  ],
-  declarations: [
-    DancesGridComponent,
-    GroupViewComponent,
-    GroupViewOverviewComponent,
-    GroupViewRegistrationComponent,
-    MarkingSheetZoomComponent,
-    DertOfDertsComponent,
-    DertOfDertsReportDialogComponent
-  ],
-  exports: [],
-  providers: [
-    GroupViewConductor,
-    GroupViewTracker,
-    GroupViewResolver,
-    GroupViewDodResolver,
-    GroupViewRegistrationsResolver,
-    EventRepository,
-    RegistrationRepository,
-    RegistrationResolver,
-    GroupViewRepository,
-  ],
-  entryComponents: [
-    MarkingSheetZoomComponent,
-    DertOfDertsReportDialogComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatCheckboxModule,
+        MatSlideToggleModule,
+        NgxDatatableModule,
+        RouterModule.forChild(GroupViewRoutes)
+    ],
+    declarations: [
+        DancesGridComponent,
+        GroupViewComponent,
+        GroupViewOverviewComponent,
+        GroupViewRegistrationComponent,
+        MarkingSheetZoomComponent,
+        DertOfDertsComponent,
+        DertOfDertsReportDialogComponent
+    ],
+    exports: [],
+    providers: [
+        GroupViewConductor,
+        GroupViewTracker,
+        GroupViewResolver,
+        GroupViewDodResolver,
+        GroupViewRegistrationsResolver,
+        EventRepository,
+        RegistrationRepository,
+        RegistrationResolver,
+        GroupViewRepository,
+    ]
 })
 export class GroupViewModule {
 

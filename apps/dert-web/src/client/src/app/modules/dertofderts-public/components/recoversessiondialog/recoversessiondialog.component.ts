@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DodRecoverSessionDto } from 'app/models/dto/DodRecoverSessionDto';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
@@ -13,7 +13,7 @@ import { Tracker } from '../../services/dertofderts-public.tracker';
 })
 export class RecoverSessionDialogComponent implements OnInit {
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
   public dataRecoverySucceeded: boolean = false;
   public dataRecoveryFailedMismatch: boolean = false;
   public dataRecoveryFailedExpired: boolean = false;
@@ -78,9 +78,9 @@ export class RecoverSessionDialogComponent implements OnInit {
 
   private prepareForm() {
 
-    this.form = new FormGroup({
-      email: new FormControl('', [Validators.required, customEmailValidator()]),
-      dontAskAgain: new FormControl(false, [])
+    this.form = new UntypedFormGroup({
+      email: new UntypedFormControl('', [Validators.required, customEmailValidator()]),
+      dontAskAgain: new UntypedFormControl(false, [])
     });
 
   }

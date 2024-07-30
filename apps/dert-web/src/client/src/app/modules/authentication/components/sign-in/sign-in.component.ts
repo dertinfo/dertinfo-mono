@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { AuthService } from '../../../../core/authentication/auth.service';
@@ -13,7 +13,7 @@ export class SigninComponent implements OnInit {
   @ViewChild(MatProgressBar, { static: false }) progressBar: MatProgressBar;
   @ViewChild(MatButton, { static: false }) submitButton: MatButton;
 
-  signinForm: FormGroup;
+  signinForm: UntypedFormGroup;
 
   constructor(private authService: AuthService) { }
 

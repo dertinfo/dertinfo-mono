@@ -31,48 +31,41 @@ import { SessionService } from './services/dertofderts-public.session';
 import { Tracker } from './services/dertofderts-public.tracker';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FlexLayoutModule,
-    AppSharedModule,
-    AppConfirmModule,
-    TermsRegionModule,
-    DertOfDertsPublicRoutes
-  ],
-  declarations: [
-    HomeComponent,
-    HowToEnterComponent,
-    HowToJudgeComponent,
-    JudgingComponent,
-    ScoreComponent,
-    TalksComponent,
-    ResultsComponent,
-    ScoreDialogComponent,
-    ScoreSubmittedDialogComponent,
-    RecoverSessionDialogComponent,
-    ClosedToPublicDialogComponent,
-    HeaderComponent,
-    MarkingCriteriaSideBarComponent,
-    ListComponent,
-    TopHeaderComponent
-  ],
-  providers: [
-    Conductor,
-    Tracker,
-    Repository,
-    SessionService,
-    CanDeactivateScoreGuard
-  ],
-  entryComponents: [
-    ScoreDialogComponent,
-    ScoreSubmittedDialogComponent,
-    RecoverSessionDialogComponent,
-    ClosedToPublicDialogComponent,
-    WebsiteTermsComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FlexLayoutModule,
+        AppSharedModule,
+        AppConfirmModule,
+        TermsRegionModule,
+        DertOfDertsPublicRoutes
+    ],
+    declarations: [
+        HomeComponent,
+        HowToEnterComponent,
+        HowToJudgeComponent,
+        JudgingComponent,
+        ScoreComponent,
+        TalksComponent,
+        ResultsComponent,
+        ScoreDialogComponent,
+        ScoreSubmittedDialogComponent,
+        RecoverSessionDialogComponent,
+        ClosedToPublicDialogComponent,
+        HeaderComponent,
+        MarkingCriteriaSideBarComponent,
+        ListComponent,
+        TopHeaderComponent
+    ],
+    providers: [
+        Conductor,
+        Tracker,
+        Repository,
+        SessionService,
+        CanDeactivateScoreGuard
+    ]
 })
 export class DertOfDertsPublicModule { }

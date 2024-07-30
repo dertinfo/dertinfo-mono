@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DashboardConductor } from 'app/modules/dashboard/services/dashboard.conductor';
@@ -18,7 +18,7 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   private eventId;
   private hasUploadChanges = false;
 
-  public eventForm: FormGroup;
+  public eventForm: UntypedFormGroup;
 
   public isSubmitting = false;
 
@@ -31,9 +31,9 @@ export class EventCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.eventForm = new FormGroup({
-      eventName: new FormControl('', [Validators.required, Validators.pattern(this._eventNamePattern)]),
-      eventSynopsis: new FormControl('', [])
+    this.eventForm = new UntypedFormGroup({
+      eventName: new UntypedFormControl('', [Validators.required, Validators.pattern(this._eventNamePattern)]),
+      eventSynopsis: new UntypedFormControl('', [])
     });
   }
 

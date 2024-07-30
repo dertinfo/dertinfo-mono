@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppConstants } from 'app/app.constants';
@@ -27,10 +27,10 @@ export class StartComponent implements OnInit, OnDestroy {
   public eventPictureUrl: string;
   public groupPictureUrl: string;
 
-  termsAndConditionsFormGroup: FormGroup;
+  termsAndConditionsFormGroup: UntypedFormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private _conductor: GroupRegisterConductor,
     private _tracker: GroupRegisterTracker,
     public composeDialog: MatDialog,

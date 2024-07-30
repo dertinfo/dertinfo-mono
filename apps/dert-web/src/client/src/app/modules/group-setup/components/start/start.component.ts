@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { GroupConfigurationSubmissionDto, GroupDto } from 'app/models/dto';
@@ -20,12 +20,12 @@ export class StartComponent implements OnInit, OnDestroy {
 
   private _subscriptions: Subscription[] = [];
 
-  contactDetailsFormGroup: FormGroup;
-  visabilityFormGroup: FormGroup;
-  groupDetailsFormGroup: FormGroup;
-  groupImageFormGroup: FormGroup;
-  configurationTemplateFormGroup: FormGroup;
-  termsAndConditionsFormGroup: FormGroup;
+  contactDetailsFormGroup: UntypedFormGroup;
+  visabilityFormGroup: UntypedFormGroup;
+  groupDetailsFormGroup: UntypedFormGroup;
+  groupImageFormGroup: UntypedFormGroup;
+  configurationTemplateFormGroup: UntypedFormGroup;
+  termsAndConditionsFormGroup: UntypedFormGroup;
 
   public groupName: string;
   public groupPictureUrl: string;
@@ -50,7 +50,7 @@ export class StartComponent implements OnInit, OnDestroy {
 
   constructor(
 
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private _conductor: GroupSetupConductor,
     private _tracker: GroupSetupTracker,
     public composeDialog: MatDialog,

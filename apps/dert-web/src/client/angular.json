@@ -146,7 +146,6 @@
       }
     }
   },
-  "defaultProject": "dertinfo",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

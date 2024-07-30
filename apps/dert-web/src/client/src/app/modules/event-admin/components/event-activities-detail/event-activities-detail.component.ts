@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
@@ -23,7 +23,7 @@ export class EventActivitiesDetailComponent implements OnInit, OnDestroy {
 
   public _isReady = false;
   public activityDetail: ActivityDetailDto;
-  public activityUpdateForm: FormGroup;
+  public activityUpdateForm: UntypedFormGroup;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -46,16 +46,16 @@ export class EventActivitiesDetailComponent implements OnInit, OnDestroy {
       if (activityDetail) {
         this.activityDetail = activityDetail;
 
-        this.activityUpdateForm = new FormGroup({
-          title: new FormControl(this.activityDetail.title, [
+        this.activityUpdateForm = new UntypedFormGroup({
+          title: new UntypedFormControl(this.activityDetail.title, [
             Validators.required
           ]),
-          description: new FormControl(this.activityDetail.description, []),
-          price: new FormControl(this.activityDetail.price, []),
-          audienceTypeId: new FormControl(this.activityDetail.audienceTypeId, []),
-          isDefault: new FormControl(this.activityDetail.isDefault),
-          priceTBC: new FormControl(this.activityDetail.priceTBC),
-          soldOut: new FormControl(this.activityDetail.soldOut)
+          description: new UntypedFormControl(this.activityDetail.description, []),
+          price: new UntypedFormControl(this.activityDetail.price, []),
+          audienceTypeId: new UntypedFormControl(this.activityDetail.audienceTypeId, []),
+          isDefault: new UntypedFormControl(this.activityDetail.isDefault),
+          priceTBC: new UntypedFormControl(this.activityDetail.priceTBC),
+          soldOut: new UntypedFormControl(this.activityDetail.soldOut)
         });
 
         this._isReady = true;

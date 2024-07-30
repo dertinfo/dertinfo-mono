@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ScoreCategoryDto, ScoreCategoryUpdateSubmissionDto } from 'app/models/dto';
@@ -15,7 +15,7 @@ export class ScoreCategoryEditComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];
   private _namePattern = '^(?!.*\/).*$';
 
-  public scoreCategoryForm: FormGroup;
+  public scoreCategoryForm: UntypedFormGroup;
 
   public scoreCategory: ScoreCategoryDto;
   public isSubmitting = false;
@@ -29,11 +29,11 @@ export class ScoreCategoryEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-      this.scoreCategoryForm = new FormGroup({
-        name: new FormControl(this.scoreCategory.name, [Validators.required, Validators.pattern(this._namePattern)]),
-        maxMarks: new FormControl(this.scoreCategory.maxMarks, [Validators.required, Validators.pattern(this._namePattern)]),
-        tag: new FormControl(this.scoreCategory.tag, [Validators.required, Validators.pattern(this._namePattern)]),
-        sortOrder: new FormControl(this.scoreCategory.sortOrder, [Validators.required, Validators.pattern(this._namePattern)])
+      this.scoreCategoryForm = new UntypedFormGroup({
+        name: new UntypedFormControl(this.scoreCategory.name, [Validators.required, Validators.pattern(this._namePattern)]),
+        maxMarks: new UntypedFormControl(this.scoreCategory.maxMarks, [Validators.required, Validators.pattern(this._namePattern)]),
+        tag: new UntypedFormControl(this.scoreCategory.tag, [Validators.required, Validators.pattern(this._namePattern)]),
+        sortOrder: new UntypedFormControl(this.scoreCategory.sortOrder, [Validators.required, Validators.pattern(this._namePattern)])
       });
   }
 

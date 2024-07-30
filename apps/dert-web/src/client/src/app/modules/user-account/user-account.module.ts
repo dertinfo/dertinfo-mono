@@ -13,27 +13,25 @@ import { UserAccountComponent } from './user-account.component';
 import { UserAccountRoutes } from './user-account.routing';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    FileUploadModule,
-    RouterModule.forChild(UserAccountRoutes)
-  ],
-  declarations: [
-    UserAccountComponent,
-    UserAccountOverviewComponent,
-    UserAccountSettingsComponent
-  ],
-  exports: [],
-  providers: [
-    UserAccountConductor
-  ],
-  entryComponents: [
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        FileUploadModule,
+        RouterModule.forChild(UserAccountRoutes)
+    ],
+    declarations: [
+        UserAccountComponent,
+        UserAccountOverviewComponent,
+        UserAccountSettingsComponent
+    ],
+    exports: [],
+    providers: [
+        UserAccountConductor
+    ]
 })
 export class AppUserAccountModule {
 

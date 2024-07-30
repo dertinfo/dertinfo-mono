@@ -30,48 +30,40 @@ import { RegistrationByEventsResolver } from './services/registration-by-events.
 import { RegistrationByEventsTracker } from './services/registration-by-events.tracker';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    FileUploadModule,
-    RouterModule.forChild(RegistrationByEventsRoutes),
-    MembersSelectModule.forRoot(),
-    TeamsSelectModule.forRoot(),
-    FlowBreadcrumbModule
-  ],
-  declarations: [
-    GroupDeletedDialogComponent,
-    GroupMembersSelectComponent,
-    GroupTeamsSelectComponent,
-    RegistrationByEventsComponent,
-    EventRegistrationOverviewComponent,
-    EventRegistrationMembersComponent,
-    EventRegistrationGuestsComponent,
-    EventRegistrationTeamsComponent,
-    EventRegistrationActivitiesComponent,
-    EventRegistrationTicketsComponent,
-    MemberActivitiesSelectComponent,
-    SystemDialogModalComponent,
-    EmailPreviewDialogComponent,
-    TeamActivitiesSelectComponent,
-  ],
-  providers: [
-    RegistrationByEventsConductor,
-    RegistrationByEventsTracker,
-    RegistrationByEventsResolver,
-    RegistrationByEventsRepository
-  ],
-  entryComponents: [
-    GroupDeletedDialogComponent,
-    GroupMembersSelectComponent,
-    GroupTeamsSelectComponent,
-    MemberActivitiesSelectComponent,
-    TeamActivitiesSelectComponent,
-    EmailPreviewDialogComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        FileUploadModule,
+        RouterModule.forChild(RegistrationByEventsRoutes),
+        MembersSelectModule.forRoot(),
+        TeamsSelectModule.forRoot(),
+        FlowBreadcrumbModule
+    ],
+    declarations: [
+        GroupDeletedDialogComponent,
+        GroupMembersSelectComponent,
+        GroupTeamsSelectComponent,
+        RegistrationByEventsComponent,
+        EventRegistrationOverviewComponent,
+        EventRegistrationMembersComponent,
+        EventRegistrationGuestsComponent,
+        EventRegistrationTeamsComponent,
+        EventRegistrationActivitiesComponent,
+        EventRegistrationTicketsComponent,
+        MemberActivitiesSelectComponent,
+        SystemDialogModalComponent,
+        EmailPreviewDialogComponent,
+        TeamActivitiesSelectComponent,
+    ],
+    providers: [
+        RegistrationByEventsConductor,
+        RegistrationByEventsTracker,
+        RegistrationByEventsResolver,
+        RegistrationByEventsRepository
+    ]
 })
 export class RegistrationByEventsModule { }

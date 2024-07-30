@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EmailTemplateDetailDto, EmailTemplateDto, EmailTemplateUpdateSubmissionDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
@@ -20,7 +20,7 @@ export class EventEmailTemplatesComponent implements OnInit, OnDestroy {
   public emailTemplateDetail: EmailTemplateDetailDto;
   public showEditor = false;
 
-  public emailTemplateUpdateForm: FormGroup;
+  public emailTemplateUpdateForm: UntypedFormGroup;
 
   public editorData;
   public selectedTemplate;
@@ -61,10 +61,10 @@ export class EventEmailTemplatesComponent implements OnInit, OnDestroy {
 
         // Set the detail and build the form.
         this.emailTemplateDetail = emailTemplateDetail;
-        this.emailTemplateUpdateForm = new FormGroup({
-          emailTemplateName: new FormControl(this.emailTemplateDetail.templateName, [Validators.required]),
-          emailTemplateSubject: new FormControl(this.emailTemplateDetail.subject, [Validators.required]),
-          emailTemplateBody: new FormControl(this.emailTemplateDetail.body, [Validators.required])
+        this.emailTemplateUpdateForm = new UntypedFormGroup({
+          emailTemplateName: new UntypedFormControl(this.emailTemplateDetail.templateName, [Validators.required]),
+          emailTemplateSubject: new UntypedFormControl(this.emailTemplateDetail.subject, [Validators.required]),
+          emailTemplateBody: new UntypedFormControl(this.emailTemplateDetail.body, [Validators.required])
         });
         this.editorData = emailTemplateDetail.body;
 

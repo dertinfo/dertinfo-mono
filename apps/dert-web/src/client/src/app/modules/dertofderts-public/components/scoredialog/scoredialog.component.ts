@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DodResultDto } from 'app/models/dto/DodResultDto';
 import { DodResultSubmissionDto } from 'app/models/dto/DodResultSubmissionDto';
@@ -19,7 +19,7 @@ export class ScoreDialogComponent implements OnInit {
 
   public dialogResponseData: any = {};
 
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public sessionPreLoaded = false;
   public hasError = false;
   public hasErrorMessage = '';
@@ -113,13 +113,13 @@ export class ScoreDialogComponent implements OnInit {
     const agreeToTermsAndConditions = this.sessionPreLoaded ? sessionInfo.agreeToTermsAndConditions : false;
 
     // Build the form group
-    this.formGroup = new FormGroup({
-      name: new FormControl(name, [Validators.required]),
-      email: new FormControl(email, [Validators.required, customEmailValidator()]),
-      interestedInJudging: new FormControl(interestedInJudging, []),
-      officialJudge: new FormControl(officialJudge, []),
-      officialJudgePassword: new FormControl(officialJudgePassword, []),
-      agreeToTermsAndConditions: new FormControl(agreeToTermsAndConditions, []),
+    this.formGroup = new UntypedFormGroup({
+      name: new UntypedFormControl(name, [Validators.required]),
+      email: new UntypedFormControl(email, [Validators.required, customEmailValidator()]),
+      interestedInJudging: new UntypedFormControl(interestedInJudging, []),
+      officialJudge: new UntypedFormControl(officialJudge, []),
+      officialJudgePassword: new UntypedFormControl(officialJudgePassword, []),
+      agreeToTermsAndConditions: new UntypedFormControl(agreeToTermsAndConditions, []),
     });
 
     this.dialogResponseData.userGuid = userGuid;

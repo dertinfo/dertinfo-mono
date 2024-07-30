@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ScoreCard } from 'app/models/app/ScoreCard';
 import { DodResultComplaintSubmissionDto } from 'app/models/dto/DodResultComplaintSubmissionDto';
@@ -17,7 +17,7 @@ export class DertOfDertsReportDialogComponent implements OnInit {
   private _resultId: number;
   private _groupId: number;
 
-  public formGroup: FormGroup;
+  public formGroup: UntypedFormGroup;
   public isReportSubmitted: boolean = false;
 
   constructor(
@@ -59,10 +59,10 @@ export class DertOfDertsReportDialogComponent implements OnInit {
   }
 
   private prepareForm() {
-    this.formGroup = new FormGroup({
-      reportScores: new FormControl(false, []),
-      reportComments: new FormControl(false, []),
-      reportNotes: new FormControl('', []),
+    this.formGroup = new UntypedFormGroup({
+      reportScores: new UntypedFormControl(false, []),
+      reportComments: new UntypedFormControl(false, []),
+      reportNotes: new UntypedFormControl('', []),
     });
   }
 

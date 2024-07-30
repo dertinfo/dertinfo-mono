@@ -1,6 +1,6 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { GroupOverviewDto, GroupOverviewUpdateDto } from 'app/models/dto';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
 import { Subscription } from 'rxjs';
@@ -18,8 +18,8 @@ export class GroupSettingsComponent implements OnInit, OnDestroy {
   private _groupNamePattern = '^(?!.*\/).*$';
 
   private groupOverview: GroupOverviewDto;
-  private groupUpdateForm: FormGroup;
-  private groupPrivacySettingsForm: FormGroup;
+  private groupUpdateForm: UntypedFormGroup;
+  private groupPrivacySettingsForm: UntypedFormGroup;
 
   public _isReady = false;
   public groupDeleted: boolean = false;
@@ -59,24 +59,24 @@ export class GroupSettingsComponent implements OnInit, OnDestroy {
         } else {
           this.groupOverview = groupOverview;
 
-          this.groupUpdateForm = new FormGroup({
-            groupName: new FormControl(this.groupOverview.groupName, [
+          this.groupUpdateForm = new UntypedFormGroup({
+            groupName: new UntypedFormControl(this.groupOverview.groupName, [
               Validators.required,
               Validators.pattern(this._groupNamePattern)
             ]),
-            groupEmail: new FormControl(this.groupOverview.groupEmail, [
+            groupEmail: new UntypedFormControl(this.groupOverview.groupEmail, [
               Validators.required,
               customEmailValidator()
             ]),
-            contactTelephone: new FormControl(this.groupOverview.contactTelephone, [Validators.required]),
-            contactName: new FormControl(this.groupOverview.contactName, [Validators.required]),
-            groupBio: new FormControl(this.groupOverview.groupBio, []),
-            originTown: new FormControl(this.groupOverview.originTown, []),
-            originPostcode: new FormControl(this.groupOverview.originPostcode, [])
+            contactTelephone: new UntypedFormControl(this.groupOverview.contactTelephone, [Validators.required]),
+            contactName: new UntypedFormControl(this.groupOverview.contactName, [Validators.required]),
+            groupBio: new UntypedFormControl(this.groupOverview.groupBio, []),
+            originTown: new UntypedFormControl(this.groupOverview.originTown, []),
+            originPostcode: new UntypedFormControl(this.groupOverview.originPostcode, [])
           });
 
-          this.groupPrivacySettingsForm = new FormGroup({
-            visibility: new FormControl(this.groupOverview.visibility, [Validators.required]),
+          this.groupPrivacySettingsForm = new UntypedFormGroup({
+            visibility: new UntypedFormControl(this.groupOverview.visibility, [Validators.required]),
           });
         }
 

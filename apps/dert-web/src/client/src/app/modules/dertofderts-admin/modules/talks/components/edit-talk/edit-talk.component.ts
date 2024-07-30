@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DodTalkDto } from 'app/models/dto/DodTalkDto';
 import { DodTalkUpdateSubmissionDto } from 'app/models/dto/DodTalkUpdateSubmissionDto';
@@ -18,7 +18,7 @@ export class EditTalkComponent implements OnInit, OnDestroy {
 
   public isReady = false;
   public talk: DodTalkDto;
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -36,12 +36,12 @@ export class EditTalkComponent implements OnInit, OnDestroy {
       if (talk) {
         this.talk = talk;
 
-        this.form = new FormGroup({
-          title: new FormControl(this.talk.title, [Validators.required]),
-          subTitle: new FormControl(this.talk.subTitle, []),
-          description: new FormControl(this.talk.description, [Validators.required]),
-          broadcastDateTime: new FormControl(this.talk.broadcastDateTime, [Validators.required]),
-          broadcastWebLink: new FormControl(this.talk.broadcastWebLink, []),
+        this.form = new UntypedFormGroup({
+          title: new UntypedFormControl(this.talk.title, [Validators.required]),
+          subTitle: new UntypedFormControl(this.talk.subTitle, []),
+          description: new UntypedFormControl(this.talk.description, [Validators.required]),
+          broadcastDateTime: new UntypedFormControl(this.talk.broadcastDateTime, [Validators.required]),
+          broadcastWebLink: new UntypedFormControl(this.talk.broadcastWebLink, []),
         });
 
         this.isReady = true;

@@ -17,30 +17,26 @@ import { EventSetupResolver } from './services/event-setup.resolver';
 import { EventSetupTracker } from './services/event-setup.tracker';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxDatatableModule,
-    FileUploadModule,
-    RouterModule.forChild(EventSetupRoutes),
-    TermsRegionModule
-  ],
-  declarations: [
-    EventSetupComponent,
-    StartComponent,
-    UploadImageComponent
-  ],
-  providers: [
-    EventSetupConductor,
-    EventSetupTracker,
-    EventSetupResolver
-  ],
-  entryComponents: [
-    UploadImageComponent,
-    EventConfigureTermsComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgxDatatableModule,
+        FileUploadModule,
+        RouterModule.forChild(EventSetupRoutes),
+        TermsRegionModule
+    ],
+    declarations: [
+        EventSetupComponent,
+        StartComponent,
+        UploadImageComponent
+    ],
+    providers: [
+        EventSetupConductor,
+        EventSetupTracker,
+        EventSetupResolver
+    ]
 })
 export class EventSetupModule { }

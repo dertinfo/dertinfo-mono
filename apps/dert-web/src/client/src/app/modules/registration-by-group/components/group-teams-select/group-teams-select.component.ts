@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -20,7 +20,7 @@ export class GroupTeamsSelectComponent implements OnInit, OnDestroy {
 
   private groupId;
 
-  public teamForm: FormGroup;
+  public teamForm: UntypedFormGroup;
 
   public allGroupTeams: GroupTeamDto[] = [];
   public selectedGroupTeams: GroupTeamDto[] = [];

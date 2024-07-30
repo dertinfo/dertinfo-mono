@@ -32,47 +32,42 @@ import { GroupAdminResolver } from './services/group-admin.resolver';
 import { GroupAdminTracker } from './services/group-admin.tracker';
 
 @NgModule({
-  imports: [
-    AppSharedModule,
-    MaterialLayoutsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ActionConfirmNavigateModule,
-    NgxDatatableModule,
-    FileUploadModule,
-    RouterModule.forChild(GroupAdminRoutes),
-    MembersSelectModule.forRoot(),
-    TeamsSelectModule.forRoot(),
-  ],
-  declarations: [
-    GroupAdminComponent,
-    GroupInvoicesComponent,
-    GroupOverviewComponent,
-    GroupSettingsComponent,
-    GroupMembersComponent,
-    GroupMembersCreateComponent,
-    GroupMembersDetailComponent,
-    GroupRegistrationsComponent,
-    RegistrationsListingForGroupComponent,
-    GroupTeamsComponent,
-    GroupTeamsCreateComponent,
-    GroupTeamsDetailComponent,
-    GroupGalleryComponent,
-    InvoiceListingComponent,
-    UploadImageComponent
-  ],
-  providers: [
-    GroupAdminConductor,
-    GroupAdminTracker,
-    GroupAdminResolver,
-    GroupAdminDodResolver,
-    GroupAdminRepository
-  ],
-  entryComponents: [
-    UploadImageComponent,
-    GroupMembersCreateComponent,
-    GroupTeamsCreateComponent
-  ]
+    imports: [
+        AppSharedModule,
+        MaterialLayoutsModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ActionConfirmNavigateModule,
+        NgxDatatableModule,
+        FileUploadModule,
+        RouterModule.forChild(GroupAdminRoutes),
+        MembersSelectModule.forRoot(),
+        TeamsSelectModule.forRoot(),
+    ],
+    declarations: [
+        GroupAdminComponent,
+        GroupInvoicesComponent,
+        GroupOverviewComponent,
+        GroupSettingsComponent,
+        GroupMembersComponent,
+        GroupMembersCreateComponent,
+        GroupMembersDetailComponent,
+        GroupRegistrationsComponent,
+        RegistrationsListingForGroupComponent,
+        GroupTeamsComponent,
+        GroupTeamsCreateComponent,
+        GroupTeamsDetailComponent,
+        GroupGalleryComponent,
+        InvoiceListingComponent,
+        UploadImageComponent
+    ],
+    providers: [
+        GroupAdminConductor,
+        GroupAdminTracker,
+        GroupAdminResolver,
+        GroupAdminDodResolver,
+        GroupAdminRepository
+    ]
 })
 export class GroupAdminModule { }

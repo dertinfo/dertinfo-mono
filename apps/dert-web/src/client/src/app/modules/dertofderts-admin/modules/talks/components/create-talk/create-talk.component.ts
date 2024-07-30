@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DodTalkSubmissionDto } from 'app/models/dto/DodTalkSubmissionDto';
 import { Conductor } from '../../../../services/dertofderts-admin.conductor';
@@ -13,7 +13,7 @@ import { Tracker } from '../../../../services/dertofderts-admin.tracker';
 })
 export class CreateTalkComponent implements OnInit {
 
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   constructor(
     private _conductor: Conductor,
@@ -23,12 +23,12 @@ export class CreateTalkComponent implements OnInit {
 
   ngOnInit() {
 
-    this.form = new FormGroup({
-      title: new FormControl('', [Validators.required]),
-      subTitle: new FormControl('', []),
-      description: new FormControl('', [Validators.required]),
-      broadcastDateTime: new FormControl('', [Validators.required]),
-      broadcastWebLink: new FormControl('', []),
+    this.form = new UntypedFormGroup({
+      title: new UntypedFormControl('', [Validators.required]),
+      subTitle: new UntypedFormControl('', []),
+      description: new UntypedFormControl('', [Validators.required]),
+      broadcastDateTime: new UntypedFormControl('', [Validators.required]),
+      broadcastWebLink: new UntypedFormControl('', []),
     });
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -20,7 +20,7 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
   private groupId;
   private hasUploadChanges = false;
 
-  public groupForm: FormGroup;
+  public groupForm: UntypedFormGroup;
 
   public isSubmitting = false;
 
@@ -32,9 +32,9 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.groupForm = new FormGroup({
-      groupName: new FormControl('', [Validators.required, Validators.pattern(this._groupNamePattern)]),
-      groupBio: new FormControl('', [])
+    this.groupForm = new UntypedFormGroup({
+      groupName: new UntypedFormControl('', [Validators.required, Validators.pattern(this._groupNamePattern)]),
+      groupBio: new UntypedFormControl('', [])
     });
   }
 
