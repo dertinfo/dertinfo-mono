@@ -43,7 +43,4 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 EXPOSE 4280
 
 # Start the SWA CLI to serve the static web app on running the container
-CMD ["swa", "start", "/app/client/dist", "--api-location", "/app/functions", "--verbose", "silly"]
-
-# Run the script locatated at the root
-# CMD ["sh", "docker.sh"]
+CMD ["swa", "start", "/app/client/dist", "--api-location", "/app/functions"]
