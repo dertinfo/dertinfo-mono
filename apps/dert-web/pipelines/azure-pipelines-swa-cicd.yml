@@ -25,7 +25,6 @@ stages:
             steps:
             - checkout: self
               submodules: true
-            - script: echo "NPM_CONFIG_FORCE=true" >> $(Pipeline.Workspace)/.npmrc
             - task: AzureStaticWebApp@0
               inputs:
                 app_location: "src/client"
@@ -47,7 +46,6 @@ stages:
             steps:
             - checkout: self
               submodules: true
-            - script: echo "NPM_CONFIG_FORCE=true" >> $(Pipeline.Workspace)/.npmrc
             - task: AzureStaticWebApp@0
               inputs:
                 app_location: "src/client"
