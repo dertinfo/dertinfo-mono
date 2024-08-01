@@ -3,15 +3,6 @@ trigger:
   branches:
    include:
      - main
-  paths:
-    include:
-      - dertinfo-api
-      - dertinfo-api.utests
-      - dertinfo-models
-      - dertinfo-services
-      - dertinfo-services.utests
-      - dertinfo-repository
-      - dertinfo-repository.utests
 
 # Do not trigger the pipeline on pull requests
 pr:
