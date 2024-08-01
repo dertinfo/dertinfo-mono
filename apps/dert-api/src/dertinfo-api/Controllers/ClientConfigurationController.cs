@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using DertInfo.Models.Database;
-using DertInfo.Models.DataTransferObject;
-using DertInfo.Services.Entity.DodResults;
-using DertInfo.Services.Entity.DodSubmissions;
-using DertInfo.Services.Entity.DodUsers;
-using DertInfo.Services.Entity.SystemSettings;
+﻿using DertInfo.Models.DataTransferObject;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 
 namespace DertInfo.Api.Controllers
 {
