@@ -1,3 +1,4 @@
+# Trigger the pipeline on pushes to the main branch
 trigger:
   branches:
    include:
@@ -11,6 +12,12 @@ trigger:
       - dertinfo-services.utests
       - dertinfo-repository
       - dertinfo-repository.utests
+
+# Do not trigger the pipeline on pull requests
+pr:
+  branches:
+    exclude:
+      - '*'
 
 variables:
   buildConfiguration: 'Release'
