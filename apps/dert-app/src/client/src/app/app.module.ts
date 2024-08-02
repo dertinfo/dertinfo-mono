@@ -37,6 +37,7 @@ export function jwtOptionsFactory(authService: AuthService) {
       },
       allowedDomains: [
         'localhost:60280',
+        'localhost:44100',
         'dertinfo-api-test.azurewebsites.net',
         'dertinfo-test-api-wa.azurewebsites.net',
         'dertinfo-api-live.azurewebsites.net',
@@ -66,7 +67,7 @@ export function getJwtToken(): string {
     JwtModule.forRoot({
       config: {
         tokenGetter: getJwtToken,
-        allowedDomains: ['localhost:60280', 'dertinfo-api-test.azurewebsites.net', 'dertinfo-test-api-wa.azurewebsites.net', 'dertinfo-api-live.azurewebsites.net', 'dertinfo-live-api-wa.azurewebsites.net'],
+        allowedDomains: ['localhost:60280', 'localhost:44100', 'dertinfo-api-test.azurewebsites.net', 'dertinfo-test-api-wa.azurewebsites.net', 'dertinfo-api-live.azurewebsites.net', 'dertinfo-live-api-wa.azurewebsites.net'],
       }
     }),
   ],
