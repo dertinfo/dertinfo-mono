@@ -112,9 +112,16 @@ export class AuthService {
         if (expiresAt !== null) {
             const millisecondsToExpiry = expiresAt - new Date().getTime();
 
-            if (millisecondsToExpiry < this._autoRefreshTokenAt) {
+            var isCloseToExpiry = millisecondsToExpiry < this._autoRefreshTokenAt;
+            var isExpired = millisecondsToExpiry < 0;
+
+            if (isCloseToExpiry && !isExpired) {
                 console.log('***Auto Refreshing Token***');
                 this.renewToken();
+            }
+
+            if (isExpired) {
+                this.logout();
             }
 
             return new Date().getTime() < expiresAt;
