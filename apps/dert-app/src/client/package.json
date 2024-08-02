@@ -7,6 +7,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "ado-build-ui-test": "ng build --configuration test",
+    "ado-build-ui-prod": "ng build --configuration production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
