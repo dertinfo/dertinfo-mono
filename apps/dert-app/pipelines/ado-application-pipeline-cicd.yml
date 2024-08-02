@@ -27,7 +27,7 @@ stages:
               submodules: true
             - task: AzureStaticWebApp@0
               inputs:
-                app_location: '/dertinfo-pwa/client'
+                app_location: 'src/client'
                 app_build_command: "npm run ado-build-ui-test"
                 output_location: 'www'
               env:
@@ -46,7 +46,7 @@ stages:
               submodules: true
             - task: AzureStaticWebApp@0
               inputs:
-                app_location: '/dertinfo-pwa/client'
+                app_location: 'src/client'
                 app_build_command: "npm run ado-build-ui-prod"
                 output_location: 'www'
               env:
