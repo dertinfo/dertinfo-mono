@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export class EnvironmentConfig {
     apiUrl: string;
@@ -58,12 +59,12 @@ export class ConfigurationService {
             .pipe(
                 tap(
                     data => {
-                        this.config.apiUrl = data['PwaClient:Api:Uri'];
-                        this.config.appInsightsTelemetryKey = data['PwaClient:AppInsights:TelemetryId'];
-                        this.config.auth0Audience = data['PwaClient:Auth0:Audience'];
-                        this.config.auth0CallbackUrl = data['PwaClient:Auth0:CallbackUrl'];
-                        this.config.auth0ClientId = data['PwaClient:Auth0:ClientId'];
-                        this.config.auth0TenantDomain = data['PwaClient:Auth0:Domain'];
+                        // Get the configuration from the api specified in the envionment.ts file
+                        this.config.appInsightsTelemetryKey = data['appInsightsTelemetryKey'];
+                        this.config.auth0Audience = data['auth0Audience'];
+                        this.config.auth0CallbackUrl = data['auth0CallbackUrl'];
+                        this.config.auth0ClientId = data['auth0ClientId'];
+                        this.config.auth0TenantDomain = data['auth0TenantDomain'];
                     }
                 )
             )
@@ -71,6 +72,11 @@ export class ConfigurationService {
     }
 
     public getJSON(http): Observable<any> {
-        return http.get('/api/ClientConfigurationHttp');
+        // Was: this used to get configuration from the functionapp
+        // return http.get('/api/ClientConfigurationHttp');
+
+        // Now: we're using a static file to specify the primary API from which to get configuration
+        this.config.apiUrl = environment.apiUrl;
+        return http.get(`${this.config.apiUrl}/clientconfiguration/app`);
     }
 }
