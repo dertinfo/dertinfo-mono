@@ -29,7 +29,7 @@ namespace DertInfo.Api.Controllers
         {
             var webClientSettings = new ClientConfigurationDto
             {
-                AppInsightsTelemetryKey = _configuration["AppInsightsTelemetryKey"],
+                AppInsightsTelemetryKey = _configuration["WebClient:AppInsights:TelemetryId"],
                 Auth0Audience = _configuration["Auth0:Audience"],
                 Auth0CallbackUrl = _configuration["WebClient:Auth0:CallbackUrl"], // http://localhost:44200
                 Auth0ClientId = _configuration["WebClient:Auth0:ClientId"], 
@@ -49,7 +49,7 @@ namespace DertInfo.Api.Controllers
         {
             var webClientSettings = new ClientConfigurationDto
             {
-                AppInsightsTelemetryKey = _configuration["AppInsightsTelemetryKey"],
+                AppInsightsTelemetryKey = _configuration["PwaClient:AppInsights:TelemetryId"],
                 Auth0Audience = _configuration["Auth0:Audience"],
                 Auth0CallbackUrl = _configuration["PwaClient:Auth0:CallbackUrl"], // http://localhost:44300
                 Auth0ClientId = _configuration["PwaClient:Auth0:ClientId"],
