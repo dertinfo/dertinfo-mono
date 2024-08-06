@@ -10,16 +10,9 @@ namespace DertInfo.Repository
 {
     public partial class DertInfoContext : DbContext
     {
-        // Get key and IV from a Base64String or any other ways.
-        // You can generate a key and IV using "AesProvider.GenerateKey()"
-        private readonly byte[] _encryptionKey = Encoding.ASCII.GetBytes("??`HTV?\ad??\v?>x?");
-        private readonly byte[] _encryptionIV = Encoding.ASCII.GetBytes("?mW1%?Q?@k????;\u0001");
-        private readonly IEncryptionProvider _provider;
-
         public DertInfoContext(DbContextOptions<DertInfoContext> options)
             : base(options)
         {
-            this._provider = new AesProvider(this._encryptionKey, this._encryptionIV);
         }
 
         public virtual DbSet<AccessKeyUser> AccessKeyUsers { get; set; }
@@ -75,18 +68,11 @@ namespace DertInfo.Repository
         public virtual DbSet<TeamAttendance> TeamAttendances { get; set; }
         public virtual DbSet<TeamImage> TeamImages { get; set; }
         public virtual DbSet<Team> Teams { get; set; }
-        public virtual DbSet<UserProfile> UserProfile { get; set; }
         public virtual DbSet<Venue> Venues { get; set; }
-        public virtual DbSet<WebpagesMembership> WebpagesMembership { get; set; }
-        public virtual DbSet<WebpagesOauthMembership> WebpagesOauthMembership { get; set; }
-        public virtual DbSet<WebpagesRoles> WebpagesRoles { get; set; }
-        public virtual DbSet<WebpagesUsersInRoles> WebpagesUsersInRoles { get; set; }
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.UseEncryption(this._provider);
+            // modelBuilder.UseEncryption(this._provider);
 
             modelBuilder.Entity<AccessKeyUser>(entity =>
             {
@@ -841,20 +827,6 @@ namespace DertInfo.Repository
                     .HasConstraintName("FK_dbo.Teams_dbo.Groups_GroupId");
             });
 
-            modelBuilder.Entity<UserProfile>(entity =>
-            {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK_dbo.UserProfile");
-
-                entity.Property(e => e.UserName)
-                    .IsRequired()
-                    .HasDefaultValueSql("'Should be your username.'");
-
-                entity.Property(e => e.YourName)
-                    .IsRequired()
-                    .HasDefaultValueSql("'Should be your name.'");
-            });
-
             modelBuilder.Entity<Venue>(entity =>
             {
                 entity.HasIndex(e => e.EventId)
@@ -871,88 +843,6 @@ namespace DertInfo.Repository
                     .HasForeignKey(d => d.EventId)
                     .OnDelete(DeleteBehavior.Restrict)
                     .HasConstraintName("FK_dbo.Venues_dbo.Events_EventId");
-            });
-
-            modelBuilder.Entity<WebpagesMembership>(entity =>
-            {
-                entity.HasKey(e => e.UserId)
-                    .HasName("PK__webpages__1788CC4CE7FC2C39");
-
-                entity.ToTable("webpages_Membership");
-
-                entity.Property(e => e.UserId).ValueGeneratedNever();
-
-                entity.Property(e => e.ConfirmationToken).HasMaxLength(128);
-
-                entity.Property(e => e.CreateDate).HasColumnType("datetime");
-
-                entity.Property(e => e.IsConfirmed).HasDefaultValueSql("0");
-
-                entity.Property(e => e.LastPasswordFailureDate).HasColumnType("datetime");
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(128);
-
-                entity.Property(e => e.PasswordChangedDate).HasColumnType("datetime");
-
-                entity.Property(e => e.PasswordFailuresSinceLastSuccess).HasDefaultValueSql("0");
-
-                entity.Property(e => e.PasswordSalt)
-                    .IsRequired()
-                    .HasMaxLength(128);
-
-                entity.Property(e => e.PasswordVerificationToken).HasMaxLength(128);
-
-                entity.Property(e => e.PasswordVerificationTokenExpirationDate).HasColumnType("datetime");
-            });
-
-            modelBuilder.Entity<WebpagesOauthMembership>(entity =>
-            {
-                entity.HasKey(e => new { e.Provider, e.ProviderUserId })
-                    .HasName("PK__webpages__F53FC0ED8537BC39");
-
-                entity.ToTable("webpages_OAuthMembership");
-
-                entity.Property(e => e.Provider).HasMaxLength(30);
-
-                entity.Property(e => e.ProviderUserId).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<WebpagesRoles>(entity =>
-            {
-                entity.HasKey(e => e.RoleId)
-                    .HasName("PK__webpages__8AFACE1A5DFE3B86");
-
-                entity.ToTable("webpages_Roles");
-
-                entity.HasIndex(e => e.RoleName)
-                    .HasName("UQ__webpages__8A2B6160B736E32A")
-                    .IsUnique();
-
-                entity.Property(e => e.RoleName)
-                    .IsRequired()
-                    .HasMaxLength(256);
-            });
-
-            modelBuilder.Entity<WebpagesUsersInRoles>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.RoleId })
-                    .HasName("PK__webpages__AF2760ADE5219DA6");
-
-                entity.ToTable("webpages_UsersInRoles");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.WebpagesUsersInRoles)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_RoleId");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.WebpagesUsersInRoles)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.Restrict)
-                    .HasConstraintName("fk_UserId");
             });
 
             /*

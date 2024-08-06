@@ -1,0 +1,78 @@
+version: '3.8' # Docker Compose file version
+
+services:
+  # Service for the Dertinfo API
+  dertinfo-api:
+    container_name: webapi
+    ports:
+      - "44100:80" # Map host port 44300 to container port 80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80;
+      - SqlConnection:ServerName=host.docker.internal,44000
+      - SqlConnection:ServerAdminPassword=myUn53cur3Pa55w0rd!
+      - SqlConnection:ServerAdminName=sa
+      - SqlConnection:DatabaseName=DertInfoDb
+      - SendGrid:ApiKey=REDACTED
+      - Auth0:ManagementClientSecret=REDACTED
+      - Auth0:Domain=dertinfodev.eu.auth0.com
+      - StorageAccount:Images:Protocol=http
+      - StorageAccount:Images:Name=devstoreaccount1
+      - StorageAccount:Images:Key=[This Setting Is Secret] # Eby8vdM02xNOcqFez/fakeKey for Azurite
+      - StorageAccount:Images:BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1
+    build:
+      context: .
+      dockerfile: dertinfo-api/Dockerfile
+    image: dertinfo/dertinfo-api
+    depends_on:
+    - sqlserver # Ensure SQL Server starts before the app
+
+  # Service for SQL Server
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      - SA_PASSWORD=myUn53cur3Pa55w0rd!
+      - ACCEPT_EULA=Y
+    ports:
+      - "44000:1433" # Map host port 44100 to container port 1433
+    volumes:
+     - sqlserver-data:/var/opt/mssql # Persist SQL Server data
+
+  # Service for Azurite storage emulator
+  azstorage:
+    container_name: azstorage
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    volumes:
+      - azstorage-data:/data
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0" # Allow access from any IP or Container
+
+
+  # app-frontend:
+  #   container_name: app
+  #   image: dertinfo/dertinfo-app:latest
+  #   ports:
+  #     - "44300:4280" # Map host port 44300 to container port 4280
+  #   # The function app returns configuraion to the client as to the API and Url to use. todo - we need to be able to override them. 
+  #   # environment:
+  #   #   - PwaClient:Api:Uri=http://localhost:61690/api
+  #   #   - PwaClient:Auth0:CallbackUrl=http://localhost:44300  
+  #   depends_on:
+  #     - dertinfo-api # Ensure API starts before the web client
+
+  web-frontend:
+    container_name: web
+    image: dertinfo/dertinfo-web:latest
+    ports:
+      - "44200:4280" # Map host port 8080 to container port 80
+    depends_on:
+      - dertinfo-api # Ensure API starts before the web client
+
+# Define named volumes
+volumes:
+  sqlserver-data: # Look at docker desktop for the volume to manipulate.
+  azstorage-data: # Look at docker desktop for the volume to manipulate.

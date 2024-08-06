@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
+#nullable disable
+
 namespace DertInfo.Repository.Migrations
 {
     [DbContext(typeof(DertInfoContext))]
@@ -15,16 +17,18 @@ namespace DertInfo.Repository.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.1");
+                .HasAnnotation("ProductVersion", "5.0.1")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("DertInfo.Models.Database.AccessKey", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<Guid>("AccessKeyRef")
                         .ValueGeneratedOnAdd()
@@ -48,15 +52,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccessKeys");
+                    b.ToTable("AccessKeys", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.AccessKeyUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AccessKeyId")
                         .HasColumnType("int");
@@ -99,15 +104,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("AccessKeyId")
                         .HasDatabaseName("IX_AccessKeyId");
 
-                    b.ToTable("AccessKeyUsers");
+                    b.ToTable("AccessKeyUsers", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Activity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("AudienceTypeId")
                         .HasColumnType("int");
@@ -157,15 +163,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasIndex("EventId");
 
-                    b.ToTable("Activities");
+                    b.ToTable("Activities", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.ActivityMemberAttendance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("ActivityId")
                         .HasColumnType("int");
@@ -194,15 +201,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasIndex("MemberAttendanceId");
 
-                    b.ToTable("ActivityMemberAttendances");
+                    b.ToTable("ActivityMemberAttendances", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.ActivityTeamAttendance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("ActivityId")
                         .HasColumnType("int");
@@ -231,15 +239,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasIndex("TeamAttendanceId");
 
-                    b.ToTable("ActivityTeamAttendances");
+                    b.ToTable("ActivityTeamAttendances", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.AttendanceClassification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -278,15 +287,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("EventId")
                         .HasDatabaseName("IX_EventId");
 
-                    b.ToTable("AttendanceClassifications");
+                    b.ToTable("AttendanceClassifications", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.BreadcrumbItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Action")
                         .HasColumnType("nvarchar(max)");
@@ -321,15 +331,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BreadcrumbItems");
+                    b.ToTable("BreadcrumbItems", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Competition", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -404,15 +415,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("EventId")
                         .HasDatabaseName("IX_EventId");
 
-                    b.ToTable("Competitions");
+                    b.ToTable("Competitions", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.CompetitionEntry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -458,15 +470,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("TeamAttendanceId")
                         .HasDatabaseName("IX_TeamAttendanceId");
 
-                    b.ToTable("CompetitionEntries");
+                    b.ToTable("CompetitionEntries", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.CompetitionEntryAttribute", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -500,15 +513,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("CompetitionAppliesToId")
                         .HasDatabaseName("IX_CompetitionAppliesToId");
 
-                    b.ToTable("CompetitionEntryAttributes");
+                    b.ToTable("CompetitionEntryAttributes", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.CompetitionJudge", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CompetitionId")
                         .HasColumnType("int");
@@ -539,7 +553,7 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("JudgeId")
                         .HasDatabaseName("IX_JudgeId");
 
-                    b.ToTable("CompetitionJudges");
+                    b.ToTable("CompetitionJudges", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.CompetitionVenuesJoin", b =>
@@ -561,15 +575,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("VenueId")
                         .HasDatabaseName("IX_Venue_Id");
 
-                    b.ToTable("CompetitionVenuesJoin");
+                    b.ToTable("CompetitionVenuesJoin", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Dance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -627,15 +642,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("VenueId")
                         .HasDatabaseName("IX_VenueId");
 
-                    b.ToTable("Dances");
+                    b.ToTable("Dances", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.DanceScore", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CommentGiven")
                         .HasColumnType("nvarchar(max)");
@@ -672,15 +688,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("ScoreCategoryId")
                         .HasDatabaseName("IX_ScoreCategoryId");
 
-                    b.ToTable("DanceScores");
+                    b.ToTable("DanceScores", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.DanceScorePart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -712,15 +729,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasIndex("JudgeSlotId");
 
-                    b.ToTable("DanceScoreParts");
+                    b.ToTable("DanceScoreParts", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.DatabaseCacheItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CacheKey")
                         .HasColumnType("nvarchar(max)");
@@ -745,7 +763,7 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DatabaseCache");
+                    b.ToTable("DatabaseCache", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.DertCompetitionEntryAttributeDertCompetitionEntry", b =>
@@ -767,15 +785,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("DertCompetitionEntryId")
                         .HasDatabaseName("IX_DertCompetitionEntry_Id");
 
-                    b.ToTable("DertCompetitionEntryAttributeDertCompetitionEntries");
+                    b.ToTable("DertCompetitionEntryAttributeDertCompetitionEntries", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.DodResult", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("BuzzComments")
                         .HasColumnType("nvarchar(max)");
@@ -858,15 +877,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasIndex("SubmissionId");
 
-                    b.ToTable("DodResult");
+                    b.ToTable("DodResult", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.DodResultComplaint", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -908,15 +928,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasIndex("DodResultId");
 
-                    b.ToTable("DodResultComplaint");
+                    b.ToTable("DodResultComplaint", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.DodSubmission", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -964,15 +985,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("DodSubmission");
+                    b.ToTable("DodSubmission", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.DodTalk", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("BroadcastDateTime")
                         .HasColumnType("datetime2");
@@ -1006,15 +1028,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DodTalk");
+                    b.ToTable("DodTalk", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.DodUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -1060,15 +1083,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DodUser");
+                    b.ToTable("DodUser", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.EmailTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1108,15 +1132,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("EventId")
                         .HasDatabaseName("IX_EventId");
 
-                    b.ToTable("EmailTemplates");
+                    b.ToTable("EmailTemplates", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Event", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1195,15 +1220,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.EventImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -1224,15 +1250,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("ImageId")
                         .HasDatabaseName("IX_ImageId");
 
-                    b.ToTable("EventImages");
+                    b.ToTable("EventImages", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.EventJudge", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -1263,15 +1290,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("JudgeId")
                         .HasDatabaseName("IX_JudgeId");
 
-                    b.ToTable("EventJudges");
+                    b.ToTable("EventJudges", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.EventSetting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1308,15 +1336,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("EventId")
                         .HasDatabaseName("IX_EventId");
 
-                    b.ToTable("EventSettings");
+                    b.ToTable("EventSettings", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Group", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1379,15 +1408,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.GroupImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("GroupId")
                         .HasColumnType("int");
@@ -1408,15 +1438,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("ImageId")
                         .HasDatabaseName("IX_ImageId");
 
-                    b.ToTable("GroupImages");
+                    b.ToTable("GroupImages", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.GroupMember", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1465,24 +1496,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("GroupId")
                         .HasDatabaseName("IX_GroupId");
 
-                    b.ToTable("GroupMembers");
+                    b.ToTable("GroupMembers", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Image", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
 
-                    b.Property<string>("BlobName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BlobPath")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Container")
-                        .HasColumnType("nvarchar(max)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -1492,15 +1515,6 @@ namespace DertInfo.Repository.Migrations
 
                     b.Property<DateTime>("DateModified")
                         .HasColumnType("datetime");
-
-                    b.Property<string>("Extension")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("HasBeenMovedForMigration")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("HasBeenProcessedForMigration")
-                        .HasColumnType("bit");
 
                     b.Property<string>("ImageAlt")
                         .HasColumnType("nvarchar(max)");
@@ -1514,9 +1528,6 @@ namespace DertInfo.Repository.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsProtected")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("MarkedForRemoval")
                         .HasColumnType("bit");
 
@@ -1525,15 +1536,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Images");
+                    b.ToTable("Images", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Invoice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1585,15 +1597,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("RegistrationId")
                         .HasDatabaseName("IX_RegistrationId");
 
-                    b.ToTable("Invoices");
+                    b.ToTable("Invoices", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Judge", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1624,15 +1637,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Judges");
+                    b.ToTable("Judges", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.JudgeSlot", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1684,15 +1698,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("VenueId")
                         .HasDatabaseName("IX_VenueId");
 
-                    b.ToTable("JudgeSlots");
+                    b.ToTable("JudgeSlots", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.MarkingSheet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1723,15 +1738,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("DanceId")
                         .HasDatabaseName("IX_DanceId");
 
-                    b.ToTable("MarkingSheets");
+                    b.ToTable("MarkingSheets", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.MarkingSheetImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1771,15 +1787,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("ImageId")
                         .HasDatabaseName("IX_ImageId");
 
-                    b.ToTable("MarkingSheetImages");
+                    b.ToTable("MarkingSheetImages", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.MemberAttendance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -1819,15 +1836,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("RegistrationId")
                         .HasDatabaseName("IX_RegistrationId");
 
-                    b.ToTable("MemberAttendances");
+                    b.ToTable("MemberAttendances", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.NavigationItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -1861,15 +1879,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NavigationItems");
+                    b.ToTable("NavigationItems", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.NotificationAudienceLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -1914,15 +1933,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasIndex("NotificationMessageId");
 
-                    b.ToTable("NotificationAudienceLogs");
+                    b.ToTable("NotificationAudienceLogs", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.NotificationLastCheck", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -1953,15 +1973,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotificationLastChecks");
+                    b.ToTable("NotificationLastChecks", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.NotificationMessage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("BlocksUser")
                         .HasColumnType("bit");
@@ -2007,15 +2028,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotificationMessages");
+                    b.ToTable("NotificationMessages", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Registration", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -2074,15 +2096,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("GroupId")
                         .HasDatabaseName("IX_GroupId");
 
-                    b.ToTable("Registrations");
+                    b.ToTable("Registrations", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.ScoreCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -2131,15 +2154,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("CompetitionAppliesToId")
                         .HasDatabaseName("IX_CompetitionAppliesToId");
 
-                    b.ToTable("ScoreCategories");
+                    b.ToTable("ScoreCategories", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.ScoreSet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -2173,7 +2197,7 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("CompetitionId")
                         .HasDatabaseName("IX_CompetitionId");
 
-                    b.ToTable("ScoreSets");
+                    b.ToTable("ScoreSets", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.ScoreSetScoreCategory", b =>
@@ -2195,15 +2219,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("ScoreSetId")
                         .HasDatabaseName("IX_ScoreSet_Id");
 
-                    b.ToTable("ScoreSetScoreCategories");
+                    b.ToTable("ScoreSetScoreCategories", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Spectator", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -2255,15 +2280,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Spectators");
+                    b.ToTable("Spectators", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.StaticResult", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -2291,15 +2317,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StaticResults");
+                    b.ToTable("StaticResults", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Steward", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ContactNumber")
                         .HasColumnType("nvarchar(max)");
@@ -2335,15 +2362,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stewards");
+                    b.ToTable("Stewards", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.SystemSetting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -2371,15 +2399,16 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SystemSettings");
+                    b.ToTable("SystemSettings", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Team", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -2418,15 +2447,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("GroupId")
                         .HasDatabaseName("IX_GroupId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Teams", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.TeamAggregateScore", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<decimal>("AggregateScore")
                         .HasColumnType("decimal");
@@ -2460,15 +2490,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("DertTeamId")
                         .HasDatabaseName("IX_DertTeamId");
 
-                    b.ToTable("TeamAggregateScores");
+                    b.ToTable("TeamAggregateScores", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.TeamAttendance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -2505,15 +2536,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("TeamId")
                         .HasDatabaseName("IX_TeamId");
 
-                    b.ToTable("TeamAttendances");
+                    b.ToTable("TeamAttendances", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.TeamImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
@@ -2534,15 +2566,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("TeamId")
                         .HasDatabaseName("IX_TeamId");
 
-                    b.ToTable("TeamImages");
+                    b.ToTable("TeamImages", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.UserProfile", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"), 1L, 1);
 
                     b.Property<string>("UserName")
                         .IsRequired()
@@ -2559,15 +2592,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasKey("UserId")
                         .HasName("PK_dbo.UserProfile");
 
-                    b.ToTable("UserProfile");
+                    b.ToTable("UserProfile", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.Venue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AccessToken")
                         .HasColumnType("nvarchar(max)");
@@ -2606,7 +2640,7 @@ namespace DertInfo.Repository.Migrations
                     b.HasIndex("EventId")
                         .HasDatabaseName("IX_EventId");
 
-                    b.ToTable("Venues");
+                    b.ToTable("Venues", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.WebpagesMembership", b =>
@@ -2657,7 +2691,7 @@ namespace DertInfo.Repository.Migrations
                     b.HasKey("UserId")
                         .HasName("PK__webpages__1788CC4CE7FC2C39");
 
-                    b.ToTable("webpages_Membership");
+                    b.ToTable("webpages_Membership", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.WebpagesOauthMembership", b =>
@@ -2676,15 +2710,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasKey("Provider", "ProviderUserId")
                         .HasName("PK__webpages__F53FC0ED8537BC39");
 
-                    b.ToTable("webpages_OAuthMembership");
+                    b.ToTable("webpages_OAuthMembership", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.WebpagesRoles", b =>
                 {
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"), 1L, 1);
 
                     b.Property<string>("RoleName")
                         .IsRequired()
@@ -2698,7 +2733,7 @@ namespace DertInfo.Repository.Migrations
                         .IsUnique()
                         .HasDatabaseName("UQ__webpages__8A2B6160B736E32A");
 
-                    b.ToTable("webpages_Roles");
+                    b.ToTable("webpages_Roles", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.WebpagesUsersInRoles", b =>
@@ -2714,7 +2749,7 @@ namespace DertInfo.Repository.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("webpages_UsersInRoles");
+                    b.ToTable("webpages_UsersInRoles", (string)null);
                 });
 
             modelBuilder.Entity("DertInfo.Models.Database.AccessKeyUser", b =>
@@ -2722,9 +2757,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.AccessKey", "AccessKey")
                         .WithMany("AccessKeyUsers")
                         .HasForeignKey("AccessKeyId")
-                        .HasConstraintName("FK_dbo.AccessKeyUsers_dbo.AccessKeys_AccessKeyId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.AccessKeyUsers_dbo.AccessKeys_AccessKeyId");
 
                     b.Navigation("AccessKey");
                 });
@@ -2789,9 +2824,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Event", "Event")
                         .WithMany("AttendanceClassifications")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK_dbo.AttendanceClassifications_dbo.Events_EventId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.AttendanceClassifications_dbo.Events_EventId");
 
                     b.Navigation("Event");
                 });
@@ -2801,9 +2836,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Event", "Event")
                         .WithMany("Competitions")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK_dbo.Competitions_dbo.Events_EventId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Competitions_dbo.Events_EventId");
 
                     b.Navigation("Event");
                 });
@@ -2813,16 +2848,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Competition", "Competition")
                         .WithMany("CompetitionEntries")
                         .HasForeignKey("CompetitionId")
-                        .HasConstraintName("FK_dbo.CompetitionEntries_dbo.Competitions_CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.CompetitionEntries_dbo.Competitions_CompetitionId");
 
                     b.HasOne("DertInfo.Models.Database.TeamAttendance", "TeamAttendance")
                         .WithMany("CompetitionEntries")
                         .HasForeignKey("TeamAttendanceId")
-                        .HasConstraintName("FK_dbo.CompetitionEntries_dbo.TeamAttendances_TeamAttendanceId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.CompetitionEntries_dbo.TeamAttendances_TeamAttendanceId");
 
                     b.Navigation("Competition");
 
@@ -2834,9 +2869,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Competition", "CompetitionAppliesTo")
                         .WithMany("CompetitionEntryAttributes")
                         .HasForeignKey("CompetitionAppliesToId")
-                        .HasConstraintName("FK_dbo.CompetitionEntryAttributes_dbo.Competitions_CompetitionAppliesToId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.CompetitionEntryAttributes_dbo.Competitions_CompetitionAppliesToId");
 
                     b.Navigation("CompetitionAppliesTo");
                 });
@@ -2846,16 +2881,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Competition", "Competition")
                         .WithMany("CompetitionJudges")
                         .HasForeignKey("CompetitionId")
-                        .HasConstraintName("FK_dbo.CompetitionJudges_dbo.Competitions_CompetitionId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.CompetitionJudges_dbo.Competitions_CompetitionId");
 
                     b.HasOne("DertInfo.Models.Database.Judge", "Judge")
                         .WithMany("CompetitionJudges")
                         .HasForeignKey("JudgeId")
-                        .HasConstraintName("FK_dbo.CompetitionJudges_dbo.Judges_JudgeId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.CompetitionJudges_dbo.Judges_JudgeId");
 
                     b.Navigation("Competition");
 
@@ -2867,16 +2902,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Competition", "Competition")
                         .WithMany("CompetitionVenuesJoin")
                         .HasForeignKey("CompetitionId")
-                        .HasConstraintName("FK_dbo.CompetitionVenuesJoin_dbo.Competitions_Competition_Id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.CompetitionVenuesJoin_dbo.Competitions_Competition_Id");
 
                     b.HasOne("DertInfo.Models.Database.Venue", "Venue")
                         .WithMany("CompetitionVenuesJoin")
                         .HasForeignKey("VenueId")
-                        .HasConstraintName("FK_dbo.CompetitionVenuesJoin_dbo.Venues_Venue_Id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.CompetitionVenuesJoin_dbo.Venues_Venue_Id");
 
                     b.Navigation("Competition");
 
@@ -2888,23 +2923,23 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Competition", "Competition")
                         .WithMany("Dances")
                         .HasForeignKey("CompetitionId")
-                        .HasConstraintName("FK_dbo.Dances_dbo.Competitions_CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Dances_dbo.Competitions_CompetitionId");
 
                     b.HasOne("DertInfo.Models.Database.TeamAttendance", "TeamAttendance")
                         .WithMany("Dances")
                         .HasForeignKey("TeamAttendanceId")
-                        .HasConstraintName("FK_dbo.Dances_dbo.TeamAttendances_TeamAttendanceId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Dances_dbo.TeamAttendances_TeamAttendanceId");
 
                     b.HasOne("DertInfo.Models.Database.Venue", "Venue")
                         .WithMany("Dances")
                         .HasForeignKey("VenueId")
-                        .HasConstraintName("FK_dbo.Dances_dbo.Venues_VenueId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Dances_dbo.Venues_VenueId");
 
                     b.Navigation("Competition");
 
@@ -2918,16 +2953,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Dance", "Dance")
                         .WithMany("DanceScores")
                         .HasForeignKey("DanceId")
-                        .HasConstraintName("FK_dbo.DanceScores_dbo.Dances_DanceId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.DanceScores_dbo.Dances_DanceId");
 
                     b.HasOne("DertInfo.Models.Database.ScoreCategory", "ScoreCategory")
                         .WithMany("DanceScores")
                         .HasForeignKey("ScoreCategoryId")
-                        .HasConstraintName("FK_dbo.DanceScores_dbo.ScoreCategories_ScoreCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.DanceScores_dbo.ScoreCategories_ScoreCategoryId");
 
                     b.Navigation("Dance");
 
@@ -2958,16 +2993,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.CompetitionEntryAttribute", "DertCompetitionEntryAttribute")
                         .WithMany("DertCompetitionEntryAttributeDertCompetitionEntries")
                         .HasForeignKey("DertCompetitionEntryAttributeId")
-                        .HasConstraintName("FK_dbo.DertCompetitionEntryAttributeDertCompetitionEntries_dbo.CompetitionEntryAttributes_DertCompetitionEntryAttribute_Id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.DertCompetitionEntryAttributeDertCompetitionEntries_dbo.CompetitionEntryAttributes_DertCompetitionEntryAttribute_Id");
 
                     b.HasOne("DertInfo.Models.Database.CompetitionEntry", "DertCompetitionEntry")
                         .WithMany("DertCompetitionEntryAttributeDertCompetitionEntries")
                         .HasForeignKey("DertCompetitionEntryId")
-                        .HasConstraintName("FK_dbo.DertCompetitionEntryAttributeDertCompetitionEntries_dbo.CompetitionEntries_DertCompetitionEntry_Id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.DertCompetitionEntryAttributeDertCompetitionEntries_dbo.CompetitionEntries_DertCompetitionEntry_Id");
 
                     b.Navigation("DertCompetitionEntry");
 
@@ -3020,9 +3055,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Event", "Event")
                         .WithMany("EmailTemplates")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK_dbo.EmailTemplates_dbo.Events_EventId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.EmailTemplates_dbo.Events_EventId");
 
                     b.Navigation("Event");
                 });
@@ -3032,16 +3067,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Event", "Event")
                         .WithMany("EventImages")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK_dbo.EventImages_dbo.Events_EventId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.EventImages_dbo.Events_EventId");
 
                     b.HasOne("DertInfo.Models.Database.Image", "Image")
                         .WithMany("EventImages")
                         .HasForeignKey("ImageId")
-                        .HasConstraintName("FK_dbo.EventImages_dbo.Images_ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.EventImages_dbo.Images_ImageId");
 
                     b.Navigation("Event");
 
@@ -3053,16 +3088,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Event", "Event")
                         .WithMany("EventJudges")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK_dbo.EventJudges_dbo.Events_EventId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.EventJudges_dbo.Events_EventId");
 
                     b.HasOne("DertInfo.Models.Database.Judge", "Judge")
                         .WithMany("EventJudges")
                         .HasForeignKey("JudgeId")
-                        .HasConstraintName("FK_dbo.EventJudges_dbo.Judges_JudgeId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.EventJudges_dbo.Judges_JudgeId");
 
                     b.Navigation("Event");
 
@@ -3074,9 +3109,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Event", "Event")
                         .WithMany("EventSettings")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK_dbo.EventSettings_dbo.Events_EventId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.EventSettings_dbo.Events_EventId");
 
                     b.Navigation("Event");
                 });
@@ -3086,16 +3121,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Group", "Group")
                         .WithMany("GroupImages")
                         .HasForeignKey("GroupId")
-                        .HasConstraintName("FK_dbo.GroupImages_dbo.Groups_GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.GroupImages_dbo.Groups_GroupId");
 
                     b.HasOne("DertInfo.Models.Database.Image", "Image")
                         .WithMany("GroupImages")
                         .HasForeignKey("ImageId")
-                        .HasConstraintName("FK_dbo.GroupImages_dbo.Images_ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.GroupImages_dbo.Images_ImageId");
 
                     b.Navigation("Group");
 
@@ -3107,9 +3142,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Group", "Group")
                         .WithMany("GroupMembers")
                         .HasForeignKey("GroupId")
-                        .HasConstraintName("FK_dbo.GroupMembers_dbo.Groups_GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.GroupMembers_dbo.Groups_GroupId");
 
                     b.Navigation("Group");
                 });
@@ -3119,9 +3154,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Registration", "Registration")
                         .WithMany("Invoices")
                         .HasForeignKey("RegistrationId")
-                        .HasConstraintName("FK_dbo.Invoices_dbo.Registrations_GroupRegistrationId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Invoices_dbo.Registrations_GroupRegistrationId");
 
                     b.Navigation("Registration");
                 });
@@ -3131,9 +3166,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Competition", "Competition")
                         .WithMany("JudgeSlots")
                         .HasForeignKey("CompetitionId")
-                        .HasConstraintName("FK_dbo.Judges_dbo.Competitions_CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Judges_dbo.Competitions_CompetitionId");
 
                     b.HasOne("DertInfo.Models.Database.Judge", "Judge")
                         .WithMany("JudgeSlots")
@@ -3148,9 +3183,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Venue", "Venue")
                         .WithMany("JudgeSlots")
                         .HasForeignKey("VenueId")
-                        .HasConstraintName("FK_dbo.Judges_dbo.Venues_VenueId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Judges_dbo.Venues_VenueId");
 
                     b.Navigation("Competition");
 
@@ -3166,9 +3201,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Dance", "Dance")
                         .WithMany("MarkingSheets")
                         .HasForeignKey("DanceId")
-                        .HasConstraintName("FK_dbo.MarkingSheets_dbo.Dances_DanceId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.MarkingSheets_dbo.Dances_DanceId");
 
                     b.Navigation("Dance");
                 });
@@ -3178,16 +3213,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Dance", "Dance")
                         .WithMany("MarkingSheetImages")
                         .HasForeignKey("DanceId")
-                        .HasConstraintName("FK_dbo.MarkingSheetImages_dbo.Dances_DanceId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.MarkingSheetImages_dbo.Dances_DanceId");
 
                     b.HasOne("DertInfo.Models.Database.Image", "Image")
                         .WithMany("MarkingSheetImages")
                         .HasForeignKey("ImageId")
-                        .HasConstraintName("FK_dbo.MarkingSheetImages_dbo.Images_ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.MarkingSheetImages_dbo.Images_ImageId");
 
                     b.Navigation("Dance");
 
@@ -3204,16 +3239,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.GroupMember", "GroupMember")
                         .WithMany("MemberAttendances")
                         .HasForeignKey("GroupMemberId")
-                        .HasConstraintName("FK_dbo.MemberAttendances_dbo.GroupMembers_GroupMemberId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.MemberAttendances_dbo.GroupMembers_GroupMemberId");
 
                     b.HasOne("DertInfo.Models.Database.Registration", "Registration")
                         .WithMany("MemberAttendances")
                         .HasForeignKey("RegistrationId")
-                        .HasConstraintName("FK_dbo.MemberAttendances_dbo.Registrations_RegistrationId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.MemberAttendances_dbo.Registrations_RegistrationId");
 
                     b.Navigation("AttendanceClassification");
 
@@ -3238,16 +3273,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Event", "Event")
                         .WithMany("Registrations")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK_dbo.Registrations_dbo.Events_EventId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Registrations_dbo.Events_EventId");
 
                     b.HasOne("DertInfo.Models.Database.Group", "Group")
                         .WithMany("Registrations")
                         .HasForeignKey("GroupId")
-                        .HasConstraintName("FK_dbo.Registrations_dbo.Groups_GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Registrations_dbo.Groups_GroupId");
 
                     b.Navigation("Event");
 
@@ -3259,9 +3294,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Competition", "CompetitionAppliesTo")
                         .WithMany("ScoreCategories")
                         .HasForeignKey("CompetitionAppliesToId")
-                        .HasConstraintName("FK_dbo.ScoreCategories_dbo.Competitions_CompetitionAppliesToId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.ScoreCategories_dbo.Competitions_CompetitionAppliesToId");
 
                     b.Navigation("CompetitionAppliesTo");
                 });
@@ -3271,9 +3306,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Competition", "Competition")
                         .WithMany("ScoreSets")
                         .HasForeignKey("CompetitionId")
-                        .HasConstraintName("FK_dbo.ScoreSets_dbo.Competitions_CompetitionId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.ScoreSets_dbo.Competitions_CompetitionId");
 
                     b.Navigation("Competition");
                 });
@@ -3283,16 +3318,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.ScoreCategory", "ScoreCategory")
                         .WithMany("ScoreSetScoreCategories")
                         .HasForeignKey("ScoreCategoryId")
-                        .HasConstraintName("FK_dbo.ScoreSetScoreCategories_dbo.ScoreCategories_ScoreCategory_Id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.ScoreSetScoreCategories_dbo.ScoreCategories_ScoreCategory_Id");
 
                     b.HasOne("DertInfo.Models.Database.ScoreSet", "ScoreSet")
                         .WithMany("ScoreSetScoreCategories")
                         .HasForeignKey("ScoreSetId")
-                        .HasConstraintName("FK_dbo.ScoreSetScoreCategories_dbo.ScoreSets_ScoreSet_Id")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.ScoreSetScoreCategories_dbo.ScoreSets_ScoreSet_Id");
 
                     b.Navigation("ScoreCategory");
 
@@ -3304,9 +3339,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Group", "Group")
                         .WithMany("Teams")
                         .HasForeignKey("GroupId")
-                        .HasConstraintName("FK_dbo.Teams_dbo.Groups_GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Teams_dbo.Groups_GroupId");
 
                     b.Navigation("Group");
                 });
@@ -3316,9 +3351,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Team", "DertTeam")
                         .WithMany("TeamAggregateScores")
                         .HasForeignKey("DertTeamId")
-                        .HasConstraintName("FK_dbo.TeamAggregateScores_dbo.Teams_DertTeamId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.TeamAggregateScores_dbo.Teams_DertTeamId");
 
                     b.Navigation("DertTeam");
                 });
@@ -3328,16 +3363,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Registration", "Registration")
                         .WithMany("TeamAttendances")
                         .HasForeignKey("RegistrationId")
-                        .HasConstraintName("FK_dbo.TeamAttendances_dbo.Registrations_RegistrationId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.TeamAttendances_dbo.Registrations_RegistrationId");
 
                     b.HasOne("DertInfo.Models.Database.Team", "Team")
                         .WithMany("TeamAttendances")
                         .HasForeignKey("TeamId")
-                        .HasConstraintName("FK_dbo.TeamAttendances_dbo.Teams_TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.TeamAttendances_dbo.Teams_TeamId");
 
                     b.Navigation("Registration");
 
@@ -3349,16 +3384,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Image", "Image")
                         .WithMany("TeamImages")
                         .HasForeignKey("ImageId")
-                        .HasConstraintName("FK_dbo.TeamImages_dbo.Images_ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.TeamImages_dbo.Images_ImageId");
 
                     b.HasOne("DertInfo.Models.Database.Team", "Team")
                         .WithMany("TeamImages")
                         .HasForeignKey("TeamId")
-                        .HasConstraintName("FK_dbo.TeamImages_dbo.Teams_TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.TeamImages_dbo.Teams_TeamId");
 
                     b.Navigation("Image");
 
@@ -3370,9 +3405,9 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.Event", "Event")
                         .WithMany("Venues")
                         .HasForeignKey("EventId")
-                        .HasConstraintName("FK_dbo.Venues_dbo.Events_EventId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("FK_dbo.Venues_dbo.Events_EventId");
 
                     b.Navigation("Event");
                 });
@@ -3382,16 +3417,16 @@ namespace DertInfo.Repository.Migrations
                     b.HasOne("DertInfo.Models.Database.WebpagesRoles", "Role")
                         .WithMany("WebpagesUsersInRoles")
                         .HasForeignKey("RoleId")
-                        .HasConstraintName("fk_RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_RoleId");
 
                     b.HasOne("DertInfo.Models.Database.UserProfile", "User")
                         .WithMany("WebpagesUsersInRoles")
                         .HasForeignKey("UserId")
-                        .HasConstraintName("fk_UserId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .IsRequired()
+                        .HasConstraintName("fk_UserId");
 
                     b.Navigation("Role");
 
