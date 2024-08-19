@@ -18,8 +18,7 @@
 FROM node:lts AS base
 
 # Install global dependencies and clean npm cache in a single RUN command
-RUN npm install -g @azure/static-web-apps-cli \
-    azure-functions-core-tools@4 --unsafe-perm true
+RUN npm install -g @azure/static-web-apps-cli
 
 # Builder Stage
 FROM base AS builder
@@ -32,22 +31,19 @@ RUN npm install -g @angular/cli@14 typescript
 
 # Copy the static web app files
 COPY ./src/client/package.json /build/client/package.json
-COPY ./src/functions/package.json /build/functions/package.json
 COPY ./src/client/package-lock.json /build/client/package-lock.json
-COPY ./src/functions/package-lock.json /build/functions/package-lock.json
 
 # Install packages for the two parts of the app
-RUN cd /build/client && npm install --force && \
-    cd /build/functions && npm install --force
+RUN cd /build/client && npm install --force
 
 # Copy the rest of the files
 COPY ./src /build
 
 # Build the Angular Client
 RUN cd /build/client && ng build
-
-# Build the Function App
-RUN cd /build/functions && npm run build 
+# note - we do not pass the environment here as this is only ever a dev container.
+#      - on deployment the release pipeline builds the static web app from the code.
+#      - the SWA build instuction supplies the flag. 
 
 # Final Stage
 FROM base AS final
@@ -56,8 +52,8 @@ FROM base AS final
 WORKDIR /app
 
 # Copy only the necessary files from the builder stage
-COPY --from=builder /build/client /app/client 
-COPY --from=builder /build/functions /app/functions
+COPY --from=builder /build/client /app/client
+
 # note - on the client just copying the dist folder causes us routing errors. 
 # todo - We need to come back to this to see if we can reduce the image size. 
 #      - moving on as we need to get this opensourced to get some help.  
@@ -70,4 +66,4 @@ RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 EXPOSE 4280
 
 # Start the SWA CLI to serve the static web app on running the container
-CMD ["swa", "start", "/app/client/dist", "--api-location", "/app/functions"]
+CMD ["swa", "start", "/app/client/dist"]
