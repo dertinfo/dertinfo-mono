@@ -1,21 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>DertInfo.Api.UTests</RootNamespace>
-
     <IsPackable>false</IsPackable>
-
     <AssemblyName>DertInfo.Api.UTests</AssemblyName>
-
     <ApplicationIcon />
-
     <OutputType>Library</OutputType>
-
     <StartupObject />
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="coverlet.msbuild" Version="3.1.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -31,9 +24,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\dertinfo-api\dertinfo-api.csproj" />
   </ItemGroup>
-
 </Project>

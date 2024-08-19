@@ -1,46 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>DertInfo.Api.ITests</RootNamespace>
-
     <IsPackable>false</IsPackable>
-
     <AssemblyName>DertInfo.Api.ITests</AssemblyName>
-
     <ApplicationIcon />
-
     <OutputType>Library</OutputType>
-
     <StartupObject />
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.32" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.32" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\dertinfo-api\dertinfo-api.csproj" />
     <ProjectReference Include="..\dertinfo-models\dertinfo-models.csproj" />
   </ItemGroup>
-
 </Project>

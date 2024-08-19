@@ -26,7 +26,8 @@ namespace DertInfo.Api
 
 
             var imagesStorageAccount = $"https://{Configuration["StorageAccount:Images:Name"]}.blob.core.windows.net";
-            if (env.IsDevelopment()) {
+            if (env.IsDevelopment())
+            {
                 imagesStorageAccount = $"http://127.0.0.1:10000/{Configuration["StorageAccount:Images:Name"]}";
             }
 
@@ -80,7 +81,14 @@ namespace DertInfo.Api
             // Services
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll", builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyMethod()
+                               .AllowAnyHeader();
+                    });
+
             });
 
             // We required the nuget package of Microsoft.AspNetCore.Mvc.NewtonsoftJson in order to support the ReferenceLoopHandling.Ignore

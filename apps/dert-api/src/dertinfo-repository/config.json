@@ -1,5 +1,6 @@
 {
-    "MicrosoftAzureStorage": {
-        "dertinfostorage_AzureStorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=[STORAGE_ACCOUNT_NAME];AccountKey[STORAGE ACCOUNT KEY]"
-    }
+  "MicrosoftAzureStorage": {
+    "dertinfostorage_AzureStorageConnectionString": "DefaultEndpointsProtocol=https;AccountName=[STORAGE_ACCOUNT_NAME];AccountKey[STORAGE ACCOUNT KEY]"
+  },
+  "Redundant?": "I'm pretty certain this configuration is completely redundant and should be removed. I can find no reference to the key in the solution."
 }
