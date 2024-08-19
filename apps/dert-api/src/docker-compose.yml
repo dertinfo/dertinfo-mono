@@ -3,7 +3,7 @@ version: '3.8' # Docker Compose file version
 services:
   # Service for the Dertinfo API
   dertinfo-api:
-    container_name: webapi
+    container_name: api
     ports:
       - "44100:80" # Map host port 44300 to container port 80
     environment:
@@ -18,8 +18,8 @@ services:
       - Auth0:Domain=dertinfodev.eu.auth0.com
       - StorageAccount:Images:Protocol=http
       - StorageAccount:Images:Name=devstoreaccount1
-      - StorageAccount:Images:Key=[This Setting Is Secret] # Eby8vdM02xNOcqFez/fakeKey for Azurite
-      - StorageAccount:Images:BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1
+      - StorageAccount:Images:Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # Azurite
+      - StorageAccount:Images:BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1 #  Running in docker
     build:
       context: .
       dockerfile: dertinfo-api/Dockerfile
@@ -49,26 +49,38 @@ services:
       - "10002:10002"
     volumes:
       - azstorage-data:/data
-    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0" # Allow access from any IP or Container
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0" # Allow access from any IP or Container
 
 
-  # app-frontend:
-  #   container_name: app
-  #   image: dertinfo/dertinfo-app:latest
-  #   ports:
-  #     - "44300:4280" # Map host port 44300 to container port 4280
-  #   # The function app returns configuraion to the client as to the API and Url to use. todo - we need to be able to override them. 
-  #   # environment:
-  #   #   - PwaClient:Api:Uri=http://localhost:61690/api
-  #   #   - PwaClient:Auth0:CallbackUrl=http://localhost:44300  
-  #   depends_on:
-  #     - dertinfo-api # Ensure API starts before the web client
+  app-frontend:
+    container_name: app
+    image: dertinfo/dertinfo-app:latest
+    ports:
+      - "44300:4280" # Map host port 44200 to container port 80
+    depends_on:
+      - dertinfo-api # Ensure API starts before the web client  
+
+  image-resize:
+   container_name: image-resize
+   image: dertinfo/dertinfo-imageresizev4:latest
+   ports:
+     - "44400:80" # Map host port 44400 to container port 80
+   environment:
+     - AzureWebJobs.ResizeDefaultImages.Disabled=true
+     - AzureWebJobs.ResizeEventImages.Disabled=true
+     - AzureWebJobs.ResizeGroupImages.Disabled=true
+     - AzureWebJobs.ResizeSheetImages.Disabled=true
+     - AzureWebJobsStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1;
+     - StorageConnection__Images=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1; 
+   depends_on:
+     - dertinfo-api # Ensure API starts before the resize service
+     - azstorage # Ensure storage starts before the resize service
 
   web-frontend:
     container_name: web
     image: dertinfo/dertinfo-web:latest
     ports:
-      - "44200:4280" # Map host port 8080 to container port 80
+      - "44200:4280" # Map host port 44200 to container port 80
     depends_on:
       - dertinfo-api # Ensure API starts before the web client
 
