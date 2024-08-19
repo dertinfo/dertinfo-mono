@@ -9,16 +9,17 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80;
-      - SqlConnection:ServerName=host.docker.internal,44000
+      - SqlConnection:ServerName=host.docker.internal,44000 # Connect to SQL Server on host machine running in docker
       - SqlConnection:ServerAdminPassword=myUn53cur3Pa55w0rd!
       - SqlConnection:ServerAdminName=sa
       - SqlConnection:DatabaseName=DertInfoDb
-      - SendGrid:ApiKey=REDACTED
-      - Auth0:ManagementClientSecret=REDACTED
+      - SendGrid:Enabled=false
+      - SendGrid:ApiKey=[notRequiredAsEmailsDisabled] # This will need to be populated if you want to test email send functionality. See README.md
+      - Auth0:ManagementClientSecret=REDACTED# This will need to be populated to allow the api to validate requests. See README.md
       - Auth0:Domain=dertinfodev.eu.auth0.com
       - StorageAccount:Images:Protocol=http
       - StorageAccount:Images:Name=devstoreaccount1
-      - StorageAccount:Images:Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # Azurite
+      - StorageAccount:Images:Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # Azurite Key Available Publically
       - StorageAccount:Images:BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1 #  Running in docker
     build:
       context: .
@@ -70,8 +71,8 @@ services:
      - AzureWebJobs.ResizeEventImages.Disabled=true
      - AzureWebJobs.ResizeGroupImages.Disabled=true
      - AzureWebJobs.ResizeSheetImages.Disabled=true
-     - AzureWebJobsStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1;
-     - StorageConnection__Images=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1; 
+     - AzureWebJobsStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1; # Azurite Connection Available Publically
+     - StorageConnection__Images=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1;  # Azurite Connection Available Publically
    depends_on:
      - dertinfo-api # Ensure API starts before the resize service
      - azstorage # Ensure storage starts before the resize service
