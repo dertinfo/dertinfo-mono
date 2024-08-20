@@ -21,9 +21,7 @@ namespace DertInfo.Api.AuthorisationPolicies.ClaimsBased
 
     public class EventAdministratorOnlyHandler : ClaimHandler<EventAdministratorOnlyRequirement>
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public EventAdministratorOnlyHandler(IHttpContextAccessor httpContextAccessor, IDertInfoConfiguration configuration) : base(configuration)
+        public EventAdministratorOnlyHandler(IDertInfoConfiguration configuration) : base(configuration)
         {
 
         }

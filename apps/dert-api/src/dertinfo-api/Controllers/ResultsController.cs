@@ -130,83 +130,85 @@ namespace DertInfo.Api.Controllers
 
         private async Task<CompetitionLookupDto> MapToCompetitionLookupDto(IEnumerable<Competition> competitions)
         {
-            var lookupDto = new CompetitionLookupDto();
-            lookupDto.Events = new List<CompetitionLookupEventDto>();
+            return await Task.Run(() => {
 
-            //var events = competitions.Select(c => c.Event);
+                var lookupDto = new CompetitionLookupDto();
+                lookupDto.Events = new List<CompetitionLookupEventDto>();
 
-            var events = competitions
-                   .GroupBy(c => c.EventId)
-                   .Select(grp => grp.First().Event)
-                   .ToList();
+                //var events = competitions.Select(c => c.Event);
 
-            foreach (var ev in events)
-            {
-                EventSetting mainCompeitionSetting = ev.EventSettings.Where(es => es.Ref == Models.System.Enumerations.EventSettingType.MAINCOMP_COMPETITION_ID.ToString()).First();
+                var events = competitions
+                       .GroupBy(c => c.EventId)
+                       .Select(grp => grp.First().Event)
+                       .ToList();
 
-                if (competitions.Any(c => c.ResultsPublished && c.EventId == ev.Id))
+                foreach (var ev in events)
                 {
+                    EventSetting mainCompeitionSetting = ev.EventSettings.Where(es => es.Ref == Models.System.Enumerations.EventSettingType.MAINCOMP_COMPETITION_ID.ToString()).First();
 
-                    CompetitionLookupEventDto eventLookup = new CompetitionLookupEventDto();
-                    eventLookup.EventName = ev.Name;
-                    eventLookup.Competitions = new List<CompetitionLookupCompetitionDto>();
-                    lookupDto.Events.Add(eventLookup);
-
-                    var eventComps = competitions.Where(c => c.EventId == ev.Id && c.ResultsPublished);
-
-                    foreach (var evc in eventComps)
+                    if (competitions.Any(c => c.ResultsPublished && c.EventId == ev.Id))
                     {
-                        CompetitionLookupCompetitionDto competitionLookupCompetitionDto = new CompetitionLookupCompetitionDto();
-                        competitionLookupCompetitionDto.CompetitionId = evc.Id;
-                        competitionLookupCompetitionDto.CompetitionName = evc.Name;
-                        competitionLookupCompetitionDto.ResultTypes = new List<CompetitionLookupResultTypeDto>();
-                        eventLookup.Competitions.Add(competitionLookupCompetitionDto);
 
-                        // note - watch out here not all events will have the same attributes but hardcoded here for brevity
+                        CompetitionLookupEventDto eventLookup = new CompetitionLookupEventDto();
+                        eventLookup.EventName = ev.Name;
+                        eventLookup.Competitions = new List<CompetitionLookupCompetitionDto>();
+                        lookupDto.Events.Add(eventLookup);
 
-                        // Check if main competition for the event.
-                        if (evc.Id == int.Parse(mainCompeitionSetting.Value))
+                        var eventComps = competitions.Where(c => c.EventId == ev.Id && c.ResultsPublished);
+
+                        foreach (var evc in eventComps)
                         {
-                            CompetitionLookupResultTypeDto resultTypeAll = new CompetitionLookupResultTypeDto();
-                            resultTypeAll.ResultTypeKey = "all";
-                            resultTypeAll.ResultTypeName = "Steve Marris";
-                            competitionLookupCompetitionDto.ResultTypes.Add(resultTypeAll);
+                            CompetitionLookupCompetitionDto competitionLookupCompetitionDto = new CompetitionLookupCompetitionDto();
+                            competitionLookupCompetitionDto.CompetitionId = evc.Id;
+                            competitionLookupCompetitionDto.CompetitionName = evc.Name;
+                            competitionLookupCompetitionDto.ResultTypes = new List<CompetitionLookupResultTypeDto>();
+                            eventLookup.Competitions.Add(competitionLookupCompetitionDto);
 
-                            CompetitionLookupResultTypeDto resultTypeMain = new CompetitionLookupResultTypeDto();
-                            resultTypeMain.ResultTypeKey = "main";
-                            resultTypeMain.ResultTypeName = "Main";
-                            competitionLookupCompetitionDto.ResultTypes.Add(resultTypeMain);
+                            // note - watch out here not all events will have the same attributes but hardcoded here for brevity
 
-                            CompetitionLookupResultTypeDto resultTypeBuzz = new CompetitionLookupResultTypeDto();
-                            resultTypeBuzz.ResultTypeKey = "buzz";
-                            resultTypeBuzz.ResultTypeName = "Buzz";
-                            competitionLookupCompetitionDto.ResultTypes.Add(resultTypeBuzz);
+                            // Check if main competition for the event.
+                            if (evc.Id == int.Parse(mainCompeitionSetting.Value))
+                            {
+                                CompetitionLookupResultTypeDto resultTypeAll = new CompetitionLookupResultTypeDto();
+                                resultTypeAll.ResultTypeKey = "all";
+                                resultTypeAll.ResultTypeName = "Steve Marris";
+                                competitionLookupCompetitionDto.ResultTypes.Add(resultTypeAll);
 
-                            CompetitionLookupResultTypeDto resultTypeCharacters = new CompetitionLookupResultTypeDto();
-                            resultTypeCharacters.ResultTypeKey = "characters";
-                            resultTypeCharacters.ResultTypeName = "Characters";
-                            competitionLookupCompetitionDto.ResultTypes.Add(resultTypeCharacters);
+                                CompetitionLookupResultTypeDto resultTypeMain = new CompetitionLookupResultTypeDto();
+                                resultTypeMain.ResultTypeKey = "main";
+                                resultTypeMain.ResultTypeName = "Main";
+                                competitionLookupCompetitionDto.ResultTypes.Add(resultTypeMain);
 
-                            CompetitionLookupResultTypeDto resultTypeMusic = new CompetitionLookupResultTypeDto();
-                            resultTypeMusic.ResultTypeKey = "music";
-                            resultTypeMusic.ResultTypeName = "Music";
-                            competitionLookupCompetitionDto.ResultTypes.Add(resultTypeMusic);
+                                CompetitionLookupResultTypeDto resultTypeBuzz = new CompetitionLookupResultTypeDto();
+                                resultTypeBuzz.ResultTypeKey = "buzz";
+                                resultTypeBuzz.ResultTypeName = "Buzz";
+                                competitionLookupCompetitionDto.ResultTypes.Add(resultTypeBuzz);
+
+                                CompetitionLookupResultTypeDto resultTypeCharacters = new CompetitionLookupResultTypeDto();
+                                resultTypeCharacters.ResultTypeKey = "characters";
+                                resultTypeCharacters.ResultTypeName = "Characters";
+                                competitionLookupCompetitionDto.ResultTypes.Add(resultTypeCharacters);
+
+                                CompetitionLookupResultTypeDto resultTypeMusic = new CompetitionLookupResultTypeDto();
+                                resultTypeMusic.ResultTypeKey = "music";
+                                resultTypeMusic.ResultTypeName = "Music";
+                                competitionLookupCompetitionDto.ResultTypes.Add(resultTypeMusic);
+                            }
+                            else
+                            {
+                                CompetitionLookupResultTypeDto resultTypeStandard = new CompetitionLookupResultTypeDto();
+                                resultTypeStandard.ResultTypeKey = "all";
+                                resultTypeStandard.ResultTypeName = "All";
+                                competitionLookupCompetitionDto.ResultTypes.Add(resultTypeStandard);
+                            }
+
                         }
-                        else
-                        {
-                            CompetitionLookupResultTypeDto resultTypeStandard = new CompetitionLookupResultTypeDto();
-                            resultTypeStandard.ResultTypeKey = "all";
-                            resultTypeStandard.ResultTypeName = "All";
-                            competitionLookupCompetitionDto.ResultTypes.Add(resultTypeStandard);
-                        }
-
                     }
+
                 }
 
-            }
-
-            return lookupDto;
-
+                return lookupDto;
+            });
         }
     }
 }

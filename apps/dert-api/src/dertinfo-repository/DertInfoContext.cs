@@ -77,7 +77,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<AccessKeyUser>(entity =>
             {
                 entity.HasIndex(e => e.AccessKeyId)
-                    .HasName("IX_AccessKeyId");
+                    .HasDatabaseName("IX_AccessKeyId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -107,7 +107,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<AttendanceClassification>(entity =>
             {
                 entity.HasIndex(e => e.EventId)
-                    .HasName("IX_EventId");
+                    .HasDatabaseName("IX_EventId");
 
                 entity.Property(e => e.ClassificationPrice).HasColumnType("decimal");
 
@@ -137,10 +137,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<CompetitionEntry>(entity =>
             {
                 entity.HasIndex(e => e.CompetitionId)
-                    .HasName("IX_CompetitionId");
+                    .HasDatabaseName("IX_CompetitionId");
 
                 entity.HasIndex(e => e.TeamAttendanceId)
-                    .HasName("IX_TeamAttendanceId");
+                    .HasDatabaseName("IX_TeamAttendanceId");
 
                 entity.Property(e => e.DateCreated)
                     .HasColumnType("datetime")
@@ -166,7 +166,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<CompetitionEntryAttribute>(entity =>
             {
                 entity.HasIndex(e => e.CompetitionAppliesToId)
-                    .HasName("IX_CompetitionAppliesToId");
+                    .HasDatabaseName("IX_CompetitionAppliesToId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -185,10 +185,10 @@ namespace DertInfo.Repository
                     .HasName("PK_dbo.CompetitionVenuesJoin");
 
                 entity.HasIndex(e => e.CompetitionId)
-                    .HasName("IX_Competition_Id");
+                    .HasDatabaseName("IX_Competition_Id");
 
                 entity.HasIndex(e => e.VenueId)
-                    .HasName("IX_Venue_Id");
+                    .HasDatabaseName("IX_Venue_Id");
 
                 entity.Property(e => e.CompetitionId).HasColumnName("Competition_Id");
 
@@ -208,7 +208,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<Competition>(entity =>
             {
                 entity.HasIndex(e => e.EventId)
-                    .HasName("IX_EventId");
+                    .HasDatabaseName("IX_EventId");
 
                 entity.Property(e => e.DateCreated)
                     .HasColumnType("datetime")
@@ -239,10 +239,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<DanceScore>(entity =>
             {
                 entity.HasIndex(e => e.DanceId)
-                    .HasName("IX_DanceId");
+                    .HasDatabaseName("IX_DanceId");
 
                 entity.HasIndex(e => e.ScoreCategoryId)
-                    .HasName("IX_ScoreCategoryId");
+                    .HasDatabaseName("IX_ScoreCategoryId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -264,13 +264,13 @@ namespace DertInfo.Repository
             modelBuilder.Entity<Dance>(entity =>
             {
                 entity.HasIndex(e => e.CompetitionId)
-                    .HasName("IX_CompetitionId");
+                    .HasDatabaseName("IX_CompetitionId");
 
                 entity.HasIndex(e => e.TeamAttendanceId)
-                    .HasName("IX_TeamAttendanceId");
+                    .HasDatabaseName("IX_TeamAttendanceId");
 
                 entity.HasIndex(e => e.VenueId)
-                    .HasName("IX_VenueId");
+                    .HasDatabaseName("IX_VenueId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -300,10 +300,10 @@ namespace DertInfo.Repository
                     .HasName("PK_dbo.DertCompetitionEntryAttributeDertCompetitionEntries");
 
                 entity.HasIndex(e => e.DertCompetitionEntryAttributeId)
-                    .HasName("IX_DertCompetitionEntryAttribute_Id");
+                    .HasDatabaseName("IX_DertCompetitionEntryAttribute_Id");
 
                 entity.HasIndex(e => e.DertCompetitionEntryId)
-                    .HasName("IX_DertCompetitionEntry_Id");
+                    .HasDatabaseName("IX_DertCompetitionEntry_Id");
 
                 entity.Property(e => e.DertCompetitionEntryId).HasColumnName("DertCompetitionEntry_Id");
 
@@ -323,7 +323,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<EmailTemplate>(entity =>
             {
                 entity.HasIndex(e => e.EventId)
-                    .HasName("IX_EventId");
+                    .HasDatabaseName("IX_EventId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -338,10 +338,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<EventImage>(entity =>
             {
                 entity.HasIndex(e => e.EventId)
-                    .HasName("IX_EventId");
+                    .HasDatabaseName("IX_EventId");
 
                 entity.HasIndex(e => e.ImageId)
-                    .HasName("IX_ImageId");
+                    .HasDatabaseName("IX_ImageId");
 
                 entity.Property(e => e.IsPrimary).HasDefaultValueSql("0");
 
@@ -359,10 +359,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<EventJudge>(entity =>
             {
                 entity.HasIndex(e => e.EventId)
-                    .HasName("IX_EventId");
+                    .HasDatabaseName("IX_EventId");
 
                 entity.HasIndex(e => e.JudgeId)
-                    .HasName("IX_JudgeId");
+                    .HasDatabaseName("IX_JudgeId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -383,10 +383,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<CompetitionJudge>(entity =>
             {
                 entity.HasIndex(e => e.CompetitionId)
-                    .HasName("IX_CompetitionId");
+                    .HasDatabaseName("IX_CompetitionId");
 
                 entity.HasIndex(e => e.JudgeId)
-                    .HasName("IX_JudgeId");
+                    .HasDatabaseName("IX_JudgeId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -407,7 +407,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<EventSetting>(entity =>
             {
                 entity.HasIndex(e => e.EventId)
-                    .HasName("IX_EventId");
+                    .HasDatabaseName("IX_EventId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -437,10 +437,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<GroupImage>(entity =>
             {
                 entity.HasIndex(e => e.GroupId)
-                    .HasName("IX_GroupId");
+                    .HasDatabaseName("IX_GroupId");
 
                 entity.HasIndex(e => e.ImageId)
-                    .HasName("IX_ImageId");
+                    .HasDatabaseName("IX_ImageId");
 
                 entity.Property(e => e.IsPrimary).HasDefaultValueSql("0");
 
@@ -458,7 +458,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<GroupMember>(entity =>
             {
                 entity.HasIndex(e => e.GroupId)
-                    .HasName("IX_GroupId");
+                    .HasDatabaseName("IX_GroupId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -491,7 +491,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<Invoice>(entity =>
             {
                 entity.HasIndex(e => e.RegistrationId)
-                    .HasName("IX_RegistrationId");
+                    .HasDatabaseName("IX_RegistrationId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -508,16 +508,16 @@ namespace DertInfo.Repository
             modelBuilder.Entity<JudgeSlot>(entity =>
             {
                 entity.HasIndex(e => e.CompetitionId)
-                    .HasName("IX_CompetitionId");
+                    .HasDatabaseName("IX_CompetitionId");
 
                 entity.HasIndex(e => e.JudgeId)
-                    .HasName("IX_JudgeId");
+                    .HasDatabaseName("IX_JudgeId");
 
                 entity.HasIndex(e => e.ScoreSetId)
-                    .HasName("IX_ScoreSetId");
+                    .HasDatabaseName("IX_ScoreSetId");
 
                 entity.HasIndex(e => e.VenueId)
-                    .HasName("IX_VenueId");
+                    .HasDatabaseName("IX_VenueId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -554,10 +554,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<MarkingSheetImage>(entity =>
             {
                 entity.HasIndex(e => e.DanceId)
-                    .HasName("IX_DanceId");
+                    .HasDatabaseName("IX_DanceId");
 
                 entity.HasIndex(e => e.ImageId)
-                    .HasName("IX_ImageId");
+                    .HasDatabaseName("IX_ImageId");
 
                 entity.Property(e => e.DateCreated)
                     .HasColumnType("datetime")
@@ -583,7 +583,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<MarkingSheet>(entity =>
             {
                 entity.HasIndex(e => e.DanceId)
-                    .HasName("IX_DanceId");
+                    .HasDatabaseName("IX_DanceId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -598,13 +598,13 @@ namespace DertInfo.Repository
             modelBuilder.Entity<MemberAttendance>(entity =>
             {
                 entity.HasIndex(e => e.AttendanceClassificationId)
-                    .HasName("IX_AttendanceClassificationId");
+                    .HasDatabaseName("IX_AttendanceClassificationId");
 
                 entity.HasIndex(e => e.GroupMemberId)
-                    .HasName("IX_GroupMemberId");
+                    .HasDatabaseName("IX_GroupMemberId");
 
                 entity.HasIndex(e => e.RegistrationId)
-                    .HasName("IX_RegistrationId");
+                    .HasDatabaseName("IX_RegistrationId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -637,10 +637,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<Registration>(entity =>
             {
                 entity.HasIndex(e => e.EventId)
-                    .HasName("IX_EventId");
+                    .HasDatabaseName("IX_EventId");
 
                 entity.HasIndex(e => e.GroupId)
-                    .HasName("IX_GroupId");
+                    .HasDatabaseName("IX_GroupId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -664,7 +664,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<ScoreCategory>(entity =>
             {
                 entity.HasIndex(e => e.CompetitionAppliesToId)
-                    .HasName("IX_CompetitionAppliesToId");
+                    .HasDatabaseName("IX_CompetitionAppliesToId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -683,10 +683,10 @@ namespace DertInfo.Repository
                     .HasName("PK_dbo.ScoreSetScoreCategories");
 
                 entity.HasIndex(e => e.ScoreCategoryId)
-                    .HasName("IX_ScoreCategory_Id");
+                    .HasDatabaseName("IX_ScoreCategory_Id");
 
                 entity.HasIndex(e => e.ScoreSetId)
-                    .HasName("IX_ScoreSet_Id");
+                    .HasDatabaseName("IX_ScoreSet_Id");
 
                 entity.Property(e => e.ScoreSetId).HasColumnName("ScoreSet_Id");
 
@@ -706,7 +706,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<ScoreSet>(entity =>
             {
                 entity.HasIndex(e => e.CompetitionId)
-                    .HasName("IX_CompetitionId");
+                    .HasDatabaseName("IX_CompetitionId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -751,7 +751,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<TeamAggregateScore>(entity =>
             {
                 entity.HasIndex(e => e.DertTeamId)
-                    .HasName("IX_DertTeamId");
+                    .HasDatabaseName("IX_DertTeamId");
 
                 entity.Property(e => e.AggregateScore).HasColumnType("decimal");
 
@@ -768,10 +768,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<TeamAttendance>(entity =>
             {
                 entity.HasIndex(e => e.RegistrationId)
-                    .HasName("IX_RegistrationId");
+                    .HasDatabaseName("IX_RegistrationId");
 
                 entity.HasIndex(e => e.TeamId)
-                    .HasName("IX_TeamId");
+                    .HasDatabaseName("IX_TeamId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -792,10 +792,10 @@ namespace DertInfo.Repository
             modelBuilder.Entity<TeamImage>(entity =>
             {
                 entity.HasIndex(e => e.ImageId)
-                    .HasName("IX_ImageId");
+                    .HasDatabaseName("IX_ImageId");
 
                 entity.HasIndex(e => e.TeamId)
-                    .HasName("IX_TeamId");
+                    .HasDatabaseName("IX_TeamId");
 
                 entity.Property(e => e.IsPrimary).HasDefaultValueSql("0");
 
@@ -813,7 +813,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<Team>(entity =>
             {
                 entity.HasIndex(e => e.GroupId)
-                    .HasName("IX_GroupId");
+                    .HasDatabaseName("IX_GroupId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 
@@ -830,7 +830,7 @@ namespace DertInfo.Repository
             modelBuilder.Entity<Venue>(entity =>
             {
                 entity.HasIndex(e => e.EventId)
-                    .HasName("IX_EventId");
+                    .HasDatabaseName("IX_EventId");
 
                 entity.Property(e => e.DateCreated).HasColumnType("datetime");
 

@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 
 namespace DertInfo.Api
 {
@@ -72,6 +73,12 @@ namespace DertInfo.Api
                     "User Id=" + sqlServerAdminUsername + ";" +
                     "Password=" + sqlServerAdminPassword + ";" +
                     "Persist Security Info=False;";
+
+                if (Environment.IsDevelopment())
+                { 
+                    connectionString += "Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+                }
+
                 options.UseSqlServer(connectionString);
             });
 

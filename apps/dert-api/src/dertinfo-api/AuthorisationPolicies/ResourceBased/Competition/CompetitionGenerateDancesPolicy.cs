@@ -16,7 +16,7 @@ namespace DertInfo.Api.AuthorisationPolicies.ResourceBased
     /// </summary>
     public static class CompetitionGenerateDancesPolicy
     {
-        public new static string PolicyName { get { return "CompetitionGenerateDancesPolicy"; } }
+        public static string PolicyName { get { return "CompetitionGenerateDancesPolicy"; } }
     }
 
     public class CompetitionGenerateDancesRequirement : IClaimRequirement

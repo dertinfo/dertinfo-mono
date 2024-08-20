@@ -885,13 +885,13 @@ namespace DertInfo.Api.Controllers
                 return false;
             }
 
-            if (eventConfigurationSubmission.EventStartDate == null || eventConfigurationSubmission.EventStartDate < DateTime.Now.AddDays(-1))
+            if (eventConfigurationSubmission.EventStartDate < DateTime.Now.AddDays(-1))
             {
                 this._errorMessage = "event start date must be supplied and it must be in the future";
                 return false;
             }
 
-            if (eventConfigurationSubmission.EventEndDate == null || eventConfigurationSubmission.EventEndDate < DateTime.Now.AddDays(-1))
+            if (eventConfigurationSubmission.EventEndDate < DateTime.Now.AddDays(-1))
             {
                 this._errorMessage = "event end date must be supplied and it must be in the future";
                 return false;

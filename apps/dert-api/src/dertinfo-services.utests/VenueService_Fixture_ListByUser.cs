@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DertInfo.Services.UTests
@@ -24,7 +25,7 @@ namespace DertInfo.Services.UTests
 
         //ERROR IN TEST IN PIPELINES: NSubstitute.Exceptions.AmbiguousArgumentsException : Cannot determine argument specifications to use. Please use specifications for all arguments of the same type.
         [Fact]
-        public async void When_User_Has_No_Permissions_Find_Is_Still_Called()
+        public async Task When_User_Has_No_Permissions_Find_Is_Still_Called()
         {
             // Arrange
             data.ArrangeMockRepoFindToReturn3Items(base.mockVenueRepo);
