@@ -12,7 +12,6 @@ namespace DertInfo.Api.Controllers.Base
     [Authorize]
     public class AuthController : Controller
     {
-        private readonly IAuthorizationService _authorizationService;
         protected IDertInfoUser _user;
 
         public AuthController(

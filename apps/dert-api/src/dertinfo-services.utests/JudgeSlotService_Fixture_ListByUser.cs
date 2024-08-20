@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DertInfo.Services.UTests
@@ -35,7 +36,7 @@ namespace DertInfo.Services.UTests
         }
 
         [Fact]
-        public async void When_Slot_Info_Requested_DancePartService_Is_Called()
+        public async Task When_Slot_Info_Requested_DancePartService_Is_Called()
         {
             // Arrange
             var eventId = 1;

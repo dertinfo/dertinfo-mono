@@ -286,17 +286,21 @@ namespace DertInfo.Services.Entity.Groups
 
         public async Task<GroupAccessContext> GetUserAccessContext(int groupId)
         {
-            var groupAdminIds = _user.ClaimsGroupAdmin != null ? _user.ClaimsGroupAdmin : new List<string>();
-            var groupMemberIds = _user.ClaimsGroupMember != null ? _user.ClaimsGroupMember : new List<string>();
+            return await Task.Run(() => {
 
-            if (groupAdminIds.Contains(groupId.ToString())) return GroupAccessContext.adminaccess;
-            if (groupMemberIds.Contains(groupId.ToString())) return GroupAccessContext.memberaccess;
+                var groupAdminIds = _user.ClaimsGroupAdmin != null ? _user.ClaimsGroupAdmin : new List<string>();
+                var groupMemberIds = _user.ClaimsGroupMember != null ? _user.ClaimsGroupMember : new List<string>();
 
-            // note - review this I believe that it is used by the client and therefore doesn't matter no server decitions are made based on this value.
-            //      - however this reads strangely and potentially looks like a security concern. Provide clarification.
-            //      - clarification - when the user gets the information on the client we need to know if its a group admin or member
-            //      -               - we user this to determine routing.
-            return GroupAccessContext.openaccess;
+                if (groupAdminIds.Contains(groupId.ToString())) return GroupAccessContext.adminaccess;
+                if (groupMemberIds.Contains(groupId.ToString())) return GroupAccessContext.memberaccess;
+
+                // note - review this I believe that it is used by the client and therefore doesn't matter no server decitions are made based on this value.
+                //      - however this reads strangely and potentially looks like a security concern. Provide clarification.
+                //      - clarification - when the user gets the information on the client we need to know if its a group admin or member
+                //      -               - we user this to determine routing.
+                return GroupAccessContext.openaccess;
+            });
+            
         }
 
         public async Task<Group> Configure(Group myGroup)

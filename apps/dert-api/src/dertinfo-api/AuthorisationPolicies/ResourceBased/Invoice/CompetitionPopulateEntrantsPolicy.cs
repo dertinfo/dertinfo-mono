@@ -16,7 +16,7 @@ namespace DertInfo.Api.AuthorisationPolicies.ResourceBased
     /// </summary>
     public class CompetitionPopulateEntrantsPolicy
     {
-        public new static string PolicyName { get { return "CompetitionPopulateEntrantsPolicy"; } }
+        public static string PolicyName { get { return "CompetitionPopulateEntrantsPolicy"; } }
     }
 
     public class CompetitionPopulateEntrantsRequirement : IClaimRequirement

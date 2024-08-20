@@ -11,18 +11,24 @@ namespace DertInfo.Services.ExtensionMethods
     {
         public async static Task HideResultsIfNotPublished(this Dance dance)
         {
-            Guard.IsNotNull(dance.Competition);
-
-            if (!dance.Competition.ResultsPublished)
+            await Task.Run(() =>
             {
-                dance.Overrun = false;
-                dance.MarkingSheets = new List<MarkingSheet>();
-                dance.MarkingSheetImages = new List<MarkingSheetImage>();
-                foreach (var score in dance.DanceScores)
+                Guard.IsNotNull(dance.Competition);
+
+                if (!dance.Competition.ResultsPublished)
                 {
-                    score.MarkGiven = 0;
+                    dance.Overrun = false;
+                    dance.MarkingSheets = new List<MarkingSheet>();
+                    dance.MarkingSheetImages = new List<MarkingSheetImage>();
+                    foreach (var score in dance.DanceScores)
+                    {
+                        score.MarkGiven = 0;
+                    }
                 }
-            }
+            });
+
+
+           
         }
     }
 }

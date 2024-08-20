@@ -27,16 +27,21 @@ namespace DertInfo.Api.Controllers
         [HttpGet("web")]
         public async Task<IActionResult> GetWebConfiguration()
         {
-            var webClientSettings = new ClientConfigurationDto
+            return await Task.Run(() =>
             {
-                AppInsightsTelemetryKey = _configuration["WebClient:AppInsights:TelemetryId"],
-                Auth0Audience = _configuration["Auth0:Audience"],
-                Auth0CallbackUrl = _configuration["WebClient:Auth0:CallbackUrl"], // http://localhost:44200
-                Auth0ClientId = _configuration["WebClient:Auth0:ClientId"], 
-                Auth0TenantDomain = _configuration["Auth0:Domain"]
-            };
+                var webClientSettings = new ClientConfigurationDto
+                {
+                    AppInsightsTelemetryKey = _configuration["WebClient:AppInsights:TelemetryId"],
+                    Auth0Audience = _configuration["Auth0:Audience"],
+                    Auth0CallbackUrl = _configuration["WebClient:Auth0:CallbackUrl"], // http://localhost:44200
+                    Auth0ClientId = _configuration["WebClient:Auth0:ClientId"],
+                    Auth0TenantDomain = _configuration["Auth0:Domain"]
+                };
 
-            return Ok(webClientSettings);
+                return Ok(webClientSettings);
+            });
+
+            
         }
 
 
@@ -47,18 +52,19 @@ namespace DertInfo.Api.Controllers
         [HttpGet("app")]
         public async Task<IActionResult> GetAppConfiguration()
         {
-            var webClientSettings = new ClientConfigurationDto
+            return await Task.Run(() =>
             {
-                AppInsightsTelemetryKey = _configuration["PwaClient:AppInsights:TelemetryId"],
-                Auth0Audience = _configuration["Auth0:Audience"],
-                Auth0CallbackUrl = _configuration["PwaClient:Auth0:CallbackUrl"], // http://localhost:44300
-                Auth0ClientId = _configuration["PwaClient:Auth0:ClientId"],
-                Auth0TenantDomain = _configuration["Auth0:Domain"]
-            };
+                var webClientSettings = new ClientConfigurationDto
+                {
+                    AppInsightsTelemetryKey = _configuration["PwaClient:AppInsights:TelemetryId"],
+                    Auth0Audience = _configuration["Auth0:Audience"],
+                    Auth0CallbackUrl = _configuration["PwaClient:Auth0:CallbackUrl"], // http://localhost:44300
+                    Auth0ClientId = _configuration["PwaClient:Auth0:ClientId"],
+                    Auth0TenantDomain = _configuration["Auth0:Domain"]
+                };
 
-
-
-            return Ok(webClientSettings);
+                return Ok(webClientSettings);
+            });
         }
     }
 }
