@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>DertInfo.Repository</AssemblyName>
     <OutputType>Library</OutputType>
     <PackageId>dertinfo-repository</PackageId>
@@ -26,10 +26,10 @@
   <ItemGroup>
     <PackageReference Include="EntityFrameworkCore.DataEncryption" Version="1.1.0" />
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.32" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.32" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.32" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.32" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\dertinfo-crosscutting\dertinfo-crosscutting.csproj" />

@@ -1,0 +1,481 @@
+{
+  "settings": {
+    "components": {
+      "code": true,
+      "binaries": false
+    },
+    "targetId": "",
+    "targetDisplayName": ".NET 8.0"
+  },
+  "analysisStartTime": "2024-08-19T14:19:29.2041058Z",
+  "analysisEndTime": "2024-08-19T14:25:07.2807873Z",
+  "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2270980",
+  "stats": {
+    "summary": {
+      "projects": 9,
+      "issues": 4,
+      "incidents": 19,
+      "effort": 19
+    },
+    "charts": {
+      "severity": {
+        "Mandatory": 3,
+        "Optional": 3,
+        "Potential": 13,
+        "Information": 0
+      },
+      "category": {
+        "Project": 3,
+        "NuGet": 16
+      }
+    }
+  },
+  "projects": [
+    {
+      "path": "dertinfo-api\\dertinfo-api.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 2,
+      "ruleInstances": [
+        {
+          "incidentId": "66a96711-728e-4afe-b688-67995f576ee4",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-api\\dertinfo-api.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Mvc.NewtonsoftJson 8.0.8",
+              "protected": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Mvc.NewtonsoftJson 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-api\\dertinfo-api.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Mvc.NewtonsoftJson 8.0.8",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Mvc.NewtonsoftJson 8.0.8",
+            "label": "Microsoft.AspNetCore.Mvc.NewtonsoftJson 6.0.32"
+          }
+        },
+        {
+          "incidentId": "41d737d9-0ee7-49f9-ba13-b69c21ff366a",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-api\\dertinfo-api.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Authentication.JwtBearer, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Authentication.JwtBearer 8.0.8",
+              "protected": "Microsoft.AspNetCore.Authentication.JwtBearer, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Authentication.JwtBearer 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-api\\dertinfo-api.csproj",
+            "snippet": "Microsoft.AspNetCore.Authentication.JwtBearer, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Authentication.JwtBearer 8.0.8",
+            "protectedSnippet": "Microsoft.AspNetCore.Authentication.JwtBearer, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Authentication.JwtBearer 8.0.8",
+            "label": "Microsoft.AspNetCore.Authentication.JwtBearer 6.0.32"
+          }
+        }
+      ]
+    },
+    {
+      "path": "dertinfo-api.itests\\dertinfo-api.itests.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 2,
+      "ruleInstances": [
+        {
+          "incidentId": "b385f256-970d-480d-988e-4ab6f25a32eb",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-api.itests\\dertinfo-api.itests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Mvc.NewtonsoftJson 8.0.8",
+              "protected": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Mvc.NewtonsoftJson 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-api.itests\\dertinfo-api.itests.csproj",
+            "snippet": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Mvc.NewtonsoftJson 8.0.8",
+            "protectedSnippet": "Microsoft.AspNetCore.Mvc.NewtonsoftJson, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.Mvc.NewtonsoftJson 8.0.8",
+            "label": "Microsoft.AspNetCore.Mvc.NewtonsoftJson 6.0.32"
+          }
+        },
+        {
+          "incidentId": "9464bb4c-a15a-47a8-85c6-e4bded4a1142",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-api.itests\\dertinfo-api.itests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.TestHost, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.TestHost 8.0.8",
+              "protected": "Microsoft.AspNetCore.TestHost, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.TestHost 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-api.itests\\dertinfo-api.itests.csproj",
+            "snippet": "Microsoft.AspNetCore.TestHost, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.TestHost 8.0.8",
+            "protectedSnippet": "Microsoft.AspNetCore.TestHost, 6.0.32\n\nRecommendation:\n\nMicrosoft.AspNetCore.TestHost 8.0.8",
+            "label": "Microsoft.AspNetCore.TestHost 6.0.32"
+          }
+        }
+      ]
+    },
+    {
+      "path": "dertinfo-api.utests\\dertinfo-api.utests.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "ruleInstances": [
+        {
+          "incidentId": "5fdeacfe-637f-4075-af47-afcd8208964c",
+          "ruleId": "Project.0002",
+          "projectPath": "dertinfo-api.utests\\dertinfo-api.utests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current: net6.0\nNew: net8.0",
+              "protected": "Current: net6.0\nNew: net8.0"
+            },
+            "kind": "File",
+            "path": "dertinfo-api.utests\\dertinfo-api.utests.csproj",
+            "snippet": "Current: net6.0\nNew: net8.0",
+            "protectedSnippet": "Current: net6.0\nNew: net8.0"
+          }
+        }
+      ]
+    },
+    {
+      "path": "dertinfo-crosscutting\\dertinfo-crosscutting.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 3,
+      "ruleInstances": [
+        {
+          "incidentId": "78383c6d-7a9e-404f-8e52-f1ed12209d91",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-crosscutting\\dertinfo-crosscutting.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.EnvironmentVariables, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.EnvironmentVariables 8.0.0",
+              "protected": "Microsoft.Extensions.Configuration.EnvironmentVariables, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.EnvironmentVariables 8.0.0"
+            },
+            "kind": "File",
+            "path": "dertinfo-crosscutting\\dertinfo-crosscutting.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.EnvironmentVariables, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.EnvironmentVariables 8.0.0",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.EnvironmentVariables, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.EnvironmentVariables 8.0.0",
+            "label": "Microsoft.Extensions.Configuration.EnvironmentVariables 5.0.0"
+          }
+        },
+        {
+          "incidentId": "89619689-e38b-470c-843a-dad921f84e2a",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-crosscutting\\dertinfo-crosscutting.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.Json, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.Json 8.0.0",
+              "protected": "Microsoft.Extensions.Configuration.Json, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.Json 8.0.0"
+            },
+            "kind": "File",
+            "path": "dertinfo-crosscutting\\dertinfo-crosscutting.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.Json, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.Json 8.0.0",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.Json, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.Json 8.0.0",
+            "label": "Microsoft.Extensions.Configuration.Json 5.0.0"
+          }
+        },
+        {
+          "incidentId": "2a628d92-2371-43d5-a4c9-45fe647f2006",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-crosscutting\\dertinfo-crosscutting.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.Extensions.Configuration.FileExtensions, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.FileExtensions 8.0.1",
+              "protected": "Microsoft.Extensions.Configuration.FileExtensions, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.FileExtensions 8.0.1"
+            },
+            "kind": "File",
+            "path": "dertinfo-crosscutting\\dertinfo-crosscutting.csproj",
+            "snippet": "Microsoft.Extensions.Configuration.FileExtensions, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.FileExtensions 8.0.1",
+            "protectedSnippet": "Microsoft.Extensions.Configuration.FileExtensions, 5.0.0\n\nRecommendation:\n\nMicrosoft.Extensions.Configuration.FileExtensions 8.0.1",
+            "label": "Microsoft.Extensions.Configuration.FileExtensions 5.0.0"
+          }
+        }
+      ]
+    },
+    {
+      "path": "dertinfo-models\\dertinfo-models.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "ruleInstances": [
+        {
+          "incidentId": "3f61ad9d-6624-4f11-b507-11cfd01ed8da",
+          "ruleId": "Project.0002",
+          "projectPath": "dertinfo-models\\dertinfo-models.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current: netstandard2.1\nNew: net8.0",
+              "protected": "Current: netstandard2.1\nNew: net8.0"
+            },
+            "kind": "File",
+            "path": "dertinfo-models\\dertinfo-models.csproj",
+            "snippet": "Current: netstandard2.1\nNew: net8.0",
+            "protectedSnippet": "Current: netstandard2.1\nNew: net8.0"
+          }
+        }
+      ]
+    },
+    {
+      "path": "dertinfo-repository\\dertinfo-repository.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 4,
+      "ruleInstances": [
+        {
+          "incidentId": "aad54be1-f4eb-4ef1-b090-a535cebf1173",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-repository\\dertinfo-repository.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore 8.0.8",
+              "protected": "Microsoft.EntityFrameworkCore, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-repository\\dertinfo-repository.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore 8.0.8",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore 8.0.8",
+            "label": "Microsoft.EntityFrameworkCore 6.0.32"
+          }
+        },
+        {
+          "incidentId": "0e50d5e9-0b94-4fac-892a-2b6b239a83ab",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-repository\\dertinfo-repository.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.SqlServer 8.0.8",
+              "protected": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.SqlServer 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-repository\\dertinfo-repository.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.SqlServer 8.0.8",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.SqlServer, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.SqlServer 8.0.8",
+            "label": "Microsoft.EntityFrameworkCore.SqlServer 6.0.32"
+          }
+        },
+        {
+          "incidentId": "00707759-0378-49e0-a177-fb56ee74d192",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-repository\\dertinfo-repository.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Tools, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.Tools 8.0.8",
+              "protected": "Microsoft.EntityFrameworkCore.Tools, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.Tools 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-repository\\dertinfo-repository.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Tools, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.Tools 8.0.8",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Tools, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.Tools 8.0.8",
+            "label": "Microsoft.EntityFrameworkCore.Tools 6.0.32"
+          }
+        },
+        {
+          "incidentId": "77046158-1dcd-45d2-85cb-61297245b654",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-repository\\dertinfo-repository.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.Design, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.Design 8.0.8",
+              "protected": "Microsoft.EntityFrameworkCore.Design, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.Design 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-repository\\dertinfo-repository.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.Design, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.Design 8.0.8",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.Design, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.Design 8.0.8",
+            "label": "Microsoft.EntityFrameworkCore.Design 6.0.32"
+          }
+        }
+      ]
+    },
+    {
+      "path": "dertinfo-repository.utests\\dertinfo-repository.utests.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 2,
+      "ruleInstances": [
+        {
+          "incidentId": "1d81ac89-a7ea-44f8-8fb3-7885282b2df3",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-repository.utests\\dertinfo-repository.utests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore 8.0.8",
+              "protected": "Microsoft.EntityFrameworkCore, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-repository.utests\\dertinfo-repository.utests.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore 8.0.8",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore 8.0.8",
+            "label": "Microsoft.EntityFrameworkCore 6.0.32"
+          }
+        },
+        {
+          "incidentId": "b72c8304-c634-4237-a781-4f3d1e372213",
+          "ruleId": "NuGet.0002",
+          "projectPath": "dertinfo-repository.utests\\dertinfo-repository.utests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.EntityFrameworkCore.InMemory, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.InMemory 8.0.8",
+              "protected": "Microsoft.EntityFrameworkCore.InMemory, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.InMemory 8.0.8"
+            },
+            "kind": "File",
+            "path": "dertinfo-repository.utests\\dertinfo-repository.utests.csproj",
+            "snippet": "Microsoft.EntityFrameworkCore.InMemory, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.InMemory 8.0.8",
+            "protectedSnippet": "Microsoft.EntityFrameworkCore.InMemory, 6.0.32\n\nRecommendation:\n\nMicrosoft.EntityFrameworkCore.InMemory 8.0.8",
+            "label": "Microsoft.EntityFrameworkCore.InMemory 6.0.32"
+          }
+        }
+      ]
+    },
+    {
+      "path": "dertinfo-services\\dertinfo-services.csproj",
+      "startingProject": true,
+      "issues": 2,
+      "storyPoints": 3,
+      "ruleInstances": [
+        {
+          "incidentId": "106a9117-0488-406f-ae68-3dcd7bfb1ca1",
+          "ruleId": "NuGet.0004",
+          "projectPath": "dertinfo-services\\dertinfo-services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "SixLabors.ImageSharp, 1.0.3",
+              "protected": "SixLabors.ImageSharp, 1.0.3"
+            },
+            "kind": "File",
+            "path": "dertinfo-services\\dertinfo-services.csproj",
+            "snippet": "SixLabors.ImageSharp, 1.0.3",
+            "protectedSnippet": "SixLabors.ImageSharp, 1.0.3",
+            "label": "SixLabors.ImageSharp 1.0.3"
+          }
+        },
+        {
+          "incidentId": "942342a6-0ecd-4146-b576-d0a610fad63e",
+          "ruleId": "NuGet.0005",
+          "projectPath": "dertinfo-services\\dertinfo-services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.AspNetCore.Hosting, 2.2.7\n\nRecommendation:\n\nThis package has been deprecated as part of the .NET Package Deprecation effort. You can learn more about it from https://github.com/dotnet/announcements/issues/217",
+              "protected": "Microsoft.AspNetCore.Hosting, 2.2.7\n\nRecommendation:\n\nThis package has been deprecated as part of the .NET Package Deprecation effort. You can learn more about it from https://github.com/dotnet/announcements/issues/217"
+            },
+            "kind": "File",
+            "path": "dertinfo-services\\dertinfo-services.csproj",
+            "snippet": "Microsoft.AspNetCore.Hosting, 2.2.7\n\nRecommendation:\n\nThis package has been deprecated as part of the .NET Package Deprecation effort. You can learn more about it from https://github.com/dotnet/announcements/issues/217",
+            "protectedSnippet": "Microsoft.AspNetCore.Hosting, 2.2.7\n\nRecommendation:\n\nThis package has been deprecated as part of the .NET Package Deprecation effort. You can learn more about it from https://github.com/dotnet/announcements/issues/217",
+            "label": "Microsoft.AspNetCore.Hosting 2.2.7"
+          }
+        },
+        {
+          "incidentId": "00ad0572-d1f3-454b-84fb-4e267ea8b476",
+          "ruleId": "NuGet.0005",
+          "projectPath": "dertinfo-services\\dertinfo-services.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Microsoft.ApplicationInsights, 2.17.0\n\nRecommendation:\n\nThis version is deprecated. Please use the most recent version.",
+              "protected": "Microsoft.ApplicationInsights, 2.17.0\n\nRecommendation:\n\nThis version is deprecated. Please use the most recent version."
+            },
+            "kind": "File",
+            "path": "dertinfo-services\\dertinfo-services.csproj",
+            "snippet": "Microsoft.ApplicationInsights, 2.17.0\n\nRecommendation:\n\nThis version is deprecated. Please use the most recent version.",
+            "protectedSnippet": "Microsoft.ApplicationInsights, 2.17.0\n\nRecommendation:\n\nThis version is deprecated. Please use the most recent version.",
+            "label": "Microsoft.ApplicationInsights 2.17.0"
+          }
+        }
+      ]
+    },
+    {
+      "path": "dertinfo-services.utests\\dertinfo-services.utests.csproj",
+      "startingProject": true,
+      "issues": 1,
+      "storyPoints": 1,
+      "ruleInstances": [
+        {
+          "incidentId": "2d28ecf5-4cad-46a1-86ae-27fa7f5f8a12",
+          "ruleId": "Project.0002",
+          "projectPath": "dertinfo-services.utests\\dertinfo-services.utests.csproj",
+          "state": "Active",
+          "location": {
+            "snippetModel": {
+              "unrestricted": "Current: net6.0\nNew: net8.0",
+              "protected": "Current: net6.0\nNew: net8.0"
+            },
+            "kind": "File",
+            "path": "dertinfo-services.utests\\dertinfo-services.utests.csproj",
+            "snippet": "Current: net6.0\nNew: net8.0",
+            "protectedSnippet": "Current: net6.0\nNew: net8.0"
+          }
+        }
+      ]
+    }
+  ],
+  "rules": {
+    "Project.0002": {
+      "id": "Project.0002",
+      "description": "Project\u0027s target framework(s) needs to be changed to the new target framework that you selected for this upgrade.\n\nDuring upgrade target framework will be adjusted to correspinding platform when applicable. In some cases project would result in multiple target frameworks after the upgrade if it was using features that now have their own platforms in moderrn .NET frameworks (windows, iOS, Android etc).",
+      "label": "Project\u0027s target framework(s) needs to be changed",
+      "severity": "Mandatory",
+      "effort": 1,
+      "links": [
+        {
+          "title": "Overview of porting from .NET Framework to .NET",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265227",
+          "isCustom": false
+        },
+        {
+          "title": ".NET project SDKs",
+          "url": "https://go.microsoft.com/fwlink/?linkid=2265226",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0002": {
+      "id": "NuGet.0002",
+      "description": "NuGet package upgrade is recommended for selected target framework.\n\nStandard .NET packages are recommended to have versions matching version of .NET that project targets.\n\nSome other packages also are known to work better for selected target frameworks.",
+      "label": "NuGet package upgrade is recommended",
+      "severity": "Potential",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262530",
+          "isCustom": false
+        }
+      ]
+    },
+    "NuGet.0004": {
+      "id": "NuGet.0004",
+      "description": "NuGet package contains security vulnerabilities.\n\nPackage needs to be upgraded to a newer version that addresses known security vulnerabilities.",
+      "label": "NuGet package contains security vulnerability",
+      "severity": "Optional",
+      "effort": 1
+    },
+    "NuGet.0005": {
+      "id": "NuGet.0005",
+      "description": "NuGet package is deprecated.\n\nGo to its documentation and if there is a guidance for replacement of functionality provided by this package.",
+      "label": "NuGet package is deprecated",
+      "severity": "Optional",
+      "effort": 1,
+      "links": [
+        {
+          "url": "https://go.microsoft.com/fwlink/?linkid=2262531",
+          "isCustom": false
+        }
+      ]
+    }
+  }
+}
