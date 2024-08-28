@@ -21,7 +21,7 @@ The producton version of this solution is visible [[https://dertinfo-live-api-wa
 
 ## Technology
 
-This project is a C# .NET API currently running .NET 5.0 
+This project is a C# .NET API currently running .NET 8.0 
 
 ## Topology
 
