@@ -37,7 +37,21 @@ In order to get this project running locally you are going to need.
 
 ## Running The Project
 
+You can run the API locally in 3 ways. 
+- 1) (Visual Studio) Running as a isolated web app
+- 2) (Visual Studio) Running as a container in docker desktop 
+- 3) (Visual Studio) Running the docker componse project - This will spin up the entire estate using images on docker hub for the other parts. 
+- 4) (Docker) Run the image using docker hub image
+- 5) (Docker) Build and Run using the Dockerfile
+- 6) (Docker Compose) Running the docker componse project (/infra/docker)  THis will spin up the API and all resoruces it depends on. 
 
+```
+4) > docker run dertinfo/dertinfo-api:latest 
+5) src> docker build -t dertinfo/dertinfo-api -f dertinfo-api/Dockerfile .
+6) infra/docker> docker-compose up 
+```
+
+When using docker compose if any container fails to start just restart the container. In some cases we can get some timing issues that we should resolve using health checks. 
 
 **User Secrets**
 ```
@@ -77,10 +91,7 @@ You will need to create the database and roll forward the migrations on your fir
 (Coming soon) It'll be useful to be able to seed the database with a given seed sets appropraite for testing or working with different environments. 
 
 #### From Visual Studio
-You can run the API locally from Visual Studio in 3 ways. 
-- 1) Running as a isolated web app
-- 2) Running as a container in docker desktop 
-- 3) Running the docker componse project - This will spin up the entire estate using images on docker hub for the other parts. 
+
 
 ## Usage
 
