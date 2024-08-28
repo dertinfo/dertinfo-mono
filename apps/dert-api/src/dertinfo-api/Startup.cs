@@ -67,7 +67,7 @@ namespace DertInfo.Api
                 var sqlServerAdminPassword = Configuration["SqlConnection:ServerAdminPassword"];
                 var sqlServerDatabaseName = Configuration["SqlConnection:DatabaseName"];
 
-                string connectionString = connectionString =
+                string connectionString =
                     "Server=" + sqlServerName + ";" +
                     "Database=" + sqlServerDatabaseName + ";" +
                     "User Id=" + sqlServerAdminUsername + ";" +
