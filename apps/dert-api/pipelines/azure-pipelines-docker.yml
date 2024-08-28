@@ -25,7 +25,8 @@ stages:
         containerRegistry: 'Docker Hub Service Connection (dertinfo)'
         repository: 'dertinfo/dertinfo-api'
         command: 'buildAndPush'
-        Dockerfile: '**/dertinfo-api/Dockerfile'
+        Dockerfile: 'dertinfo-api/Dockerfile'
+        buildContext: './src'
         tags: |
           latest
           $(Build.BuildId)
