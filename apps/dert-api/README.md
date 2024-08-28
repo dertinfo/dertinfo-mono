@@ -42,32 +42,17 @@ In order to get this project running locally you are going to need.
 **User Secrets**
 ```
 {
-  "StorageAccount:Images:TableEndpoint": "http://127.0.0.1:10002/devstoreaccount1",
-  "StorageAccount:Images:QueueEndpoint": "http://127.0.0.1:10001/devstoreaccount1",
-  "StorageAccount:Images:Protocol": "http",
-  "StorageAccount:Images:Name": "devstoreaccount1",
   "StorageAccount:Images:Key": "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==",
-  "StorageAccount:Images:BlobEndpoint": "http://127.0.0.1:10000/devstoreaccount1",
-  "StorageAccount:Environment": "Development",
   "SqlConnection:ServerName": "[MY_LOCAL_IPv4_IP_ADDRESS],1433",
   "SqlConnection:ServerAdminPassword": "[MY_SQL_USER_PASSWORD]",
   "SqlConnection:ServerAdminName": "[MY_SQL_USER_USERNAME]",
   "SqlConnection:DatabaseName": "[MY_SQL_DATABASE_NAME]",
-  "SendGrid:Enabled": "False",
-  "SendGrid:ApiKey": "[MY_SENDGRID_ACCESS_KEY_FOR_SENDING_EMAILS]",
+  "SendGrid:ApiKey": "[MY_SENDGRID_ACCESS_KEY_FOR_SENDING_EMAILS]"",
+  "PwaClient:Auth0:ClientId": "[MY_AUTH0_APP_CLIENT_ID]",
+  "WebClient:Auth0:ClientId": "[MY_AUTH0_WEB_CLIENT_ID]",
   "Kestrel:Certificates:Development:Password": "[KESTRAL_UUID_PASSWORD]",
-  "DatabaseCache:Disabled": "False",
-  "Constants:ObfuscationIdLength": "6",
-  "Constants:Defaults:GroupImageName": "groupdefaultimage.png",
-  "Constants:Defaults:EventImageName": "eventdefaultimage.png",
   "Auth0:ManagementClientSecret": "[MY_AUTH0_MANAGEMENT_CLIENT_SECRET]",
-  "Auth0:ManagementClientId": "[MY_AUTH0_MANAGEMENT_CLIENT_ID]",
   "Auth0:Domain": "dertinfodev.eu.auth0.com",
-  "Auth0:Audience": "api.dev.dertinfo.co.uk",
-  "ApiInfo:Version": "v1",
-  "ApiInfo:Title": "DertInfo API",
-  "ApiInfo:TermsOfUse": "http://www.dertinfo.co.uk/terms",
-  "ApiInfo:Description": "API for the DertInfo suite of products",
   "ApiInfo:ContactName": "David Hall",
   "ApiInfo:ContactEmail": "dertinfo@gmail.com"
 }
@@ -77,8 +62,8 @@ You will need to put this file in your visual studio user secrets in order that 
 To note with this configutation: 
 - Auth0:ManagementClientId & Secret - These values are to a special endpoint at Auth0 that allows the manipulation of users in the tenant. We use this endpoint to apply access to user accounts that give them permissions to view groups, events, venues etc. 
 - The StorageAccount references are those for the Azure Storage Emulator and the information is not secret [Azure Storage Explorer Docs](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-emulator)
-- The api infomation is what is displayed when viwing the [swagger](https://swagger.io/tools/swaggerhub) definitions for the API. 
-- Sendgrid enabled as FALSE is a setting that stops emails being sent in a given envionment. 
+- The api infomation is what is displayed when veiwing the [swagger](https://swagger.io/tools/swaggerhub) definitions for the API. 
+- Sendgrid enabled as FALSE is a setting that stops emails being sent in a given environment. 
 
 > **note:** Please see documentaion/wiki for the values to add to the Json for the Auth0. Also provided are a number of logins that will allow access to preconfigured data to support contibution. 
 
@@ -92,9 +77,10 @@ You will need to create the database and roll forward the migrations on your fir
 (Coming soon) It'll be useful to be able to seed the database with a given seed sets appropraite for testing or working with different environments. 
 
 #### From Visual Studio
-You can run the API locally from Visual Studio in 2 ways. 
-- 1) Running locally
-- 2) Running in docker desktop
+You can run the API locally from Visual Studio in 3 ways. 
+- 1) Running as a isolated web app
+- 2) Running as a container in docker desktop 
+- 3) Running the docker componse project - This will spin up the entire estate using images on docker hub for the other parts. 
 
 ## Usage
 
