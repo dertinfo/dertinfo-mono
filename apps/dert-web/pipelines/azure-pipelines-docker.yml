@@ -23,7 +23,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'Docker Hub Service Connection (dertinfo)'
-        repository: 'dertinfo/dertinfo-api'
+        repository: 'dertinfo/dertinfo-web'
         command: 'buildAndPush'
         Dockerfile: 'Dockerfile'
         tags: |
