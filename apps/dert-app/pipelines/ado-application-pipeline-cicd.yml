@@ -3,6 +3,9 @@ trigger:
   branches:
     include:
       - main
+  paths:
+   include:
+    - src/*
 
 # Do not trigger the pipeline on pull requests
 pr:
