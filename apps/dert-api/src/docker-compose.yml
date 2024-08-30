@@ -14,13 +14,13 @@ services:
       - SqlConnection:ServerAdminName=sa
       - SqlConnection:DatabaseName=DertInfoDb
       - SendGrid:Enabled=false
-      - SendGrid:ApiKey=[notRequiredAsEmailsDisabled] # This will need to be populated if you want to test email send functionality. See README.md
-      - Auth0:ManagementClientSecret=REDACTED# This will need to be populated to allow the api to validate requests. See README.md
       - Auth0:Domain=dertinfodev.eu.auth0.com
       - StorageAccount:Images:Protocol=http
       - StorageAccount:Images:Name=devstoreaccount1
       - StorageAccount:Images:Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # Azurite Key Available Publically
       - StorageAccount:Images:BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1 #  Running in docker
+      # [VS: Do Not Override Secrets With Envionment Vars For This Setting] - Auth0:ManagementClientSecret=REDACTED
+      # [VS: Do Not Override Secrets With Envionment Vars For This Setting] - SendGrid:ApiKey=[notRequiredAsEmailsDisabled]
     build:
       context: .
       dockerfile: dertinfo-api/Dockerfile
