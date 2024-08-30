@@ -1,0 +1,22 @@
+{
+    // Name this configuration
+    "name": "Codespace For DertInfo App",
+    // Use the base codespace image
+    "image": "mcr.microsoft.com/vscode/devcontainers/universal:latest",
+    "remoteUser": "codespace",
+    "overrideCommand": false,
+    // Add the IDs of extensions you want installed when the container is created.
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-azuretools.vscode-azurestaticwebapps"
+        ]
+      },
+      "codespaces": {
+        "openFiles": [
+          "codespace.md"
+        ]
+      }
+    },
+    "postCreateCommand": "npm install -g typescript @azure/static-web-apps-cli azure-functions-core-tools@4 @angular/cli@13 && echo '# Writing code upon codespace creation!'  >> codespace.md"
+  }
