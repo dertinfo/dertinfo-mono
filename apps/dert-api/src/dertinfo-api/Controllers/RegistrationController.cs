@@ -608,11 +608,10 @@ namespace DertInfo.Api.Controllers
         [Route("{registrationId}/attending-individuals/delete")]
         public async Task<IActionResult> DeleteExistingMembers([FromRoute] int registrationId, [FromBody] RegistrationMemberAttendanceDeleteSubmissionDto deleteMemberAttendancesSubmission)
         {
-            // Do not process if there is nothing to process
-            // todo - this could be done with a batch guard.
-            if (deleteMemberAttendancesSubmission == null || deleteMemberAttendancesSubmission.MemberAttendanceIds.Length == 0)
+            var noMemberAttendancesToProcess = deleteMemberAttendancesSubmission == null || deleteMemberAttendancesSubmission.MemberAttendanceIds.Length == 0;
+            if (noMemberAttendancesToProcess)
             {
-                return Ok(new List<MemberAttendanceDto>());
+                return BadRequest();
             }
 
             var authorisationPolicy = RegistrationAddMemberPolicy.PolicyName;
