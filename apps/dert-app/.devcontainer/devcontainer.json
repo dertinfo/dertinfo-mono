@@ -9,7 +9,8 @@
     "customizations": {
       "vscode": {
         "extensions": [
-          "ms-azuretools.vscode-azurestaticwebapps"
+          "ms-azuretools.vscode-azurestaticwebapps",
+          "ms-azuretools.vscode-docker"
         ]
       },
       "codespaces": {
@@ -18,5 +19,5 @@
         ]
       }
     },
-    "postCreateCommand": "npm install -g typescript @azure/static-web-apps-cli azure-functions-core-tools@4 @angular/cli@13 && echo '# Writing code upon codespace creation!'  >> codespace.md"
+    "postCreateCommand": "npm install -g typescript @azure/static-web-apps-cli @angular/cli@13 && echo '# Writing code upon codespace creation!'  >> codespace.md"
   }
