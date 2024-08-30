@@ -608,13 +608,6 @@ namespace DertInfo.Api.Controllers
         [Route("{registrationId}/attending-individuals/delete")]
         public async Task<IActionResult> DeleteExistingMembers([FromRoute] int registrationId, [FromBody] RegistrationMemberAttendanceDeleteSubmissionDto deleteMemberAttendancesSubmission)
         {
-            // Do not process if there is nothing to process
-            // todo - this could be done with a batch guard.
-            if (deleteMemberAttendancesSubmission == null || deleteMemberAttendancesSubmission.MemberAttendanceIds.Length == 0)
-            {
-                return Ok(new List<MemberAttendanceDto>());
-            }
-
             var authorisationPolicy = RegistrationAddMemberPolicy.PolicyName;
 
             Registration registration = await this._registrationService.GetForAuthorization(registrationId);
@@ -626,6 +619,10 @@ namespace DertInfo.Api.Controllers
                 base.ExtractUser(); //Fill the scoped injected IDertInfoUser
 
                 var memberAttendanceIds = deleteMemberAttendancesSubmission.MemberAttendanceIds;
+
+                if (memberAttendanceIds.Length == 0) {
+                    return Ok(new List<MemberAttendanceDto>());
+                }
 
                 IEnumerable<MemberAttendance> memberAttendances = await this._registrationService.RemoveMemberAttendances(registration, memberAttendanceIds);
 
