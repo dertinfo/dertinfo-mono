@@ -99,6 +99,8 @@ services:
     build:
       context: ../../
       dockerfile: Dockerfile
+    env_file:
+      - ./app.env
     ports:
       - "44300:4280" # Map host port 44200 to container port 80
     depends_on:
