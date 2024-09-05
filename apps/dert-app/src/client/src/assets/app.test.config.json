@@ -1,0 +1,8 @@
+{
+    "appInsightsTelemetryKey": "",
+    "auth0Audience": "api.test.dertinfo.co.uk",
+    "auth0CallbackUrl": "https://staging.dertinfo.co.uk:44300",
+    "auth0ClientId": "FK4F3IVCfkllBS7RsaJiBc7EPSKZjj94",
+    "auth0TenantDomain": "dertinfotest.eu.auth0.com",
+    "apiUrl": "https://dertinfo-test-api-wa.azurewebsites.net/api"
+}
