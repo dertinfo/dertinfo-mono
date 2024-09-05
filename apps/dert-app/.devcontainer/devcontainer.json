@@ -11,7 +11,8 @@
         "extensions": [
           "ms-azuretools.vscode-azurestaticwebapps",
           "ms-azuretools.vscode-docker",
-          "ms-mssql.mssql"
+          "ms-mssql.mssql",
+          "github.copilot"
         ]
       },
       "codespaces": {
@@ -20,5 +21,5 @@
         ]
       }
     },
-    "postCreateCommand": "npm install -g typescript @azure/static-web-apps-cli @angular/cli@13 && echo '# Writing code upon codespace creation!'  >> codespace.md"
+    "postCreateCommand": "npm install -g typescript @azure/static-web-apps-cli @angular/cli@13 && sh infra/docker/setup.sh && echo '# Writing code upon codespace creation!'  >> codespace.md"
   }

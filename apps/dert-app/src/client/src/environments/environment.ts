@@ -6,6 +6,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:44100/api'
+  apiUrl: 'http://host.docker.internal:44100/api'
 };
 
