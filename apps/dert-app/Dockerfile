@@ -44,15 +44,14 @@ RUN npm install --force
 COPY ./src/client .
 # node-modules is ignored due to the .dockerignore file
 
-# Copy the startup script
-COPY ./infra/docker/docker-launch.sh .
-
-
 # Build the Angular Client
 RUN ng build
 # note - we do not pass the environment here as this is only ever a dev container.
 #      - on deployment the release pipeline builds the static web app from the code.
 #      - the SWA build instuction supplies the flag. 
+
+# Copy the startup script
+COPY ./infra/docker/docker-launch.sh .
 
 # Final Stage
 FROM base AS final
@@ -61,12 +60,12 @@ FROM base AS final
 EXPOSE 4280
 
 # Define the default envionment variables for replacements
-ENV DEFAULT_API_URL http://localhost:44100
-ENV DEFAULT_AUTH_CALLBACK_URL http://localhost:44300
+ENV DEFAULT_API_URL=http://localhost:44100
+ENV DEFAULT_AUTH_CALLBACK_URL=http://localhost:44300
 
 # Define the envionemnt variables that'll be passed on docker run
-ENV API_URL http://localhost:44100
-ENV AUTH_CALLBACK_URL http://localhost:44300
+ENV API_URL=http://localhost:44100
+ENV AUTH_CALLBACK_URL=http://localhost:44300
 
 # Set the working directory
 WORKDIR /app
@@ -78,8 +77,12 @@ COPY --from=builder /build/dist /app/dist
 #      - moving on as we need to get this opensourced to get some help.  
 # note - I tried this again and routing issues happened again. 
 
-COPY --from=builder /build/staticwebapp.config.json /app/staticwebapp.config.json
-COPY --from=builder /build/docker-launch.sh /app/docker-launch.sh
+COPY --from=builder /build/staticwebapp.config.json ./app/staticwebapp.config.json
+COPY --from=builder /build/docker-launch.sh ./docker-launch.sh
+
+# Make the startup script executable
+RUN chmod +x ./docker-launch.sh
 
 # Start the SWA CLI to serve the static web app on running the container
-CMD ["./docker-launch.sh"]
+CMD ["bash", "./docker-launch.sh"]
+# CMD ["swa", "start", "./dist"] 
