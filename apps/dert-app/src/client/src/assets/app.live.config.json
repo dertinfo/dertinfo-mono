@@ -1,8 +1,0 @@
-{
-    "appInsightsTelemetryKey": "",
-    "auth0Audience": "api.dertinfo.co.uk",
-    "auth0CallbackUrl": "https://www.dertinfo.co.uk",
-    "auth0ClientId": "nRLT9h8MT8aCFhG4mDiQfMMIbAqXkOKS",
-    "auth0TenantDomain": "dertinfo.eu.auth0.com",
-    "apiUrl": "https://dertinfo-live-api-wa.azurewebsites.net/api"
-}

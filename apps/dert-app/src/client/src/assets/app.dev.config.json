@@ -1,8 +1,0 @@
-{
-    "appInsightsTelemetryKey": "",
-    "auth0Audience": "api.dev.dertinfo.co.uk",
-    "auth0CallbackUrl": "http://localhost:44300",
-    "auth0ClientId": "AGFfa2R7jsYA7vmhBRjU4tl6htgI4Yvh",
-    "auth0TenantDomain": "dertinfodev.eu.auth0.com",
-    "apiUrl": "http://localhost:44100"
-}

@@ -61,12 +61,14 @@ FROM base AS final
 EXPOSE 4280
 
 # Define the default envionment variables for replacements
-ENV DEFAULT_API_URL http://localhost:44100
+ENV DEFAULT_API_URL http://localhost:44100/api
 ENV DEFAULT_AUTH_CALLBACK_URL http://localhost:44300
+ENV DEFAULT_ALLOWED_DOMAINS http://localhost:44100
 
-# Define the envionemnt variables that'll be passed on docker run
-ENV API_URL http://localhost:44100
+# Define the envionment variables that'll be passed on docker run
+ENV API_URL http://localhost:44100/api
 ENV AUTH_CALLBACK_URL http://localhost:44300
+ENV ALLOWED_DOMAINS http://localhost:44100
 
 # Set the working directory
 WORKDIR /app
@@ -82,4 +84,4 @@ COPY --from=builder /build/staticwebapp.config.json /app/staticwebapp.config.jso
 COPY --from=builder /build/docker-launch.sh /app/docker-launch.sh
 
 # Start the SWA CLI to serve the static web app on running the container
-CMD ["./docker-launch.sh"]
+CMD ["./docker-app-launch.sh"]

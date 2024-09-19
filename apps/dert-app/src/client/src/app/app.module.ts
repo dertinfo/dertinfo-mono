@@ -14,42 +14,20 @@ import { AppStoresModule } from './stores/stores.module';
 import { AppServicesModule } from './services/services.module';
 import { PipesModule } from './pipes/pipes.module';
 
-import { JwtModule } from '@auth0/angular-jwt';
+import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { AuthModule } from './authentication/auth.module';
-import { AuthService } from './authentication/auth.service';
 import { ConfigurationService } from './services/configuration.service';
 import { AppInsightsService } from './services/appinsights.service';
 import { AuthGuard } from './core/guards/auth.guard';
 
+import { jwtOptions } from './jwt-utils';
+
 export function initSettings(configurationService: ConfigurationService, appInsightsService: AppInsightsService, http: HttpClient) {
-  console.log('Application Initialising');
   return () => {
     return configurationService.loadConfig(http).then(() => {
       appInsightsService.initialiseInsights();
     });
   };
-}
-
-export function jwtOptionsFactory(authService: AuthService) {
-  return {
-      tokenGetter: () => {
-          return authService.accessToken
-      },
-      allowedDomains: [
-        'localhost:60280',
-        'localhost:44100',
-        'dertinfo-api-test.azurewebsites.net',
-        'dertinfo-test-api-wa.azurewebsites.net',
-        'dertinfo-api-live.azurewebsites.net',
-        'dertinfo-live-api-wa.azurewebsites.net'
-      ],
-  };
-
-  /** You must add valid domains the the whitelist else the token will not be provided */
-}
-
-export function getJwtToken(): string {
-  return localStorage.getItem('access_token');
 }
 
 @NgModule({
@@ -65,11 +43,11 @@ export function getJwtToken(): string {
     HttpClientModule,
     PipesModule,
     JwtModule.forRoot({
-      config: {
-        tokenGetter: getJwtToken,
-        allowedDomains: ['localhost:60280', 'localhost:44100', 'dertinfo-api-test.azurewebsites.net', 'dertinfo-test-api-wa.azurewebsites.net', 'dertinfo-api-live.azurewebsites.net', 'dertinfo-live-api-wa.azurewebsites.net'],
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptions.options
       }
-    }),
+    })
   ],
   declarations: [
     AppComponent
