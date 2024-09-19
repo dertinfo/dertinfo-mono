@@ -82,7 +82,7 @@ export class ConfigurationService {
                     tap(remoteData => {
                         this.config.appInsightsTelemetryKey = remoteData['appInsightsTelemetryKey'];
                         this.config.auth0Audience = remoteData['auth0Audience'];
-                        this.config.auth0CallbackUrl = remoteData['auth0CallbackUrl'];
+                        // this.config.auth0CallbackUrl = remoteData['auth0CallbackUrl']; // note - due to adopting codespaces this is not known at the API so we define in the client
                         this.config.auth0ClientId = remoteData['auth0ClientId'];
                         this.config.auth0TenantDomain = remoteData['auth0TenantDomain'];
 

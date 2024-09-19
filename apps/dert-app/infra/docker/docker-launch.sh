@@ -8,9 +8,9 @@
 # from environment variables.
 # ######################################################
 
-# Define the values that we're oging to replace in the configuration file
+# Define the values that we're going to replace in the configuration file. (You can see the actual set values in the Dockerfile)
 DEFAULT_API_URL=${DEFAULT_API_URL} # http://localhost:44100/api
-DEFAULT_AUTH_CALLBACK_URL=${DEFAULT_AUTH_CALLBACK_URL} # http://loalhost:44300/auth/callback
+DEFAULT_AUTH_CALLBACK_URL=${DEFAULT_AUTH_CALLBACK_URL} # http://localhost:44300/auth/callback
 DEFAULT_ALLOWED_DOMAINS=${DEFAULT_ALLOWED_DOMAINS} # localhost:44100
 
 # Pickup the environment variable values of API_URL and AUTH_CALLBACK_URL and put them into variables
@@ -31,7 +31,7 @@ sed -i "s|${DEFAULT_API_URL}|${API_URL}|g" $CONFIG_FILE
 sed -i "s|${DEFAULT_AUTH_CALLBACK_URL}|${AUTH_CALLBACK_URL}|g" $CONFIG_FILE
 
 # Replace the values of the DEFAULT_ALLOWED_DOMAIN with the environment variable value of ALLOWED_DOMAIN
-sed -i "s|${DEFAULT_ALLOWED_DOMAIN}|${ALLOWED_DOMAIN}|g" $CONFIG_FILE
+sed -i "s|${DEFAULT_ALLOWED_DOMAINS}|${ALLOWED_DOMAINS}|g" $CONFIG_FILE
 
 # Write the contents of the configuration file to the console
 cat $CONFIG_FILE

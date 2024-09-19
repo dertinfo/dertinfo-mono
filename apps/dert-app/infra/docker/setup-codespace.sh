@@ -37,7 +37,7 @@ echo "SendGrid__ApiKey=$SENDGRID_API_KEY" >> infra/docker/api.env
 # As the codespace needs special urls to access forwarded ports then we need to accomodate that for the API and the Auth0 callback url
 echo "API_URL=https://$CODESPACE_NAME-44100.app.github.dev/api" > infra/docker/app.env
 echo "AUTH_CALLBACK_URL=https://$CODESPACE_NAME-44300.app.github.dev" >> infra/docker/app.env
-echo "ALLOWED_DOMAINS=https://$CODESPACE_NAME-44100.app.github.dev" >> infra/docker/app.env
+echo "ALLOWED_DOMAINS=$CODESPACE_NAME-44100.app.github.dev" >> infra/docker/app.env
 
 # Notify the user that the script has completed
 echo "Completed setting up the configuration & secrets for the codespace."

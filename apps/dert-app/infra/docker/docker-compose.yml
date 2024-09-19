@@ -89,20 +89,20 @@ services:
   #   container_name: web
   #   image: dertinfo/dertinfo-web
   #   ports:
-  #     - "44200:4280" # Map host port 44200 to container port 80
+  #     - "44200:4280" # Map host port 44200 to container port 4280
   #   depends_on:
   #     - dertinfo-api # Ensure API starts before the web client  
 
   app-frontend:
     container_name: app
-    image: dertinfo/dertinfo-app
+    # image: dertinfo/dertinfo-app
     build:
       context: ../../
       dockerfile: Dockerfile
     env_file:
       - ./app.env
     ports:
-      - "44300:4280" # Map host port 44200 to container port 80
+      - "44300:4280" # Map host port 44300 to container port 4280
     depends_on:
       - dertinfo-api # Ensure API starts before the web client
 
