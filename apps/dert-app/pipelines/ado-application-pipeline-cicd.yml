@@ -32,7 +32,7 @@ stages:
               inputs:
                 app_location: 'src/client'
                 app_build_command: "npm run ado-build-ui-test"
-                output_location: 'www'
+                output_location: 'dist'
               env:
                 azure_static_web_apps_api_token: $(staging_deployment_token)
 
@@ -51,7 +51,7 @@ stages:
               inputs:
                 app_location: 'src/client'
                 app_build_command: "npm run ado-build-ui-prod"
-                output_location: 'www'
+                output_location: 'dist'
               env:
                 azure_static_web_apps_api_token: $(live_deployment_token)
 
