@@ -112,11 +112,13 @@ export class ConfigurationService {
         // The deployed production setup does not use containerisation ans uses the native functionality of the Azure Static Web App.
         // Part of this pipeline is to rebuild the service using the angular CLI and therefore the docker build mechansism are not relevant
         if (environment.production) {
+            console.log('Applying production configuration');
             configuration.apiUrl = environment.apiUrl;
             configuration.auth0CallbackUrl = environment.auth0CallbackUrl;
             configuration.allowedDomains = environment.allowedDomains;
         }
 
+        console.log('Using production configuration', configuration);
         return configuration;
     }
 
