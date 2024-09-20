@@ -39,7 +39,7 @@ COPY ./src/client/package-lock.json package-lock.json
 
 # Install node modules
 RUN npm install --force
-# note - we have to force here as we have package conflicts that will not install the dependencies without the force. This needs tobe addresssed. 
+# note - we have to force here as we have package conflicts that will not install the dependencies without the force. This needs tobe addresssed. #15
 
 # Copy the rest of the files from the host "./src/client" directory to the container current working directory "/build"
 COPY ./src/client .
