@@ -9,12 +9,7 @@ export const environment = {
   apiUrl: 'http://localhost:44100/api',
   auth0CallbackUrl: "http://localhost:44300",
   allowedDomains: [
-    "localhost:60280",
-    "localhost:44100",
-    "dertinfo-api-test.azurewebsites.net",
-    "dertinfo-test-api-wa.azurewebsites.net",
-    "dertinfo-api-live.azurewebsites.net",
-    "dertinfo-live-api-wa.azurewebsites.net"
+    "localhost:44100"
   ]
 };
 

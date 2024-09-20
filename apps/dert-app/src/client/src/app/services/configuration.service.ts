@@ -62,21 +62,37 @@ export class ConfigurationService {
 
     public loadConfig(http): Promise<EnvironmentConfig> {
 
-        console.log('configurationservice - loadConfig - start');
+        console.log('Loading configuration...');
 
         return this.getLocalConfiguration(http)
             .pipe(
                 tap(localData => {
-                    this.config.apiUrl = localData['apiUrl'];
-                    this.config.auth0CallbackUrl = localData['auth0CallbackUrl'];
-                    this.config.allowedDomains = localData['allowedDomains'];
 
-                    console.log('configurationservice - loadlocal - completed');
+                    if (environment.production) {
+                        console.log('Applying production configuration');
 
+                        // If we're in production, this service is hosted in Azure Static Web App which builds the service on deployment.
+                        // The deployed production setup does not use containerisation ans uses the native functionality of the Azure Static Web App.
+                        // Part of this pipeline is to rebuild the service using the angular CLI and therefore the docker build mechansism are not relevant    
+                        this.config.apiUrl = environment.apiUrl;
+                        this.config.auth0CallbackUrl = environment.auth0CallbackUrl;
+                        this.config.allowedDomains = environment.allowedDomains;
+                    } else {
+                        console.log('Applying local/docker configuration');
+
+                        // When running in codespaces and locally this is the configuration file to use
+                        // In Codespaces: This file is changed with information from the created codespace using the codespace name.
+                        // In local: We use the file as it is to connect to local ports. 
+                        this.config.apiUrl = localData['apiUrl'];
+                        this.config.auth0CallbackUrl = localData['auth0CallbackUrl'];
+                        this.config.allowedDomains = localData['allowedDomains'];
+
+                        
+                    }
+
+                    console.log('Assigning Allowed Domains');
                     var newDomains = this.config.allowedDomains.map(domain => domain.toLowerCase());
                     jwtOptions.updateAllowedDomains(newDomains);
-
-                    console.log('configurationservice - loadlocal - updateddomainsassigned');
                 }),
                 switchMap(localData =>
                     this.getRemoteConfiguration(http).pipe(
@@ -103,20 +119,10 @@ export class ConfigurationService {
         // this.config.apiUrl = environment.apiUrl;
         // return http.get(`${this.config.apiUrl}/clientconfiguration/app`);
 
-        // When running in codespaces and locally this is the configuration file to use
-        // In Codespaces: This file is changed with information from the created codespace using the codespace name.
-        // In local: We use the file as it is to connect to local ports. 
+
         var configuration = http.get("assets/app.config.json");
 
-        // If we're in production, this service is hosted in Azure Static Web App which builds the service on deployment.
-        // The deployed production setup does not use containerisation ans uses the native functionality of the Azure Static Web App.
-        // Part of this pipeline is to rebuild the service using the angular CLI and therefore the docker build mechansism are not relevant
-        if (environment.production) {
-            console.log('Applying production configuration');
-            configuration.apiUrl = environment.apiUrl;
-            configuration.auth0CallbackUrl = environment.auth0CallbackUrl;
-            configuration.allowedDomains = environment.allowedDomains;
-        }
+
 
         console.log('Using production configuration', configuration);
         return configuration;
