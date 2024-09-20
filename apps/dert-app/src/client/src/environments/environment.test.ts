@@ -8,7 +8,6 @@ export const environment = {
   apiUrl: 'https://dertinfo-test-api-wa.azurewebsites.net/api',
   auth0CallbackUrl: "https://staging-app.dertinfo.com",
   allowedDomains: [
-    "dertinfo-api-test.azurewebsites.net",
     "dertinfo-test-api-wa.azurewebsites.net",
   ]
 };
