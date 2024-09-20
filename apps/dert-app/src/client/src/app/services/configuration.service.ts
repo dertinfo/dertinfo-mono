@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { switchMap, tap } from 'rxjs/operators';
+import { jwtOptions } from '../jwt-utils';
 
 export class EnvironmentConfig {
     apiUrl: string;
@@ -10,6 +10,7 @@ export class EnvironmentConfig {
     auth0Audience: string;
     auth0TenantDomain: string;
     appInsightsTelemetryKey: string;
+    allowedDomains: Array<string>;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -22,7 +23,8 @@ export class ConfigurationService {
         auth0ClientId: '',
         auth0Audience: '',
         auth0TenantDomain: '',
-        appInsightsTelemetryKey: ''
+        appInsightsTelemetryKey: '',
+        allowedDomains: []
     };
 
     public get baseApiUrl(): string {
@@ -53,30 +55,58 @@ export class ConfigurationService {
         return this.config;
     }
 
-    public loadConfig(http): Promise<EnvironmentConfig> {
-        console.log('Application Loading Config');
-        return this.getJSON(http)
-            .pipe(
-                tap(
-                    data => {
-                        // Get the configuration from the api specified in the envionment.ts file
-                        this.config.appInsightsTelemetryKey = data['appInsightsTelemetryKey'];
-                        this.config.auth0Audience = data['auth0Audience'];
-                        this.config.auth0CallbackUrl = data['auth0CallbackUrl'];
-                        this.config.auth0ClientId = data['auth0ClientId'];
-                        this.config.auth0TenantDomain = data['auth0TenantDomain'];
-                    }
-                )
-            )
-            .toPromise();
+    public get allowedDomains(): Array<string> {
+        return this.config.allowedDomains;
     }
 
-    public getJSON(http): Observable<any> {
+    public loadConfig(http): Promise<EnvironmentConfig> {
+
+        console.log('configurationservice - loadConfig - start');
+
+        return this.getLocalConfiguration(http)
+        .pipe(
+            tap(localData => {
+                this.config.apiUrl = localData['apiUrl'];
+                this.config.auth0CallbackUrl = localData['auth0CallbackUrl'];
+                this.config.allowedDomains = localData['allowedDomains'];
+
+                console.log('configurationservice - loadlocal - completed');
+
+                var newDomains = this.config.allowedDomains.map(domain => domain.toLowerCase());
+                jwtOptions.updateAllowedDomains(newDomains);
+
+                console.log('configurationservice - loadlocal - updateddomainsassigned');
+            }),
+            switchMap(localData => 
+                this.getRemoteConfiguration(http).pipe(
+                    tap(remoteData => {
+                        this.config.appInsightsTelemetryKey = remoteData['appInsightsTelemetryKey'];
+                        this.config.auth0Audience = remoteData['auth0Audience'];
+                        // this.config.auth0CallbackUrl = remoteData['auth0CallbackUrl']; // note - due to adopting codespaces this is not known at the API so we define in the client
+                        this.config.auth0ClientId = remoteData['auth0ClientId'];
+                        this.config.auth0TenantDomain = remoteData['auth0TenantDomain'];
+
+                        console.log('configurationservice - loadremote - completed');
+                    })
+                )
+            )
+        )
+        .toPromise();
+    }
+
+    public getLocalConfiguration(http): Observable<any> {
         // Was: this used to get configuration from the functionapp
         // return http.get('/api/ClientConfigurationHttp');
 
         // Now: we're using a static file to specify the primary API from which to get configuration
-        this.config.apiUrl = environment.apiUrl;
+        // this.config.apiUrl = environment.apiUrl;
+        // return http.get(`${this.config.apiUrl}/clientconfiguration/app`);
+
+        return http.get("assets/app.config.json");
+    }
+
+    public getRemoteConfiguration(http): Observable<any> {
+
         return http.get(`${this.config.apiUrl}/clientconfiguration/app`);
     }
 }

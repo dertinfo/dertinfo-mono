@@ -30,6 +30,7 @@ export class SettingsPage implements OnInit {
     public refreshToken = '';
     public profile = '';
     public apiBaseUrl = '';
+    public allowedDomains = '';
 
     constructor(
         private _logger: ILogger,
@@ -86,6 +87,7 @@ export class SettingsPage implements OnInit {
         this.refreshToken = localStorage.getItem('refresh_token');
 
         this.apiBaseUrl = this._configurationService.baseApiUrl;
+        this.allowedDomains = this._configurationService.allowedDomains.join(', ');
 
     }
 

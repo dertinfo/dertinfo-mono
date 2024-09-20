@@ -65,6 +65,14 @@
 
     <ion-card *ngIf="isDeveloperMode">
         <ion-item>
+            <h2>Allowed Domains</h2>
+            <p>{{allowedDomains}}</p>
+
+        </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="isDeveloperMode">
+        <ion-item>
             <button ion-button block (click)="clearAllData()">Clear All Data</button>
         </ion-item>
     </ion-card>
