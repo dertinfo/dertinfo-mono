@@ -6,7 +6,7 @@
 export const environment = {
   production: true,
   apiUrl: 'https://dertinfo-live-api-wa.azurewebsites.net/api',
-  auth0CallbackUrl: "https://app.dertinfo.com",
+  auth0CallbackUrl: "https://app.dertinfo.co.uk",
   allowedDomains: [
     "dertinfo-live-api-wa.azurewebsites.net"
   ]
