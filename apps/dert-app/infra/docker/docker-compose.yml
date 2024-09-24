@@ -1,5 +1,3 @@
-version: '3.1'
-
 services:
   # Service for the Dertinfo API
   dertinfo-api:
@@ -24,7 +22,7 @@ services:
       - StorageAccount__Images__Name=devstoreaccount1
       - StorageAccount__Images__Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # Azurite Key Available Publically
       - StorageAccount__Images__BlobEndpoint=http://azstorage/devstoreaccount1 #  Running in docker   
-      #- PwaClient__Auth0__ClientId=/run/secrets/auth0_app_client_id
+      - PwaClient__Auth0__ClientId=AGFfa2R7jsYA7vmhBRjU4tl6htgI4Yvh
       #- WebClient__Auth0__ClientId=/run/secrets/AUTH0_WEB_CLIENT_ID
       #- SendGrid__ApiKey=/run/secrets/sendgrid_api_key # This will need to be populated if you want to test email send functionality. See README.md
       #- Auth0__ManagementClientId=/run/secrets/auth0_management_client_id
@@ -93,18 +91,18 @@ services:
   #   depends_on:
   #     - dertinfo-api # Ensure API starts before the web client  
 
-  app-frontend:
-    container_name: app
-    # image: dertinfo/dertinfo-app
-    build:
-      context: ../../
-      dockerfile: Dockerfile
-    env_file:
-      - ./app.env
-    ports:
-      - "44300:4280" # Map host port 44300 to container port 4280
-    depends_on:
-      - dertinfo-api # Ensure API starts before the web client
+  # app-frontend:
+  #   container_name: app
+  #   # image: dertinfo/dertinfo-app
+  #   build:
+  #     context: ../../
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - ./app.env
+  #   ports:
+  #     - "44300:4280" # Map host port 44300 to container port 4280
+  #   depends_on:
+  #     - dertinfo-api # Ensure API starts before the web client
 
 # Define named volumes
 volumes:

@@ -2,7 +2,6 @@
     "auth0CallbackUrl": "http://localhost:44300",
     "apiUrl": "http://localhost:44100/api",
     "allowedDomains": [
-        "localhost:60280",
         "localhost:44100"
     ]
 }
