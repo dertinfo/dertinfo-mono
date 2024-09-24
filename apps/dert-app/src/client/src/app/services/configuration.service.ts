@@ -64,51 +64,63 @@ export class ConfigurationService {
 
         console.log('Loading configuration...');
 
-        return this.getLocalConfiguration(http)
-            .pipe(
-                tap(localData => {
+        // Create an observable that will be notified when the local settings are loaded
+        const localConfigLoaded$ = new Observable<EnvironmentConfig>(observer => {
 
-                    if (environment.production) {
-                        console.log('Applying production configuration');
+            if (environment.production) {
 
-                        // If we're in production, this service is hosted in Azure Static Web App which builds the service on deployment.
-                        // The deployed production setup does not use containerisation ans uses the native functionality of the Azure Static Web App.
-                        // Part of this pipeline is to rebuild the service using the angular CLI and therefore the docker build mechansism are not relevant    
-                        this.config.apiUrl = environment.apiUrl;
-                        this.config.auth0CallbackUrl = environment.auth0CallbackUrl;
-                        this.config.allowedDomains = environment.allowedDomains;
-                    } else {
-                        console.log('Applying local/docker configuration');
+                // In the production scenario all our services are deployed natively to Azure Static Web App.
+                // The build pipeline for this is ADO. Which builds the app before deployment with the ralavenat --configuration flag
+                // This means that for "test" and "production" the configuration is set at build time and not runtime.
+                console.log('Applying production configuration');
+                this.config.apiUrl = environment.apiUrl;
+                this.config.auth0CallbackUrl = environment.auth0CallbackUrl;
+                this.config.allowedDomains = environment.allowedDomains;
+                observer.next(this.config);
+                observer.complete();
 
-                        // When running in codespaces and locally this is the configuration file to use
-                        // In Codespaces: This file is changed with information from the created codespace using the codespace name.
-                        // In local: We use the file as it is to connect to local ports. 
-                        this.config.apiUrl = localData['apiUrl'];
-                        this.config.auth0CallbackUrl = localData['auth0CallbackUrl'];
-                        this.config.allowedDomains = localData['allowedDomains'];
+            } else {
 
-                        
-                    }
+                // When running in codespaces and locally this is the configuration file to use
+                // In Codespaces: This file is changed with information from the created codespace using the codespace name.
+                // In local: We use the file as it is to connect to local ports.
+                console.log('Loading Local/Codespaces configuration');
+                this.getLocalConfiguration(http).subscribe(localData => {
+                    console.log('Applying Local/Codespaces Configuration');
+                    this.config.apiUrl = localData.apiUrl;
+                    this.config.auth0CallbackUrl = localData.auth0CallbackUrl;
+                    this.config.allowedDomains = localData.allowedDomains;
+                    observer.next(this.config);
+                    observer.complete();
+                });
+            }
+        });
 
-                    console.log('Assigning Allowed Domains');
-                    var newDomains = this.config.allowedDomains.map(domain => domain.toLowerCase());
-                    jwtOptions.updateAllowedDomains(newDomains);
-                }),
-                switchMap(localData =>
-                    this.getRemoteConfiguration(http).pipe(
-                        tap(remoteData => {
-                            this.config.appInsightsTelemetryKey = remoteData['appInsightsTelemetryKey'];
-                            this.config.auth0Audience = remoteData['auth0Audience'];
-                            // this.config.auth0CallbackUrl = remoteData['auth0CallbackUrl']; // note - due to adopting codespaces this is not known at the API so we define in the client
-                            this.config.auth0ClientId = remoteData['auth0ClientId'];
-                            this.config.auth0TenantDomain = remoteData['auth0TenantDomain'];
+        // Return a promise that will be resolved when the remote settings are loaded
+        return new Promise((resolve, reject) => {
 
-                            console.log('configurationservice - loadremote - completed');
-                        })
-                    )
-                )
-            )
-            .toPromise();
+            // When the local settings are loaded, apply the allowed domains to the jwtOptions
+            localConfigLoaded$.subscribe(config => {
+                
+                // Set Allowed Domains - All From local configuration. 
+                console.log('Assigning Allowed Domains');
+                var newDomains = this.config.allowedDomains.map(domain => domain.toLowerCase());
+                jwtOptions.updateAllowedDomains(newDomains);
+
+                // Load the remote settings
+                console.log('Loading Remote Configuration');
+                var subs = this.getRemoteConfiguration(http).subscribe(remoteData => {
+                    console.log('Applying Remote Configuration');
+                    this.config.appInsightsTelemetryKey = remoteData['appInsightsTelemetryKey'];
+                    this.config.auth0Audience = remoteData['auth0Audience'];
+                    this.config.auth0ClientId = remoteData['auth0ClientId'];
+                    this.config.auth0TenantDomain = remoteData['auth0TenantDomain'];
+
+                    subs.unsubscribe();
+                    resolve(this.config);
+                });
+            });
+        });
     }
 
     public getLocalConfiguration(http): Observable<any> {
@@ -119,12 +131,7 @@ export class ConfigurationService {
         // this.config.apiUrl = environment.apiUrl;
         // return http.get(`${this.config.apiUrl}/clientconfiguration/app`);
 
-
         var configuration = http.get("assets/app.config.json");
-
-
-
-        console.log('Using production configuration', configuration);
         return configuration;
     }
 
