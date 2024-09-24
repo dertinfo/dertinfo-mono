@@ -91,18 +91,18 @@ services:
   #   depends_on:
   #     - dertinfo-api # Ensure API starts before the web client  
 
-  # app-frontend:
-  #   container_name: app
-  #   # image: dertinfo/dertinfo-app
-  #   build:
-  #     context: ../../
-  #     dockerfile: Dockerfile
-  #   env_file:
-  #     - ./app.env
-  #   ports:
-  #     - "44300:4280" # Map host port 44300 to container port 4280
-  #   depends_on:
-  #     - dertinfo-api # Ensure API starts before the web client
+  app-frontend:
+    container_name: app
+    # image: dertinfo/dertinfo-app
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    env_file:
+      - ./app.env
+    ports:
+      - "44300:4280" # Map host port 44300 to container port 4280
+    depends_on:
+      - dertinfo-api # Ensure API starts before the web client
 
 # Define named volumes
 volumes:
