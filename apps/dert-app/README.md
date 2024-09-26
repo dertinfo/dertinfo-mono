@@ -40,12 +40,52 @@ In order to get this project running you are going to need.
 
 ## Running The Project
 
+### Codespaces
+
+This app has been fully setup for codespaces and is by far the easiest way to get started. 
+
+**Launch the codespace:**
+
+![image](https://github.com/user-attachments/assets/f4ac2952-9762-4cf5-9eac-c7b7585ec292)
+
+Let the codespace setup by applying the VS code extensions and allow the startup script s to run. (codespace defined in .devcontainer). This will setup the environment for running the app and it's dependencies.
+
+**Launch the dependencies**
+
+In the VSCode teminal navigate to infra/docker and run docker-compose up
+
+```
+cd infra/docker
+docker-compose up
+```
+
+This will pull all the dependencies from docker hub and setup the whle envionment please give it time on first setting up your code space this can take upto 5 mins. (See /infra/docker/setup-codespace.sh)
+
+If any dependency doesn't start simply restart it as it'll be a timing issue on launch. 
+
+Make sure that your APP and API ports are publically visible and if thay are not make sure they are. (They need to be public for the Auth mechainsms to work in codespaces)
+
+![image](https://github.com/user-attachments/assets/350499ed-4389-4f0e-bcc5-f7bbe5eb0448)
+
+For More information on how we use "docker" and "docker-compose" in DertInfo please see the wiki [here](https://github.com/dertinfo/dertinfo/wiki/How-we-use-docker-&-docker%E2%80%90compose-in-DertInfo)
+
+**Check your environment**
+
+The app will now be running on port :44300 within the codespace you can access it by looking at the forwarded ports in VS Code and proceeding. 
+
+You may get a warning about accessing the codespace simply continue.
+
+You should gain the homepage of the App. (Please note you may need to adjust the view port to mobile)
+
+Please note that functionality will be limited as there will be no data. Please see #
+
+### Local Development
+
 In order for this client to work in your local environment you will need to have the following services available:
 - The DertInfo API running for access to the application data. 
 - The client component of static web app for the intereface
 - The function app component of the static web app to get the configuration
 - The static web app itself to bind the client and the function app. 
-
 
 ### For the function app
 
