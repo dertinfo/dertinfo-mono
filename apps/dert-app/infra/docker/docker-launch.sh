@@ -8,6 +8,10 @@
 # from environment variables.
 # ######################################################
 
+# ######################################################
+# Important!! This file must be saved with Unix line endings. "LF" (As we run it on a linux the container)
+# ######################################################
+
 # Define the values that we're going to replace in the configuration file. (You can see the actual set default values in the Dockerfile)
 DEFAULT_API_URL=${DEFAULT_API_URL} # http://localhost:44100/api
 DEFAULT_AUTH_CALLBACK_URL=${DEFAULT_AUTH_CALLBACK_URL} # http://localhost:44300/auth/callback
@@ -28,7 +32,7 @@ ALLOWED_DOMAINS=${ALLOWED_DOMAINS}
 # Output the file stucture
 ls -l ./
 
-# Get a reference to the configuration file for the app client "app.config.json" at the path src/assets
+# Get a reference to the configuration file for the app client "app.config.json" moved from the path src/assets to the assets folder in /distduring docker build.
 CONFIG_FILE="./dist/assets/app.config.json"
 
 # Replace the values of the DEFAULT_API_URL with the environment variable value of API_URL
