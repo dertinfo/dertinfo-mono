@@ -1,7 +1,7 @@
 {
-    "auth0CallbackUrl": "https://didactic-spork-g65wqp9wpqfvg5w-44200.app.github.dev",
-    "apiUrl": "https://didactic-spork-g65wqp9wpqfvg5w-44100.app.github.dev/api",
+    "auth0CallbackUrl": "http://localhost:44300",
+    "apiUrl": "http://localhost:44100/api",
     "allowedDomains": [
-        "didactic-spork-g65wqp9wpqfvg5w-44100.app.github.dev"
+        "localhost:44100"
     ]
 }
