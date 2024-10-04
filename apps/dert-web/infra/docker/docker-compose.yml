@@ -69,8 +69,8 @@ services:
    image: dertinfo/dertinfo-imageresizev4
    ports:
      - "44400:80" # Map host port 44400 to container port 80
-   env_file:
-     - ./api.env
+   extra_hosts:
+     - "host.docker.internal:host-gateway"
    environment:
      - AzureWebJobs.ResizeDefaultImages.Disabled=true
      - AzureWebJobs.ResizeEventImages.Disabled=true
@@ -90,18 +90,18 @@ services:
   #   depends_on:
   #     - dertinfo-api # Ensure API starts before the web client  
 
-  # web-frontend:
-  #   container_name: web
-  #   # image: dertinfo/dertinfo-web
-  #   build:
-  #     context: ../../
-  #     dockerfile: Dockerfile
-  #   env_file:
-  #     - ./web.env
-  #   ports:
-  #     - "44200:4280" # Map host port 44200 to container port 80
-  #   depends_on:
-  #     - dertinfo-api # Ensure API starts before the web client
+  web-frontend:
+    container_name: web
+    # image: dertinfo/dertinfo-web
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    env_file:
+      - ./web.env
+    ports:
+      - "44200:4280" # Map host port 44200 to container port 80
+    depends_on:
+      - dertinfo-api # Ensure API starts before the web client
 
 # Define named volumes
 volumes:

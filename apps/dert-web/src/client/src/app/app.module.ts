@@ -4,7 +4,7 @@ import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/cor
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { JwtModule } from '@auth0/angular-jwt';
+import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ConfigurationService } from 'app/core/services/configuration.service';
@@ -33,6 +33,7 @@ import { DertOfDertsRegionModule } from './regions/dertofderts/dertofderts-regio
 import { SessionRegionModule } from './regions/session/session-region.module';
 import { TermsRegionModule } from './regions/terms/terms-region.module';
 import { AppSharedModule } from './shared/app-shared.module';
+import { jwtOptions } from './core/jwt-utils';
 
 export function initSettings(configurationService: ConfigurationService, appInsightsService: AppInsightsService, http: HttpClient) {
   console.log('Application Initialising');
@@ -80,9 +81,9 @@ export function getJwtToken(): string {
       }
     }),
     JwtModule.forRoot({
-      config: {
-        tokenGetter: getJwtToken,
-        allowedDomains: ['localhost:60280', 'localhost:44100', 'dertinfo-api-test.azurewebsites.net', 'dertinfo-test-api-wa.azurewebsites.net', 'dertinfo-api-live.azurewebsites.net', 'dertinfo-live-api-wa.azurewebsites.net'],
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptions.options
       }
     }),
     RouterModule.forRoot(rootRouterConfig, { enableTracing: false, useHash: false, anchorScrolling: 'enabled', relativeLinkResolution: 'legacy' }),

@@ -33,7 +33,7 @@
             "visibility": "public"
         },
         "44200": {
-            "label": "Public Availability On App",
+            "label": "Public Availability On Web",
             "onAutoForward": "notify",
             "visibility": "public"
         }

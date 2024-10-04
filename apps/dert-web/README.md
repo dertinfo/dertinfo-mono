@@ -76,6 +76,7 @@ Using the approach below will give you the "hot reload" functionality from angul
 From the root of the repository issue the following commands
 ```
 cd src/client
+npm i
 ng serve
 ```
 This will spin up the angular application on http://localhost:4200. 
@@ -84,12 +85,14 @@ To better mirror the deployment environment we now wrap this in an Azure Static 
 
 #### Run as a static web app
 
-The following command provides the above angular app as a static web app via the static web app CLI mirroring the production environment. 
+Open a new command terminal while the angular app is running and use the following command which presents the above angular app as a static web app via the static web app CLI mirroring the production environment. 
 ```
-swa start http://localhost:4200 --port 44300
+swa start http://localhost:4200 --port 44200
 ```
 
-At this point (if running locally) you should be able to proceed to http://localhost:44300 and you will see the running application there. If running in codespaces please see forwarded ports and you should be able to see the app running there. 
+At this point (if running locally) you should be able to proceed to http://localhost:44200 and you will see the running application there. If running in codespaces please see forwarded ports and you should be able to see the app running there. 
+
+Also note that if you are running the app locally in codespaces and not via docker you must update the assets/app.config.json file with the paths in the generated infra/docker/web/env file as the urls need to be those of the codespace instead of the localhost. 
 
 ### Running the Web In Docker
 
