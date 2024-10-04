@@ -1,5 +1,3 @@
-version: '3.8' # Docker Compose file version
-
 services:
   # Service for the Dertinfo API
   dertinfo-api:
@@ -7,24 +5,27 @@ services:
     image: dertinfo/dertinfo-api
     ports:
       - "44100:80" # Map host port 44300 to container port 80
+    env_file:
+      - ./api.env
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80;
-      - SqlConnection:ServerName=host.docker.internal,44000 # Connect to SQL Server on host machine running in docker
-      - SqlConnection:ServerAdminPassword=myUn53cur3Pa55w0rd! # This is local to your container
-      - SqlConnection:ServerAdminName=sa # This is local to your container
-      - SqlConnection:DatabaseName=DertInfoDb # This is local to your container
-      - SendGrid:Enabled=false
-      - SendGrid:ApiKey=[notRequiredAsEmailsDisabled] # This will need to be populated if you want to test email send functionality. See README.md
-      - Auth0:ManagementClientId=[Secret - Not To Be Checked In]
-      - Auth0:ManagementClientSecret=REDACTED# This will need to be populated to allow the api to validate requests. See README.md
-      - Auth0:Domain=dertinfodev.eu.auth0.com
-      - StorageAccount:Images:Protocol=http
-      - StorageAccount:Images:Name=devstoreaccount1
-      - StorageAccount:Images:Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # Azurite Key Available Publically
-      - StorageAccount:Images:BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1 #  Running in docker   
-      - PwaClient:Auth0:ClientId=[Secret - Not To Be Checked In]
-      - WebClient:Auth0:ClientId=[Secret - Not To Be Checked In]
+      - SqlConnection__ServerName=sqlserver # Connect to SQL Server on host machine running in docker
+      - SqlConnection__ServerAdminPassword=myUn53cur3Pa55w0rd! # This is local to your container
+      - SqlConnection__ServerAdminName=sa # This is local to your container
+      - SqlConnection__DatabaseName=DertInfoDb # This is local to your container
+      - SendGrid__Enabled=false
+      - Auth0__Domain=dertinfodev.eu.auth0.com
+      - StorageAccount__Images__Protocol=http
+      - StorageAccount__Images__Name=devstoreaccount1
+      - StorageAccount__Images__Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # Azurite Key Available Publically
+      - StorageAccount__Images__BlobEndpoint=http://azstorage/devstoreaccount1 #  Running in docker   
+      - PwaClient__Auth0__ClientId=AGFfa2R7jsYA7vmhBRjU4tl6htgI4Yvh # Auth0 Client Id For the App - Dev Environment
+      - WebClient__Auth0__ClientId=JREkJwdUbZmUs7d983uBXnrZu9UOWbd9 # Auth0 Client Id For the Web - Dev Environment
+      # The following secrets are supplied via the api.env file which is not checked into source control. See README.md 
+      # - SendGrid__ApiKey=/run/secrets/sendgrid_api_key # This will need to be populated if you want to test email send functionality. 
+      # - Auth0__ManagementClientId=/run/secrets/auth0_management_client_id
+      # - Auth0__ManagementClientSecret=REDACTED# This will need to be populated to allow the api to validate requests.
     depends_on:
       sqlserver:
         condition: service_healthy # Ensure SQL Server is healthy before starting the app
@@ -33,19 +34,22 @@ services:
 
   # Service for SQL Server
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2022-latest
+    image: mcr.microsoft.com/mssql/server:2022-CU13-ubuntu-22.04
     container_name: sqlserver
     environment:
       - SA_PASSWORD=myUn53cur3Pa55w0rd!
       - ACCEPT_EULA=Y
     ports:
       - "44000:1433" # Map host port 44100 to container port 1433
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
     volumes:
      - sqlserver-data:/var/opt/mssql # Persist SQL Server data
     healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S host.docker.internal,44000 -U sa -P "myUn53cur3Pa55w0rd!" -Q "SELECT 1" -b -o /dev/null
+      test: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P myUn53cur3Pa55w0rd! -Q "SELECT 1"
       interval: 10s
       timeout: 5s
+      start_period: 20s
       retries: 3
 
   # Service for Azurite storage emulator
@@ -65,6 +69,8 @@ services:
    image: dertinfo/dertinfo-imageresizev4
    ports:
      - "44400:80" # Map host port 44400 to container port 80
+   extra_hosts:
+     - "host.docker.internal:host-gateway"
    environment:
      - AzureWebJobs.ResizeDefaultImages.Disabled=true
      - AzureWebJobs.ResizeEventImages.Disabled=true
@@ -86,10 +92,12 @@ services:
 
   web-frontend:
     container_name: web
-    image: dertinfo/dertinfo-web
+    # image: dertinfo/dertinfo-web
     build:
       context: ../../
       dockerfile: Dockerfile
+    env_file:
+      - ./web.env
     ports:
       - "44200:4280" # Map host port 44200 to container port 80
     depends_on:

@@ -2,19 +2,20 @@
 
 This is the main public facing website for DertInfo. It displays publically team attendances and scores to previous derts and then via login offers additional functionality for team administrators, event adminstrators and team members. 
 
-It's an Angular static web app that houses most of the admin functionalty. 
+The production version of this solution is visible at [https://www.dertinfo.co.uk](https://www.dertinfo.co.uk)
 
-The producton version of this solution is visible at [https://www.dertinfo.co.uk](https://www.dertinfo.co.uk)
-
-> **Note:** If you are unfamilar with the collection of services that are part of DertInfo please refer to the repository dertinfo/dertinfo.
+> **Note:** If you are unfamiliar with the collection of services that are part of DertInfo please refer to the [wiki 
+](https://github.com/dertinfo/dertinfo/wiki) in the repository [dertinfo/dertinfo](https://github.com/dertinfo/dertinfo).
 
 ## Table of Contents
 
 - [Technology](#technology)
-- [Topology](#topology)
-- [Installation](#installation)
+- [Architecture](#architecture)
+- [Development Environment](#development-environment)
+- [Running The Workload](#running-the-workload)
+- [Running The Dependencies](#running-the-dependencies)
 - [Usage](#usage)
-- [Features](#features)
+- [Key Features](#key-features)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -24,8 +25,7 @@ The producton version of this solution is visible at [https://www.dertinfo.co.uk
 
 This project is a ["Azure Static Web App"](https://azure.microsoft.com/en-gb/products/app-service/static). 
 
-This static web app consists of an ["Angular"](https://angular.dev/) client and a typescript ["function app"](https://azure.microsoft.com/en-gb/products/functions) combined into a single deployable unit where the running application is configurable from settings stored in ["Azure App Configuration"](https://azure.microsoft.com/en-us/products/app-configuration) and ["Azure Key Vault"](https://azure.microsoft.com/en-us/products/key-vault). 
-
+This static web app wraps an ["Angular"](https://angular.dev/) client to support with deployment to Azure Static Web Apps and routing. 
 
 ### Docker 
 
@@ -43,54 +43,110 @@ You can build the image locally to use in you local envionments by using the com
 docker build -t dertinfo/dertinfo-web .
 ```
 
-## Topology
+## Architecture
 
 ![Application Containers](/docs/images/architecture-dertinfo-web-containerlevel.png)
 
-## Installation
+## Development Environment 
 
-In order to get this project running you are going to need.
+### GitHub Codespaces
 
-- The latest version of [Visual Studio Code](https://code.visualstudio.com/) installed.
-- The [Azure Static Web Apps CLI](https://azure.github.io/static-web-apps-cli/) installed 
-- The [NodeJs](https://nodejs.org/en/download/package-manager) version to support Angular
-- The [Angular CLI](https://v17.angular.io/guide/setup-local) installed 
+This app has been fully setup for codespaces and is by far the easiest way to get started. 
 
-> **Note:** If you need multiple versions of node installed to support multiple projects consider using [nvm](https://github.com/nvm-sh/nvm).
+Using GitHub codespaces provides the lowest barrier to entry to setup a fully working development environment that you can pretty much just launch and go. However codespaces does have usage limits so working locally might be a better option in the long run. In order to setup your local environment use the codespace as a guide by inspecting the .devcontainer definition that instructs how the codespace is setup so that you can replicate locally. 
 
-## Running The Project
+**Launch the codespace:**
 
-In order for this client to work in your local environment you will need to have the following services available:
-- The DertInfo API running for access to the application data. 
-- The client component of static web app for the intereface
+![image](https://github.com/user-attachments/assets/f4ac2952-9762-4cf5-9eac-c7b7585ec292)
 
-### To run the client (Angular)
-In a command window at "/src/client"
+Let the codespace setup by applying the VS code extensions and allow the startup script s to run. (codespace defined in .devcontainer). This will setup the environment for running the app and it's dependencies.
+
+### Local Development
+
+For local development it is recommended to take the codespace as the required configuration and then apply locally. There are a number of things that you will need and these can be extracted declaratively from the code space configuration.
+
+## Running The Workload
+
+### Running with Hot Reload
+
+Using the approach below will give you the "hot reload" functionality from angular which will update the application which will after the rebuild show you changes directly in the browser without a restart.
+
+#### Run the angular website
+
+From the root of the repository issue the following commands
 ```
+cd src/client
+npm i
 ng serve
 ```
-> The angular client should start on the standard angular port of http://localhost:4200
+This will spin up the angular application on http://localhost:4200. 
 
-### To run the function app
-In a command window at "/src/functions"
-```
-func start --port 7082
-```
-> The function app should start on the (non standard) port 7082
+To better mirror the deployment environment we now wrap this in an Azure Static Web app by using the Azure Static Web App CLI 
 
-### To link them together as the static web app
-In a command window at "/src"
-```
-swa start http://localhost:4200 --port 4290 --api-port 7082
-```
-> The running static web app should be available at http://localhost:4280
+#### Run as a static web app
 
-### To run the api.
-When it comes to getting the data for the app there are a few options. 
-- You can run the API locally by running the project at [dertinfo-api](https://github.com/dertinfo/dertinfo-api) locally in Visual Studio. 
-- (Coming soon) You can connect to the hosted development services at https://dertinfo-dev-api-wa.azurewebsites.net.
-- (Coming soon) You can deploy your own version and dependencies into your own Azure Subscription using the supplied Infrastucture As Code
-- (Coming soon) You can run the API and dependencies as local containers. 
+Open a new command terminal while the angular app is running and use the following command which presents the above angular app as a static web app via the static web app CLI mirroring the production environment. 
+```
+swa start http://localhost:4200 --port 44200
+```
+
+At this point (if running locally) you should be able to proceed to http://localhost:44200 and you will see the running application there. If running in codespaces please see forwarded ports and you should be able to see the app running there. 
+
+Also note that if you are running the app locally in codespaces and not via docker you must update the assets/app.config.json file with the paths in the generated infra/docker/web/env file as the urls need to be those of the codespace instead of the localhost. 
+
+### Running the Web In Docker
+
+If you just want to run your local code in docker (provided you have installed docker capability for your system) you can use the following commands to build the image and run the container. This not likely a common use scenario. 
+
+From the root of the repository in the terminal
+```
+docker build -t dertinfo/dertinfo-app .
+```
+Run a container from the image
+```
+docker run dertinfo/dertinfo-app
+```
+Note Issue [#25](https://github.com/dertinfo/dertinfo-app/issues/25) as it's not working correctly following codespace changes and we ned to resolve. 
+
+## Running The Dependencies
+
+In order to run the dependencies for the app the you will need to be running most of the platform to be running. It is possible to setup your local environment to fully run everything but the better option is to use the containerised versions of the other workloads and then use docker-compose to run them all. 
+
+### All Development Environments
+
+In both codespaces and local you can spin up the other services using their public images using the following commands from the root of the repository. Either in the VS Code terminal or separate. 
+
+```
+cd infra/docker
+docker-compose up
+```
+This will spin up all the dependant services. Note that it'll also try and run the workload. If you do not want to also run the current workload (dertinfo-app) please comment it out in the docker-compose file before running the "up" command. 
+
+Please note that on first run this can take anything between 2-10 mins depending on connectivity and environment configuration as it's downloading the base images for the containers and then may be doing installs of packages etc. After the first run the time should be significantly reduced.
+
+If any dependency doesn't start simply restart it as it'll more than likely be a timing issue on launch. 
+
+** Code Spaces Specific Setup **
+
+You must make sure that your APP and API ports are publicly visible and if they are not make sure they are. (They need to be public for the Auth mechanisms to work in codespaces)
+
+![image](https://github.com/user-attachments/assets/350499ed-4389-4f0e-bcc5-f7bbe5eb0448)
+
+For More information on how we use "docker" and "docker-compose" in DertInfo please see the wiki [here](https://github.com/dertinfo/dertinfo/wiki/How-we-use-docker-&-docker%E2%80%90compose-in-DertInfo)
+
+**Check your environment**
+
+The app will now be running on port :44300 either on localhost or within the codespace under a special URL (View forwarded Ports).
+
+You may get a warning about accessing the codespace simply continue.
+
+You should gain the homepage of the App. (Please note you may need to adjust the view port to mobile)
+
+Please note that functionality will be limited as there will be no data. Please see: [https://github.com/dertinfo/dertinfo/discussions/20](https://github.com/dertinfo/dertinfo/discussions/20)
+
+### Local Development
+
+Local development should take the setup from codespaces but we will write some more documentation. Issue Raised: [https://github.com/dertinfo/dertinfo/issues/24](https://github.com/dertinfo/dertinfo/issues/24)
 
 
 ## Usage
