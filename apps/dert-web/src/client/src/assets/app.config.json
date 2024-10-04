@@ -1,5 +1,5 @@
 {
-    "auth0CallbackUrl": "http://localhost:44300",
+    "auth0CallbackUrl": "http://localhost:44200",
     "apiUrl": "http://localhost:44100/api",
     "allowedDomains": [
         "localhost:44100"
