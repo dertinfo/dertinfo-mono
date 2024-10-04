@@ -7,7 +7,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:44100/api',
-  auth0CallbackUrl: "http://localhost:44300",
+  auth0CallbackUrl: "http://localhost:44200",
   allowedDomains: [
     "localhost:44100"
   ]
