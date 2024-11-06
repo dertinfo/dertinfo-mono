@@ -53,7 +53,7 @@ fi
 npm install -g typescript @azure/static-web-apps-cli @angular/cli@13 
 
 # ##################
-# Give feedback to the user that the setup is complete
+# Give feedback to the user that the setup has completed
 # ##################
 
 echo '# Writing code upon codespace creation!'  >> codespace.md
