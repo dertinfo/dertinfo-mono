@@ -53,7 +53,7 @@ docker build -t dertinfo/dertinfo-web .
 
 This app has been fully setup for codespaces and is by far the easiest way to get started. 
 
-Using GitHub codespaces provides the lowest barrier to entry to setup a fully working development environment that you can pretty much just launch and go. However codespaces does have usage limits so working locally might be a better option in the long run. In order to setup your local environment use the codespace as a guide by inspecting the .devcontainer definition that instructs how the codespace is setup so that you can replicate locally. 
+Using GitHub codespaces provides the lowest barrier to entry to setup a fully working development environment that you can pretty much just launch and go. However codespaces does have usage limits so working locally might be a better option in the long run. In order to setup your local environment use the codespace as a guide by inspecting the .devcontainer definition that instructs how the codespace is setup so that you can replicate locally or alternatively you can run the dev container locally.  
 
 **Launch the codespace:**
 
