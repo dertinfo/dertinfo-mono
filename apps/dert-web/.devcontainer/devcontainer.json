@@ -21,7 +21,7 @@
             ]
         }
     },
-    "postCreateCommand": "npm install -g typescript @azure/static-web-apps-cli @angular/cli@13 && sh infra/docker/setup-codespace.sh && echo '# Writing code upon codespace creation!'  >> codespace.md",
+    "postCreateCommand": "sh .devcontainer/setup-devcontainer.sh",
     "forwardPorts": [
         44100,
         44200

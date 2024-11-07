@@ -32,10 +32,29 @@ echo "SendGrid__ApiKey=$SENDGRID_API_KEY" >> infra/docker/api.env
 # Setup for the App
 # ##################
 
-# As the codespace needs special urls to access forwarded ports then we need to accomodate that for the API and the Auth0 callback url
-echo "API_URL=https://$CODESPACE_NAME-44100.app.github.dev/api" > infra/docker/web.env
-echo "AUTH_CALLBACK_URL=https://$CODESPACE_NAME-44200.app.github.dev" >> infra/docker/web.env
-echo "ALLOWED_DOMAINS=$CODESPACE_NAME-44100.app.github.dev" >> infra/docker/web.env
+# Check if there is a codespaces value in the environment
+if [ -z "$CODESPACE_NAME" ]; then
+  # If there is no codespace name then we need to set it to a default value
+  echo "API_URL=https://localhost:44100/api" > infra/docker/web.env
+  echo "AUTH_CALLBACK_URL=https://localhost:44200" >> infra/docker/web.env
+  echo "ALLOWED_DOMAINS=localhost:44100" >> infra/docker/web.env
+else
+  # As the codespace needs special urls to access forwarded ports then we need to accomodate that for the API and the Auth0 callback url
+  echo "API_URL=https://$CODESPACE_NAME-44100.app.github.dev/api" > infra/docker/web.env
+  echo "AUTH_CALLBACK_URL=https://$CODESPACE_NAME-44200.app.github.dev" >> infra/docker/web.env
+  echo "ALLOWED_DOMAINS=$CODESPACE_NAME-44100.app.github.dev" >> infra/docker/web.env
+fi
 
-# Notify the user that the script has completed
+
+# ##################
+# Install the node packages needed for the codespace
+# ##################
+
+npm install -g typescript @azure/static-web-apps-cli @angular/cli@13 
+
+# ##################
+# Give feedback to the user that the setup has completed
+# ##################
+
+echo '# Writing code upon codespace creation!'  >> codespace.md
 echo "Completed setting up the configuration & secrets for the codespace."
