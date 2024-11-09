@@ -123,13 +123,18 @@ namespace DertInfo.Repository
                 .Include(d => d.TeamAttendance).ThenInclude(ta => ta.CompetitionEntries).ThenInclude(ce => ce.DertCompetitionEntryAttributeDertCompetitionEntries).ThenInclude(_ => _.DertCompetitionEntryAttribute)
                 .Include(d => d.TeamAttendance.Team)
                 .Include(d => d.Competition)
-                .Include(d => d.Venue).ThenInclude(d => d.JudgeSlots); //.ThenInclude(js => js.Venue) - we also used to have this.
-                
-                 /* note -  
-                  * After upgrade to EF Core 8 it started to throw an exception stating that "fix up" 
-                  * will automatically include it. After making the change it seems to solve the problem 
-                  * However I'm not fully convinced that it won't have a negative effect.
-                  */
+                .Include(d => d.Venue).ThenInclude(d => d.JudgeSlots) // Was: .ThenInclude(js => js.Venue)
+                .Include(d => d.DanceScores).ThenInclude(ds => ds.ScoreCategory);
+
+                /* note -  
+                 * After upgrade to EF Core 8 it started to throw an exception stating that "fix up" 
+                 * will automatically include it. After making the change it seems to solve the problem 
+                 * However I'm not fully convinced that it won't have a negative effect.
+                 * note - 09/11/2024
+                 * We had a further issue that after the first round of changes we completely broke the results pane by 
+                 * not including the scores. We added those back in and in now appears to work correctly for results by ading
+                 * the includes for them back in. 
+                 */
 
                 return query.ToList();
             });
