@@ -291,7 +291,17 @@ namespace DertInfo.Services.Entity.Dances
 
         public async Task<IEnumerable<Dance>> ListForCompetition(int competitionId)
         {
-            return await _danceRepository.GetDancesExpandedByCompetitionId(competitionId);
+            var dances = await _danceRepository.GetDancesExpandedByCompetitionId(competitionId);
+
+            foreach (var dance in dances)
+            {
+                dance.OrderScoresByScoreCategory();
+            }
+            // note - we use this here to ensure that when the client renders the results then the categories appear in the right order
+            //      - this is so that it matches the order of the collated results. We could do this on the client and
+            //      - probably should however for now due to ease it can be done here more quickly. Cemmenting for dept tracking
+
+            return dances;
         }
 
         public async Task UpdateCheckedState(int danceId, bool hasScoredChecked)
