@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DertInfo.Models.Database
 {
@@ -28,6 +29,13 @@ namespace DertInfo.Models.Database
         public virtual Competition Competition { get; set; }
         public virtual TeamAttendance TeamAttendance { get; set; }
         public virtual Venue Venue { get; set; }
+
+
+        public void OrderScoresByScoreCategory()
+        {
+            var scores = this.DanceScores.OrderBy(s => s.ScoreCategory.SortOrder).ToList();
+            this.DanceScores = scores;
+        }
 
     }
 }
