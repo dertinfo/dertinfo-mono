@@ -81,7 +81,7 @@ namespace DertInfo.Api.Controllers
 
                 List<ScoreGroup> scoreGroups = new List<ScoreGroup>();
 
-                foreach (var scoreCategory in myCompetition.ScoreCategories)
+                foreach (var scoreCategory in myCompetition.ScoreCategories.OrderBy(sc => sc.SortOrder))
                 {
                     scoreGroups.Add(new ScoreGroup
                     {
