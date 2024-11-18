@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System;
@@ -24,7 +25,6 @@ namespace DertInfo.Api
             // Application configuration
             Configuration = configuration;
             Environment = env;
-
 
             var imagesStorageAccount = $"https://{Configuration["StorageAccount:Images:Name"]}.blob.core.windows.net";
             if (env.IsDevelopment())
@@ -88,10 +88,23 @@ namespace DertInfo.Api
             // Services
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll",
-                    builder =>
+                var allowedCorsOriginsString = Configuration["Cors:AllowedOrigins"];
+                var allowedCorsOriginsArray = allowedCorsOriginsString.Split(",");
+
+                if (allowedCorsOriginsArray.Length == 0 || string.IsNullOrEmpty(allowedCorsOriginsArray.First()))
+                {
+                    throw new Exception("AllowedOrigins configuration is not set");
+                }
+
+                if (allowedCorsOriginsArray.Any(origin => !Uri.IsWellFormedUriString(origin, UriKind.Absolute)))
+                {
+                    throw new Exception("One or more AllowedOrigins are not valid URLs.");
+                }
+
+                options.AddPolicy("AllowSpecificOrigins",
+                    policy =>
                     {
-                        builder.AllowAnyOrigin()
+                        policy.WithOrigins(allowedCorsOriginsArray)
                                .AllowAnyMethod()
                                .AllowAnyHeader();
                     });
@@ -114,7 +127,6 @@ namespace DertInfo.Api
             // AutoMapper
             services.AddSingleton<IMapper>(sp => _mapperConfiguration.CreateMapper());
             services.AddApplicationInsightsTelemetry();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -142,7 +154,7 @@ namespace DertInfo.Api
 
             // Runs matching. An endpoint is selected and set on the HttpContext if a match is found.
             app.UseRouting();
-            app.UseCors("AllowAll");
+            app.UseCors("AllowSpecificOrigins");
 
             // Middleware that run after routing occurs. Usually the following appear here:
             app.UseAuthentication();
