@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System;
@@ -88,10 +89,18 @@ namespace DertInfo.Api
             // Services
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll",
-                    builder =>
+                var allowedCorsOriginsString = Configuration["Cors:AllowedOrigins"];
+                var allowedCorsOriginsArray = allowedCorsOriginsString.Split(",");
+
+                if (allowedCorsOriginsArray.Length == 0 || string.IsNullOrEmpty(allowedCorsOriginsArray.First()))
+                {
+                    throw new Exception("AllowedOrigins is not set in the configuration file.");
+                }
+
+                options.AddPolicy("AllowSpecificOrigins",
+                    policy =>
                     {
-                        builder.AllowAnyOrigin()
+                        policy.WithOrigins(allowedCorsOriginsArray)
                                .AllowAnyMethod()
                                .AllowAnyHeader();
                     });
@@ -142,7 +151,7 @@ namespace DertInfo.Api
 
             // Runs matching. An endpoint is selected and set on the HttpContext if a match is found.
             app.UseRouting();
-            app.UseCors("AllowAll");
+            app.UseCors("AllowSpecificOrigins");
 
             // Middleware that run after routing occurs. Usually the following appear here:
             app.UseAuthentication();
