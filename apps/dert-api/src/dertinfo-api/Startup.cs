@@ -26,7 +26,6 @@ namespace DertInfo.Api
             Configuration = configuration;
             Environment = env;
 
-
             var imagesStorageAccount = $"https://{Configuration["StorageAccount:Images:Name"]}.blob.core.windows.net";
             if (env.IsDevelopment())
             {
@@ -94,7 +93,12 @@ namespace DertInfo.Api
 
                 if (allowedCorsOriginsArray.Length == 0 || string.IsNullOrEmpty(allowedCorsOriginsArray.First()))
                 {
-                    throw new Exception("AllowedOrigins is not set in the configuration file.");
+                    throw new Exception("AllowedOrigins configuration is not set");
+                }
+
+                if (allowedCorsOriginsArray.Any(origin => !Uri.IsWellFormedUriString(origin, UriKind.Absolute)))
+                {
+                    throw new Exception("One or more AllowedOrigins are not valid URLs.");
                 }
 
                 options.AddPolicy("AllowSpecificOrigins",
@@ -123,7 +127,6 @@ namespace DertInfo.Api
             // AutoMapper
             services.AddSingleton<IMapper>(sp => _mapperConfiguration.CreateMapper());
             services.AddApplicationInsightsTelemetry();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
