@@ -144,7 +144,7 @@ namespace DertInfo.Api.Controllers
 
         [HttpGet]
         [Route("{danceId}/markingsheet")]
-        public async Task<IActionResult> Get([FromRoute] int danceId, [FromRoute] int markingSheetId)
+        public async Task<IActionResult> GetMarkingSheets([FromRoute] int danceId)
         {
             base.ExtractUser(); //Fill the scoped injected IDertInfoUser
 
@@ -156,7 +156,7 @@ namespace DertInfo.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{danceId}/markingsheet/{markingsheetId}", Name = "GetMarkingSheet")]
+        [Route("{danceId}/markingsheet/{markingSheetId}")]
         public async Task<IActionResult> GetMarkingSheet([FromRoute] int danceId, [FromRoute] int markingSheetId)
         {
             base.ExtractUser(); //Fill the scoped injected IDertInfoUser

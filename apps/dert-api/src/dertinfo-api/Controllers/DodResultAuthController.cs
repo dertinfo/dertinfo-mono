@@ -123,7 +123,7 @@ namespace DertInfo.Api.Controllers
         [HttpGet]
         [Route("opencomplaints")]
         [Authorize(Policy = "DodAdministratorOnlyPolicy")]
-        public async Task<IActionResult> GetOpenComplaints([FromRoute] int groupId)
+        public async Task<IActionResult> GetOpenComplaints()
         {
             base.ExtractUser(); //Fill the scoped injected IDertInfoUser
 
@@ -138,7 +138,7 @@ namespace DertInfo.Api.Controllers
         [HttpGet]
         [Route("closedcomplaints")]
         [Authorize(Policy = "DodAdministratorOnlyPolicy")]
-        public async Task<IActionResult> GetClosedComplaints([FromRoute] int groupId)
+        public async Task<IActionResult> GetClosedComplaints()
         {
             base.ExtractUser(); //Fill the scoped injected IDertInfoUser
 

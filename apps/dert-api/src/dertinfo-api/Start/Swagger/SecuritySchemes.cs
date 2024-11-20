@@ -21,12 +21,7 @@ namespace DertInfo.Api.Start.Swagger
                 In = ParameterLocation.Header,
                 Type = SecuritySchemeType.ApiKey,
                 Scheme = "Bearer",
-                BearerFormat = "JWT",
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = JwtBearerDefaults.AuthenticationScheme // "Bearer"
-                }
+                BearerFormat = "JWT"
             };
         }
 
