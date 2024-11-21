@@ -5,9 +5,9 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'https://dertinfo-test-api-wa.azurewebsites.net/api',
+  apiUrl: 'https://di-apim-integration-stg.azure-api.net/api',
   auth0CallbackUrl: "https://staging.dertinfo.co.uk",
   allowedDomains: [
-    "dertinfo-test-api-wa.azurewebsites.net",
+    "di-apim-integration-stg.azure-api.net",
   ]
 };
