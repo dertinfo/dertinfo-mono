@@ -52,6 +52,9 @@ namespace DertInfo.Api.Start.Swagger
                 var generalRequirement = Swagger.SecuritySchemes.GetAuthenticationRequirement(generalScheme);
                 operation.Security.Add(generalRequirement);
             }
+
+            // Remove the tags that Swagger is adding to the definition
+            operation.Tags = new List<OpenApiTag>();
         }
     }
 }
