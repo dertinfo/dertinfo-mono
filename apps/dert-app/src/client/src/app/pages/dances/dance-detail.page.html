@@ -62,7 +62,7 @@
                                 <ion-label color="primary" position="stacked">{{danceScore.scoreCatagoryName}}
                                     <span class="marks-label">[{{danceScore.scoreCatagoryMaxMarks}} marks]</span>
                                 </ion-label>
-                                <ion-input type="tel" placeholder="enter score"
+                                <ion-input type="number" placeholder="enter score"
                                     formControlName="{{danceScore.scoreCatagoryId}}"
                                     [ngClass]="{'has-error':!danceScoresFormGroup.controls[danceScore.scoreCatagoryId].valid}"
                                     [disabled]="scoresLocked" maintain-original></ion-input>
