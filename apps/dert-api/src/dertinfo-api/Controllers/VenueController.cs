@@ -79,7 +79,14 @@ namespace DertInfo.Api.Controllers
                         primaryTeamImage = teamImages.First(ti => ti.IsPrimary) ?? teamImages.First();
                         var image = await _imageService.FindById(primaryTeamImage.ImageId);
 
-                        danceDto.TeamPictureUrl = image.ImageUri;
+                        if (image != null)
+                        {
+                            danceDto.TeamPictureUrl = image.ImageUri;
+                        }
+                        else
+                        {
+                            danceDto.TeamPictureUrl = "";
+                        }
                     }
                     else
                     {
