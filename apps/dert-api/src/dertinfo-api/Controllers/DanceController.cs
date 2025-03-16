@@ -106,7 +106,7 @@ namespace DertInfo.Api.Controllers
         /// <param name="danceMarkingSheetSubmission"></param>
         /// <returns>201: Marking sheet</returns>
         [HttpPost]
-        [RequestFormSizeLimit(valueLengthLimit: 16384)]
+        [RequestFormSizeLimit(valueLengthLimit: 26214400)]
         [Route("{danceId}/markingsheet")]
         public async Task<IActionResult> Post([FromRoute] int danceId, [FromBody] DanceMarkingSheetSubmissionDto danceMarkingSheetSubmission)
         {
