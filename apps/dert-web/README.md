@@ -1,6 +1,6 @@
 # DertInfo - Web
 
-This is the main public facing website for DertInfo. It displays publically team attendances and scores to previous derts and then via login offers additional functionality for team administrators, event adminstrators and team members. 
+This is the main public facing website for DertInfo. It displays publicly team attendances and scores to previous DERTs and then via login offers additional functionality for team administrators, event administrators and team members. 
 
 The production version of this solution is visible at [https://www.dertinfo.co.uk](https://www.dertinfo.co.uk)
 
