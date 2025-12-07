@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
 using DertInfo.Api.Controllers.Base;
 using DertInfo.CrossCutting.Auth;
+using DertInfo.CrossCutting.Configuration;
 using DertInfo.Models.DataTransferObject.Emails;
 using DertInfo.Models.Emails;
 using DertInfo.Services;
 using DertInfo.Services.Entity.EmailTemplates;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
+using RestSharp.Authenticators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,18 +49,22 @@ namespace DertInfo.Api.Controllers
         IMapper _mapper;
         IEmailSendingService _emailSendingService;
         IEmailTemplateService _emailTemplateService;
-        
+        bool _mailgunEnabled = true;
+        string _mailgunDefaultFrom = "noreply@dertinfo.co.uk";
 
         public SendEmailController(
             IMapper mapper,
             IEmailSendingService emailSendingService,
             IEmailTemplateService emailTemplateService,
+            IDertInfoConfiguration configuration,
             IDertInfoUser user
             ) : base(user)
         {
             _mapper = mapper;
             _emailSendingService = emailSendingService;
             _emailTemplateService = emailTemplateService;
+            _mailgunEnabled = configuration.Mailgun_Enabled;
+            _mailgunDefaultFrom = configuration.Mailgun_DefaultFrom;
         }
 
         [Obsolete("This method is no longer used. Was formally used to submit from MVC Web")]
@@ -153,6 +161,45 @@ namespace DertInfo.Api.Controllers
 
             // Return the preview
             return Ok(new EmailPreviewDto() { HtmlBody = emailBody });
+        }
+
+        [Route("test-email-send")]
+        [HttpPost]
+        public async Task<IActionResult> TestEmailSend()
+        {
+            base.ExtractUser(); // Fill the scoped injected IDertInfoUser
+
+            string _testRecipiant = "dertinfo@gmail.com";
+
+            if (!_mailgunEnabled)
+            {
+                return BadRequest(new { message = "Emails are not enabled in settings." });
+            }
+
+            try
+            {
+                var testEmail = new EmailBase
+                {
+                    ToAddresses = new[] { _testRecipiant },
+                    CcAddresses = new string[] { },
+                    BccAddresses = new string[] { },
+                    FromAddress = this._mailgunDefaultFrom,
+                    FromName = "Email Test",
+                    Subject = "This is a email functionality test.",
+                    EmailTemplateId = 0
+                };
+
+                var testBody = "<html><body><h1>Email Functionality Test</h1><p>This is a test email to verify that the email sending service is configured correctly.</p><p>If you received this email, the Mailgun integration is working properly.</p></body></html>";
+
+                await this._emailSendingService.SendEmail(testEmail, testBody);
+
+                return Ok(new { message = $"Test email sent successfully to {_testRecipiant}" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+
         }
 
 

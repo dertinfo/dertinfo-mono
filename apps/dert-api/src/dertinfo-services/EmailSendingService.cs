@@ -1,5 +1,7 @@
 ﻿using DertInfo.CrossCutting.Configuration;
 using DertInfo.Models.Emails;
+using RestSharp;
+using RestSharp.Authenticators;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
@@ -13,12 +15,100 @@ namespace DertInfo.Services
         Task SendEmail(EmailBase emailBase, string emailbody);
     }
 
-    public class EmailSendingService : IEmailSendingService
+    public class EmailSendingServiceMailGun : IEmailSendingService
+    {
+        private readonly string _mailGunApiEndpoint;
+        private readonly string _mailGunDefaultFrom;
+        private readonly bool _mailGunEnabled;
+        private readonly string _mailGunDomain;
+        private readonly string _mailGunApiKey;
+        
+        public EmailSendingServiceMailGun(IDertInfoConfiguration configuration)
+        {
+            _mailGunApiEndpoint = configuration.Mailgun_ApiEndpoint;
+            _mailGunDefaultFrom = configuration.Mailgun_DefaultFrom;
+            _mailGunEnabled = configuration.Mailgun_Enabled;
+            _mailGunDomain = configuration.Mailgun_Domain;
+            _mailGunApiKey = configuration.Mailgun_ApiKey;
+        }
+
+        public async Task SendEmail(EmailBase emailBase, string htmlBody)
+        {
+            if (!_mailGunEnabled)
+            {
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(_mailGunDomain) || string.IsNullOrWhiteSpace(_mailGunApiKey))
+            {
+                throw new InvalidOperationException("Mailgun configuration missing (Mailgun:Domain or Mailgun:ApiKey).");
+            }
+
+            var options = new RestClientOptions(this._mailGunApiEndpoint)
+            {
+                Authenticator = new HttpBasicAuthenticator("api", _mailGunApiKey)
+            };
+
+            var client = new RestClient(options);
+            var request = new RestRequest($"/v3/{_mailGunDomain}/messages", Method.Post);
+            request.AlwaysMultipartFormData = true;
+
+            // Build from address with name
+            var fromAddress = string.IsNullOrWhiteSpace(emailBase.FromName)
+                ? emailBase.FromAddress
+                : $"{emailBase.FromName} <{emailBase.FromAddress}>";
+            request.AddParameter("from", fromAddress);
+
+            // Add To addresses
+            emailBase.ToAddresses = emailBase.ToAddresses ?? new string[] { };
+            if (emailBase.ToAddresses.Length > 0)
+            {
+                request.AddParameter("to", string.Join(",", emailBase.ToAddresses));
+            }
+
+            // Add Cc addresses
+            emailBase.CcAddresses = emailBase.CcAddresses ?? new string[] { };
+            if (emailBase.CcAddresses.Length > 0)
+            {
+                request.AddParameter("cc", string.Join(",", emailBase.CcAddresses));
+            }
+
+            // Add Bcc addresses
+            emailBase.BccAddresses = emailBase.BccAddresses ?? new string[] { };
+            if (emailBase.BccAddresses.Length > 0)
+            {
+                request.AddParameter("bcc", string.Join(",", emailBase.BccAddresses));
+            }
+
+            // Add subject and HTML body
+            request.AddParameter("subject", emailBase.Subject ?? string.Empty);
+            request.AddParameter("html", htmlBody ?? string.Empty);
+
+            // Add attachments if present
+            if (emailBase.Attachments != null && emailBase.Attachments.Count > 0)
+            {
+                foreach (var attachment in emailBase.Attachments)
+                {
+                    request.AddFile("attachment", attachment.Value, attachment.Key);
+                }
+            }
+
+            var response = await client.ExecuteAsync(request);
+
+            if (!response.IsSuccessful)
+            {
+                throw new InvalidOperationException($"Mailgun send failed: {response.StatusCode} - {response.ErrorMessage}");
+            }
+        }
+    }
+
+    [Obsolete("Send grid no longer offers a free tier that allows a umber of emails per day to allow us to continue to use it.")]
+    public class EmailSendingServiceSendGrid : IEmailSendingService
     {
         private string _sendGridApiKey;
         private bool _sendGridEnabled;
 
-        public EmailSendingService(IDertInfoConfiguration configuration)
+        public EmailSendingServiceSendGrid(IDertInfoConfiguration configuration)
         {
             _sendGridApiKey = configuration.SendGrid_ApiKey;
             _sendGridEnabled = configuration.SendGrid_Enabled;
