@@ -57,7 +57,7 @@ namespace DertInfo.Api.Start
             services.AddTransient<IDanceService, DanceService>();
             services.AddTransient<IDanceScorePartsService, DanceScorePartsService>();
             services.AddTransient<IEmailTemplateService, EmailTemplateService>();
-            services.AddTransient<IEmailSendingService, EmailSendingService>();
+            services.AddTransient<IEmailSendingService, EmailSendingServiceMailGun>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IEventSettingService, EventSettingService>();
             services.AddTransient<IEventTemplateService, EventTemplateService>();

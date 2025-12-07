@@ -12,6 +12,11 @@ namespace DertInfo.CrossCutting.Configuration
         string Auth0_ManagementClientSecret { get; }
         string SendGrid_ApiKey { get; }
         bool SendGrid_Enabled { get; }
+        string Mailgun_ApiEndpoint { get; }
+        string Mailgun_DefaultFrom { get; }
+        string Mailgun_ApiKey { get; }
+        string Mailgun_Domain { get; }
+        bool Mailgun_Enabled { get; }
         string Defaults_GroupImageName { get; }
         string Defaults_EventImageName { get; }
         int Constants_ObfuscationIdLength { get; }
@@ -31,6 +36,12 @@ namespace DertInfo.CrossCutting.Configuration
         public string Auth0_ManagementClientSecret { get { return this._configuration["Auth0:ManagementClientSecret"]; } }
         public string SendGrid_ApiKey { get { return this._configuration["SendGrid:ApiKey"]; } }
         public bool SendGrid_Enabled { get { return bool.Parse(this._configuration["SendGrid:Enabled"]); } }
+        public string Mailgun_ApiEndpoint { get { return this._configuration["Mailgun:ApiEndpoint"]; } }
+        public string Mailgun_DefaultFrom { get { return this._configuration["Mailgun:DefaultFrom"]; } }
+        public string Mailgun_ApiKey { get { return this._configuration["Mailgun:ApiKey"]; } }
+        public string Mailgun_Domain { get { return this._configuration["Mailgun:Domain"]; } }
+        public bool Mailgun_Enabled { get { return bool.Parse(this._configuration["Mailgun:Enabled"]); } }
+
         public string Defaults_GroupImageName { get { return this._configuration["Constants:Defaults:GroupImageName"]; } }
         public string Defaults_EventImageName { get { return this._configuration["Constants:Defaults:EventImageName"]; } }
         public string AzureStorageAccount_TeamPicturesStorageContainer { get { return this._configuration["AzureStorageAccount:TeamPicturesStorageContainer"]; } }
