@@ -35,8 +35,8 @@ echo "SendGrid__ApiKey=$SENDGRID_API_KEY" >> infra/docker/api.env
 # Check if there is a codespaces value in the environment
 if [ -z "$CODESPACE_NAME" ]; then
   # If there is no codespace name then we need to set it to a default value
-  echo "API_URL=https://localhost:44100/api" > infra/docker/web.env
-  echo "AUTH_CALLBACK_URL=https://localhost:44200" >> infra/docker/web.env
+  echo "API_URL=http://localhost:44100/api" > infra/docker/web.env
+  echo "AUTH_CALLBACK_URL=http://localhost:44200" >> infra/docker/web.env
   echo "ALLOWED_DOMAINS=localhost:44100" >> infra/docker/web.env
 else
   # As the codespace needs special urls to access forwarded ports then we need to accomodate that for the API and the Auth0 callback url
