@@ -58,7 +58,7 @@ Method 6) infra/docker> docker compose up
 Method 7 Step 1) Comment out the dertinfo-api service in infra/docker/docker-compose.yml
 Method 7 Step 2) docker compose up
 Method 7 Step 3) src/dertinfo-api> cat <path-to-json-file-containing-user-secrets> | dotnet user-secrets set
-Method 7 Step 4) Run '.NET Core Launch (web)'
+Method 7 Step 4) Run '.NET Core Launch (web)'. API will listen on port 44100.
 ```
 
 When using docker compose if any container fails to start just restart the container. In some cases we can get some timing issues that we should resolve using health checks. 
