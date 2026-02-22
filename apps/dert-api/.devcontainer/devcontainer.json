@@ -1,0 +1,26 @@
+{
+	"name": "DertInfo API (.NET 8)",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csharp",
+				"ms-dotnettools.csdevkit"
+			],
+			"settings": {
+				"dotnet.defaultSolution": "src/DertInfoApiSolution.sln"
+			}
+		}
+	},
+
+	"postCreateCommand": "dotnet restore src/DertInfoApiSolution.sln",
+
+	"remoteUser": "vscode"
+}

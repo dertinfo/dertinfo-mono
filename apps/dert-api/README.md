@@ -34,21 +34,31 @@ In order to get this project running locally you are going to need.
 - Visual Studio Community
 - Microsoft SQL Server Express
 
+Experimental: Alternatively, you can use Visual Studio Code running in a devcontainer, with SQL Server running in docker.
 
 ## Running The Project
 
-You can run the API locally in 3 ways. 
+You can run the API locally in 7 ways. 
 - 1) (Visual Studio) Running as a isolated web app
 - 2) (Visual Studio) Running as a container in docker desktop 
-- 3) (Visual Studio) Running the docker componse project - This will spin up the entire estate using images on docker hub for the other parts. 
+- 3) (Visual Studio) Running the docker compose project - This will spin up the entire estate using images on docker hub for the other parts. 
 - 4) (Docker) Run the image using docker hub image
 - 5) (Docker) Build and Run using the Dockerfile
 - 6) (Docker Compose) Running the docker componse project (/infra/docker)  THis will spin up the API and all resoruces it depends on. 
+- 7) (Visual Studio Code) Running in a devcontainer with supporting components running from the docker compose project
 
+Steps for the above run methods:
 ```
-4) > docker run dertinfo/dertinfo-api:latest 
-5) src> docker build -t dertinfo/dertinfo-api -f dertinfo-api/Dockerfile .
-6) infra/docker> docker-compose up 
+Method 4) > docker run dertinfo/dertinfo-api:latest 
+
+Method 5) src> docker build -t dertinfo/dertinfo-api -f dertinfo-api/Dockerfile .
+
+Method 6) infra/docker> docker compose up 
+
+Method 7 Step 1) Comment out the dertinfo-api service in infra/docker/docker-compose.yml
+Method 7 Step 2) docker compose up
+Method 7 Step 3) src/dertinfo-api> cat <path-to-json-file-containing-user-secrets> | dotnet user-secrets set
+Method 7 Step 4) Run '.NET Core Launch (web)'. API will listen on port 44100.
 ```
 
 When using docker compose if any container fails to start just restart the container. In some cases we can get some timing issues that we should resolve using health checks. 

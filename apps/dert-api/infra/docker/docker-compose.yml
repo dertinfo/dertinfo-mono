@@ -2,6 +2,7 @@ version: '3.8' # Docker Compose file version
 
 services:
   # Service for the Dertinfo API
+  # Comment out this service is running the API locally, but you still want to run the other services in docker.
   dertinfo-api:
     container_name: api
     image: dertinfo/dertinfo-api
@@ -70,8 +71,8 @@ services:
      - AzureWebJobs.ResizeEventImages.Disabled=true
      - AzureWebJobs.ResizeGroupImages.Disabled=true
      - AzureWebJobs.ResizeSheetImages.Disabled=true
-     - AzureWebJobsStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1; # Azurite Connection Available Publically
-     - StorageConnection__Images=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://host.docker.internal:10000/devstoreaccount1;QueueEndpoint=http://host.docker.internal:10001/devstoreaccount1;  # Azurite Connection Available Publically
+     - AzureWebJobsStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azstorage:10000/devstoreaccount1;QueueEndpoint=http://azstorage:10001/devstoreaccount1; # Azurite Connection Available Publically
+     - StorageConnection__Images=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azstorage:10000/devstoreaccount1;QueueEndpoint=http://azstorage:10001/devstoreaccount1;  # Azurite Connection Available Publically
    depends_on:
      azstorage: # Ensure storage starts before the resize service
        condition: service_started # Ensure Azurite starts before the app
