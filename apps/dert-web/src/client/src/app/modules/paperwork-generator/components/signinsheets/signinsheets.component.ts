@@ -18,8 +18,6 @@ export class SignInSheetsComponent implements OnInit, OnDestroy {
   public dataLoaded: boolean = false;
   public signInSheetData: Array<SignInSheetDto> = [];
   public paginatedSignInSheetData: Array<any> = [];
-  public debugData: any = null;
-  public showDebug: boolean = false;
   private readonly ROWS_PER_PAGE = 26; // Calculated based on A4 landscape height
 
   constructor(
@@ -50,8 +48,6 @@ export class SignInSheetsComponent implements OnInit, OnDestroy {
       this.dataLoaded = true;
       this.signInSheetData = data;
       this.paginatedSignInSheetData = this.paginateSignInSheetData(data);
-      this.debugData = this.paginatedSignInSheetData;
-      console.log('paginatedSignInSheetData (first 3):', this.paginatedSignInSheetData.slice(0,3));
     });
   }
 
