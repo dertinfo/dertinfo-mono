@@ -33,9 +33,10 @@
 }
 
 .headerimage {
-  position: relative;
-  top: 10px;
-  left: 0;
+  float: left;
+  margin-right: 12px;
+  margin-top: 12px;
+  margin-left: 12px;
   max-width: 140px;
   max-height: 100px;
   display: block;
