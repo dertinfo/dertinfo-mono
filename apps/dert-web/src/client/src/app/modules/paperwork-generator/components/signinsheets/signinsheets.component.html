@@ -13,8 +13,9 @@
 
 </div>
 <div *ngIf="dataLoaded">
+
     <div class="container">
-        <div *ngFor="let signInSheet of signInSheetData" class="innercontainer">
+        <div *ngFor="let signInSheet of paginatedSignInSheetData" class="innercontainer">
             <img [src]="signInSheet.event.eventPictureUrl | imageDimension: '480x360' " alt="" class="headerimage">
             <table class="infotable">
                 <thead>
@@ -24,8 +25,13 @@
                         <td colspan="2">{{signInSheet.groupName}}</td>
                     </tr>
                     <tr>
-                        <td>Members: {{signInSheet.memberAttendanceCount}}&nbsp;&nbsp;&nbsp;Teams: {{signInSheet.teamAttendanceCount}}</td>
-                        <td>Member Pin: {{signInSheet.groupMemberPinCode}}</td>
+                        <td>Members: {{signInSheet.memberAttendanceCount}}&nbsp;&nbsp;&nbsp;Teams:
+                            {{signInSheet.teamAttendanceCount}}</td>
+                        <td style="display:flex;justify-content:space-between;align-items:center;">
+                            <span>Member Pin: {{signInSheet.groupMemberPinCode}}</span>
+                            <span style="text-align:right">Page:
+                                {{signInSheet.pageNumber}}/{{signInSheet.totalPages}}</span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -39,19 +45,29 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr *ngFor="let dataRow of signInSheet.memberAttendances">
-                        <td>{{dataRow.groupMemberName}}</td>
-                        <td><span *ngFor="let activityMemberAttendance of dataRow.attendanceActivities">[{{activityMemberAttendance.activityTitle}}]</span></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr *ngFor="let spareRow of spareRows">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    <ng-container
+                        *ngIf="signInSheet.memberAttendances && signInSheet.memberAttendances.length > 0; else noAttendees">
+                        <tr *ngFor="let dataRow of signInSheet.memberAttendances">
+                            <td>{{dataRow.groupMemberName}}</td>
+                            <td><span
+                                    *ngFor="let activityMemberAttendance of dataRow.attendanceActivities">[{{activityMemberAttendance.activityTitle}}]</span>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr *ngFor="let spareRow of signInSheet.spareRows">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </ng-container>
+                    <ng-template #noAttendees>
+                        <tr>
+                            <td colspan="4" style="text-align:center; font-style:italic; color:#666;">No attendees on
+                                this page</td>
+                        </tr>
+                    </ng-template>
 
                 </tbody>
             </table>
