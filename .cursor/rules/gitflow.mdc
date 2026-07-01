@@ -1,0 +1,27 @@
+---
+description: Gitflow branching and PR workflow for DertInfo monorepo
+alwaysApply: true
+---
+
+# Gitflow
+
+Follow [gitflow](https://nvie.com/posts/a-successful-git-branching-model/) for all changes.
+
+## Branches
+- **main** — production-ready; protected; merge only via PR
+- **develop** — integration branch for ongoing work (create when needed)
+- **feature/** — new work (`feature/123-short-description`)
+- **release/** — release prep (`release/1.2.0`)
+- **hotfix/** — urgent production fixes (`hotfix/critical-bug`)
+
+## Rules
+1. Never commit directly to **main** or **develop** — use a branch and PR
+2. Branch from **develop** (or **main** for hotfixes)
+3. Keep PRs focused; one concern per branch where practical
+4. Use clear commit messages; PR title summarizes the change
+5. Do not push secrets; use user secrets, GitHub secrets, or env vars
+
+## Agent workflow
+- Before git work: confirm target branch and base branch
+- Create/switch to an appropriately named branch before edits
+- Summarize impacted apps in PR description (`apps/dert-api`, etc.)

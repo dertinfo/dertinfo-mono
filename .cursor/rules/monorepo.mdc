@@ -18,6 +18,7 @@ alwaysApply: true
 1. Full-stack features: API first → shared contracts → frontend(s)
 2. Check cwd before running `dotnet` or `npm` commands
 3. Search for files before guessing paths; do not invent filenames
+4. Follow gitflow: branch + PR to `main`/`develop`; never push directly to protected branches
 
 ## Boundaries
 - Web and app do not share UI; no shared Angular library unless explicitly requested
