@@ -4,6 +4,12 @@
 		"dockerfile": "Dockerfile"
 	},
 	
+	"initializeCommand": "mkdir --parents ${HOME}/.microsoft/usersecrets",
+	
+	"mounts": [
+	    "source=${localEnv:HOME}/.microsoft/usersecrets,target=/home/vscode/.microsoft/usersecrets,type=bind,consistency=cached"
+	],
+
 	"features": {
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	},
