@@ -1,0 +1,182 @@
+# Description
+# This pipeline is responsible for deploying the infrastructure for the ImageResizeV4 function app
+# Important
+# In order to run this pipeline the Service Connection for Azure DevOps must be created with permission for:
+# - Both resource groups containing both deployment resource group and the resource group where the image storage account is located. (Or Subscription)
+# - It must be able to created resources for the resource group
+# - It must be able to deploy a customRole and roleAssignment
+
+# Trigger the pipeline on /src pushes to the main branch
+trigger:
+  branches:
+   include:
+     - main
+  paths:
+    include:
+      - infra/bicep/*
+
+# Do not trigger the pipeline on pull requests
+pr:
+  branches:
+    exclude:
+      - '*'
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+- stage: 'BuildArtefact'
+  displayName: 'Create Artefact IaC'
+  jobs:
+    - job: 'CopyIaC'
+      displayName: 'Copy the IaC files frim "infra" to "iac"'
+      steps:
+        - task: PublishPipelineArtifact@1
+          displayName: 'PublishInfrastiuctureAsCode'
+          inputs:
+            targetPath: 'infra/bicep'
+            artifact: 'iac'
+
+- stage: Lint
+  jobs:
+  - job: LintCode
+    displayName: Lint code
+    steps:
+      - script: |
+          az bicep build --file infra/bicep/main.bicep
+        name: LintBicepCode
+        displayName: Run Bicep linter             
+  
+- stage: 'DeployToTest'
+  displayName: 'Deploy Infrastucture To Test'
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: Test
+    variables:
+    - group: DertInfoImageResizeV4_Infrastucture_Staging_VariablesGroup
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadBuildArtifacts@1
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'iac'
+              downloadPath: '$(System.ArtifactsDirectory)'
+              cleanDestinationFolder: true
+          - task: AzureResourceManagerTemplateDeployment@3
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'Visual Studio Professional Subscription - Infrastructure'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '$(resourceGroupName)'
+              location: '$(location)'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(System.ArtifactsDirectory)/main.bicep'
+              csmParametersFile: '$(System.ArtifactsDirectory)/parameters-main-stg.json'
+              overrideParameters: >-
+                -ownerInitials $(ownerInitials)
+                -workloadName $(workloadName)
+                -imagesStorageAccountName $(imagesStorageAccountName)
+                -imagesStorageAccountResourceGroupName $(imagesStorageAccountResourceGroupName)
+                -applicationInsightsName $(applicationInsightsName)
+                -applicationInsightsResourceGroupName $(applicationInsightsResourceGroupName)
+                -excessiveUseActionGroupName $(excessiveUseActionGroupName)
+                -excessiveUseActionGroupResourceGroup $(excessiveUseActionGroupResourceGroupName)
+                -environmentTag $(environmentTag)
+              deploymentMode: 'Incremental'
+          - task: AzureCLI@2
+            displayName: 'Get the name of the created function app'
+            inputs:
+              azureSubscription: 'Visual Studio Professional Subscription - Infrastructure'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                functionAppName=$(az functionapp list --resource-group $(resourceGroupName) --query "[0].name" -o tsv)
+                echo "##vso[task.setvariable variable=functionAppName]$functionAppName"
+          - script: |
+              echo "Function App Name: $(functionAppName)"
+            displayName: 'Display Function App Name'
+          - task: AzureResourceManagerTemplateDeployment@3
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'Visual Studio Professional Subscription - Infrastructure'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '$(resourceGroupName)'
+              location: '$(location)'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(System.ArtifactsDirectory)/comms.bicep'
+              csmParametersFile: '$(System.ArtifactsDirectory)/parameters-comms-stg.json'
+              overrideParameters: >-
+                -functionAppName $(functionAppName)
+              deploymentMode: 'Incremental'  
+
+- stage: 'DeployToLive'
+  displayName: 'Deploy Infrastucture To Prod'
+  dependsOn: DeployToTest
+  jobs:
+  - deployment: Deploy
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: Live
+    variables:
+    - group: DertInfoImageResizeV4_Infrastucture_Production_VariablesGroup
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: DownloadBuildArtifacts@1
+            inputs:
+              buildType: 'current'
+              downloadType: 'single'
+              artifactName: 'iac'
+              downloadPath: '$(System.ArtifactsDirectory)'
+              cleanDestinationFolder: true
+          - task: AzureResourceManagerTemplateDeployment@3
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'DertInfo Subscription - Infrastructure'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '$(resourceGroupName)'
+              location: '$(location)'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(System.ArtifactsDirectory)/main.bicep'
+              csmParametersFile: '$(System.ArtifactsDirectory)/parameters-main-prod.json'
+              overrideParameters: >-
+                -ownerInitials $(ownerInitials)
+                -workloadName $(workloadName)
+                -imagesStorageAccountName $(imagesStorageAccountName)
+                -imagesStorageAccountResourceGroupName $(imagesStorageAccountResourceGroupName)
+                -applicationInsightsName $(applicationInsightsName)
+                -applicationInsightsResourceGroupName $(applicationInsightsResourceGroupName)
+                -excessiveUseActionGroupName $(excessiveUseActionGroupName)
+                -excessiveUseActionGroupResourceGroup $(excessiveUseActionGroupResourceGroupName)
+                -environmentTag $(environmentTag)
+              deploymentMode: 'Incremental'
+          - task: AzureCLI@2
+            displayName: 'Get the name of the created function app'
+            inputs:
+              azureSubscription: 'DertInfo Subscription - Infrastructure'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                functionAppName=$(az functionapp list --resource-group $(resourceGroupName) --query "[0].name" -o tsv)
+                echo "##vso[task.setvariable variable=functionAppName]$functionAppName"
+          - script: |
+              echo "Function App Name: $(functionAppName)"
+            displayName: 'Display Function App Name'
+          - task: AzureResourceManagerTemplateDeployment@3
+            inputs:
+              deploymentScope: 'Resource Group'
+              azureResourceManagerConnection: 'DertInfo Subscription - Infrastructure'
+              action: 'Create Or Update Resource Group'
+              resourceGroupName: '$(resourceGroupName)'
+              location: '$(location)'
+              templateLocation: 'Linked artifact'
+              csmFile: '$(System.ArtifactsDirectory)/comms.bicep'
+              csmParametersFile: '$(System.ArtifactsDirectory)/parameters-comms-prod.json'
+              overrideParameters: >-
+                -functionAppName $(functionAppName)
+              deploymentMode: 'Incremental'

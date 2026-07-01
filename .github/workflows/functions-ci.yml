@@ -29,8 +29,8 @@ jobs:
         run: dotnet restore dertinfo.sln
 
       - name: Build Functions
-        run: dotnet build apps/dert-functions --no-restore --configuration Release
+        run: dotnet build apps/dert-functions/src/dertinfo-image-resize/DertInfoImageResizeV4.csproj --no-restore --configuration Release
 
       - name: Test Functions
-        run: dotnet test apps/dert-functions --no-build --configuration Release --verbosity normal
+        run: dotnet test apps/dert-functions/src/dertinfo-image-resize/DertInfoImageResizeV4.csproj --no-build --configuration Release --verbosity normal
         continue-on-error: true

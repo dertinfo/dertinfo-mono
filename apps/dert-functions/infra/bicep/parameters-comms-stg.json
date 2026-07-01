@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "functionAppName": {
+            "value": "di-7olt-func-imageresizev4-stg"
+        },
+        "imagesStorageAccountName": {
+            "value": "dertinfotestimagessa"
+        },
+        "imagesStorageAccountResourceGroupName": {
+            "value": "dertinfo-test-rg"
+        },
+        "environmentTag": {
+            "value": "stg"
+        }
+    }
+}

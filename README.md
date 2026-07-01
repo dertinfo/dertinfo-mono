@@ -42,7 +42,7 @@ npm run app:build
 | Repo | Status | Path |
 |------|--------|------|
 | [dertinfo-api](https://github.com/dertinfo/dertinfo-api) | Imported | `apps/dert-api/` |
-| dertinfo-functions | Pending | `apps/dert-functions/` |
+| [dertinfo-image-resize-v4](https://github.com/dertinfo/dertinfo-image-resize-v4) | Imported | `apps/dert-functions/` |
 | dertinfo-web | Pending | `apps/dert-web/` |
 | dertinfo-app | Pending | `apps/dert-app/` |
 
