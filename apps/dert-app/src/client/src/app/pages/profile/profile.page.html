@@ -1,0 +1,41 @@
+<ion-header>
+    <app-header [pageTitle]="'Profile'"></app-header>
+</ion-header>
+<ion-content>
+    <ion-card *ngIf="userAuthenticated">
+
+        <ion-item *ngIf="userData">
+            <ion-avatar slot="start">
+                <img [src]="userData.picture">
+            </ion-avatar>
+            <ion-text>
+                <h2>{{ userData.nickname }}</h2>
+                <p>{{ userData.email }}</p>
+            </ion-text>
+        </ion-item>
+
+    </ion-card>
+    <div *ngIf="userAuthenticated" class="pin-button-container">
+        <ion-button (click)="onEnterPinClick()" expand="block">Enter Group Member Pin</ion-button>
+    </div>
+    <ion-card *ngIf="userAuthenticated && !_groupsLoading && adminGroups.count() > 0">
+        <ion-list>
+            <ion-list-header>
+                Your Groups
+                <ion-icon name="people" class="icon-circle" slot="end"></ion-icon>
+            </ion-list-header>
+            <ion-item *ngFor="let group of adminGroups">
+                <ion-avatar slot="start">
+                    <img src="{{ group.teamPictureUrl | sizedImage: imageSize }}" [dertimagecheck]="imageSize"
+                        [defaultImage]="'assets/icon/missing-avatar-person.png'"
+                        [loadingImage]="'assets/icon/loading-avatar.gif'">
+                </ion-avatar>
+                <h2>{{group.groupName}}</h2>
+            </ion-item>
+        </ion-list>
+    </ion-card>
+    <div class="login-logout-container">
+        <ion-button *ngIf="!userAuthenticated" expand="block" (click)="login()">Login</ion-button>
+        <ion-button *ngIf="userAuthenticated" expand="block" (click)="logout()">Logout</ion-button>
+    </div>
+</ion-content>

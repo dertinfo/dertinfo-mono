@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "dertinfo-pwa",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

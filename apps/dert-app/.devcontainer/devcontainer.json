@@ -1,0 +1,38 @@
+{
+    // Name this configuration
+    "name": "Codespace For DertInfo App",
+    // Use the base codespace image
+    "image": "mcr.microsoft.com/vscode/devcontainers/universal:latest",
+    "remoteUser": "codespace",
+    "overrideCommand": false,
+    // Add the IDs of extensions you want installed when the container is created.
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "ms-azuretools.vscode-azurestaticwebapps",
+          "ms-azuretools.vscode-docker",
+          "ms-mssql.mssql",
+          "github.copilot"
+        ]
+      },
+      "codespaces": {
+        "openFiles": [
+          "codespace.md"
+        ]
+      }
+    },
+    "postCreateCommand": "npm install -g typescript @azure/static-web-apps-cli @angular/cli@13 && sh infra/docker/setup-codespace.sh && echo '# Writing code upon codespace creation!'  >> codespace.md",
+    "forwardPorts": [44100,44300],
+    "portsAttributes": {
+      "44100": {
+        "label": "Public Availability On Api",
+        "onAutoForward": "notify",
+        "visibility": "public"
+      },
+      "44300": {
+        "label": "Public Availability On App",
+        "onAutoForward": "notify",
+        "visibility": "public"
+      }
+    }
+  }

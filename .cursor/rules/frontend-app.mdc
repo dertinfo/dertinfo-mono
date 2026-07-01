@@ -6,6 +6,7 @@ alwaysApply: false
 
 # App (Ionic PWA)
 
+- Ionic + Angular client root: `apps/dert-app/src/client/`
 - Primary target is PWA; Ionic/Capacitor artifacts may remain
 - Do not refactor Ionic unless explicitly requested
 - Minimal UI overlap with `apps/dert-web/` — keep apps independent

@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <app-header [pageTitle]="'Venue'"></app-header>
+</ion-header>
+
+<ion-content>
+  <app-loader [showLoading]="_venuesLoading || _eventsLoading" [loadingText]="'Loading your venues. Please wait...'"></app-loader>
+
+  <ion-card *ngIf="_isError" class="card-warning">
+      <ion-item>
+          <h2>Loading Problem</h2>
+          <p>Please check your internet connection.</p>
+          <ion-icon name="alert" class="icon-circle" slot="end"></ion-icon>
+      </ion-item>
+  </ion-card>
+
+  <ion-card *ngIf="!_venuesLoading && _noVenues" class="card-warning">
+      <ion-item>
+          <h2>No venues</h2>
+          <p>There have been no venues setup yet</p>
+          <ion-icon name="alert" class="icon-circle" slot="end"></ion-icon>
+      </ion-item>
+  </ion-card>
+
+  <ion-card *ngIf="!_venuesLoading && !_isError && !_noVenues">
+      <ion-list>
+          <ion-list-header>
+              Your Venues
+              <ion-icon name="home" class="icon-circle" slot="end"></ion-icon>
+          </ion-list-header>
+          <ion-item *ngFor="let venue of venueStore.venues$ | async" (click)="changeVenueClick(venue)" [ngClass]="{'selected': venue.id == selectedVenueId}">
+              <ion-avatar slot="start">
+                  <img src="assets/icon/missing-avatar-venue.png">
+              </ion-avatar>
+              {{venue.name}}
+              <ion-icon *ngIf="venue.id == selectedVenueId" name="checkmark-circle" class="icon-circle green" slot="end"></ion-icon>
+          </ion-item>
+
+
+      </ion-list>
+  </ion-card>
+
+  <ion-fab #fab *ngIf="!_eventsLoading && !_isError" vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button ion-fab>{{selectedEventNickname}}</ion-fab-button>
+      <ion-fab-list side="top">
+          <ion-fab-button ion-fab *ngFor="let evt of eventStore.events$ | async" (click)="onEventSelected(evt, fab)">
+              <img [src]="evt.eventPictureUrl | sizedImage: '100x100'"/></ion-fab-button>
+      </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

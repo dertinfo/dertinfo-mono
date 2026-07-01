@@ -1,0 +1,17 @@
+<div [isLoading]="isLoadingObs" class="imageContainer">
+    <img *ngIf="this.myId === 0" [src]="myPhoto" />
+    <div (click)="openPreview(myPhoto)">
+            <img
+                *ngIf="this.myId > 0"
+                [src]="myPhoto | sizedImage: scoresheetImageSize"
+                [dertimagecheck]="scoresheetImageSize"
+                [defaultImage]="'assets/icon/missing-document.png'"
+                [loadingImage]="'assets/icon/loading-avatar.gif'"
+            />
+    </div>
+
+    <ion-button *ngIf="this.myId > 0 && !isLocked" (click)="deletePhoto()" small outline color="danger" class="imageDeleteButton">
+        <ion-icon name="close"></ion-icon>
+    </ion-button>
+    <div class="indevelopment">{{myMarkingSheetId}}</div>
+</div>

@@ -1,0 +1,9 @@
+<ion-list lines="none">
+    <ion-item *ngFor="let markingSheet of markingSheets">
+        <photo-widget (onPhotoDeleted)="photoDeleted($event)" [markingSheet]="markingSheet" [isLocked]="isLocked">
+        </photo-widget>
+    </ion-item>
+</ion-list>
+<div class="photo-button-container">
+    <photo-button *ngIf="!isLocked" (onPhotoTaken)="photoTaken($event)"></photo-button>
+</div>
