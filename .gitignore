@@ -56,5 +56,8 @@ secrets.json
 *.log
 logs/
 
+# Local import workspace (used during repo merges)
+_import/
+
 # Generated contracts (uncomment if clients are generated at build time)
 # packages/shared-contracts/generated/

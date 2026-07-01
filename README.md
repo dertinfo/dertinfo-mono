@@ -39,7 +39,15 @@ npm run app:build
 
 ## Importing existing repositories
 
-Each legacy repo will be merged with full git history into its `apps/` folder using `git filter-repo`. See the conversation notes or ask in Cursor for the exact commands when you are ready to import a repo.
+| Repo | Status | Path |
+|------|--------|------|
+| [dertinfo-api](https://github.com/dertinfo/dertinfo-api) | Imported | `apps/dert-api/` |
+| dertinfo-functions | Pending | `apps/dert-functions/` |
+| dertinfo-web | Pending | `apps/dert-web/` |
+| dertinfo-app | Pending | `apps/dert-app/` |
+
+API solution file (legacy): `apps/dert-api/src/DertInfoApiSolution.sln`  
+Root solution: `dertinfo.sln` (includes API projects)
 
 ## CI/CD
 

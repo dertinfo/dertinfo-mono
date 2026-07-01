@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>DertInfo.Repository</AssemblyName>
+    <OutputType>Library</OutputType>
+    <PackageId>dertinfo-repository</PackageId>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <RootNamespace>DertInfo.Repository</RootNamespace>
+    <ApplicationIcon />
+    <StartupObject />
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Staging|AnyCPU'" />
+  <ItemGroup>
+    <Compile Remove="Migrations\20180601044334_Additional_Event_Fields.cs" />
+    <Compile Remove="Migrations\20180627153938_ActivityTablesAdded.cs" />
+    <Compile Remove="Migrations\20180627154724_ActivityTablesAdded.cs" />
+    <Compile Remove="Migrations\20180627190342_AudienceTypeAdditionToActivitySeed.cs" />
+    <Compile Remove="Migrations\20190127150459_compflowstatetoenum.cs" />
+    <Compile Remove="Migrations\20201210170113_DertOfDerts-Update5.cs" />
+    <Compile Remove="Migrations\20201210170113_DertOfDerts-Update5.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="EntityFrameworkCore.DataEncryption" Version="1.1.0" />
+    <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\dertinfo-crosscutting\dertinfo-crosscutting.csproj" />
+    <ProjectReference Include="..\dertinfo-models\dertinfo-models.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,32 @@
+{
+	"name": "DertInfo API (.NET 8)",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	
+	"initializeCommand": "mkdir --parents ${HOME}/.microsoft/usersecrets",
+	
+	"mounts": [
+	    "source=${localEnv:HOME}/.microsoft/usersecrets,target=/home/vscode/.microsoft/usersecrets,type=bind,consistency=cached"
+	],
+
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-dotnettools.csharp",
+				"ms-dotnettools.csdevkit"
+			],
+			"settings": {
+				"dotnet.defaultSolution": "src/DertInfoApiSolution.sln"
+			}
+		}
+	},
+
+	"postCreateCommand": "dotnet restore src/DertInfoApiSolution.sln",
+
+	"remoteUser": "vscode"
+}
