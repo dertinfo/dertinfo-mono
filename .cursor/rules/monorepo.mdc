@@ -1,0 +1,24 @@
+---
+description: DertInfo monorepo architecture and cross-cutting rules
+alwaysApply: true
+---
+
+# DertInfo Monorepo
+
+## Apps
+- **API**: `apps/dert-api/` — .NET 8, EF Core, MSSQL (migrations live here)
+- **Functions**: `apps/dert-functions/` — C# Azure Functions (image resize)
+- **Website**: `apps/dert-web/` — Angular SPA
+- **App**: `apps/dert-app/` — Ionic + Angular PWA
+
+## Packages
+- **Shared contracts**: `packages/shared-contracts/` — OpenAPI spec and generated TS clients
+
+## Workflow
+1. Full-stack features: API first → shared contracts → frontend(s)
+2. Check cwd before running `dotnet` or `npm` commands
+3. Search for files before guessing paths; do not invent filenames
+
+## Boundaries
+- Web and app do not share UI; no shared Angular library unless explicitly requested
+- Do not move EF migrations out of the API

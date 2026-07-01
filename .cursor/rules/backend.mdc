@@ -1,0 +1,18 @@
+---
+description: .NET API and Azure Functions conventions
+globs: apps/dert-api/**/*,apps/dert-functions/**/*
+alwaysApply: false
+---
+
+# Backend (.NET)
+
+- Target: .NET 8+
+- API: Clean Architecture, DI, EF Core for MSSQL
+- Migrations: `dotnet ef migrations add` from the API project directory
+- Functions: C# isolated worker or in-process per existing project style
+
+## Commands (from repo root, after import)
+```bash
+dotnet build dertinfo.sln
+dotnet test dertinfo.sln
+```

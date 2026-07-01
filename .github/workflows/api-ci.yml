@@ -1,0 +1,37 @@
+name: API CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'apps/dert-api/**'
+      - 'packages/**'
+      - 'dertinfo.sln'
+      - 'Directory.Build.props'
+      - '.github/workflows/api-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/dert-api/**'
+      - 'packages/**'
+      - 'dertinfo.sln'
+      - 'Directory.Build.props'
+      - '.github/workflows/api-ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore dertinfo.sln
+
+      - name: Build API
+        run: dotnet build apps/dert-api --no-restore --configuration Release
+
+      - name: Test API
+        run: dotnet test apps/dert-api --no-build --configuration Release --verbosity normal

@@ -1,0 +1,18 @@
+---
+description: Ionic PWA app conventions
+globs: apps/dert-app/**/*
+alwaysApply: false
+---
+
+# App (Ionic PWA)
+
+- Primary target is PWA; Ionic/Capacitor artifacts may remain
+- Do not refactor Ionic unless explicitly requested
+- Minimal UI overlap with `apps/dert-web/` — keep apps independent
+
+## Commands
+```bash
+npm run app:build
+npm run app:lint
+npm run app:test
+```

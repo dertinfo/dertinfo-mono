@@ -1,0 +1,60 @@
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+[Dd]ebug/
+[Rr]elease/
+publish/
+*.nupkg
+TestResults/
+*.DotSettings.user
+
+# Node / Angular
+node_modules/
+dist/
+.angular/
+.npm/
+*.tsbuildinfo
+
+# Ionic / Capacitor
+www/
+platforms/
+plugins/
+.capacitor/
+
+# Azure Functions
+local.settings.json
+__blobstorage__/
+__queuestorage__/
+__azurite_db*__.json
+.python_packages/
+
+# IDE
+.vs/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json.example
+secrets.json
+
+# Logs
+*.log
+logs/
+
+# Generated contracts (uncomment if clients are generated at build time)
+# packages/shared-contracts/generated/

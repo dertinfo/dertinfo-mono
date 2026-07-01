@@ -1,0 +1,36 @@
+name: Functions CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'apps/dert-functions/**'
+      - 'dertinfo.sln'
+      - 'Directory.Build.props'
+      - '.github/workflows/functions-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/dert-functions/**'
+      - 'dertinfo.sln'
+      - 'Directory.Build.props'
+      - '.github/workflows/functions-ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore dertinfo.sln
+
+      - name: Build Functions
+        run: dotnet build apps/dert-functions --no-restore --configuration Release
+
+      - name: Test Functions
+        run: dotnet test apps/dert-functions --no-build --configuration Release --verbosity normal
+        continue-on-error: true

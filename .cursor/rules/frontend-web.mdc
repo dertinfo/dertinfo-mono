@@ -1,0 +1,18 @@
+---
+description: Angular website conventions
+globs: apps/dert-web/**/*
+alwaysApply: false
+---
+
+# Website (Angular)
+
+- Strict template type checking
+- Use existing component library and styles in this app
+- Prefer existing services for state before adding new patterns
+
+## Commands
+```bash
+npm run web:build
+npm run web:lint
+npm run web:test
+```

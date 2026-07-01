@@ -1,0 +1,15 @@
+node_modules/
+bin/
+obj/
+dist/
+.angular/
+www/
+platforms/
+.capacitor/
+.vs/
+TestResults/
+__blobstorage__/
+__queuestorage__/
+*.min.js
+*.min.css
+package-lock.json

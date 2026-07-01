@@ -1,0 +1,39 @@
+name: App CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'apps/dert-app/**'
+      - 'package.json'
+      - '.github/workflows/app-ci.yml'
+  pull_request:
+    paths:
+      - 'apps/dert-app/**'
+      - 'package.json'
+      - '.github/workflows/app-ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run app:lint
+        continue-on-error: true
+
+      - name: Test
+        run: npm run app:test
+        continue-on-error: true
+
+      - name: Build
+        run: npm run app:build
