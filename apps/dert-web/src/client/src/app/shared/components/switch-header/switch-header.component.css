@@ -1,0 +1,21 @@
+#app-switch-header {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+#app-switch-header .fab-button-overlay {
+  position: absolute;
+  right:20px;
+  bottom:8px;
+}
+
+#app-switch-header .mat-card-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+#app-switch-header .mat-card-title .mat-icon {
+  margin-right:15px;
+}
+

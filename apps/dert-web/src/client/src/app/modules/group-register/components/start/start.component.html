@@ -1,0 +1,59 @@
+<mat-card class="p-0">
+  <mat-card-title-group class="">
+    <mat-card-title>
+      <div class="card-title-text">Registration Information</div>
+    </mat-card-title>
+    <!--
+    <span fxFlex fxLayout="row-reverse">
+      <span class="avatar-tag md mr-1 mt-1">
+        <img [src]="eventPictureUrl | imageDimension:'100x100'" alt="" />
+      </span>
+      <span class="avatar-tag md mr-1 mt-1">
+        <img [src]="groupPictureUrl | imageDimension:'100x100'" alt="" />
+      </span>
+    </span>
+    -->
+    <mat-divider></mat-divider>
+  </mat-card-title-group>
+  <mat-card-content>
+    <mat-vertical-stepper [linear]="false" (selectionChange)="onStepperStepChange($event)">
+      <mat-step>
+        <form>
+          <ng-template matStepLabel>Overview</ng-template>
+          <p>{{eventSynopsis}}</p>
+          <div class="pt-1">
+            <button mat-raised-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <form>
+          <ng-template matStepLabel>Tickets And Pricing</ng-template>
+          <p>Functionality to show the tickets available here is still under development.</p>
+          <div class="pt-1">
+            <button mat-raised-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="termsAndConditionsFormGroup">
+        <form [formGroup]="termsAndConditionsFormGroup">
+          <ng-template matStepLabel>Terms &amp; Conditions</ng-template>
+          <p>By continuing with this registration to {{eventName}}, attendance and group contact information will be made available
+            to them and they will be informed of your potential interest.</p>
+          <p>You accept that {{eventName}} is permitted to contact you with regard to this registration and that they can edit
+            this registration at your request.</p>
+          <p>
+            <small>For further information please see our
+              <a (click)="onTermsAndConditionsClick()" class="cursor-pointer">terms &amp; conditions</a>.</small>
+          </p>
+          <mat-checkbox formControlName="agreeToTermsAndConditions" required>
+            I agree to the terms and conditions
+          </mat-checkbox>
+          <div class="pt-1">
+            <button mat-raised-button color="primary" (click)="submit()" [disabled]="!termsAndConditionsFormGroup.valid">Submit</button>
+          </div>
+        </form>
+      </mat-step>
+    </mat-vertical-stepper>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,15 @@
+:host {
+    .notification-number {
+        position: absolute;
+        top: 60%;
+        left: 60%;
+        width: 10px;
+        height: 10px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 20px;
+        color: #fff;
+        text-align: center;
+        border-radius: 50%;
+    }
+}

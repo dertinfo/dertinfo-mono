@@ -1,0 +1,92 @@
+<app-top-header></app-top-header>
+<div class="dod-results-container">
+  <section *ngIf="!resultsPublished" id="portfolio-section" class="light-gray">
+    <div>
+      <app-dod-header></app-dod-header>
+    </div>
+    <div class="container" fxLayout="column">
+      <mat-card>
+        <mat-card-title>
+          Hold up! We're not quite there yet. Counting still going on!
+        </mat-card-title>
+        <mat-card-content>
+          <p>
+            Not really, we don't count, that happens automagically. But we might be waiting for some of our judges or
+            we’ve
+            just decided we just don't want to tell you just yet. Either way you're not allowed to see! (for now!)
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </section>
+  <section *ngIf="resultsPublished" id="portfolio-section" class="light-gray">
+    <div class="header-thin">
+      <app-dod-header></app-dod-header>
+    </div>
+    <div class="container" fxLayout="column">
+      <mat-card>
+        <mat-card-title fxLayoutAlign="start center">
+          Scores From The Official Judges <mat-icon *ngIf="officialJudgeDiscrepency" colour="error">warning
+          </mat-icon>
+          <span fxFlex></span>
+          <mat-slide-toggle [color]="primary" [(ngModel)]="showOfficialAveragesChecked"
+            (change)="onShowAveragesChange($event)">
+            Show Averages
+          </mat-slide-toggle>
+        </mat-card-title>
+        <mat-card-content>
+          <mat-tab-group *ngIf="resultsPublished" (selectedTabChange)="onOfficialSelectedTabChange($event)">
+            <mat-tab *ngFor="let resultType of resultTypes" [label]="resultType.resultTypeName">
+              <mat-list>
+                <div *ngFor="let teamResult of officalResults">
+                  <mat-list-item>
+                    <div fxFlex="100" fxLayout="row">
+                      <div fxFlex="50">{{teamResult.teamName}}</div>
+                      <div fxFlex="40">
+                        <mat-chip mat-sm-chip [color]="'none'" [selected]="true">{{teamResult.entryAttribute}}
+                        </mat-chip>
+                      </div>
+                      <div fxFlex="10" fxLayoutAlign="flex-end">{{teamResult.score}}</div>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                </div>
+              </mat-list>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="container" fxLayout="column">
+      <mat-card>
+        <mat-card-title fxLayoutAlign="start center">
+          Scores From The Public
+          <span fxFlex></span>
+        </mat-card-title>
+        <mat-card-content>
+          <mat-tab-group *ngIf="resultsPublished" (selectedTabChange)="onPublicSelectedTabChange($event)">
+            <mat-tab *ngFor="let resultType of resultTypes" [label]="resultType.resultTypeName">
+              <mat-list>
+                <div *ngFor="let teamResult of publicResults">
+                  <mat-list-item>
+                    <div fxFlex="100" fxLayout="row">
+                      <div fxFlex="50">{{teamResult.teamName}}</div>
+                      <div fxFlex="20">
+                        <mat-chip mat-sm-chip [color]="'none'" [selected]="true">{{teamResult.entryAttribute}}
+                        </mat-chip>
+                      </div>
+                      <div fxFlex="20">{{teamResult.numberOfResults}} entries</div>
+                      <div fxFlex="10" fxLayoutAlign="flex-end">{{teamResult.score}}</div>
+                    </div>
+                  </mat-list-item>
+                  <mat-divider></mat-divider>
+                </div>
+              </mat-list>
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+  </section>
+</div>

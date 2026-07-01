@@ -1,0 +1,97 @@
+<mat-card class="p-0" *ngIf="_isReady">
+  <mat-tab-group>
+    <mat-tab label="Group Settings">
+      <mat-card-content class="mt-1">
+        <form [formGroup]="groupUpdateForm" novalidate (submit)="onGroupUpdateSubmit()">
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput formControlName="groupName" placeholder="Group Name" required>
+            </mat-form-field>
+            <small *ngIf="groupUpdateForm.controls.groupName.errors && (groupUpdateForm.controls.groupName.dirty || groupUpdateForm.controls.groupName.touched) && (groupUpdateForm.controls.groupName.errors.required)"
+              class="form-error-msg"> Group Name is required. </small>
+            <small *ngIf="groupUpdateForm.controls.groupName.errors && (groupUpdateForm.controls.groupName.dirty || groupUpdateForm.controls.groupName.touched) && (groupUpdateForm.controls.groupName.errors.pattern)"
+              class="form-error-msg"> Forward slash not permitted </small>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="contactName" formControlName="contactName" placeholder="Group Contact Name" required>
+            </mat-form-field>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput formControlName="groupEmail" placeholder="Email" required>
+            </mat-form-field>
+            <small *ngIf="groupUpdateForm.controls.groupEmail.errors && (groupUpdateForm.controls.groupEmail.dirty || groupUpdateForm.controls.groupEmail.touched) && (groupUpdateForm.controls.groupEmail.errors.email)"
+              class="form-error-msg"> Invaild email address </small>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="telephone" formControlName="contactTelephone" placeholder="Group Contact Number" required>
+            </mat-form-field>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width text-area-field">
+              <textarea matInput formControlName="groupBio" placeholder="Group Bio" rows="4"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="originTown" formControlName="originTown" placeholder="Based in Town">
+            </mat-form-field>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="originPostcode" formControlName="originPostcode" placeholder="Based In Postcode">
+            </mat-form-field>
+          </div>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!groupUpdateForm.dirty">
+            Save
+          </button>
+
+        </form>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Manage Group">
+      <mat-card-content class="mt-1">
+        <div fxFlex="100">
+          <app-action-confirm-navigate title="Delete Group" actionName="Delete Group"  colour="warn" navigateTo="dashboard" [complete]="groupDeleted" (confirmed)="onDeleteGroupConfirmed()">
+            <p>
+              This will delete this group from the system. All access to this group will be lost along with access to the history for this
+              group. This will also remove this group from all group member profiles. Attendance data and other activity based data will be retained for reporting purposes.
+            </p>
+            <ng-container ngProjectAs="confirm">
+              <p>Are you absolutely sure?</p>
+            </ng-container>
+            <ng-container ngProjectAs="actioning">
+              <p>We are in the process of deleting the group please wait.</p>
+            </ng-container>
+            <ng-container ngProjectAs="actioned">
+              <p>Your group has now been deleted you are being redirected back to your dashboard.</p>
+            </ng-container>
+          </app-action-confirm-navigate>
+
+        </div>
+      </mat-card-content>
+    </mat-tab>
+
+    <mat-tab label="Privacy Settings">
+      <mat-card-content>
+        <form [formGroup]="groupPrivacySettingsForm" novalidate (submit)="onGroupPrivacySubmit()">
+          <div class="pb-1">
+            <mat-radio-group fxLayout="column" formControlName="visibility">
+              <mat-radio-button class="pt-1" *ngFor="let visibilityOption of visibilityOptions" [value]="visibilityOption.id">
+                {{visibilityOption.name}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <mat-divider class="mb-1"></mat-divider>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!groupPrivacySettingsForm.dirty">
+            Save
+          </button>
+        </form>
+      </mat-card-content>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

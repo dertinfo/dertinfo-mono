@@ -1,0 +1,48 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+  <app-addition-header fxFlex="100" [title]="'Submission'" [icon]="'receipt'" [hideButton]="true">
+  </app-addition-header>
+
+  <mat-card class="p-0" *ngIf="isReady" fxFlex="100">
+    <mat-card-content class="mt-1">
+      <form [formGroup]="form" novalidate (submit)="onSubmit()">
+        <div class="pb-1">
+          <mat-form-field>
+            <mat-select formControlName="groupId" placeholder="Group*">
+              <mat-option *ngFor="let group of groups$ | async" [value]="group.id">
+                {{group.groupName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="embedLink" placeholder="YouTube / Facebook Embed Source" required>
+          </mat-form-field>
+          <small
+            *ngIf="form.controls.embedLink.errors && (form.controls.embedLink.dirty || form.controls.embedLink.touched) && (form.controls.embedLink.errors.required)"
+            class="form-error-msg"> Embed link is required. </small>
+          <mat-radio-group aria-label="Select an option" formControlName="embedOrigin">
+            <mat-radio-button value="youtube">YouTube</mat-radio-button>
+            <mat-radio-button value="facebook">Facebook</mat-radio-button>
+          </mat-radio-group>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="dertYearFrom" placeholder="Year From" required>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="dertVenueFrom" placeholder="Venue From" required>
+          </mat-form-field>
+          <div class="pb-1">
+            <mat-radio-group aria-label="Select an option" formControlName="entryCategory">
+              <mat-radio-button value="Premier">Premier</mat-radio-button>
+              <mat-radio-button value="Championship">Championship</mat-radio-button>
+              <mat-radio-button value="Open">Open</mat-radio-button>
+            </mat-radio-group>
+
+          </div>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!form.dirty">
+            Save
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+
+  </mat-card>
+</div>

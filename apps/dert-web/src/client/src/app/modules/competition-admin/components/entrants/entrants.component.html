@@ -1,0 +1,46 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+  <app-addition-header fxFlex="100" [title]="'Entrants'" [icon]="'people_outline'" [hideButton]="true"></app-addition-header>
+  <mat-card class="default" fxFlex="100">
+    <mat-card-header>
+      <mat-card-title>Entrants</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-1">
+          <app-message-banner *ngIf="canPopulate" [active]="isProcessingEntrants" (action)="onPopulateClick()">
+            <div>Populate this competition from ticket sales?</div>
+          </app-message-banner>
+          <app-message-banner *ngIf="canReset" [active]="isProcessingEntrants" (action)="onRePopulateClick()">
+            <div>Do you wish to reset this competition? You will be permitted to do this until scores have been entered. Or while the compeition is in testing mode</div>
+          </app-message-banner>
+      <div class="mat-elevation-z3">
+        <mat-table [dataSource]="dataSourceEntrants">
+
+          <!-- Avatar Column -->
+          <ng-container matColumnDef="avatar">
+            <mat-header-cell mat-header-cell *matHeaderCellDef class="cell-avatar-header"> </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="cell-avatar">
+                <img class="mr-1 mat-table-avatar" [src]="element.teamPictureUrl | imageDimension: '100x100'" alt="">
+            </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell mat-header-cell *matHeaderCellDef class="cell-2x"> Name </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="cell-2x"> {{element.teamName}} </mat-cell>
+          </ng-container>
+
+          <!-- Entrant Attributes -->
+          <ng-container matColumnDef="attributes">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Attributes </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+              <app-competition-entrants-attributeselector [disabled]="!element.hasBeenAddedToCompetition || editingBlocked" [fullSet]="entryAttributes" [selectedSet]="element.entryAttributes" (selectionChanged)="onAttributeSelectionChanged(element, $event)" ></app-competition-entrants-attributeselector>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumnsEntrants" fxflex></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsEntrants;" fxflex></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

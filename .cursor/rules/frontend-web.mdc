@@ -6,6 +6,7 @@ alwaysApply: false
 
 # Website (Angular)
 
+- Angular app root: `apps/dert-web/src/client/`
 - Strict template type checking
 - Use existing component library and styles in this app
 - Prefer existing services for state before adding new patterns

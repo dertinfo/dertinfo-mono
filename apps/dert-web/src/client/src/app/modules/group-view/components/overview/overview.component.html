@@ -1,0 +1,12 @@
+<div>
+
+  <app-switch-header *ngIf="userIsAdmin" (addClick)="switchToAdmin()" [title]="'Switch To Admin'" [icon]="'refresh'"></app-switch-header>
+
+
+  <app-switch-header [hideButton]="true" [title]="group.groupName" [icon]="'group_work'"></app-switch-header>
+  <mat-card>
+    <mat-card-content>{{group.groupBio}}</mat-card-content>
+  </mat-card>
+
+
+</div>

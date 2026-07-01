@@ -1,0 +1,11 @@
+.flowbreadcrumb_container mat-card
+{
+    padding: 12px 24px;
+}
+
+/* State 5 is cancelled */
+.flowbreadcrumb_container .state-5-class
+{
+    /* to do - this is a hack for now. To just hightlight an error state.*/
+    border: solid 1px red;
+}

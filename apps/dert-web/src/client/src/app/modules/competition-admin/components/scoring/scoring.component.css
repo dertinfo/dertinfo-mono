@@ -1,0 +1,21 @@
+.app-competition-scoring-container {
+    padding: 6px 0px 0px 3px;
+}
+
+table {
+    width: 100%;
+    flex-direction: row;
+}
+
+mat-header-cell {
+    display: flex;
+}
+
+.cell-pull-right {
+    display: flex !important;
+    justify-content: flex-end!important;
+}
+
+.cell-2x {
+    flex: 2;
+}

@@ -1,0 +1,12 @@
+
+
+.text-area-field textarea{
+    line-height: 1.4
+}
+
+.primary-marker {
+    position: absolute;
+    bottom:10px;
+    left:10px;
+    cursor: default;
+}

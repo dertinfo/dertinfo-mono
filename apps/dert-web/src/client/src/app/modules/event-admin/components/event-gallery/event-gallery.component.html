@@ -1,0 +1,30 @@
+<div>
+    <app-addition-header  (addClick)="openUploadImageDialog()" [title]="'Event Images'" [icon]="'image'"></app-addition-header>
+  <mat-card class="default">
+    <mat-card-title >Uploaded Photos</mat-card-title>
+    <mat-card-content class="p-0">
+        <mat-grid-list cols="3" rowHeight="1:1" class="app-gallery">
+            <!-- Gallery item -->
+            <mat-grid-tile *ngFor="let eventImage of eventImages$ | async">
+              <app-image-retry [src]="eventImage.imageResourceUri | imageDimension: '480x360'" alt=""></app-image-retry>
+              <button *ngIf="eventImage.isPrimary" mat-mini-fab color="primary" class="mr-1 primary-marker"><mat-icon>done</mat-icon></button>
+              <!-- item detail, show on hover -->
+              <div class="gallery-control-wrap">
+                <div class="gallery-control">
+                  <h4 class="photo-detail fz-1" [fxHide.lt-sm]="true">{{eventImage.name}}</h4>
+                  <span fxFlex></span>
+                  <button mat-icon-button [matMenuTriggerFor]="photoMenu" class="">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #photoMenu="matMenu">
+                    <button mat-menu-item (click)="onSetPrimaryClick(eventImage)" [disabled]="eventImage.isPrimary"><mat-icon>filter_hdr</mat-icon>Set Main</button>
+                    <a mat-menu-item [href]="eventImage.imageResourceUri" download><mat-icon>file_download</mat-icon>Download</a>
+                    <button mat-menu-item (click)="onDeleteClick(eventImage)" [disabled]="eventImage.isPrimary"><mat-icon>delete</mat-icon>Delete</button>
+                  </mat-menu>
+                </div>
+              </div>
+            </mat-grid-tile>
+          </mat-grid-list>
+    </mat-card-content>
+  </mat-card>
+</div>

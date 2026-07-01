@@ -1,0 +1,92 @@
+<div class="modal-min">
+    <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="Your People" *ngIf="showSelect">
+                <mat-card-content class="mt-1">
+                    <div fxLayout="row wrap" fxLayoutWrap="wrap">
+                        <div *ngFor="let item of items" [ngClass]="{'item-select': true, 'item-selected': item.selected, 'item-changed': item.changed}" fxFlex="100"
+                            fxFlex.gt-xs="33">
+                            <button (click)="onItemClick(item)" *ngIf="item.selected" mat-mini-fab color="primary" class="mr-1 primary-marker"><mat-icon>done</mat-icon></button>
+                            <button (click)="onItemClick(item)" *ngIf="!item.selected" mat-mini-fab color="default" class="mr-1 primary-marker"><mat-icon>close</mat-icon></button>
+                            {{item.name}}
+
+                        </div>
+                        <div class="" fxFlex="100">
+                            <button type="button" mat-button (click)="onCancelClick()">Cancel</button>
+                            <span fxFlex></span>
+
+                            <button mat-raised-button color="primary" type="submit" [disabled]="edited.length === 0" (click)="onSelectionSaveClick()">
+                                Save Changes <mat-icon>save</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                </mat-card-content>
+            </mat-tab>
+            <mat-tab label="Add New Person" *ngIf="showCreate">
+                <mat-card-content class="mt-1">
+                    <div class="mb-1 mt-1">
+                        <p>New person</p>
+                    </div>
+                    <form [formGroup]="form" novalidate (submit)="onCreateNewClick()">
+                        <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
+                            <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
+                                <mat-form-field class="full-width">
+                                    <input matInput formControlName="name" placeholder="Member Name" required>
+                                </mat-form-field>
+                                <small *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched) && (form.controls.name.errors.required)"
+                                    class="form-error-msg"> Member Name is required. </small>
+                            </div>
+
+                            <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
+                                <mat-form-field class="full-width">
+                                    <input matInput formControlName="email" placeholder="Email">
+                                </mat-form-field>
+                                <small *ngIf="form.controls.email.errors && (form.controls.email.dirty || form.controls.email.touched) && (form.controls.email.errors.email)"
+                                    class="form-error-msg"> Invaild email address </small>
+                            </div>
+
+                            <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
+                                <mat-form-field class="full-width">
+                                    <input matInput name="telephone" formControlName="telephone" placeholder="Telephone Number" value="">
+                                </mat-form-field>
+                            </div>
+                            <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
+                                <mat-form-field class="full-width">
+                                    <input matInput [matDatepicker]="dateOfBirthPicker" name="dateOfBirth" formControlName="dateOfBirth" placeholder="Date Of Birth">
+                                    <mat-datepicker-toggle matSuffix [for]="dateOfBirthPicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #dateOfBirthPicker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
+                                <mat-form-field class="full-width">
+                                    <input matInput [matDatepicker]="dateJoinedPicker" name="dateJoined" formControlName="dateJoined" placeholder="Date Joined">
+                                    <mat-datepicker-toggle matSuffix [for]="dateJoinedPicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #dateJoinedPicker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
+                                <label class="label-infix">Member/Guest</label>
+                                <mat-radio-group formControlName="memberType">
+                                    <mat-radio-button class="form-radio-button" [value]="1">Member</mat-radio-button>
+                                    <mat-radio-button class="form-radio-button" [value]="2">Guest</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="" fxFlex="100">
+                                <button type="button" mat-button (click)="onCancelClick()">Cancel</button>
+                                <span fxFlex></span>
+
+                                <button mat-raised-button color="primary" type="submit">
+                                    Add Member <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+
+
+
+</div>

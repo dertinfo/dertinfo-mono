@@ -1,0 +1,43 @@
+<div class="filter-area">
+        <mat-form-field>
+                <mat-select [(ngModel)]="awardFilter" placeholder="Award Filter" (selectionChange)="onAttributeFilterChange()">
+                    <mat-option>None</mat-option>
+                    <mat-option *ngFor="let entryAttribute of entryAttributeFilterData" value="{{entryAttribute.id}}">{{entryAttribute.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+    </div>
+    <div class="mat-elevation-z3">
+        <mat-table [dataSource]="collatedDataSource" matSort matSortActive="teamName" matSortDirection="asc"
+            matSortDisableClear>
+
+            <!-- Team Name Column -->
+            <ng-container matColumnDef="teamName">
+                <mat-header-cell mat-sort-header *matHeaderCellDef class="name-column"> Team Name
+                </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element" class="name-column">
+                    {{element.teamName}}
+                    <small class="teamSubText"><span *ngFor="let attribute of element.attributes">{{attribute.name}}&nbsp;</span></small>
+                </mat-cell>
+            </ng-container>
+
+            <!-- Score Categories -->
+            <ng-container *ngFor="let column of collatedColumns" matColumnDef="{{column.columnDef}}">
+                <mat-header-cell mat-sort-header *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{ column.cell(element) }}</mat-cell>
+            </ng-container>
+
+            <!-- Score Categories -->
+            <ng-container matColumnDef="counts">
+                <mat-header-cell *matHeaderCellDef>counts</mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    {{ element.counts.danceEnteredCount }} of {{ element.counts.danceTotalCount }}
+                </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="collatedDisplayedColumns" fxflex></mat-header-row>
+            <mat-row *matRowDef="let row; columns: collatedDisplayedColumns;" fxflex></mat-row>
+        </mat-table>
+        <br/>
+        <button (click)="downloadCSV()" mat-raised-button class="mat-primary">Download As CSV</button>
+    </div>

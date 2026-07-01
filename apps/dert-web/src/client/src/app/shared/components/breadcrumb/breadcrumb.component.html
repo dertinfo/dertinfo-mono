@@ -1,0 +1,12 @@
+<div class="breadcrumb-bar" *ngIf="isEnabled">
+  <ul class="breadcrumb">
+    <li *ngFor="let part of routeParts">
+      <a routerLink="/{{part.url}}">
+        <span class="breadcrumb-icon" *ngIf="part.breadcrumbIcon">
+          <mat-icon>{{part.breadcrumbIcon}}</mat-icon>
+        </span>
+        <span class="breadcrumb-icon-spacer" *ngIf="part.breadcrumbIcon"></span>{{part.breadcrumb | translate}}
+      </a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,32 @@
+<div fxFlex="100" fxFlex.gt-sm="100">
+  <mat-card class="p-0">
+    <mat-card-title class="">
+      <div class="card-title-text">Judge Range Report</div>
+      <div fxFlex></div>
+      <div class="card-title-select">
+        <mat-form-field>
+          <mat-select [(ngModel)]="rangeReportJudgeSelected" placeholder="Select Judge"
+            (selectionChange)="onRangeReportJudgeSelectorChanged()">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let judge of competitionJudges" [value]="judge">{{judge.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+      </div>
+      <div class="card-title-icon">
+      <mat-icon (click)="onRangeReportInfoClick()">info</mat-icon>
+      </div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+      <div *ngIf="dataAvailable">
+        <canvas baseChart class="chart" [datasets]="rangeReportChartData" [labels]="rangeReportChartLabels"
+          [options]="rangeReportChartOptions" [colors]="rangeReportColors" [legend]="rangeReportChartLegend"
+          [chartType]="rangeReportChartType"></canvas>
+      </div>
+      <div *ngIf="!dataAvailable">
+        No Data Available
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

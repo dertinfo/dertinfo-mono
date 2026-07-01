@@ -1,0 +1,37 @@
+<h2>Pick up where you left off?</h2>
+<app-dod-message-banner *ngIf="dataRecoveryFailedMismatch">
+We've been unable to recover the session for the previous user. Please ensure that you've provided the matching email.
+</app-dod-message-banner>
+<app-dod-message-banner *ngIf="dataRecoveryFailedExpired">
+  The period that you could recover your session has expired.
+</app-dod-message-banner>
+<div *ngIf="!dataRecoverySucceeded && !dataRecoveryFailedMismatch && !dataRecoveryFailedExpired">
+  <p>It looks like you've been here before!</p>
+  <p>We cleared your data when you closed the browser. We can get it back for you if you can provide us the same email
+    you used before.</p>
+  <form [formGroup]="form" (submit)="submitForm()">
+    <mat-form-field class="full-width">
+      <input matInput formControlName="email" placeholder="Your email" required>
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <div class="" fxFlex="100">
+        <button mat-raised-button (click)="onDialogCloseClick()">Cancel</button>
+        <div class="position-checkbox">
+          <mat-checkbox formControlName="dontAskAgain">Don't ask again</mat-checkbox>
+        </div>
+        <span fxFlex></span>
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div *ngIf="dataRecoverySucceeded">
+  <p>We've succesfully recovered the session for {{dataUserName}}.</p>
+  <div mat-dialog-actions>
+    <div class="" fxFlex="100">
+      <span fxFlex></span>
+      <button mat-raised-button mat-dialog-close color="primary">Continue</button>
+    </div>
+  </div>
+
+</div>

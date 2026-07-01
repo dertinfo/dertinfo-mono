@@ -1,0 +1,34 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+  <app-addition-header fxFlex="100" [title]="'Paperwork'" [icon]="'insert_drive_file'" [hideButton]="true"></app-addition-header>
+  <mat-card class="default" fxFlex="100">
+    <mat-card-header>
+      <mat-card-title>Paperwork</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-1">
+
+      <div class="paperwork-box-container" fxFlex="100">
+        <div class="paperwork-box" fxFlex="50">
+          <div class="title">Populated Paperwork</div>
+          <div class="info">These are the main scoresheets. These are the sheets for each judge in each venue for each
+            dance prepopulated with the information for the dance.</div>
+
+          <button mat-raised-button color="primary" (click)="onPopulatedClick()">
+            Generate
+          </button>
+        </div>
+
+        <div class="paperwork-box" fxFlex="50">
+          <div class="title">Spare Paperwork</div>
+          <div class="info">These are scoresheets configured for this compeitition with blank information in case one
+            of the other sheets gets damaged or misplaced.</div>
+          <button mat-raised-button color="primary" (click)="onSparesClick()" class=".button">
+            Generate
+          </button>
+
+        </div>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+</div>

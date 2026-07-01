@@ -1,0 +1,28 @@
+@import url(../../styles/overrides.scss);
+/*
+This is how you can override the colour of a material element.
+https://wildcardcorp.com/blogs/overriding-angular-material-component-colors
+*/
+
+.dod-results-container {
+   mat-card-title {
+      font-family: ARDarling, Courier;
+      font-weight: normal;
+      font-style: normal;
+      font-size: 1.5rem !important;
+   }
+
+   mat-card {
+      border: 3px solid #000;
+      border-radius: 255px 15px 255px 15px / 15px 255px 15px 255px;
+   }
+
+   .header-thin {
+      height: 50px;
+   }
+
+   .mat-slide-toggle {
+      font-family: "Kalam", cursive;
+      font-size: 1rem !important;
+   }
+}

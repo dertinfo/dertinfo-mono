@@ -1,0 +1,15 @@
+<div fxLayout="column" fxFlex="100">
+    <mat-card class="default">
+      <mat-card-title>Registrations</mat-card-title>
+      <mat-card-content class="p-0">
+        <mat-list class="compact-list mb-1">
+          <app-registration-listing-for-event [eventRegistrationOverviews]="eventRegistrations$ | async"></app-registration-listing-for-event>
+        </mat-list>
+        <!--
+        <div class="text-center">
+          <button mat-button class="full-width">View all</button>
+        </div>
+      -->
+      </mat-card-content>
+    </mat-card>
+  </div>

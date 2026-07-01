@@ -1,0 +1,31 @@
+@import url(../../styles/overrides.scss);
+
+:host {
+
+    .group-name {
+        font-family: "Kalam", cursive;
+        font-size: 1.2rem;
+    }
+
+    .group-subtext {
+        font-family: "Kalam", cursive;
+    }
+
+    .chip {
+        font-family: "Kalam", cursive;
+        padding:5px 8px;
+        color: #fff;
+    }
+
+    .chip-done {
+        background-color: grey;
+        border: 2px solid #000;
+        border-radius: 15px 255px 15px 255px / 255px 15px 255px 15px;
+    }
+
+    .chip-pending {
+        background-color: #FF017D;
+        border: 2px solid #000;
+        border-radius: 15px 255px 15px 255px / 255px 15px 255px 15px;
+    }
+}

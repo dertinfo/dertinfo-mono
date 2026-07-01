@@ -1,0 +1,37 @@
+<div class="modal-min">
+    <mat-card-title>Select Tickets</mat-card-title>
+    <mat-card-content>
+
+        <div fxLayout="row wrap">
+            <div *ngFor="let activitySelect of selections" [ngClass]="{'activity-select': true, 'activity-selected': activitySelect.selected, 'activity-changed': activitySelect.changed}"
+                class="activity-select" fxFlex="100" fxFlex.gt-xs="33">
+                <div class="buttons" fxLayout="row" fxLayoutWrap="none">
+                    <button (click)="onSelectActivityClick(activitySelect)" *ngIf="activitySelect.selected"
+                        mat-mini-fab color="primary" class="mr-1 primary-marker" [disabled]="activitySelect.soldOut">
+                        <mat-icon>done</mat-icon>
+                    </button>
+                    <button (click)="onSelectActivityClick(activitySelect)" *ngIf="!activitySelect.selected"
+                        mat-mini-fab color="default" class="mr-1 primary-marker" [disabled]="activitySelect.soldOut">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </div>
+                <div fxFlex="100">
+                    {{activitySelect.name}}
+                    <div class="soldout" *ngIf="activitySelect.soldOut">SOLD OUT</div>
+                </div>
+
+            </div>
+            <div class="" fxFlex="100">
+                <button type="button" mat-button (click)="onCancel()">Cancel</button>
+                <span fxFlex></span>
+
+                <button mat-raised-button color="primary" type="submit" [disabled]="editedActivities.length === 0"
+                    (click)="onSelectionSave()">
+                    Save Changes <mat-icon>save</mat-icon>
+                </button>
+            </div>
+        </div>
+
+
+    </mat-card-content>
+</div>

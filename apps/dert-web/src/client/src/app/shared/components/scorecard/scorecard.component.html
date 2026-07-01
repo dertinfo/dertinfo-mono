@@ -1,0 +1,37 @@
+<mat-card class="profile-sidebar mb-1">
+  <div *ngIf="scoreCard.isOfficial" class="official-badge" title="offical judge"><mat-icon [color]="'official'">verified</mat-icon></div>
+  <div fxLayout="column">
+    <!--Row 1 -->
+    <div *ngFor="let scoreCategory of scoreCard.scoreCategories" fxLayout="column">
+      <label>{{scoreCategory.categoryName}} <small>({{scoreCategory.maxMarks}} marks)</small></label>
+      <div fxLayout="row">
+        <div class="score-entry">
+          <div>{{scoreCategory.score}}</div>
+        </div>
+        <div class="comment-entry" fxFlex>
+          <label></label>
+          <div>{{scoreCategory.comments}}</div>
+        </div>
+      </div>
+    </div>
+    <!--/Row 1 -->
+    <!--Row 2 -->
+    <div fxLayout="column" fxLayoutAlign="start">
+      <label>Overall Comments</label>
+      <div class="overall-comment-entry" fxFlex>
+        {{scoreCard.comments}}
+      </div>
+    </div>
+    <!--/Row 2 -->
+    <!--Row Button -->
+    <div fxLayout="row" fxLayoutAlign="end center" *ngIf="allowReport">
+      <button mat-raised-button color="warn" (click)="onReportClicked()">Report</button>
+    </div>
+    <!--/Row Button -->
+    <!--Row Button -->
+    <div fxLayout="row" fxLayoutAlign="end center" *ngIf="linkSubmission">
+      <button mat-raised-button color="primary" (click)="onViewSubmissionClicked()">View Submission</button>
+    </div>
+    <!--/Row Button -->
+  </div>
+</mat-card>

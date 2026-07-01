@@ -1,0 +1,64 @@
+:host {
+    .card {
+        padding:0px;
+
+        &-title {
+
+            color: #fff;
+            font-size: 2em;
+            border-bottom: solid 1px #ccc;
+            padding:1rem;
+        }
+
+        &-content {
+            padding:0px;
+        }
+
+        &-body {
+            padding:0.5rem 1rem;
+
+            &-options {
+                padding:0.5rem 1rem;
+            }
+        }
+
+        &-actions {
+            border-top: solid 1px #ccc;
+            padding: 1rem;
+        }
+    }
+
+    .warn {
+        .card-title {
+            background-color: #f44336;
+        }
+    }
+
+    .primary {
+        .card-title {
+            background-color: #247BA0;
+        }
+    }
+
+    .accent {
+        .card-title {
+            background-color: #FFD97D;
+        }
+
+        .mat-accent {
+            color: #fff;
+        }
+    }
+
+    .success {
+        .card-title {
+            background-color: #8fbe36;
+        }
+
+        .mat-success {
+            color: #fff;
+            background-color: #8fbe36;
+        }
+    }
+
+}

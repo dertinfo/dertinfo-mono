@@ -1,0 +1,88 @@
+<div>
+        <app-addition-header (addClick)="openCreateActivityDialog()" [title]="'Activities'" [icon]="'check_circle'"></app-addition-header>
+        <mat-card class="p-0">
+            <mat-tab-group class="shrink-last-tab">
+
+              <mat-tab  label="Individual Activities">
+                <mat-card-content class="mt-1">
+                  <div fxLayout="row wrap">
+                      <div *ngFor="let activity of eventIndividualActivities$ | async" fxFlex="50" fxFlex.lt-sm="100">
+                          <mat-card class="user-card p-0" [routerLink]="getDetailRouteLink(activity)">
+                            <mat-card-title class="mat-bg-primary">
+                              <div class="card-title-text">
+                                  <mat-icon>person</mat-icon>
+                                <span>{{activity.title}}</span>
+                                <span fxFlex></span>
+                              </div>
+                              <mat-divider></mat-divider>
+                            </mat-card-title>
+                            <mat-card-content>
+                              <!-- user detail lines-->
+                              <div class="activity-details">
+                                  <mat-list>
+                                      <mat-list-item *ngIf="activity.audienceTypeId === audienceTypeIndividual">
+                                        <mat-icon class="mr-1">person</mat-icon>{{activity.attendanceCount}}</mat-list-item>
+                                      <mat-list-item *ngIf="activity.audienceTypeId === audienceTypeTeam">
+                                        <mat-icon class="mr-1">people</mat-icon>{{activity.attendanceCount}}</mat-list-item>
+                                      <mat-list-item>
+                                          <mat-icon class="mr-1">payment</mat-icon><span [price]="activity.price" [tbc]="activity.priceTBC">{{activity.price}}</span></mat-list-item>
+                                      <mat-list-item *ngIf="activity.valueOfSales > 0">
+                                        <mat-icon class="mr-1" >payment</mat-icon><span [price]="activity.valueOfSales" [tbc]="activity.priceTBC">{{activity.valueOfSales}}</span></mat-list-item>
+
+                                    </mat-list>
+
+                                  <!--
+                                <p>
+                                  <mat-icon class="text-muted">book</mat-icon><strong>Attendances:</strong> {{groupMember.memberAttendances ? groupMember.memberAttendances.length : 0}}</p>
+                                <p *ngIf="groupMember.dateOfBirth">
+                                  <mat-icon class="text-muted" >date_range</mat-icon><strong>DOB:</strong> {{groupMember.dateOfBirth | date}}</p>
+                                  <p *ngIf="groupMember.dateJoined">
+                                      <mat-icon class="text-muted" >date_range</mat-icon><strong>Joined:</strong> {{groupMember.dateJoined | date}}</p>
+                                  -->
+                              </div>
+                            </mat-card-content>
+                          </mat-card>
+                        </div>
+                  </div>
+
+                </mat-card-content>
+              </mat-tab>
+              <mat-tab  label="Team Activities">
+                  <mat-card-content class="mt-1">
+                      <div fxLayout="row wrap">
+                          <div *ngFor="let activity of eventTeamActivities$ | async" fxFlex="50" fxFlex.lt-sm="100">
+                              <mat-card class="user-card p-0" [routerLink]="getDetailRouteLink(activity)">
+                                <mat-card-title class="mat-bg-primary">
+                                  <div class="card-title-text">
+                                    <mat-icon>people</mat-icon>
+                                    <span>{{activity.title}}</span>
+                                    <span fxFlex></span>
+                                  </div>
+                                  <mat-divider></mat-divider>
+                                </mat-card-title>
+                                <mat-card-content>
+                                    <mat-list>
+                                        <mat-list-item *ngIf="activity.audienceTypeId === audienceTypeIndividual">
+                                          <mat-icon class="mr-1">person</mat-icon>{{activity.attendanceCount}}</mat-list-item>
+                                        <mat-list-item *ngIf="activity.audienceTypeId === audienceTypeTeam">
+                                          <mat-icon class="mr-1">people</mat-icon>{{activity.attendanceCount}}</mat-list-item>
+                                          <mat-list-item>
+                                            <mat-icon class="mr-1">payment</mat-icon><span [price]="activity.price" [tbc]="activity.priceTBC">{{activity.price}}</span></mat-list-item>
+                                        <mat-list-item *ngIf="activity.valueOfSales > 0">
+                                          <mat-icon class="mr-1">payment</mat-icon><span [price]="activity.valueOfSales" [tbc]="activity.priceTBC">{{activity.valueOfSales}}</span></mat-list-item>
+
+                                      </mat-list>
+                                </mat-card-content>
+                              </mat-card>
+                            </div>
+                      </div>
+
+                  </mat-card-content>
+                </mat-tab>
+
+            </mat-tab-group>
+          </mat-card>
+        <!--WIP - End New Tab Pane-->
+
+
+      </div>

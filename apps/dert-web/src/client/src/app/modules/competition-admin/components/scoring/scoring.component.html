@@ -1,0 +1,103 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+  <app-addition-header fxFlex="100" [title]="'Scoring'" [icon]="'tune'" [hideButton]="true"></app-addition-header>
+  <mat-card class="default" fxFlex="100">
+    <mat-card-header>
+      <mat-card-title>Score Sets</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-1">
+      <div class="mat-elevation-z3">
+        <mat-table [dataSource]="dataSourceScoreSets">
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell mat-header-cell *matHeaderCellDef class="cell-2x"> Name </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="cell-2x"> {{element.name}} </mat-cell>
+          </ng-container>
+
+          <!-- Category Tags Column -->
+          <ng-container matColumnDef="categoryTags">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> CategoryTags </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element"> {{element.categoryTags}} </mat-cell>
+          </ng-container>
+
+          <!-- Edit -->
+          <ng-container matColumnDef="edit">
+            <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+              <button
+              mat-icon-button
+              matTooltip="Details"
+              (click)="editScoreSet(element)"
+              [style.overflow]="'visible'"
+              class="topbar-button-right">
+                <mat-icon>edit</mat-icon>
+                <!--
+                <span class="notification-number mat-bg-warn">0</span>
+                -->
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumnsScoreSets" fxflex></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumnsScoreSets;" fxflex></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="default" fxFlex="100">
+      <mat-card-header>
+        <mat-card-title>Score Categories</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="mt-1">
+        <div class="mat-elevation-z3">
+          <mat-table [dataSource]="dataSourceScoreCategories">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="name">
+              <mat-header-cell mat-header-cell *matHeaderCellDef class="cell-2x"> Name </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element" class="cell-2x"> {{element.name}} </mat-cell>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="maxmarks">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Max Marks </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.maxMarks}} </mat-cell>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="tag">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Tag </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.tag}} </mat-cell>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="sortOrder">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Sort Order </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.sortOrder}} </mat-cell>
+            </ng-container>
+
+            <!-- Edit -->
+            <ng-container matColumnDef="edit">
+              <mat-header-cell mat-header-cell *matHeaderCellDef></mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+                <button
+                mat-icon-button
+                matTooltip="Details"
+                (click)="editScoreCategory(element)"
+                [style.overflow]="'visible'"
+                class="topbar-button-right">
+                  <mat-icon>edit</mat-icon>
+                  <!--
+                  <span class="notification-number mat-bg-warn">0</span>
+                  -->
+                </button>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumnsScoreCategories" fxflex></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumnsScoreCategories;" fxflex></mat-row>
+          </mat-table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+</div>

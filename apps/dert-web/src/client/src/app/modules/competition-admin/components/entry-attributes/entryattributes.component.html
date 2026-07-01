@@ -1,0 +1,33 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+  <app-addition-header fxFlex="100" [title]="'Entry Attributes'" [icon]="'polymer'" [hideButton]="true"></app-addition-header>
+  <mat-card class="default" fxFlex="100">
+    <mat-card-header>
+      <mat-card-title>Entry Attributes</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-1">
+      <div class="mat-elevation-z3">
+        <mat-table [dataSource]="dataSource">
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <mat-header-cell mat-header-cell *matHeaderCellDef class="cell-2x"> Name </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="cell-2x"> {{element.name}} </mat-cell>
+          </ng-container>
+
+
+          <!-- Tag -->
+
+          <ng-container matColumnDef="tag">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Tag </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> <div class="attribute-badge">{{element.tag}}</div> </mat-cell>
+            </ng-container>
+
+
+          <mat-header-row *matHeaderRowDef="displayedColumns" fxflex></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;" fxflex></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

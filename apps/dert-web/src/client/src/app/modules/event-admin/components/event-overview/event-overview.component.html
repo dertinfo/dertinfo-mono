@@ -1,0 +1,51 @@
+<div fxLayout="row wrap">
+  <div fxLayout="column" fxFlex="100" fxFlex.gt-md="50">
+    <!-- Chart grid -->
+    <mat-card class="default">
+      <mat-card-title>Summary</mat-card-title>
+      <mat-card-content>
+        <div fxLayout="row wrap" class="doughnut-grid text-center">
+          <span fxFlex="50" class="doughnut-grid-item mat-bg-primary">
+            <div class="summary-count-number">{{individualsCount}}</div>
+            <small>Members & Guests</small>
+          </span>
+          <span fxFlex="50" class="doughnut-grid-item light-gray">
+            <div class="summary-count-number">{{teamsCount}}</div>
+            <small>Teams</small>
+          </span>
+          <span fxFlex="50" class="doughnut-grid-item light-gray">
+            <div class="summary-count-number">{{registrationsCount}}</div>
+            <small>Registrations</small>
+          </span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <!-- Contact Information -->
+    <mat-card class="default">
+      <mat-card-title>Contact Information</mat-card-title>
+      <mat-card-content class="pt-0">
+        <mat-list>
+          <mat-list-item>
+            <mat-icon class="mr-1">person</mat-icon>{{contactName}}
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">email</mat-icon>{{contactEmail}}
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">phone</mat-icon>{{contactTelephone}}
+          </mat-list-item>
+
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div fxLayout="column" fxFlex="100" fxFlex.gt-md="50">
+
+    <mat-card class="default">
+      <mat-card-title>Active Registrations</mat-card-title>
+      <app-registration-listing-for-event [eventRegistrationOverviews]="activeRegistrations">
+      </app-registration-listing-for-event>
+    </mat-card>
+  </div>
+</div>

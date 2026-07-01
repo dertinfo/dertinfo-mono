@@ -1,0 +1,99 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+  <app-addition-header fxFlex="100" [title]="'Dances'" [icon]="'accessibility'" [hideButton]="!allowDanceAddition" (addClick)="openAddDanceDialog()" [disabled]="disableDanceAddition"></app-addition-header>
+  <mat-card class="default" fxFlex="100">
+    <mat-card-header fxLayout="row">
+      <mat-card-title>Dances</mat-card-title>
+      <div fxFlex="100"></div>
+            <button mat-mini-fab color="primary" (click)="refreshData()" class="refresh-button" [disabled]="resultsPublished">
+                <mat-icon>sync</mat-icon>
+              </button>
+    </mat-card-header>
+    <mat-card-content class="mt-1">
+        <app-message-banner *ngIf="allowDanceGeneration" [active]="isProcessingDances" (action)="onGenerateDancesClick()">
+            <div>Do you want to generate your dances?</div>
+          </app-message-banner>
+
+          <div class="filter-area">
+              <mat-form-field>
+                  <mat-select [(ngModel)]="teamFilter" placeholder="Team Filter" (selectionChange)="onTeamFilterChanged()">
+                      <mat-option>None</mat-option>
+                      <mat-option *ngFor="let teamFilterItem of teamFilterItems" value="{{teamFilterItem.teamName}}">{{teamFilterItem.teamName}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+              <mat-form-field>
+                  <mat-select [(ngModel)]="venueFilter" placeholder="Venue Filter" (selectionChange)="onVenueFilterChanged()">
+                      <mat-option>None</mat-option>
+                      <mat-option *ngFor="let venueFilterItem of venueFilterItems" value="{{venueFilterItem.venueName}}">{{venueFilterItem.venueName}}</mat-option>
+                  </mat-select>
+              </mat-form-field>
+          </div>
+      <div class="mat-elevation-z3">
+        <mat-table [dataSource]="dataSource" matSort matSortActive="teamName" matSortDirection="asc"
+        matSortDisableClear>
+
+          <!-- Team Name Column -->
+          <ng-container matColumnDef="teamName">
+            <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-2x"> Team Name </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="cell-2x"> {{element.teamName}} </mat-cell>
+          </ng-container>
+
+          <!-- Venue Name Column -->
+          <ng-container matColumnDef="venueName">
+            <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-2x"> Venue Name </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="cell-2x"> {{element.venueName}} </mat-cell>
+          </ng-container>
+
+          <!-- Scores Entered Column -->
+          <ng-container matColumnDef="hasScoresEntered">
+              <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef> Entered </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element">
+                  <mat-icon *ngIf="element.hasScoresEntered">check_box</mat-icon>
+                  <mat-icon *ngIf="!element.hasScoresEntered">indeterminate_check_box</mat-icon>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Scores Checked Column -->
+          <ng-container matColumnDef="hasScoresChecked">
+              <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef> Checked </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element">
+                 <mat-icon *ngIf="element.hasScoresChecked">check_box</mat-icon>
+                 <mat-icon *ngIf="!element.hasScoresChecked">indeterminate_check_box</mat-icon>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Overrun -->
+          <ng-container matColumnDef="overrun">
+              <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef> Overrun </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element">
+                  <mat-icon *ngIf="element.overrun">check_box</mat-icon>
+                  <mat-icon *ngIf="!element.overrun">indeterminate_check_box</mat-icon>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Overrun -->
+          <ng-container matColumnDef="check">
+            <mat-header-cell mat-header-cell *matHeaderCellDef> Check </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element">
+
+              <a [routerLink]="'../check/' + element.danceId">
+                <mat-icon>navigate_next</mat-icon>
+              </a>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Tag -->
+          <!--
+          <ng-container matColumnDef="tag">
+              <mat-header-cell mat-header-cell *matHeaderCellDef> Tag </mat-header-cell>
+              <mat-cell mat-cell *matCellDef="let element"> {{element.tag}} </mat-cell>
+            </ng-container>
+          -->
+
+          <mat-header-row *matHeaderRowDef="displayedColumns" fxflex></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;" fxflex></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

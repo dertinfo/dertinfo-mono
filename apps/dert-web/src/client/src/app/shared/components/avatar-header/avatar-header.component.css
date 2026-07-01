@@ -1,0 +1,17 @@
+#app-avatar-header {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+#app-avatar-header .avatar-image {
+  position: absolute;
+  right: 20px;
+  bottom: 8px;
+}
+
+#app-avatar-header .avatar-image img{
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}

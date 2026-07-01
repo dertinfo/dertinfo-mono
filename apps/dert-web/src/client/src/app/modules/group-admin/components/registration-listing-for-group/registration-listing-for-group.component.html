@@ -1,0 +1,25 @@
+<div fxFlex="100">
+
+
+<mat-list class="compact-list mb-1">
+    <mat-list-item class="" *ngFor="let registration of groupRegistrationOverviews" [routerLink]="['/group-registration',registration.id]">
+      <img mat-list-avatar class="mr-1" [src]="registration.eventPictureUrl | imageDimension: '100x100'" alt="">
+      <div fxLayout="row" fxFlex="100">
+        <small class="text-muted mr-1">{{registration.eventName}}</small>
+      </div>
+      <div fxLayout="row" fxFlex="50">
+        <div class="m-0 mr-1 icon-count">
+          <mat-icon class="mr-1">person</mat-icon>
+          <small class="text-muted mr-1 pad-up">{{registration.memberAttendancesCount + registration.guestAttendancesCount}}</small>
+        </div>
+        <span fxFlex></span>
+        <div class="m-0 mr-1  icon-count">
+          <mat-icon class="mr-1">people</mat-icon>
+          <small class="text-muted mr-1 pad-up">{{registration.teamAttendancesCount}}</small>
+        </div>
+        <span fxFlex></span>
+      </div>
+      <mat-chip mat-sm-chip [color]="registration.flowStateColour" [selected]="true">{{registration.flowStateText}}</mat-chip>
+    </mat-list-item>
+  </mat-list>
+</div>

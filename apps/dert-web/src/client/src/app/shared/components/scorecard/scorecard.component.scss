@@ -1,0 +1,65 @@
+@import url(../../../modules/dertofderts-public/styles/overrides.scss);
+
+:host {
+    max-width: 300px;
+
+    label {
+        font-family: ARDarling, Courier;
+        font-size: 1.2rem;
+        white-space: nowrap;
+        display: block;
+        overflow: hidden;
+
+        small {
+            font-family: "Kalam", cursive;
+        }
+    }
+
+    .score-entry {
+        display: block;
+        margin-right: 10px;
+
+        div {
+            border: solid 1px #000;
+            width: 38px;
+            padding: 3px;
+            font-size: 20px;
+            text-align: center;
+            max-height: 38px;
+        }
+    }
+
+    .comment-entry {
+        div {
+            border: solid 1px #000;
+            padding: 2px 5px;
+            font-size: 12px;
+            text-align: left;
+            height: 38px;
+            overflow-y: auto;
+        }
+    }
+
+    .overall-comment-entry {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: solid 1px #000;
+        padding: 3px 5px;
+        font-size: 12px;
+        min-height: 50px;
+        overflow-y: auto;
+    }
+
+    .official-badge {
+        position: absolute;
+        top: 10px;
+        right: 40px;
+        cursor: default;
+
+        /* Colour the icon special for this case*/
+        .mat-icon.mat-official {
+            color: green;
+            font-size: 50px;
+        }
+    }
+}

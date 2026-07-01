@@ -1,0 +1,28 @@
+<h2>Report what someone has said</h2>
+<app-dod-message-banner *ngIf="isReportSubmitted">
+  <div>
+    We've registered your report of this score card. It'll be removed from your view and we'll investigate your report. If we find that the scores or comments are inappropriate we'll investigate further.
+  </div>
+</app-dod-message-banner>
+<div>
+  <p *ngIf="!isReportSubmitted">We acknowledge that you want to report the content of this scorecard. Please provide information below as to why you are reporting this card</p>
+  <p *ngIf="!isReportSubmitted">On reporting of this card it will be removed from your DERT Of DERTs view for you and all other team members. We'll be notified of your reported card and we'll investigate further.</p>
+  <form [formGroup]="formGroup" (submit)="submitForm()">
+    <mat-slide-toggle formControlName="reportScores" [disabled]="isReportSubmitted">I'm reporting this card due to the scores being not represetative
+      of other scores.
+    </mat-slide-toggle>
+    <mat-slide-toggle formControlName="reportComments" [disabled]="isReportSubmitted">I'm reporting this card due to the comments being inappropraite
+      or offensive.
+    </mat-slide-toggle>
+    <mat-form-field class="full-width">
+      <input matInput [disabled]="isReportSubmitted" formControlName="reportNotes" placeholder="In your own words the reason why you are reporting." required>
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <div class="" fxFlex="100">
+        <button mat-raised-button mat-dialog-close>{{isReportSubmitted ? "Close" : "Cancel"}}</button>
+        <span fxFlex></span>
+        <button mat-raised-button color="primary" type="submit" [disabled]="isReportSubmitted">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>

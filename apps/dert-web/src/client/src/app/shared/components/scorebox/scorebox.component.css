@@ -1,0 +1,41 @@
+.scorebox
+{
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+    min-height: 100px;
+    min-width: 100px;
+
+    border:solid 1px #247BA0;
+    margin: 3px;
+}
+
+.scorebox .header {
+
+    flex: 1;
+    background-color: #247BA0;
+    color: #FFF;
+    text-align: center;
+    padding: 3px;
+}
+
+.scorebox .value {
+
+    flex: 2;
+    text-align: center;
+    padding: 3px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.scorebox .value input {
+
+    width: calc(100% - 18px);
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 5px;
+    border: solid 1px #CCC;
+    padding: 3px;
+    text-align: center;
+}

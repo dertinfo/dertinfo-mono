@@ -1,0 +1,45 @@
+<div fxLayout="row wrap" fxFlex="100">
+  <mat-card class="default" fxFlex="100">
+    <mat-card-header fxLayout="row">
+      <mat-card-title>Complaints</mat-card-title>
+      <div fxFlex="100"></div>
+      <button mat-mini-fab color="primary" (click)="refreshData()" class="refresh-button">
+        <mat-icon>sync</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content class="mt-1">
+      <p>Show "todo ones" or "handled ones" by clicking on this thing -->
+        <mat-checkbox [(ngModel)]="showHandled" (change)="onToggleShowHandled()">{{showHandled ? 'Show todo ones' : 'Show handled ones'}}</mat-checkbox>
+      </p>
+    </mat-card-content>
+  </mat-card>
+
+      <ng-container *ngFor="let complaint of complaints">
+        <div fxFlex="50">
+          <mat-card>
+            <mat-card-header fxLayout="row">
+              <h3>Complaint</h3>
+              <div fxFlex></div>
+              <button *ngIf="!showHandled" mat-raised-button color="primary" (click)="verifyComplaint(complaint)" class="verify-button"
+                [disabled]="complaint.scoreCard.isOfficial">
+                Validate
+              </button>
+              <button *ngIf="!showHandled" mat-raised-button color="warn" (click)="rejectComplaint(complaint)" class="verify-button">
+                Reject
+              </button>
+            </mat-card-header>
+            <mat-card-content class="mt-1">
+              <ul>
+                <li><strong>Raised By:</strong> {{complaint.createdBy}}</li>
+                <li><strong>Created Date:</strong> {{complaint.dateCreated | dateTimeFormat}}</li>
+                <li><strong>Notes:</strong>{{complaint.notes}}</li>
+                <li><a routerLink="/dertofderts/score/{{complaint.dodSubmissionId}}" target="blank"
+                    style="color:blue">View Submission</a></li>
+              </ul>
+              <app-score-card [scoreCard]="complaint.scoreCard" [allowReport]="false"></app-score-card>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+
+</div>

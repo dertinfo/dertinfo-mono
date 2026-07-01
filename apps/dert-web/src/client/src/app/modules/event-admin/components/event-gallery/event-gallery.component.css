@@ -1,0 +1,22 @@
+mat-toolbar {
+    margin: 5px; 
+    width: calc(100% - 10px);
+}
+
+/* Minor adjustment to align text with button*/
+mat-toolbar button:first-of-type {
+    padding-left: 0px
+}
+
+mat-toolbar button span {
+    padding-left: 2px;
+    padding-top: 2px;
+    display: inline-block;
+}
+
+.primary-marker {
+    position: absolute;
+    bottom:10px;
+    left:10px;
+    cursor: default;
+}

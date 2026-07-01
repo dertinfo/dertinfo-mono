@@ -1,0 +1,39 @@
+<div>
+    <app-addition-header (addClick)="openCreateTeamDialog()" [title]="'Teams'" [icon]="'people'"></app-addition-header>
+  <div *ngFor="let team of groupTeams$ | async">
+    <mat-card class="user-card p-0">
+      <mat-card-title class="mat-bg-primary">
+        <div class="card-title-text">
+            <a class="toolbar-avatar md mr-1" [routerLink]="getDetailRouteLink(team)">
+              <img [src]="team.teamPictureUrl | imageDimension:'100x100'" [alt]="team.teamName">
+            </a>
+          <span>{{team.teamName}}</span>
+          <span fxFlex></span>
+          <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+            <mat-icon class="">more_vert</mat-icon>
+          </button>
+          <mat-menu #userMenu="matMenu">
+            <a mat-menu-item [routerLink]="getDetailRouteLink(team)"><mat-icon>edit</mat-icon>Edit</a>
+            <button mat-menu-item (click)="onGroupTeamRemoveClick(team)" *ngIf="(groupTeams$ | async)?.length > 1"><mat-icon>delete</mat-icon>Remove</button>
+          </mat-menu>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-card-title>
+      <mat-card-content>
+        <div class="user-details">
+                <mat-icon class="text-muted">book</mat-icon>
+                <strong>Attendances:</strong> {{team.teamAttendances ? team.teamAttendances.length : 0}}
+                <mat-grid-list cols="5" rowHeight="80px">
+                    <mat-grid-tile *ngFor="let teamAttendance of team.teamAttendances">
+                        <mat-list class="compact-list mb-1">
+                            <mat-list-item>
+                                <img mat-list-avatar class="mr-1" [src]="teamAttendance.eventPictureUrl | imageDimension: '100x100'" alt="">
+                            </mat-list-item>
+                        </mat-list>
+                    </mat-grid-tile>
+                </mat-grid-list>
+          </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

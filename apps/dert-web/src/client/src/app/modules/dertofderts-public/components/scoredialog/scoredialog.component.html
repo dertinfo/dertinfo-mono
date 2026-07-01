@@ -1,0 +1,55 @@
+<h2>Send us your scores</h2>
+<app-dod-message-banner *ngIf="hasError">
+  {{hasErrorMessage}}
+</app-dod-message-banner>
+<p>We'll be telling the teams what you said (anonymously) when we publish the results so I hope you you were nice or at
+  least constructive. If you want to go back and change anything just close this box.</p>
+
+
+<form [formGroup]="formGroup" (submit)="submitForm()">
+
+  <div *ngIf="sessionPreLoaded">
+
+    <div class="message-box">
+      <div class="user-info-content" fxLayout="row" fxLayoutAlign="left center">
+        <p>Submitting As:&nbsp;</p>
+        <div class="info-focus" fxFlex>{{formGroup.controls.name.value}}
+        </div>
+        <button mat-raised-button type="button" (click)="onNotMeClick()">Not Me</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!sessionPreLoaded">
+    <p>Please provide your name and email to submit your scores.</p>
+    <mat-form-field class="full-width">
+      <input matInput formControlName="name" placeholder="Your name" required>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <input matInput formControlName="email" placeholder="Your email" required>
+    </mat-form-field>
+    <mat-slide-toggle formControlName="interestedInJudging">I'd be interested in being considered as a judge for a
+      future
+      DERT</mat-slide-toggle>
+    <mat-slide-toggle formControlName="officialJudge">I've been asked to be an official judge at Dert of Derts
+    </mat-slide-toggle>
+    <mat-form-field class="full-width" *ngIf="formGroup.controls.officialJudge.value">
+      <input matInput type="password" formControlName="officialJudgePassword" placeholder="Official Judge Password">
+    </mat-form-field>
+    <mat-checkbox formControlName="agreeToTermsAndConditions" required
+      [ngClass]="{'checkbox-invalid' : !formGroup.controls.agreeToTermsAndConditions.valid && formGroup.controls.agreeToTermsAndConditions.touched}">
+      I agree to the terms and conditions
+    </mat-checkbox>
+    <small class="full-width">Details on our
+      <a (click)="onTermsAndConditionsClick()" class="cursor-pointer">terms &amp; conditions</a>
+      can be found
+      <a (click)="onTermsAndConditionsClick()" class="cursor-pointer">here</a>.
+    </small>
+  </div>
+  <div mat-dialog-actions>
+    <div class="" fxFlex="100">
+      <button mat-raised-button mat-dialog-close>Close</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="primary" type="submit">Send Scores</button>
+    </div>
+  </div>
+</form>

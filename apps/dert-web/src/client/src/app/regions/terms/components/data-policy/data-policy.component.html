@@ -1,0 +1,416 @@
+<header id="home-header">
+    <div class="container" fxLayout="row wrap" fxLayoutAlign="start center">
+        <div class="home-logo">
+            <!--<img src="assets/images/logo-full-strong.png" alt="Egret logo">-->
+            <a class="navbar-brand" href="/"><span class="">Dert</span>Info</a>
+        </div>
+        <span fxFlex></span>
+    </div>
+</header>
+<section class="terms-section">
+    <div class="container">
+        <div fxLayout="row" fxLayoutWrap="nowrap" fxLayoutGap="10px">
+            <div fxFlex="35" (scrollTo)="onScrollToClick($event)" class="sidebar">
+                <mat-vertical-stepper #stepper>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>1. Information you supply</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_1a)">Basic Account Information.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_1b)">Events and Activity information.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_1c)">Groups, teams and members information.</a>
+                            </li>
+                            <li><a (click)="onScrollToClick(bookmark_1d)">Competitions information.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_1e)">Registration Information.</a></li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+
+                        <ng-template matStepLabel>2. Information we receive</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_2a)">User Account.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_2b)">Groups Events Registration.</a></li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+
+                        <ng-template matStepLabel>3. Information we share and disclose</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_3a)">Sharing you control.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_3b)">Service Providers.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_3c)">Legal Authorities.</a>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>4. Managing your information</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_4a)">Keeping your information up to date.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_4b)">Deletion.</a></li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>5. Non Personal Information</ng-template>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>6. General</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_6a)">Policy Revision.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_6b)">Additional Information or Assistance.</a></li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>7. Special</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_7a)">DERT Of DERTs.</a></li>
+                        </ul>
+                    </mat-step>
+                </mat-vertical-stepper>
+
+
+            </div>
+            <div fxFlex="65" class="content-section body-content">
+
+                <h1 #bookmark_top>Data Policy</h1>
+
+
+                <p>
+                    We believe that you should know what data we collect from you, why we ask for it and how we use it.
+                </p>
+                <p>
+                    We also believe that you should have control over what information you provide and how we use it.
+                </p>
+                <p>
+                    We outline this in this privacy policy in order to give you the best information to inform your
+                    decisions.
+                </p>
+                <h1 #bookmark_1>1. Information you supply:</h1>
+
+
+                <h2 #bookmark_1a>Basic Account Information</h2>
+
+
+                <p>
+                    In order to have an account with DertInfo you provide us your name and email address.
+                </p>
+                <p>
+                    DertInfo uses a third party supplier for storage of all authentication information in order to
+                    maximize the security of your personal data. All signup and login is managed through the
+                    authentication providers API using a web token mechanism.
+                </p>
+                <h2 #bookmark_1b>Events and Activity information</h2>
+
+
+                <p>
+                    An “event” is an instance of the annual Dancing England Rapper Tournament (DERT).
+                </p>
+                <p>
+                    In order to run the event then we collect contact information, the name and promotional image of the
+                    event along with what dates the event is on, where the event is and when you would like to publicise
+                    the event through our services.
+                </p>
+                <p>
+                    We allow you to select what the visibility of your event is in order to give you control over if we
+                    publish the event publicly on the website, we only show the event to registered users or we only
+                    show it to specifically invited users.
+                </p>
+                <p>
+                    In most cases the Dancing England Rapper Tournament will be a public event. However the ability to
+                    remove the listing may be required and to facilitate that removal the event can be changed to
+                    private.
+                </p>
+                <p>
+                    In order to accommodate consistency from each DERT to the next we store templates for the Dancing
+                    England Rapper Tournament. This template is the standard setup of competitions and score categories
+                    that are used. DertInfo supplies these templates to you in order to simplify the configuration of
+                    your event. You are not required to use the template and can construct your event as you choose.
+                </p>
+                <p>
+                    To configure your event you provide us information about “activities” these are the items that
+                    either group members and teams can participate in. Typically you will inform us of the price that
+                    you wish to change for those activities and when you publicise the event those activities and
+                    prices will be visible to the target audience based on the visibility setting of the event.
+                </p>
+                <p>
+                    After creation and publication of the event, based on your visibility settings groups will be
+                    able to see your event and express their interest through the registration process to attend the
+                    event.
+                </p>
+                <p>
+                    When a group registers for an event they will receive an email from you using the email template
+                    that you define through our email provider disclosing your email address to the registering team. In
+                    order that follow up communication between the group and the event can be conducted.
+                </p>
+                <p>
+                    At time of registration attendance is not guaranteed and only when a registration is confirmed which
+                    typically happens at the end of the registration period is the group notified.
+                </p>
+                <p>
+                    During the registration period as defined by the dates supplied both the event organiser and the
+                    team organiser can change the registration and acts a communication bridge as to what activities the
+                    teams and members within the group participate in. See Registration for more details.
+                </p>
+                <h2 #bookmark_1c>Groups, teams and members information</h2>
+
+
+                <p>
+                    A “group” is a collection of teams and members. Where the teams and members participate in
+                    activities published by an event.
+                </p>
+                <p>
+                    A group information is made visible to others based on the visibility settings of the group. These
+                    visibility settings are Public Restricted or Private.
+                </p>
+                <p>
+                    Public - The group name it’s biography and image can be displayed in the public part of the site and
+                    visible to non users
+                </p>
+                <p>
+                    Restricted - The group information is not displayed publicly but may be visible to other users of
+                    the services
+                </p>
+                <p>
+                    Private - The group cannot be discovered on the system by any means and only through direct
+                    engagement with an event is their presence on the system known.
+                </p>
+                <p>
+                    Note that the visibility setting of a group name and images will not prevent the group name being
+                    displayed in the result listing where there is engagement of that group to enter a competition and
+                    the amalgamation of the results for that competition are displayed publicly.
+                </p>
+                <p>
+                    Information about Group members is always private until such a point that a registration is
+                    submitted see the registration for further details.
+                </p>
+                <h2 #bookmark_1d>Competitions</h2>
+
+
+                <p>
+                    A “competition” is a special type of activity that has a number of attributes such as marking
+                    criteria.
+                </p>
+                <p>
+                    As an entrant into a competition we record that you have entered into the competition and when the
+                    results for the competition are published we produce an amalgamated scores to produce a league table
+                    and we publish that league table publicly on the website. In doing this the name of the “team” is
+                    published. As each group may have more than one team that entered the competition.
+                </p>
+                <p>
+                    Additionally we store the detailed score information along with the comments given to you by the
+                    competition judges and make that available to the group and group members of the entrant on the
+                    publication of the results.
+                </p>
+                <p>
+                    In order to produce the paperwork judging of the competitions then we are provided the judges names
+                    in order that the score sheets can be headed with their names when produced. This allows the judge
+                    to get the correct score set for their speciality of knowledge.
+                </p>
+                <p>
+                    In some cases a competition also has “venues”. The details of those venues will be entered into the
+                    system and those venues are displayed on the top of the score sheets.
+                </p>
+                <p>
+                    Score sheets (and therefore the venue, the name of the judge and their comments) are made available
+                    to the group and group members when the results are published by the event organiser.
+                </p>
+                <p>
+                    By a judge participating in the event it is the responsibility of the event organiser to make this
+                    clear to the judges of the competition when they agree to participate in the event as the judges
+                    have no direct engagement with these services.
+                </p>
+                <p>
+                    Additionally the venue should be made aware by the event organiser that their venue may be
+                    advertised through our provided services as communication to where the teams will be competing and
+                    to audiences that may wish to watch.
+                </p>
+                <h2 #bookmark_1e>Registrations</h2>
+
+
+                <p>
+                    “Registrations” are the mechanism with which information is shared between group administrators and
+                    event organisers.
+                </p>
+                <p>
+                    Registrations contain group, team and member information along with activity attendance.
+                </p>
+                <p>
+                    Group Information includes: The group name image and bio. This is so that the event can use this
+                    information in the construction of marketing material or programme.
+                </p>
+                <p>
+                    Team Information includes: The team name and the team image for use as per the group information and
+                    the activities that the team wishes to participate in. This information is used to enter the team
+                    into the correct competitions and supports the construction of the paperwork and scoring framework
+                    for the competition.
+                </p>
+                <p>
+                    Group Member Information includes: The group members name and dob (where supplied and required) in
+                    order that wrist bands (of the correct type, concessions etc) may be allocated for the specific
+                    person. The activities that each member wishes to participate in so that the correct tickets can be
+                    allocated. This may be such that the ticket allocated allows access to certain venues and therefore
+                    is required to be identifiable to the individual. This may be for the purposes of insurance of the
+                    venue by the organiser or any other such purpose where the identity of the individual would be
+                    required. To ensure correct allocation of tickets.
+                </p>
+                <h1 #bookmark_2>2. Information we receive</h1>
+
+
+                <h2 #bookmark_2a>User Account</h2>
+
+
+                <p>
+                    Through your engagement with our services we keep track of which groups and events you have access
+                    to and to how you are permitted to engage with those groups or events.
+                </p>
+                <h2 #bookmark_2b>Groups Events Registration</h2>
+
+
+                <p>
+                    From the interaction with the system between the event organisers and the group administrators we
+                    gain insights into attendance trends that can inform future events as to the facilities to supply..
+                </p>
+                <p>
+                    From this information there are a number of things that we can deduce from the data about team
+                    performance at the competitions over time.
+                </p>
+                <p>
+                    The collation of information is primarily for the benefit of the event in order to determine
+                    capacities and costs and revenues.
+                </p>
+                <h1 #bookmark_3>3. Information we share and disclose</h1>
+
+
+                <h2 #bookmark_3a>Sharing you control </h2>
+
+
+                <p>
+                    For the most part by using the system as outlined above you choose what you share and you control
+                    what you make available through the use of the services provided.
+                </p>
+                <p>
+                    You control the visibility of your group or event information based on the visibility setting made
+                    available to you and through the processes of registration you choose to provide information about
+                    your group to the organisers of the events.
+                </p>
+                <h2 #bookmark_3b>Service Providers</h2>
+
+
+                <p>
+                    In order to supply these services to you DertInfo uses several service providers that perform
+                    functions and provide services to us. These include hosting, authentication and email services.
+                </p>
+                <p>
+                    As these are subject to change please email us if you would like to see a list of our current
+                    service providers.
+                </p>
+                <h2 #bookmark_3c>Legal Authorities</h2>
+
+
+                <p>
+                    Not with standing anything to the contrary in this Privacy Policy or controls we may otherwise offer
+                    to you, we may preserve, use, share, or disclose your personal data or other safety data if we
+                    believe that it is reasonably necessary to comply with a law legal process or governmental request.
+                </p>
+                <h1 #bookmark_4>4. Managing your information: </h1>
+
+
+                <h2 #bookmark_4a>Keeping your information up to date: </h2>
+
+
+                <p>
+                    In most circumstances you have the ability to update and maintain your user account information and
+                    preferences through the user information section of the website. This includes updating your name
+                    and telephone number.
+                </p>
+                <p>
+                    Also in this user section you should be able to see some of the information relating to your account
+                    that we have identified based on your interactions with the service. Including but not limited to
+                    when you agreed to our terms and conditions.
+                </p>
+                <p>
+                    We provide this information in order to be as transparent as possible as to the data that we hold
+                    about you.
+                </p>
+                <h2 #bookmark_4b>Deletion</h2>
+
+
+                <p>
+                    Also in the user account section you have the ability to delete your account. On deleting your
+                    account any information that you have provided to us will also be deleted or obfuscated depending on
+                    whether that data is attached to information that is required for the system to function.
+                </p>
+                <p>
+                    Be aware that other third parties may have received information from this site during the period
+                    that your information was available.
+                </p>
+                <h1 #bookmark_5>5. Non Personal Information</h1>
+
+
+                <p>
+                    We share non personal information to event organisers where this information would assist in the
+                    facilitation or improvement of running the DERT. This information includes but is not limited to
+                    data such as attendance volume in the previous year or previous years rankings in order that teams
+                    can be allocated for the correct awards.
+                </p>
+                <p>
+                    We may also share information such as engagement with a feature that we’ve provided.
+                </p>
+                <h1 #bookmark_6>6. General</h1>
+
+
+                <h2 #bookmark_6a>Policy Revision </h2>
+
+
+                <p>
+                    This policy may be revised from time to time. The most current version of the policy will govern our
+                    processing of your personal data and will always be at http://www.dertinfo.co.uk/datapolicy. If we
+                    make a change to this policy that, in our sole discretion, is material, we will notify you through
+                    the notification system within DertInfo or by sending an email to the email address associated with
+                    your account. By continuing to access or use the Services after those changes become effective, you
+                    agree to be bound by the revised Privacy Policy.
+                </p>
+                <h2 #bookmark_6b>Additional Information or Assistance</h2>
+
+
+                <p>
+                    If you have any thoughts or questions about this privacy policy or if you would like to raise a
+                    concern about the use of your information please contact us at our email address.
+                </p>
+                <h1 #bookmark_7>7. Special</h1>
+
+
+                <h2 #bookmark_7a>DERT Of DERTs</h2>
+                <p>
+                    In the case of some features not using a full login (specifically DertOfDerts) you provide us
+                    with your email address and name. We store this information encrypted in our database in order to
+                    protect your identity.
+                </p>
+                <p>
+                    By participating in DERT of DERTs you consent that the scores that you submit and the comments that
+                    you enter will be forwarded to participating teams anonymously. It is your responsibility to ensure
+                    that your comments in this special event do not contain any information that would permit the
+                    transmission of any data that you would not want to be seen by the participating teams or their
+                    members.
+                </p>
+                <p>
+                    For DertOfDerts we collect your name and email information so that we can contact you if you would
+                    be interested in being a judge at a future Dancing England Rapper Tournament.
+                </p>
+                <p>
+                    By participating in DERT of DERTs and if you choose that you would like to be contacted with regard
+                    to being a judge at a future event then you consent that we may share that information with a DERT
+                    organiser where appropriate. If you want to revoke this interest please email us.
+                </p>
+                <p>
+                    DERT of DERTs stores information in the browser. Your name is stored in
+                    the session storage and will be cleared when the browser is closed. You will be able
+                    to recover your session if you provide the correct matching email address but this is limited to and
+                    rendered useless after 6 days no longer permitting recovery of your session.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="backtotop">
+    <a (click)="onScrollToClick(bookmark_top)">
+        <mat-icon>arrow_drop_down_circle</mat-icon>
+    </a>
+</div>

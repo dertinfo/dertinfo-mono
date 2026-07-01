@@ -1,0 +1,48 @@
+<section class="home-intro-section">
+  <div class="container" fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+    <div fxFlex="50">
+      <h1 class="home-intro-title">DERT of DERTs <br/> </h1>
+      <div class="home-intro-desc">
+        Saturday 27<sup>th</sup>, Sunday 28<sup>th</sup> March 2021 - Right here <br/>(and on Facebook! ..possibly Zoom too.)
+      </div>
+      <div class="intro-list" fxLayout="column" fxLayoutGap="30px">
+        <div fxFlex="100">
+          <mat-icon color="accent">check_circle_outline</mat-icon><span fxFlex="20px"></span> Send us your best (or most entertaining) dance from a previous DERT or festival for inspection by new judges and your friends.
+        </div>
+        <div fxFlex="100">
+          <mat-icon color="accent">check_circle_outline</mat-icon><span fxFlex="20px"></span> Have our official judges but also your (sometimes not so constructive) friends let you know what they think of your dance.
+        </div>
+        <div fxFlex="100">
+          <mat-icon color="accent">check_circle_outline</mat-icon><span fxFlex="20px"></span> Online chats between some of our rapper celebrities (or just some people you happen to know).
+        </div>
+      </div>
+      <div fxLayout="row" fxLayout.lt-sm="column">
+        <button mat-raised-button mat-lg-button color="primary" routerLink="/dertofderts">TAKE PART</button>&nbsp;&nbsp;
+        <button mat-raised-button mat-lg-button routerLink="/dertofderts/howtojudge">HOW TO JUDGE</button>
+        <!--
+        <span fxFlex="20px"></span>
+        <button mat-raised-button mat-lg-button id="frontend-btn" scrollTo="portfolio-section" color="accent">FRONT END</button>
+        -->
+      </div>
+    </div>
+    <span fxFlex.lt-md="30px" fxFlex="0"></span>
+    <div fxFlex="50">
+      <div class="intro-product">
+
+        <a matRipple class="intro-product-link" [href]="registrationLink"
+          target="_blank">
+          <div class="price price-position">Entries Recieved!</div>
+          <span class="price-text"></span>
+        </a>
+
+        <a matRipple class="intro-product-link intro-product-link-v2" [href]="registrationLink"
+          target="_blank">
+          <div class="price price-position-v2">Ta Muchly!</div>
+          <span class="price-text"></span>
+        </a>
+
+        <img src="assets/images/home-2021.jpg" [style.margin]="'0 !important'">
+      </div>
+    </div>
+  </div>
+</section>

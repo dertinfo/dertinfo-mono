@@ -43,7 +43,7 @@ npm run app:build
 |------|--------|------|
 | [dertinfo-api](https://github.com/dertinfo/dertinfo-api) | Imported | `apps/dert-api/` |
 | [dertinfo-image-resize-v4](https://github.com/dertinfo/dertinfo-image-resize-v4) | Imported | `apps/dert-functions/` |
-| dertinfo-web | Pending | `apps/dert-web/` |
+| [dertinfo-web](https://github.com/dertinfo/dertinfo-web) | Imported | `apps/dert-web/` (Angular client: `src/client/`) |
 | dertinfo-app | Pending | `apps/dert-app/` |
 
 API solution file (legacy): `apps/dert-api/src/DertInfoApiSolution.sln`  

@@ -1,0 +1,577 @@
+<header id="home-header" *ngIf="!hideHeader">
+    <div class="container" fxLayout="row wrap" fxLayoutAlign="start center">
+        <div class="home-logo">
+            <!--<img src="assets/images/logo-full-strong.png" alt="Egret logo">-->
+            <a class="navbar-brand" href="/"><span class="">Dert</span>Info</a>
+        </div>
+        <span fxFlex></span>
+    </div>
+</header>
+<section class="terms-section">
+    <div class="container">
+        <div fxLayout="row" fxLayoutWrap="nowrap" fxLayoutGap="10px">
+            <div fxFlex="35" (scrollTo)="onScrollToClick($event)" class="sidebar">
+                <mat-vertical-stepper #stepper>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>1. The services we provide</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_1a)">Allow group administrators to store and manage
+                                    group team and member information.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_1b)">Allow group members to view competition
+                                    outputs.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_1c)">Allow visibility of competition outcomes and
+                                    group information to non users.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_1d)">Allow construction of an event.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_1e)">Connect groups to events and event
+                                    activities.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_1f)">Support consistency of the DERT competition
+                                    format.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_1g)">Provide other technology solutions to support
+                                    DERT.</a></li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+
+                        <ng-template matStepLabel>2. Using the services</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_2a)">Authority</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_2b)">Indemnity.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_2c)">Age.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_2d)">User Conduct.</a></li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+
+                        <ng-template matStepLabel>3. Your Account and Notices</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_3a)">Informing you of changes to this
+                                    agreement.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_3b)">Suspending or terminating your account.</a>
+                            </li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>4. Privacy and data protection</ng-template>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>5. Content and Grants</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_5a)">Content.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_5b)">Grants.</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_5c)">Feedback.</a></li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>6. Warrenties and Liabilites</ng-template>
+                        <ul>
+                            <li><a (click)="onScrollToClick(bookmark_6a)">Warranties and disclaimers</a></li>
+                            <li><a (click)="onScrollToClick(bookmark_6b)">Limitation of liability.</a></li>
+                        </ul>
+                    </mat-step>
+                    <mat-step completed="false">
+                        <ng-template matStepLabel>7. General</ng-template>
+                    </mat-step>
+                </mat-vertical-stepper>
+
+            </div>
+            <div fxFlex="65" class="content-section body-content">
+
+                <h1 #bookmark_top>Terms Of Service</h1>
+
+                <h1>Welcome to DertInfo. </h1>
+
+
+                <p>
+                    DertInfo is a website that supplies services to you and “Dancing England Rapper Tournament” (DERT)
+                    organisers to support the running of the annual event.
+                </p>
+                <p>
+                    We act as an intermediary between event organisers and groups to support the communication of your
+                    desired engagement at the organisers event.
+                </p>
+                <p>
+                    We support the publication of results in order that teams and team members can view results once
+                    published by the organisers and also publish openly to the public the amalgamated results.
+                </p>
+                <p>
+                    Our DataPolicy explains how we collect and use data you provide to us.
+                </p>
+                <h1 #bookmark_1>The services that we provide.</h1>
+
+
+                <p>
+                    Our objective is to make the running of the annual Dancing England Rapper Tournament as simple as
+                    possible for those involved. To do this we provide the following services described below:
+                </p>
+                <h2 #bookmark_1a>Allow group administrators to store and manage group team and member information</h2>
+
+
+                <p>
+                    Each year a group needs to inform the organisers of a DERT as to their desire to attend the event.
+                    This involves letting the organiser know how many teams they wish to enter, which competitions they
+                    wish to enter and how many tickets and of what types they will need for their members.
+                </p>
+                <p>
+                    We store this information for group administrators in order that they can select the teams and
+                    members from the stored information to create a new registration for the event.
+                </p>
+                <p>
+                    A group's previous results and comments are retained and made available to groups to allow teams to
+                    review and choose to act up to feedback from earlier competitions. This information also supports
+                    the
+                    classification of team entries into subsequent years (premier, champtionship, open).
+                </p>
+                <h2 #bookmark_1b>Allow group members to view competition outputs</h2>
+
+
+                <p>
+                    Group members may access the system and gain visibility of detailed scores and comments and
+                    attendance / entry information.
+                </p>
+                <p>
+                    Access for a user to see a group's information is provided to the user by the group administrator
+                    providing that user with a “token/password” to use to authorise the user to view the group
+                    information. The user can then use this token to be identified as a member of the group.
+                </p>
+                <h2 #bookmark_1c>Allow visibility of competition outcomes and group information to non users.</h2>
+
+
+                <p>
+                    Dert info is intended to be a central resource for being able to view results of the DERT
+                    competition. In order that we fulfil this objective an event organiser will publish the results
+                    of the competitions. In doing so this will list on the website the group name and possibly the
+                    groups chosen image on the public part of the site. Along with the abbreviated scores that the teams
+                    achieved.
+                </p>
+                <p>
+                    As a group administrator you accept that the primary image and your team name can be shared for this
+                    purpose
+                    even where the group visibility is set to private.
+                </p>
+                <h2 #bookmark_1d>Allow construction of an event</h2>
+
+
+                <p>
+                    The organising committee of a DERT creates a new event on the DertInfo system. The creation of this
+                    event allows the organisers to specify what tickets are available for sale (activities) and what the
+                    prices will be for those activities.
+                </p>
+                <p>
+                    Activities are available for either teams or individuals. For example a particular competition is an
+                    example of a team activity and indoor camping may be an example of an individual activity.
+                </p>
+                <p>
+                    The organiser will determine what their DERT will involve and the prices for it’s activities. Once
+                    constructed they will open the event for registration. This will make the event visible to any
+                    groups using the service and allow groups to register for the event.
+                </p>
+                <p>
+                    All information about the event is visible to the groups including the intended prices for the
+                    activities.
+                </p>
+                <h2 #bookmark_1e>Connect groups to events and event activities.</h2>
+
+
+                <p>
+                    Groups can express their interest in a DERT by submitting a registration. They can submit this
+                    information to the event when the event organiser opens their event for registration.
+                </p>
+                <p>
+                    The registration for the event in the first instance does not need to be complete but allows the
+                    event to gauge a level of interest.
+                </p>
+                <p>
+                    The activity of creating a registration by the group is an expression of interest by the group to
+                    attend the event. By submitting the registration the group provides their contact information with
+                    the event and any information contained within the registration.
+                </p>
+                <p>
+                    It is common that details of a registration change as the event gets closer. DertInfo supports both
+                    the teams and the organisers by allowing amendments to registrations up until a close date at which
+                    point the registration are locked.
+                </p>
+                <p>
+                    Past to point that the registrations are locked then only the organiser can make amendments to a
+                    registration.
+                </p>
+                <p>
+                    During the registration process groups will be able to see the considered costs for their
+                    registration and this will form the basis of the cost to the group for entry when the registration
+                    close date is reached.
+                </p>
+                <p>
+                    At the close of registration the event organisers will ask all groups to pay the indicated amount on
+                    their registrations. This is done by an email being sent by the system with the outline of the costs
+                    on this email.
+                </p>
+                <h2 #bookmark_1f>Support consistency of the DERT competition format</h2>
+
+
+                <p>
+                    Competitions are a type of team activity which teams within a group will request entry to at
+                    registration.
+                </p>
+                <p>
+                    A DERT typically has 4 competitions. These are: The Main Competition, Spotlight, Traditional and
+                    veterans.
+                </p>
+                <p>
+                    An individual competition is run at one or more venues and has a number of judges per venue.
+                </p>
+                <p>
+                    DertInfo allows the event organiser to construct the competitions based on templates from running
+                    the previous DERT. These templates support the specifications of marking criteria categories and
+                    their weightings. The number of venues (translating to the number of dances per team) and the judges
+                    per dance.
+                </p>
+                <p>
+                    Based on the number of judges score sets can be created so that the judges in a venue may be judging
+                    different marking criteria.
+                </p>
+                <p>
+                    Each team entered into a competition may be eligible for an award. Eligibility for an award is
+                    decided by the organiser and assigned to the team. Examples of awards are: Premier, Championship,
+                    Best Newcomer.
+                </p>
+                <p>
+                    Based on the number of teams that enter via the registration. DertInfo builds a profile of the
+                    competitions in order that all expected dances are prepared and progress of the competition can be
+                    tracked by the organisers.
+                </p>
+                <p>
+                    When all expected dances are completed then the organizer can publish the results of the
+                    competition.
+                </p>
+                <p>
+                    After result publication the results will be made available in the website which will display the
+                    collated scores for each award. Additionally groups and their members will be able to view in their
+                    account the details of each dance along with any score sheets and comments from the judges.
+                </p>
+                <h2 #bookmark_1g>Provide other technology solutions to support DERT </h2>
+                <p>
+                    Other services may be provided where a normal DERT as outlined cannot be run and these additional
+                    services may make use of stored information to accommodate the running of these associated events.
+                </p>
+
+                <h1 #bookmark_2>2. Using the services.</h1>
+
+
+                <h2 #bookmark_2a>Authority</h2>
+
+
+                <p>
+                    You agree that you are permitted to use the Services under applicable law. If you are using the
+                    Services on behalf of a group, event or other entity, you represent that you have the legal
+                    authority to accept these Terms on behalf of that entity, in which case that entity accepts these
+                    Terms, and ‘you’ means that entity. If you are accessing an account on behalf of the account owner
+                    (e.g. as an administrator, consultant, analyst etc.), the Terms apply to your activities on behalf
+                    of the account owner.
+                </p>
+                <h2 #bookmark_2b>Indemnity </h2>
+
+
+                <p>
+                    If you are using the Services on behalf of a group, event or other entity you and the entity will
+                    hold harmless and indemnify DertInfo from any suit, claim or action arising from or related to the
+                    use of the Services or violation of these Terms, including any liability or expense arising from
+                    claims (including claims for negligence), losses, damages, suits, judgments, litigation costs and
+                    legal fees.
+                </p>
+
+
+                <h2 #bookmark_2c>Age</h2>
+
+
+                <p>
+                    The minimum age for the user of these services is 18 years old. You may not register for an account
+                    if you are not of this age. The content on this website is provided by other community members and
+                    as such may contain images or material that has the possibility to not be appropriate for a younger
+                    audience.
+                </p>
+                <p>
+                    As a user of this service if you find any content that you deem to be inappropriate please contact
+                    us at dertinfo@gmail.com and we will investigate. We reserve the right to remove any content without
+                    notification to the owner and take any other action that we deem fit to prevent any content that we
+                    deem violates these terms.
+                </p>
+                <h2 #bookmark_2d>User Conduct</h2>
+
+
+                <p>
+                    As a user of the services you will be considered to be an actor of one of the following
+                    types based on the permissions you have to access the services:
+                </p>
+                <h3>Group Administrators:</h3>
+
+
+                <p>
+                    Group administrators can see and administrate all information related to a group including members
+                    and registrations along with group media such as images and video.
+                </p>
+                <p>
+                    As a group administrator it is your responsibility that you have obtained any rights related to any
+                    information that is uploaded to this site and you have the authority to submit any personally
+                    identifiable information related to the addition of group members.
+                </p>
+                <h3>Group Members</h3>
+                <p>
+                    Group members can access the service to view a restricted set of group information such as results
+                    and images of competitions that the group has entered.
+                </p>
+                <h3>Event Organisers</h3>
+
+
+                <p>
+                    Event Organisers have the ability to create the structure for an event and it’s activities. You will
+                    have access to the registrations submitted by the groups.
+                </p>
+                <p>
+                    As an event organiser you are responsible for safeguarding any information that is passed to you
+                    through the system via the registration process or any other means arising from information gained
+                    from this system.
+                </p>
+                <h3>All Users</h3>
+
+
+                <p>
+                    By using these services, You agree not to use the services to:
+                </p>
+                <ul>
+
+                    <li>Obtain or attempt to obtain unauthorised access to our services, systems, network or data.
+
+                    <li>Publish any content that is offensive, threatening, harmful, harassing, obscene, or otherwise
+                        objectionable.
+
+                    <li>violate any applicable laws or regulations.
+
+                    <li>impersonate any person or entity, or forge or manipulate information or content transmitted
+                        through the service.
+
+                    <li>Make available any content that you do not have the right to make available or that infringes on
+                        any copyright or patent, trademark or trade secret of any other person or entity.
+
+                    <li>Post any advertisement or other solicitations without written agreement.
+
+                    <li>Post any files that knowingly contain any viruses or code that are designed to limit the
+                        functionality of the provided services or harmfully affect other users in any way.
+
+                    <li>interfere with or disrupt the Services or servers, systems or networks connected to the Services
+                        in any way.
+                        <p>
+
+
+                        </p>
+                    </li>
+                </ul>
+
+
+
+                <h1 #bookmark_3>3. Your account and notices</h1>
+
+
+                <p>
+                    You may need to create an account to use some of our Services. You are responsible for safeguarding
+                    your account, so use a strong password and limit its use to this account. We cannot and will not be
+                    liable for any loss or damage arising from your failure to comply with the above.
+                </p>
+                <p>
+                    You can control most communications from the Services. We may need to provide you with certain
+                    communications, such as service announcements and administrative messages. These communications are
+                    considered part of the Services and your account, and you may not be able to opt-out from receiving
+                    them. If you added your phone number to your account and you later change or deactivate that phone
+                    number, you must update your account information to help prevent us from communicating with anyone
+                    who acquires your old number.
+                </p>
+                <h2 #bookmark_3a>Informing you of changes to this agreement</h2>
+
+
+                <p>
+                    We work constantly to improve our services and develop new features to make our Products better for
+                    you and our community. As a result, we may need to update these Terms from time to time to
+                    accurately reflect our services and practices.
+                </p>
+                <p>
+                    Any changes to this agreement will be notified to you through our services notification system or
+                    email.
+                </p>
+                <p>
+                    If you do not agree to our updated Terms and do not wish to continue using the services you may
+                    delete them at any time by deleting your account.
+                </p>
+                <h2 #bookmark_3b>Suspending or terminating your account </h2>
+
+
+                <p>
+                    You may terminate your account at any time by deactivating your accounts and discontinuing your use
+                    of the Services. See for instructions on how to deactivate your account and the Privacy Policy for
+                    more information on what happens to your information.
+                </p>
+                <p>
+                    We reserve the right at any time to suspend or terminate your account or cease providing you with
+                    all or part of the Services at any time for any or no reason. This includes but is not limited to if
+                    we believe: (i) you have violated these terms (ii) you create a risk or possible legal exposure for
+                    us. (iii) your account may be removed due to unlawful conduct (iv) due to prolonged inactivity (v)
+                    provision of these services is no longer viable. (vi) there is technical inaccuracy or redundancy in
+                    your data.
+                </p>
+                <p>
+                    We will make reasonable efforts to notify you by the email address associated with your account or
+                    the next time you attempt to access your account, depending on the circumstances. In all such cases,
+                    the Terms shall terminate, including, without limitation, your license to use the Services. For the
+                    avoidance of doubt, these Terms survive the deactivation or termination of your account.
+                </p>
+                <p>
+                    We also reserved the right to stop and potentially discontinue services for all users without
+                    notification for any reason including but not limited to: (i) potential risk of security breach.
+                    (ii) provision of services is no longer viable for DertInfo.
+                </p>
+                <p>
+                    If you believe your account was terminated in error you can file an appeal at by contacting us via
+                    email. In these circumstances recovery of your information may not be possible.
+                </p>
+                <h1 #bookmark_4>4. Privacy and data protection</h1>
+
+
+                <p>
+                    Our Data Policy describes how we handle the information you provide to us when you use our Services.
+                    You understand that through your use of the Services you consent to the collection and use (as set
+                    forth in the Privacy Policy) of this information, including the transfer of this information.
+                </p>
+                <p>
+                    DertInfo predominantly provisions its service within the UK and Europe though you consent that the
+                    collection and storage of your data in order to provide our services may include the transfer of
+                    this information to the United States, Ireland, and/or other countries for storage, processing and
+                    use by DertInfo and its affiliates.
+                </p>
+
+                <h1 #bookmark_5>5. Content and Grants</h1>
+
+                <h2 #bookmark_5a>Content</h2>
+
+
+                <p>
+                    You are responsible for your use of the Services and for any Content you provide, including
+                    compliance with applicable laws, rules, and regulations. You should only provide Content that you
+                    are comfortable sharing with others.
+                </p>
+                <p>
+                    Our Services display some content that we did not create and do not own. This content is the sole
+                    responsibility of the entity or person that makes it available. We assume no responsibility for the
+                    conduct of third parties, including persons or entities with which you communicate using the
+                    Services. Many of the Services enable you to submit content. You are entirely responsible for any
+                    content that you upload, post, email, transmit or otherwise make available via the Services. We may
+                    remove and refuse to display content that violates these terms or applicable laws or regulations but
+                    that does not mean that we monitor the services or review or screen any content.
+                </p>
+                <p>
+                    By using or accessing the Services, you understand and agree that you may be exposed to offensive,
+                    indecent or objectionable content. If content of this type is found you are requested to contact us
+                    immediately so that action can be taken to remove such content.
+                </p>
+                <p>
+                    When you delete content, it’s no longer visible to other users, however it may continue to exist
+                    elsewhere on our systems.
+                </p>
+                <p>
+                    This may happen in the following circumstances:
+                </p>
+                <ul>
+
+                    <li>immediate deletion is not possible due to technical limitations.
+
+                    <li>your content has been used by others in accordance with this license.
+
+                    <li>where immediate deletion would restrict our ability to cooperate with law enforcement or
+                        government agencies.
+                    </li>
+                </ul>
+                <h2 #bookmark_5b>Grants</h2>
+
+
+                <p>
+                    When you upload, share with or submit content to the Services, you retain ownership of any
+                    intellectual property rights that you hold in that content and you grant to us a worldwide,
+                    royalty-free, non-exclusive, perpetual, irrevocable, transferable, sublicensable licence to (a) use,
+                    host, store, reproduce, modify, prepare derivative works, communicate, publish, publicly perform,
+                    publicly display and distribute this content in any manner, mode of delivery or media now known or
+                    developed in the future; and (b) where engaged with permit other users to access, reproduce,
+                    distribute, publicly display, prepare derivative works of your content. (e.g. produce promotional
+                    material using your content).
+                </p>
+                <p>
+                    If you download our software you grant us permission to update or maintain that software onto your
+                    device to download and install updates to the software where available or necessary.
+                </p>
+                <h2 #bookmark_5c>Feedback</h2>
+
+
+                <p>
+                    You agree that any recommendation, idea, proposal, suggestion, feedback you submit to us related to
+                    our products, services, websites, apps or technology may be used by us without any notice,
+                    obligation, restriction, reimbursement or compensation to you and you waive (or agree not to
+                    enforce) any and all rights that may now or in the future exist in any Feedback.
+                </p>
+                <h1 #bookmark_6>6. Warranties and liabilities</h1>
+
+
+                <h2 #bookmark_6a>Warranties and disclaimers</h2>
+
+
+                <p>
+                    TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, WE, ALONG WITH OUR AFFILIATES, OFFICERS,
+                    EMPLOYEES, CONTRACTORS, AGENTS AND SUPPLIERS. DO NOT MAKE ANY REPRESENTATIONS, PROMISES OR
+                    WARRANTIES, EXPRESS OR IMPLIED, ABOUT THE SERVICES. WE PROVIDE OUR SERVICES ‘AS-IS’, ‘WITH ALL
+                    FAULTS’ AND ‘AS AVAILABLE’. YOUR USE OF THE SERVICES, INCLUDING CONTENT WITHIN THE SERVICES, IS AT
+                    YOUR OWN RISK AND WE DO NOT REPRESENT, PROMISE OR WARRANT THAT THE SERVICES WILL BE UNINTERRUPTED,
+                    TIMELY, SECURE OR ERROR-FREE. YOU UNDERSTAND AND AGREE THAT NO DATA TRANSMISSION OVER THE INTERNET
+                    OR INFORMATION STORAGE TECHNOLOGY CAN BE GUARANTEED TO BE SECURE, AND WE EXPRESSLY DISCLAIM ANY
+                    WARRANTIES, EXPRESS OR IMPLIED, TO THAT EFFECT. WE MAKE NO COMMITMENTS, PROMISES OR WARRANTIES ABOUT
+                    THE CONTENT WITHIN THE SERVICES OR CONTENT LINKED FROM THE SERVICES, THE SUPPORT WE PROVIDE FOR THE
+                    SERVICES, THE SPECIFIC FUNCTIONS OF THE SERVICES, THE SECURITY OF THE SERVICES OR THE SERVICES’
+                    RELIABILITY, QUALITY, ACCURACY, AVAILABILITY OR ABILITY TO MEET YOUR NEEDS, PROVIDE CERTAIN OUTPUTS
+                    OR ACHIEVE CERTAIN RESULTS.
+                </p>
+                <h2 #bookmark_6b>Limitation of liability</h2>
+
+
+                <p>
+                    TO THE FULLEST EXTENT PERMITTED BY APPLICABLE LAW, YOU AGREE AND UNDERSTAND THAT DERTINFO ENTITIES
+                    WILL NOT BE LIABLE FOR: ANY INDIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL, TREBLE OR OTHER MULTIPLES
+                    OF DAMAGES, EXEMPLARY OR PUNITIVE DAMAGES ARISING FROM OR IN CONNECTION WITH THESE TERMS OR YOUR USE
+                    OF THE SERVICES. DERTINFO ENTITIES ARE NOT RESPONSIBLE FOR ANY LOST PROFITS, LOST REVENUES, LOST
+                    BUSINESS OPPORTUNITIES, DIMINUTION IN VALUE, INCLUDING ANY ALLEGED LOSS OR DIMINUTION IN VALUE OF
+                    PERSONAL INFORMATION, OR ANY OTHER LOSSES (COLLECTIVELY, ‘LOSSES’) ARISING FROM OR IN CONNECTION
+                    WITH THESE TERMS OR YOUR USE OF OR ACCESS TO THE SERVICES, INCLUDING, BUT NOT LIMITED TO, LOSSES
+                    RESULTING FROM OR IN CONNECTION WITH: THE DELETION OF, ALTERATION OF, MISDELIVERY OF, OR FAILURE TO
+                    STORE DATA MAINTAINED OR TRANSMITTED BY THE SERVICES; THE LIMITING, SUSPENSION OR TERMINATION OF
+                    YOUR ACCOUNT; YOUR DOWNLOADING OR SHARING OF INFORMATION, INCLUDING PERSONAL INFORMATION, VIA THE
+                    SERVICES; THE UNAUTHORISED ACCESS TO YOUR ACCOUNT OR ANY DATA MAINTAINED OR TRANSMITTED BY THE
+                    SERVICES; LINKS PROVIDED BY THE SERVICES OR THIRD PARTIES TO EXTERNAL SITES OR RESOURCES; DERTINFO
+                    ENTITIES WILL NOT BE LIABLE FOR PROBLEMS CAUSED BY OTHERS, THE WRONGFUL OR UNLAWFUL ACTIONS OF THIRD
+                    PARTIES, OR AN ACT OF GOD. THE LIMITATIONS AND EXCLUSIONS IN THESE TERMS WILL APPLY WHETHER OR NOT
+                    WE HAVE BEEN ADVISED OF OR SHOULD HAVE BEEN AWARE OF THE POSSIBILITY OF ANY LOSSES ARISING.
+                </p>
+                <p>
+                    TO THE FULLEST EXTENT PERMITTED BY LAW DERTINFO ENTITIES ARE NOT LIABLE IN CONNECTION WITH ANY
+                    DISPUTES THAT ARISE OUT OF OR RELATE TO THESE TERMS OR SERVICES.
+                </p>
+                <h1 #bookmark_7>7. Other</h1>
+
+
+                <p>
+                    In the event that any provision of these Terms is held to be invalid or unenforceable, then that
+                    provision will be limited or eliminated to the minimum extent necessary, and the remaining
+                    provisions of these Terms will remain in full force and effect. The failure of DertInfo to enforce
+                    any right or provision of these Terms will not be deemed a waiver of such right or provision.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</section>
+<div class="backtotop">
+    <a (click)="onScrollToClick(bookmark_top)">
+        <mat-icon>arrow_drop_down_circle</mat-icon>
+    </a>
+</div>

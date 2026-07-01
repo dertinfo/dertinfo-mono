@@ -1,0 +1,51 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50">
+    <mat-card class="profile-sidebar mb-1 pb-0">
+      <div class="grouppic text-center">
+        <img [src]="group.groupPictureUrl | imageDimension: '480x360'" [alt]="group.groupName">
+      </div>
+      <div class="profile-title text-center mb-1">
+        <div class="main-title"><b>{{group.groupName}}</b></div>
+      </div>
+      <!--
+                <div class="profile-actions text-center mb-1">
+                  <button mat-raised-button color="primary">Message</button>
+                  <button mat-raised-button color="accent">Follow</button>
+                </div>
+                -->
+      <div class="profile-nav">
+        <mat-nav-list>
+          <mat-list-item routerLink="./overview" routerLinkActive="list-item-active">
+            <mat-icon>home</mat-icon>
+            Overview
+          </mat-list-item>
+        </mat-nav-list>
+      </div>
+
+
+    </mat-card>
+
+    <mat-card class="profile-sidebar mb-1 pb-0">
+      <mat-card-title>Events</mat-card-title>
+      <div class="profile-nav">
+        <mat-nav-list>
+          <ng-container *ngFor="let registration of groupRegistrations$ | async">
+            <mat-list-item [routerLink]="'./registration/' + registration.id" routerLinkActive="list-item-active">
+              <img mat-list-avatar class="mr-1" [src]="registration.eventPictureUrl | imageDimension: '100x100'" alt="">
+              {{registration.eventName}}
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </mat-nav-list>
+      </div>
+    </mat-card>
+
+    <app-dod-navigation-card *ngIf="showDertOfDertsMenu" [routeTo]="'./dertofderts'"></app-dod-navigation-card>
+
+  </div>
+  <!-- Profile Views -->
+  <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="calc(100% - 300px)">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

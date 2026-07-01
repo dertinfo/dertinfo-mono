@@ -1,0 +1,22 @@
+[
+    {
+        "id": 0,
+        "name": "New",
+        "info": "New registration. You still have to send your interest to the event. \r\n You can still make changes after you have submitted until the event confirms your attendance."
+    },
+    {
+        "id": 1,
+        "name": "Submitted",
+        "info": "The event knows you want to come and has your numbers. \r\n You can still make changes until your application is confirmed. \r\n You will get a confirmation once your attendance has been accepted."
+    },
+    {
+        "id": 2,
+        "name": "Confirmed",
+        "info": "Your space has been allocated with the information you provided."
+    },
+    {
+        "id": 4,
+        "name": "Closed",
+        "info": "The event has passed. We hope you had a good time."
+    }
+]

@@ -1,0 +1,68 @@
+mat-card {
+    border: 3px solid #000;
+    border-radius: 255px 15px 255px 15px / 15px 255px 15px 255px;
+}
+
+mat-card-title {
+    font-family: ARDarling, Courier;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1.5rem !important;
+}
+
+p {
+    font-family: "Kalam", cursive;
+    font-size: 1rem;
+
+
+}
+
+span.small-text {
+    line-height: 1rem;
+    font-size: 0.75rem;
+    display: inline-block;
+}
+
+h1 {
+    font-family: ARDarling, Courier;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 50px;
+    padding-top: 20px;
+    margin-top: 0px;
+}
+
+.mat-checkbox {
+    font-family: "Kalam", cursive;
+    font-size: 1rem;
+}
+
+.mat-raised-button.mat-primary {
+    font-family: "Kalam", cursive;
+    font-size: 1rem;
+    border: 3px solid #000;
+    border-radius: 255px 15px 255px 15px / 15px 255px 15px 255px;
+}
+
+.mat-raised-button.mat-primary:hover {
+    border: 3px solid #000;
+    border-radius: 15px 255px 15px 255px / 255px 15px 255px 15px;
+}
+
+.mat-raised-button.mat-button-base {
+    font-family: "Kalam", cursive;
+    font-size: 1rem;
+    border: 3px solid #000;
+    border-radius: 255px 15px 255px 15px / 15px 255px 15px 255px;
+}
+
+.mat-raised-button.mat-button-base:hover {
+    border: 3px solid #000;
+    border-radius: 15px 255px 15px 255px / 255px 15px 255px 15px;
+}
+
+.section-header {
+    margin: 0 0 1.5rem;
+}
+
+

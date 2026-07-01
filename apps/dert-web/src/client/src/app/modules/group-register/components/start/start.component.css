@@ -1,0 +1,20 @@
+.avatar-tag {
+    width: 40px;
+    height:40px;
+    border: solid 1px #ccc;
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 5px;
+}
+
+.avatar-tag > img {
+    min-width:130%;
+    position: relative;
+    left: -15%;
+}
+
+.cursor-pointer
+{
+    cursor: pointer !important;
+    color: #8FBE36;
+}

@@ -1,0 +1,29 @@
+<div class="notific-item" [ngClass]="{'isnew': isNew}">
+  <div class="icon-container">
+    <mat-icon [color]="'primary'" class="notific-icon">{{icon}}</mat-icon>
+    <span class="notification-number"
+      [ngClass]="{'mat-bg-secondary': severity == '0' || severity == '1', 'mat-bg-accent': severity == '2', 'mat-bg-warn': severity == '3'}"></span>
+  </div>
+  <!-- can open-->
+  <div class="item-container" *ngIf="canOpen">
+    <a (click)="onOpenClick(n)">
+      <div class="mat-list-text">
+        <h4 class="message">{{title}}</h4>
+        <small class="time text-muted">{{time}}</small>
+        <p class="message-summary">{{summary}}</p>
+      </div>
+    </a>
+  </div>
+  <!-- can't open-->
+  <div class="item-container" *ngIf="!canOpen">
+    <div class="mat-list-text">
+      <h4 class="message">{{title}}</h4>
+      <small class="time text-muted">{{time}}</small>
+      <p class="message-summary">{{summary}}</p>
+    </div>
+  </div>
+  <div class="icon-container">
+    <mat-icon [color]="'primary'" class="notific-icon" *ngIf="canDismiss" (click)="onDismissClick(n)">clear
+    </mat-icon>
+  </div>
+</div>

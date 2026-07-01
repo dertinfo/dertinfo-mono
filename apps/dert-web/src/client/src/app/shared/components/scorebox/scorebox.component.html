@@ -1,0 +1,7 @@
+<div class="scorebox">
+    <span class="header">{{title}}</span>
+    <span class="value" *ngIf="readonly">{{value}}</span>
+    <span class="value" *ngIf="!readonly">
+        <input [(ngModel)]="value" (focusout)="onFocusOut()">
+    </span>
+</div>

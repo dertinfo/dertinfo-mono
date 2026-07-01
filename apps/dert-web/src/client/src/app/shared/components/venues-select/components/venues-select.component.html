@@ -1,0 +1,67 @@
+<div class="modal-min">
+    <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="All Venues" *ngIf="showSelect">
+                <mat-card-content class="mt-1">
+                    <div fxLayout="row wrap" fxLayoutWrap="wrap">
+                        <div *ngFor="let item of items" [ngClass]="{'item-select': true, 'item-selected': item.selected, 'item-changed': item.changed}"
+                            fxFlex="100" fxFlex.gt-xs="33">
+                            <button (click)="onItemClick(item)" *ngIf="item.selected" mat-mini-fab color="primary"
+                                class="mr-1 primary-marker">
+                                <mat-icon>done</mat-icon>
+                            </button>
+                            <button (click)="onItemClick(item)" *ngIf="!item.selected" mat-mini-fab color="default"
+                                class="mr-1 primary-marker">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                            {{item.name}}
+
+                        </div>
+                        <div class="" fxFlex="100">
+                            <button type="button" mat-button (click)="onCancelClick()">Cancel</button>
+                            <span fxFlex></span>
+
+                            <button mat-raised-button color="primary" type="submit" [disabled]="edited.length === 0"
+                                (click)="onSelectionSaveClick()">
+                                Save Changes <mat-icon>save</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                </mat-card-content>
+            </mat-tab>
+            <mat-tab label="Add New Venue" *ngIf="showCreate">
+                <mat-card-content class="mt-1">
+                    <div class="mb-1 mt-1">
+                        <p>New person</p>
+                    </div>
+                    <form [formGroup]="form" novalidate (submit)="onCreateNewClick()">
+                        <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
+
+                            <!-- Judge Name -->
+                            <div class="pb-1" fxFlex="100">
+                                <mat-form-field class="full-width">
+                                    <input matInput formControlName="name" placeholder="Venue Name" required>
+                                </mat-form-field>
+                                <small *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched) && (form.controls.name.errors.required)"
+                                    class="form-error-msg"> Name is required. </small>
+                            </div>
+
+                            <div class="" fxFlex="100">
+                                <button type="button" mat-button (click)="onCancelClick()">Cancel</button>
+                                <span fxFlex></span>
+
+                                <button mat-raised-button color="primary" type="submit">
+                                    Add Venue <mat-icon>add</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card-content>
+
+
+
+</div>

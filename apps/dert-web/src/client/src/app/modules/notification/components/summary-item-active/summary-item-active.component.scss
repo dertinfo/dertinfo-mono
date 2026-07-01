@@ -1,0 +1,53 @@
+.notific-item{
+    display: flex;
+}
+
+.isnew {
+    border-right: solid 3px #247ba0;
+}
+
+.icon-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.notific-item .mat-list-item-content {
+    min-height: 60px !important;
+}
+.notific-item .item-container {
+    outline: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    max-width: 250px;
+}
+.notification-list .notific-item a {
+    outline: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.notific-item .message {
+    font-size: 0.875rem !important;
+}
+.notific-item .time {
+    font-size: 0.75rem !important;
+}
+.notific-item .message-summary {
+    font-size: 0.75rem !important;
+}
+
+.notification-number {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 10px;
+    height: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+}

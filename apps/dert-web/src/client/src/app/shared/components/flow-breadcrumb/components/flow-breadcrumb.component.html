@@ -1,0 +1,20 @@
+<div class="flowbreadcrumb_container" fxLayout="row wrap" >
+    <mat-card fxFlex="100">
+        <mat-card-content >
+            <div class="{{'state-' + selectedState + '-class'}}">
+                <mat-radio-group fxLayout="row" fxLayoutAlign="space-between">
+                    <div *ngFor="let state of allStates">
+                        <mat-radio-button [value]="state.id" disabled [checked]="state.id === selectedState">
+                            <span title="{{state.info}}">
+                                {{state.name}}
+                            </span>
+                        </mat-radio-button>
+                    </div>
+                    <div>
+                       <!--toolbar-->
+                    </div>
+                </mat-radio-group>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,19 @@
+<div fxFlex="100">
+
+
+<mat-list class="compact-list mb-1">
+    <mat-list-item class="" *ngFor="let invoice of invoices" (click)="OnInvoiceRowClick(invoice)">
+      <img mat-list-avatar class="mr-1" [src]="invoice.imageResourceUri | imageDimension: '100x100'" alt="">
+      <div fxLayout="row" fxFlex="100">
+        <small class="text-muted mr-1">{{invoice.title}}</small>
+      </div>
+      <div fxLayout="row" fxFlex="50">
+        <div class="m-0 mr-1 icon-count">
+          <small class="text-muted mr-1 pad-up"><span [price]="invoice.invoiceTotal" [tbc]="false">{{invoice.invoiceTotal}}</span></small>
+        </div>
+        <span fxFlex></span>
+      </div>
+      <mat-chip mat-sm-chip [selected]="true">{{invoice.hasPaid ? 'Received' : 'Not&nbsp;yet&nbsp;received'}}</mat-chip>
+    </mat-list-item>
+  </mat-list>
+</div>

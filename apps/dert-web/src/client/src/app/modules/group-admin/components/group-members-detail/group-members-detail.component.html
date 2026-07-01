@@ -1,0 +1,144 @@
+<mat-card class="p-0" *ngIf="_isReady">
+    <mat-card-title class="mat-bg-primary">
+        <div class="card-title-text">
+            <div class="toolbar-avatar md mr-1">
+                <img [src]="groupMember.emailAddress | gravitar:groupMember.name" alt="">
+            </div>
+            <span>{{groupMember.name}}</span>
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+                <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item (click)="onGroupMemberRemoveClick(groupMember)">
+                    <mat-icon>delete</mat-icon>Remove</button>
+            </mat-menu>
+        </div>
+        <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+        <!-- user detail lines-->
+        <div class="user-details">
+            <p>
+                <mat-icon class="text-muted">book</mat-icon>
+                <strong>Attendances:</strong> {{groupMember.memberAttendances ? groupMember.memberAttendances.length : 0}}</p>
+            <p *ngIf="groupMember.dateOfBirth">
+                <mat-icon class="text-muted">date_range</mat-icon>
+                <strong>DOB:</strong> {{groupMember.dateOfBirth | date}}</p>
+            <p *ngIf="groupMember.dateJoined">
+                <mat-icon class="text-muted">date_range</mat-icon>
+                <strong>Joined:</strong> {{groupMember.dateJoined | date}}</p>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card class="p-0" *ngIf="_isReady">
+    <mat-tab-group>
+        <mat-tab label="User Settings">
+            <mat-card-content class="mt-1">
+                <form [formGroup]="memberUpdateForm" novalidate (submit)="onUpdateMemberSubmit()">
+                    <div class="pb-1">
+                        <label class="label-infix">Member/Guest</label>
+                        <mat-radio-group formControlName="memberType">
+                            <mat-radio-button class="form-radio-button" [value]="1">Member</mat-radio-button>
+                            <mat-radio-button class="form-radio-button" [value]="2">Guest</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="pb-1">
+                        <mat-form-field class="full-width">
+                            <input matInput formControlName="name" placeholder="Member Name">
+                        </mat-form-field>
+                        <small *ngIf="memberUpdateForm.controls.name.errors && (memberUpdateForm.controls.name.dirty || memberUpdateForm.controls.name.touched) && (memberUpdateForm.controls.name.errors.required)"
+                            class="form-error-msg"> Member Name is required. </small>
+                    </div>
+
+                    <div class="pb-1">
+                        <mat-form-field class="full-width">
+                            <input matInput formControlName="email" placeholder="Email">
+                        </mat-form-field>
+                        <small *ngIf="memberUpdateForm.controls.email.errors && (memberUpdateForm.controls.email.dirty || memberUpdateForm.controls.email.touched) && (memberUpdateForm.controls.email.errors.email)"
+                            class="form-error-msg"> Invaild email address </small>
+                    </div>
+
+                    <div class="pb-1">
+                        <mat-form-field class="full-width">
+                            <input matInput name="telephone" formControlName="telephone" placeholder="Telephone Number">
+                        </mat-form-field>
+                    </div>
+                    <div class="pb-1">
+                        <mat-form-field class="full-width">
+                            <input matInput [matDatepicker]="dateOfBirthPicker" name="dateOfBirth" formControlName="dateOfBirth" placeholder="Date Of Birth">
+                            <mat-datepicker-toggle matSuffix [for]="dateOfBirthPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dateOfBirthPicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="pb-1">
+                        <mat-form-field class="full-width">
+                            <input matInput [matDatepicker]="dateJoinedPicker" name="dateJoined" formControlName="dateJoined" placeholder="Date Joined">
+                            <mat-datepicker-toggle matSuffix [for]="dateJoinedPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #dateJoinedPicker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="!memberUpdateForm.dirty">
+                        Save
+                    </button>
+
+                </form>
+            </mat-card-content>
+        </mat-tab>
+        <!--
+        <mat-tab label="Privacy Settings">
+            <mat-card-content>
+                <div class="mb-1 mt-1">
+                    <mat-checkbox> Get weekly news in your email.</mat-checkbox>
+                </div>
+                <div class="mb-1">
+                    <mat-checkbox> Get notification when someone follows you.</mat-checkbox>
+                </div>
+                <div class="mb-1">
+                    <mat-checkbox> Get email when someone follows you.</mat-checkbox>
+                </div>
+                <div class="mb-1">
+                    <p>Choose your admin panel color schemes.</p>
+                    <mat-radio-group fxLayout="column" fxLayoutGap="4px">
+                        <mat-radio-button value="indigo">Indigo</mat-radio-button>
+                        <mat-radio-button value="blue">Blue</mat-radio-button>
+                        <mat-radio-button value="pink">Pink</mat-radio-button>
+                        <mat-radio-button value="purple">Purple</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <button mat-raised-button color="primary">Save</button>
+            </mat-card-content>
+        </mat-tab>
+    -->
+        <mat-tab label="Attendances">
+            <div class="mat-box-shadow margin-333">
+                <ngx-datatable class="material bg-white" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                    [limit]="10" [rows]="rows">
+                    <ngx-datatable-column name="" prop="eventPictureUrl">
+                        <ng-template let-value="value" ngx-datatable-cell-template>
+                            <mat-list>
+                                <mat-list-item>
+                                        <img mat-list-avatar class="mr-1" [src]="value | imageDimension: '100x100'" alt="">
+                                </mat-list-item>
+                            </mat-list>
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Event Name" prop="eventName" [flexGrow]="3">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            {{value}}
+                        </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Ticket Types" prop="attendanceActivities" [flexGrow]="4">
+                        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                            <div *ngFor="let x of value">
+                                {{x.activityTitle}} - &pound;{{x.activityPrice}}
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                </ngx-datatable>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>

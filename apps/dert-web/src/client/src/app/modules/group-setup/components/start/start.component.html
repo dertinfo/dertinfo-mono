@@ -1,0 +1,128 @@
+<mat-card class="p-0">
+  <mat-card-title class="">
+    <div class="card-title-text">Setup Group</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-vertical-stepper [linear]="true" (selectionChange)="onStepperStepChange($event)">
+      <mat-step [stepControl]="groupDetailsFormGroup">
+        <form [formGroup]="groupDetailsFormGroup">
+          <ng-template matStepLabel>Group Details</ng-template>
+          <mat-form-field class="pt-1 full-width">
+            <input matInput placeholder="Bio" formControlName="groupBio" name="groupBio">
+          </mat-form-field>
+          <mat-form-field class="pt-1 full-width">
+            <input matInput placeholder="Town" formControlName="originTown" name="originTown">
+          </mat-form-field>
+          <mat-form-field class="pt-1 full-width">
+            <input matInput placeholder="Postcode" formControlName="originPostcode" name="originPostcode">
+          </mat-form-field>
+
+          <div class="pt-1">
+
+            <button mat-raised-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="contactDetailsFormGroup">
+        <form [formGroup]="contactDetailsFormGroup">
+          <ng-template matStepLabel>Contact Details</ng-template>
+          <mat-form-field class="pt-1 full-width">
+            <input matInput placeholder="Contact Name" formControlName="contactName" name="contactName" required>
+          </mat-form-field>
+          <mat-form-field class="pt-1 full-width">
+            <input matInput placeholder="Contact Email" formControlName="contactEmail" name="contactEmail" required>
+          </mat-form-field>
+          <mat-form-field class="pt-1 pb-1 full-width">
+            <input matInput placeholder="Contact Telephone" formControlName="contactTelephone" name="contactTelephone" required>
+          </mat-form-field>
+          <div>
+            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+            <button mat-raised-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="groupImageFormGroup">
+        <form [formGroup]="groupImageFormGroup">
+          <ng-template matStepLabel>Group Image</ng-template>
+          <input matInput placeholder="Image" formControlName="groupPictureUrl" required hidden>
+          <button mat-raised-button color="primary" matTooltip="Upload New Image" (click)="openUploadImageDialog()">
+            <mat-icon>swap_horiz</mat-icon>
+            <span>Change Image</span>
+          </button>
+          <div class="pt-1">
+            <app-image-retry [src]="groupPictureUrl | imageDimension: '480x360'" alt=""></app-image-retry>
+          </div>
+          <div class="pt-1">
+            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+            <button mat-raised-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step [stepControl]="visabilityFormGroup">
+        <form [formGroup]="visabilityFormGroup">
+          <ng-template matStepLabel>Visibility</ng-template>
+          <div fxLayout="row">
+            <div fxFlex="100" fxFlex.gt-xs="50">
+              <mat-radio-group fxLayout="column" formControlName="visibility">
+                <mat-radio-button class="pt-1" *ngFor="let visabilityOption of visibilityOptions" [value]="visabilityOption.id">
+                  {{visabilityOption.name}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="pt-1">
+            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+            <button mat-raised-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <!--
+      <mat-step [stepControl]="configurationTemplateFormGroup">
+        <form [formGroup]="configurationTemplateFormGroup">
+          <ng-template matStepLabel>Group Type</ng-template>
+          <mat-radio-group fxLayout="column" formControlName="groupTemplate">
+            <mat-radio-button class="pt-1" *ngFor="let groupConfigurationTemplate of groupConfigurationTemplateOptions" [value]="groupConfigurationTemplate.id">
+              {{groupConfigurationTemplate.name}}
+            </mat-radio-button>
+          </mat-radio-group>
+          <div class="pt-1">
+            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+            <button mat-raised-button color="primary" matStepperNext>Next</button>
+          </div>
+        </form>
+      </mat-step>
+      -->
+      <mat-step [stepControl]="termsAndConditionsFormGroup">
+        <form [formGroup]="termsAndConditionsFormGroup">
+          <ng-template matStepLabel>Terms &amp; Conditions</ng-template>
+          <p>By continuing with the creation of {{groupName}} you accept that dertinfo may contact you.</p>
+          <p>You accept the information that you provide as the administrator of {{groupName}} can be stored and processed
+            by dertinfo.</p>
+          <p>
+            <small>For further information please see our
+              <a (click)="onTermsAndConditionsClick()" class="cursor-pointer">terms &amp; conditions</a>.</small>
+          </p>
+          <mat-checkbox formControlName="agreeToTermsAndConditions" required>
+            I agree to the terms and conditions
+          </mat-checkbox>
+          <div class="pt-1">
+            <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+            <button mat-raised-button color="primary" matStepperNext [disabled]="!termsAndConditionsFormGroup.valid">Next</button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Done</ng-template>
+        <div>
+          <mat-icon class="pt-1" [style.fontSize]="'36px'">check</mat-icon>
+        </div>
+        <div class="pb-1 mb-1"> You Are Done.</div>
+        <div>
+          <button mat-raised-button color="accent" matStepperPrevious>Back</button>
+          <button mat-raised-button color="primary" (click)="submit()" [disabled]="!termsAndConditionsFormGroup.valid">Submit</button>
+        </div>
+      </mat-step>
+    </mat-vertical-stepper>
+  </mat-card-content>
+</mat-card>

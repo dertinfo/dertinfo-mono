@@ -1,0 +1,85 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+    <app-addition-header fxFlex="100" [title]="'Dance Check'" [icon]="'check_box'" [hideButton]="true">
+    </app-addition-header>
+
+    <mat-card class="default" fxFlex="100">
+        <mat-card-header>
+            <mat-card-title>Info</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-list fxLayout="row wrap">
+                <mat-list-item fxFlex="33">{{danceResult?.competitionName}}</mat-list-item>
+                <mat-list-item fxFlex="33">{{danceResult?.teamName}}</mat-list-item>
+                <mat-list-item fxFlex="33">{{danceResult?.venueName}}</mat-list-item>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="default" fxFlex="100">
+        <mat-card-header fxLayoutAlign="space-between">
+            <mat-card-title>Scores</mat-card-title>
+            <div fxLayout="column" fxLayoutAlign="center">
+                <mat-slide-toggle [checked]="hasScoresChecked" [disabled]="scoresLocked"
+                    (change)="onScoresCheckedChanged()" color="primary">Scores
+                    Checked&nbsp;&nbsp;&nbsp;</mat-slide-toggle>
+            </div>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="danceScoresFormGroup" (ngSubmit)="submitScoresForm(danceScoresFormGroup.value)"
+                novalidate>
+                <mat-list fxLayout="row wrap" fxLayoutWrap="wrap">
+                    <mat-list-item *ngFor="let danceScore of danceScores" fxFlex="33">
+                        <mat-form-field class="full-width">
+                            <input matInput type="number" formControlName="{{danceScore.scoreCatagoryId}}"
+                                name="{{danceScore.scoreCatagoryId}}"
+                                placeholder="{{danceScore.scoreCatagoryName + '[' + danceScore.scoreCatagoryMaxMarks + 'marks]'}}"
+                                [ngClass]="{'has-error':!danceScoresFormGroup.controls[danceScore.scoreCatagoryId].valid}"
+                                [readonly]="scoresLocked" maintain-original>
+                        </mat-form-field>
+                    </mat-list-item>
+                    <mat-list-item fxFlex="33">
+                        <mat-checkbox [checked]="overrun" [disabled]="scoresLocked || hasScoresChecked"
+                            (change)="onOverrunChange()">
+                            Overrun
+                        </mat-checkbox>
+                    </mat-list-item>
+                    <mat-list-item fxFlex="33">
+                        <button mat-raised-button color="primary" type="submit"
+                            [disabled]="!danceScoresFormGroup.valid || hasScoresChecked" *ngIf="!scoresLocked">
+                            Update <mat-icon>send</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-list>
+
+
+            </form>
+        </mat-card-content>
+    </mat-card>
+    <mat-card class="default" fxFlex="100">
+        <mat-card-header>
+            <mat-card-title>Scoresheets</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between" fxFlex="100">
+                <div *ngFor="let markingSheet of danceResult?.danceMarkingSheets" fxFlex="49">
+                    <img [src]="markingSheet.imageResourceUri | imageDimension: '480x360'" alt="">
+                </div>
+            </div>
+
+
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card class="default" fxFlex="100">
+        <mat-card-header fxLayoutAlign="space-between">
+            <mat-card-title>Split Scores</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>
+                This section will perform the averages accross the categories and will turn green when they match the supplied scores. These values also supports reviews and comparison of the judges. The values here have no relation to the total scores displayed for the results. You do not need to complete this section.
+            </p>
+            <app-competition-checking-split-scores-grid [judgeSlotInformation]="judgeSlotInformation" [danceResult]="danceResult" (changed)="onSplitScoresGridChanged($event)"></app-competition-checking-split-scores-grid>
+            <br/>
+            <button mat-raised-button color="primary" (click)="onSaveScoreParts()" [disabled]="!splitScoresHasChanged">Save Split Scores<mat-icon>save</mat-icon></button>
+        </mat-card-content>
+    </mat-card>
+</div>

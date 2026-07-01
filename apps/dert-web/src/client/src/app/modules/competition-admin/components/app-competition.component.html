@@ -1,0 +1,78 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+    <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50">
+      <mat-card class="profile-sidebar mb-1 pb-0">
+        <div class="profile-title text-center mb-1">
+          <div class="main-title"><b>{{competitionName}}</b></div>
+        </div>
+        <!--
+        <div class="profile-actions text-center mb-1">
+          <button mat-raised-button color="primary">Message</button>
+          <button mat-raised-button color="accent">Follow</button>
+        </div>
+        -->
+        <div class="profile-nav">
+          <mat-nav-list>
+            <mat-list-item routerLink="./overview" routerLinkActive="list-item-active">
+              <mat-icon>home</mat-icon>
+              Overview
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./settings" routerLinkActive="list-item-active">
+              <mat-icon>settings</mat-icon>
+              Settings
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./scoring" routerLinkActive="list-item-active">
+              <mat-icon>tune</mat-icon>
+              Scoring
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./venues" routerLinkActive="list-item-active">
+              <mat-icon>domain</mat-icon>
+              Venues
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./judges" routerLinkActive="list-item-active">
+              <mat-icon>face</mat-icon>
+              Judges
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./entryattributes" routerLinkActive="list-item-active">
+              <mat-icon>polymer</mat-icon>
+              Entry Attributes
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./paperwork" routerLinkActive="list-item-active">
+              <mat-icon>insert_drive_file</mat-icon>
+              Paperwork
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./entrants" routerLinkActive="list-item-active">
+              <mat-icon>people_outline</mat-icon>
+              Entrants
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./dances" routerLinkActive="list-item-active">
+              <mat-icon>accessibility</mat-icon>
+              Dances
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./results" routerLinkActive="list-item-active">
+              <mat-icon>insert_chart</mat-icon>
+              Results
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./reports" routerLinkActive="list-item-active">
+              <mat-icon>blur_on</mat-icon>
+              Reports
+            </mat-list-item>
+          </mat-nav-list>
+        </div>
+      </mat-card>
+    </div>
+
+  <!-- Profile Views -->
+    <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="calc(100% - 300px)">
+      <router-outlet></router-outlet>
+    </div>
+  </div>

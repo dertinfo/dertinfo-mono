@@ -1,0 +1,66 @@
+<div fxLayout="row" fxLayoutWrap="wrap">
+  <mat-card class="default" fxFlex="100">
+    <mat-card-title>Invoices &amp; Payments</mat-card-title>
+    <mat-card-content class="p-0">
+      <app-event-invoices-listing [invoices]="eventInvoices$ | async" [selectedInvoice]="selectedInvoice"
+        [compareEnabled]="true" [changeStateEnabled]="true" (invoiceSelected)="OnInvoiceSelected($event)" (invoicePaidToggled)="OnInvoicePaidToggled($event)">
+      </app-event-invoices-listing>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div fxLayout="row">
+  <mat-card class="default" fxFlex="50" *ngIf="selectedInvoice">
+    <mat-card-title>History / Versions</mat-card-title>
+    <mat-card-content>
+      <app-event-invoices-listing [invoices]="invoiceHistory$ | async" [selectedInvoice]="selectedInvoiceHistory || selectedInvoice" (invoiceSelected)="OnInvoiceHistoryItemSelected($event)">
+      </app-event-invoices-listing>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="default" fxFlex="50" *ngIf="invoiceDetailToDisplay">
+    <mat-card-title>Details</mat-card-title>
+    <mat-card-content>
+      <p>
+        <label>Sent To:</label>
+        {{invoiceDetailToDisplay.invoiceToName}} ( {{invoiceDetailToDisplay.invoiceToEmail}} ) on behalf of
+        {{invoiceDetailToDisplay.invoiceToTeamName}}
+      </p>
+      <p>
+        <label>Lines:</label>
+      </p>
+      <div *ngIf="!invoiceDetailToDisplay.hasStructuredNotes" [innerHTML]="invoiceDetailToDisplay.invoiceLineItemNotes"></div>
+      <div *ngIf="invoiceDetailToDisplay.hasStructuredNotes">
+        <table width="100%">
+          <thead>
+            <tr>
+              <th>Line</th>
+              <th>Qty</th>
+              <th>SubTotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let line of collatedLines">
+              <td>Tickets: {{line.Key}} @ £{{line.Value/line.SubKey}} </td>
+              <td>{{line.SubKey}}</td>
+              <td>£{{line.Value}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <br />
+      <p>
+        <label>Notes:</label>
+      </p>
+      <div *ngIf="!invoiceDetailToDisplay.hasStructuredNotes" [innerHTML]="invoiceDetailToDisplay.invoiceEntryNotes"></div>
+      <div *ngIf="invoiceDetailToDisplay.hasStructuredNotes">
+        Group: {{structuredNotes.NotesDetailStorage.GroupName}}<br>
+        Contact: {{structuredNotes.NotesDetailStorage.ContactName}}<br>
+        Event: {{structuredNotes.NotesDetailStorage.EventName}}<br>
+      </div>
+      <br />
+      <p>
+        <label>Total:</label>
+        <span [price]="invoiceDetailToDisplay.invoiceTotal" [tbc]="false">{{invoiceDetailToDisplay.invoiceTotal}}</span>
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

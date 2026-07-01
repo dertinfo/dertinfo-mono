@@ -1,0 +1,52 @@
+.app-competition-scoring-container {
+    padding: 6px 0px 0px 3px;
+}
+
+table {
+    width: 100%;
+    flex-direction: row;
+}
+
+mat-header-cell {
+    display: flex;
+}
+
+.cell-pull-right {
+    display: flex !important;
+    justify-content: flex-end!important;
+}
+
+.cell-2x {
+    flex: 2;
+}
+
+.cell-avatar-header {
+    flex: none;
+    min-width: 60px;
+}
+
+.cell-avatar {
+    flex: none;
+    min-width: 60px;
+}
+
+.mat-table-avatar {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 8px 0px 0px 0px;
+}
+
+
+.attribute-badge {
+    width:30px;
+    height:30px;
+    border: solid 1px rgb(63, 62, 62);
+    background: #000;
+    color: #fff;
+    border-radius: 15px;
+    text-align: center;
+    font-weight:bold;
+    padding-top: 4px;
+}

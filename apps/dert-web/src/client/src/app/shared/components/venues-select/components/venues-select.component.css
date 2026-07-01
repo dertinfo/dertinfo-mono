@@ -1,0 +1,35 @@
+.item-select {
+    width: 33%;
+    height:60px;
+    padding:10px;
+    border:solid 1px #CCC;
+}
+
+.item-selected {
+    color: #247BA0;
+}
+
+.item-changed {
+    width: 33%;
+    height:60px;
+    padding:10px;
+    border-right:solid 5px #247BA0;
+}
+
+.item-selected.item-changed{
+    color: inherit;
+}
+
+.label-infix {
+    display: block;
+    position: relative;
+    flex: auto;
+    min-width: 0;
+    width: 180px;
+    font-size: 0.675rem;
+    padding-bottom: 0.4375em 0;
+}
+
+.form-radio-button {
+    margin-right:10px;
+}

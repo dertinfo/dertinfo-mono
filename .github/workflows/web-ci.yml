@@ -25,15 +25,19 @@ jobs:
           cache: npm
 
       - name: Install
-        run: npm ci
+        run: npm install
+        working-directory: apps/dert-web/src/client
 
       - name: Lint
-        run: npm run web:lint
+        run: npm run lint
+        working-directory: apps/dert-web/src/client
         continue-on-error: true
 
       - name: Test
-        run: npm run web:test
+        run: npm run test -- --watch=false --browsers=ChromeHeadless
+        working-directory: apps/dert-web/src/client
         continue-on-error: true
 
       - name: Build
-        run: npm run web:build
+        run: npm run build
+        working-directory: apps/dert-web/src/client

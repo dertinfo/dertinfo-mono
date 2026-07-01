@@ -1,0 +1,8 @@
+<div id="app-addition-header">
+    <mat-card class="mat-bg-default">
+        <mat-card-title><mat-icon *ngIf="icon">{{icon}}</mat-icon>{{title}}</mat-card-title>
+    </mat-card>
+    <button *ngIf="!hideButton" mat-fab color="primary" (click)="onAddClicked()" class="fab-button-overlay" [disabled]="disabled">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

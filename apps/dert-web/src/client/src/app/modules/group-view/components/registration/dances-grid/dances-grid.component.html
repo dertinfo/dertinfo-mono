@@ -1,0 +1,38 @@
+<div class="mat-elevation-z3">
+    <mat-table [dataSource]="dancesDataSource" matSort matSortActive="timeScoresEntered" matSortDirection="asc"
+        matSortDisableClear>
+
+        <!-- Team Name Column -->
+        <ng-container matColumnDef="venueName">
+            <mat-header-cell mat-sort-header *matHeaderCellDef class="name-column"> Team Name
+            </mat-header-cell>
+            <mat-cell mat-cell *matCellDef="let element" class="name-column">
+                {{element.venueName}}
+                <small class="teamSubText"><span>{{element.teamName}}&nbsp;</span></small>
+            </mat-cell>
+        </ng-container>
+
+        <!-- Score Categories -->
+        <ng-container *ngFor="let column of collatedColumns" matColumnDef="{{column.columnDef}}">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>{{ column.header }}</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ column.cell(element) }}</mat-cell>
+        </ng-container>
+
+        <!-- All -->
+        <ng-container matColumnDef="scoreTotal">
+                <mat-header-cell mat-sort-header *matHeaderCellDef > All
+                </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.scoreTotal}} </mat-cell>
+            </ng-container>
+
+            <!-- Time Entered -->
+        <ng-container matColumnDef="timeScoresEntered">
+                <mat-header-cell mat-sort-header *matHeaderCellDef > Time Entered
+                </mat-header-cell>
+                <mat-cell mat-cell *matCellDef="let element"> {{element.timeScoresEntered}} </mat-cell>
+            </ng-container>
+
+        <mat-header-row *matHeaderRowDef="collatedDisplayedColumns" fxflex></mat-header-row>
+        <mat-row *matRowDef="let row; columns: collatedDisplayedColumns;" fxflex></mat-row>
+    </mat-table>
+</div>

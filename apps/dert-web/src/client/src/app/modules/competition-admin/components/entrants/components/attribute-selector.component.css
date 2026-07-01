@@ -1,0 +1,30 @@
+.attribute-badge {
+    width:30px;
+    height:30px;
+    border: solid 1px rgb(63, 62, 62);
+    background: #000;
+    color: #fff;
+    border-radius: 15px;
+    text-align: center;
+    font-weight:bold;
+    padding-top: 4px;
+    float:left;
+    margin: 0px 3px;
+    cursor: pointer;
+}
+
+.attribute-badge:hover {
+    background: #CCC;
+    border: #CCC;
+}
+
+
+.selected {
+    background: green;
+    border: green;
+}
+
+.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

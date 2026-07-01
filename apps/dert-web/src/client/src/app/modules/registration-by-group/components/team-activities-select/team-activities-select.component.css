@@ -1,0 +1,27 @@
+.activity-select {
+    width: 33%;
+    height:60px;
+    padding:10px;
+    border:solid 1px #CCC;
+}
+
+.activity-selected {
+    color: #247BA0;
+}
+
+.activity-changed {
+    width: 33%;
+    height:60px;
+    padding:10px;
+    border-right:solid 5px #247BA0;
+}
+
+.activity-selected.activity-changed{
+    color: inherit;
+}
+
+.soldout
+{
+    color: red;
+
+}

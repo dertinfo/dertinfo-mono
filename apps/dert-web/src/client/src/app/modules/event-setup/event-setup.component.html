@@ -1,0 +1,17 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="calc(100% - 300px)">
+    <router-outlet></router-outlet>
+  </div>
+  <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50">
+      <mat-card class="p-0">
+          <mat-card-title class="">
+            <div class="card-title-text">Help</div>
+            <mat-divider></mat-divider>
+          </mat-card-title>
+          <mat-card-content>
+              <h5>{{informationHeader}}</h5>
+              <div [innerHTML]="informationBody"></div>
+          </mat-card-content>
+          </mat-card>
+  </div>
+</div>

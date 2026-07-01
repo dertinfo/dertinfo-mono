@@ -1,0 +1,60 @@
+<div fxLayout="row wrap" fxLayoutWrap="wrap">
+
+  <app-addition-header fxFlex="100" (click)="openCreateDialog()" [title]="'Notifications'" [icon]="'sms'"
+    [hideButton]="false"></app-addition-header>
+
+  <div class="mat-elevation-z3" fxFlex="100" class="table-container">
+    <mat-table [dataSource]="dataSource" matSort matSortActive="groupName" matSortDirection="asc" matSortDisableClear>
+
+      <!-- Group Name Column -->
+      <ng-container matColumnDef="dateCreated">
+        <mat-header-cell mat-sort-header *matHeaderCellDef class="cell-2x">Created</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element">{{element.dateCreated | dateTimeFormat}} </mat-cell>
+      </ng-container>
+
+      <!-- You Tube Link Name Column -->
+      <ng-container matColumnDef="messageHeader">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef class="cell-1x">Header
+        </mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.messageHeader}} </mat-cell>
+      </ng-container>
+
+      <!-- Has Details Name Column -->
+      <ng-container matColumnDef="hasDetails">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>Has Details</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.hasDetails}} </mat-cell>
+      </ng-container>
+
+      <!-- Is Dismissable Name Column -->
+      <ng-container matColumnDef="isDismissable">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>Is Dismissable</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.isDismissable}} </mat-cell>
+      </ng-container>
+
+      <!-- Is Dismissable Name Column -->
+      <ng-container matColumnDef="severity">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>Severity</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.severity}} </mat-cell>
+      </ng-container>
+
+      <!-- Is Dismissable Name Column -->
+      <ng-container matColumnDef="blocksUser">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef>Blocks User</mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element"> {{element.blocksUser}} </mat-cell>
+      </ng-container>
+
+      <!-- Delete -->
+      <ng-container matColumnDef="buttons">
+        <mat-header-cell mat-sort-header mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell mat-cell *matCellDef="let element" class="cell-pull-right">
+          <button mat-icon-button matTooltip="Delete" (click)="delete(element)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns" fxflex></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" fxflex></mat-row>
+    </mat-table>
+  </div>
+</div>

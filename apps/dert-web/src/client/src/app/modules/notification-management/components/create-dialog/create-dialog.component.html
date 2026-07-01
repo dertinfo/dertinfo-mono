@@ -1,0 +1,37 @@
+<div class="modal-min">
+
+  <form [formGroup]="form" novalidate (submit)="onCreateNewClick()">
+    <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
+      <div class="pb-1" fxFlex="100">
+        <mat-form-field class="full-width">
+          <input matInput formControlName="messageHeader" placeholder="Header" required>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput formControlName="messageSummary" placeholder="Summary" maxlength="200">
+        </mat-form-field>
+        <mat-checkbox formControlName="hasDetails">Has Details</mat-checkbox><br />
+        <div *ngIf="form.controls.hasDetails.value">
+          <quill-editor theme="snow" formControlName="messageBody" (onContentChanged)="onEditorContentChanged()"
+        (onSelectionChanged)="onEditorSelectionChanged()"></quill-editor>
+          <mat-checkbox formControlName="requiresOpening">User must open the message</mat-checkbox><br />
+          <mat-checkbox formControlName="requiresAcknowledgement">User must acknowledge the message</mat-checkbox><br />
+          <mat-checkbox formControlName="blocksUser">Blocks User On Entry To Application</mat-checkbox><br />
+        </div>
+        <mat-radio-group formControlName="severity">
+          <mat-radio-button class="form-radio-button" [value]="0">None</mat-radio-button>
+          <mat-radio-button class="form-radio-button" [value]="1">Normal</mat-radio-button>
+          <mat-radio-button class="form-radio-button" [value]="2">Medium</mat-radio-button>
+          <mat-radio-button class="form-radio-button" [value]="3">High</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div class="" fxFlex="100">
+        <button type="button" mat-button (click)="onCancelClick()">Cancel</button>
+        <span fxFlex></span>
+
+        <button mat-raised-button color="primary" type="submit">
+          Add Notification <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

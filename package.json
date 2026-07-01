@@ -2,14 +2,14 @@
   "name": "dertinfo-monorepo",
   "private": true,
   "workspaces": [
-    "apps/dert-web",
+    "apps/dert-web/src/client",
     "apps/dert-app"
   ],
   "scripts": {
-    "web:install": "npm install --workspace=apps/dert-web",
-    "web:build": "npm run build --workspace=apps/dert-web",
-    "web:lint": "npm run lint --workspace=apps/dert-web",
-    "web:test": "npm run test --workspace=apps/dert-web",
+    "web:install": "npm install --workspace=apps/dert-web/src/client",
+    "web:build": "npm run build --workspace=apps/dert-web/src/client",
+    "web:lint": "npm run lint --workspace=apps/dert-web/src/client",
+    "web:test": "npm run test --workspace=apps/dert-web/src/client",
     "app:install": "npm install --workspace=apps/dert-app",
     "app:build": "npm run build --workspace=apps/dert-app",
     "app:lint": "npm run lint --workspace=apps/dert-app",

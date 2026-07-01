@@ -1,0 +1,32 @@
+<div class="modal-min">
+
+  <form [formGroup]="form" novalidate (submit)="onCreateNewClick()">
+    <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
+      <div class="pb-1" fxFlex="100">
+        <mat-form-field class="full-width">
+          <input matInput formControlName="title" placeholder="Talk Title" required>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput formControlName="subTitle" placeholder="Sub Title">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput formControlName="description" placeholder="Description" required>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput type="datetime-local" formControlName="broadcastDateTime" placeholder="Broadcast Date/Time" required>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <input matInput formControlName="broadcastWebLink" placeholder="Web Link (http://mylink.link)">
+        </mat-form-field>
+      </div>
+      <div class="" fxFlex="100">
+        <button type="button" mat-button (click)="onCancelClick()">Cancel</button>
+        <span fxFlex></span>
+
+        <button mat-raised-button color="primary" type="submit">
+          Add Talk <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

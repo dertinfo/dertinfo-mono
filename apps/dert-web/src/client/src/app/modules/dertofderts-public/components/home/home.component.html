@@ -1,0 +1,91 @@
+<app-top-header [showBackToHome]="false"></app-top-header>
+<!-- Header
+<div fxLayout="row" fxLayoutAlign="center center">
+  <img src="assets/images/placeholder-800-200.png">
+</div>
+-->
+<app-dod-header></app-dod-header>
+<!-- Header -->
+<section class="light-gray">
+  <div class="container">
+    <div class="section-header">
+      <h1>DERT of DERTs</h1>
+      <!--
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat unde inventore molestias ab adipisci eius nisi placeat
+        at.
+      </p>
+      -->
+    </div>
+
+
+    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
+      <div fxFlex="33.33" *ngIf="!dodOpenToPublic">
+        <a href="/dertofderts/judging">
+          <mat-card class="p-0 m-0">
+            <img mat-card-image src="assets/images/cards/marking-criteria.png">
+            <mat-card-content>
+              <h5><strong>Judging</strong></h5>
+              <p>
+                Want to have your say? On the Sat 27th of March you can. For one day only be a judge. Your scores and comments will be forwarded to the teams.
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </a>
+      </div>
+      <div fxFlex="33.33" *ngIf="dodOpenToPublic">
+        <a routerLink="/dertofderts/judging">
+          <mat-card class="p-0 m-0">
+            <img mat-card-image src="assets/images/cards/marking-criteria.png">
+            <mat-card-content>
+              <h5><strong>Judging</strong></h5>
+              <p>
+                Want to have your say? For 1 day only you can judge the teams submissions and make comments. Give the teams the constructive comments you've always felt they need.
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </a>
+      </div>
+      <div fxFlex="33.33">
+        <a routerLink="/dertofderts/talks">
+          <mat-card class="p-0 m-0">
+            <img mat-card-image src="assets/images/cards/talks.png">
+            <mat-card-content>
+              <h5><strong>Talks</strong></h5>
+              <p>
+                Want to have a listen? Talks from prominent persons in the rapper community. We'll be posting these on facebook at the scheduled times.
+              </p>
+              <!--
+            <mat-divider class="mb-1"></mat-divider>
+            <button mat-icon-button><mat-icon class="text-muted">link</mat-icon></button>
+            <button mat-icon-button><mat-icon class="text-muted">share</mat-icon></button>
+            -->
+            </mat-card-content>
+          </mat-card>
+        </a>
+      </div>
+      <div fxFlex="33.33">
+        <a routerLink="/dertofderts/results">
+          <mat-card class="p-0 m-0">
+            <img mat-card-image src="assets/images/cards/results.png">
+            <mat-card-content>
+              <h5><strong>Results</strong></h5>
+              <p>
+                Want to see whos won? When all the results are in we'll show you the scores from our offical judges and also the scores from your friends.
+              </p>
+              <!--
+            <mat-divider class="mb-1"></mat-divider>
+            <button mat-icon-button><mat-icon class="text-muted">link</mat-icon></button>
+            <button mat-icon-button><mat-icon class="text-muted">share</mat-icon></button>
+            -->
+            </mat-card-content>
+          </mat-card>
+        </a>
+      </div>
+    </div>
+    <!--
+    <div class="text-center home-section-action">
+      <button mat-raised-button mat-lg-button color="accent">LOAD MORE</button>
+    </div>
+    -->
+  </div>
+</section>

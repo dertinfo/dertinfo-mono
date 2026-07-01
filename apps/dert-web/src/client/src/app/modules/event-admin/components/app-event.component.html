@@ -1,0 +1,78 @@
+<div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50">
+      <mat-card class="profile-sidebar mb-1 pb-0">
+        <div class="grouppic text-center">
+          <img [src]="eventPictureUrl | imageDimension: '480x360'" [alt]="eventName">
+        </div>
+        <div class="profile-title text-center mb-1">
+          <div class="main-title"><b>{{eventName}}</b></div>
+          <div class="subtitle mb-05">{{locationTown}}</div>
+          <div class="text-muted"><app-fold [contentHash]="eventSynopsis">{{eventSynopsis}}</app-fold></div>
+        </div>
+        <!--
+        <div class="profile-actions text-center mb-1">
+          <button mat-raised-button color="primary">Message</button>
+          <button mat-raised-button color="accent">Follow</button>
+        </div>
+        -->
+        <div class="profile-nav">
+          <mat-nav-list>
+            <mat-list-item routerLink="./overview" routerLinkActive="list-item-active">
+              <mat-icon>home</mat-icon>
+              Overview
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./settings" routerLinkActive="list-item-active">
+              <mat-icon>settings</mat-icon>
+              Settings
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./activities" routerLinkActive="list-item-active">
+              <mat-icon>check_circle</mat-icon>
+              Activities
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./registrations" routerLinkActive="list-item-active">
+              <mat-icon>assignment</mat-icon>
+              Registrations
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./invoices" routerLinkActive="list-item-active">
+              <mat-icon>attach_money</mat-icon>
+              Invoices &amp; Payments
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./emailtemplates" routerLinkActive="list-item-active">
+              <mat-icon>email</mat-icon>
+              Email Templates
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./gallery" routerLinkActive="list-item-active">
+              <mat-icon>image</mat-icon>
+              Gallery
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./competitions" routerLinkActive="list-item-active">
+              <mat-icon>widgets</mat-icon>
+              Competitions
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./downloads" routerLinkActive="list-item-active">
+              <mat-icon>file_download</mat-icon>
+              Downloads
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="./paperwork" routerLinkActive="list-item-active">
+              <mat-icon>insert_drive_file</mat-icon>
+              Paperwork
+            </mat-list-item>
+          </mat-nav-list>
+        </div>
+      </mat-card>
+    </div>
+
+  <!-- Profile Views -->
+    <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="calc(100% - 300px)">
+      <router-outlet></router-outlet>
+    </div>
+  </div>

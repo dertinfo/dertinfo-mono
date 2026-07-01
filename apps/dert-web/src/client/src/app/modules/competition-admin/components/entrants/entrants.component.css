@@ -1,0 +1,39 @@
+.app-competition-scoring-container {
+    padding: 6px 0px 0px 3px;
+}
+
+table {
+    width: 100%;
+    flex-direction: row;
+}
+
+mat-header-cell {
+    display: flex;
+}
+
+.cell-pull-right {
+    display: flex !important;
+    justify-content: flex-end!important;
+}
+
+.cell-2x {
+    flex: 2;
+}
+
+.cell-avatar-header {
+    flex: none;
+    min-width: 60px;
+}
+
+.cell-avatar {
+    flex: none;
+    min-width: 60px;
+}
+
+.mat-table-avatar {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 8px 0px 0px 0px;
+}

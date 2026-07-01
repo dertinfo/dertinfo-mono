@@ -1,0 +1,125 @@
+<app-top-header></app-top-header>
+<!-- Dert of Derts Header -->
+<app-dod-header></app-dod-header>
+
+<mat-drawer-container class="marking-criteria-container" [hasBackdrop]="'false'">
+  <mat-drawer #drawer [mode]="'side'" position="end">
+    <app-markingcriteriasidebar></app-markingcriteriasidebar>
+  </mat-drawer>
+  <mat-drawer-content>
+    <!-- /Dert of Derts Header -->
+    <section id="video-section" class="light-gray">
+      <div class="container">
+
+        <mat-card *ngIf="videoReady" fxFlex="100">
+          <mat-card-header fxLayoutAlign="space-between">
+            <mat-card-title>Video</mat-card-title>
+            <button type="button" mat-raised-button (click)="onReturnToListClick()">Back To List</button>
+          </mat-card-header>
+          <mat-card-content>
+
+            <app-youtube-embed [youtubeLink]="embedLink" *ngIf="embedOrigin == 'youtube'"></app-youtube-embed>
+            <app-facebook-embed [facebookLink]="embedLink" *ngIf="embedOrigin == 'facebook'"></app-facebook-embed>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="dance-detail" *ngIf="!detailHidden">
+        <div class="close" (click)="onHideDetailClick()">x</div>
+        <span class="groupName">{{groupName}}</span><br/>{{dertYear}} - {{dertVenue}}
+      </div>
+
+      <div class="container">
+        <div class="form-container">
+          <mat-card fxFlex="100" *ngIf="alreadyJudged && !resultsPublished">
+
+            <mat-card-title>You've already done this one!</mat-card-title>
+            <mat-card-content>
+              <div fxLayout="row" fxLayout.lt-sm="column">
+                <div fxFlex="75"><p>You've already done this dance but you can watch it again though if you loved it so much the first, second or third... (you get where I'm going with this) time.</p></div>
+                <div fxFlex="25" fxLayoutAlign="end center">
+                  <button type="button" mat-raised-button (click)="onReturnToListClick()">Back To
+                    List</button>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card fxFlex="100" *ngIf="resultsPublished">
+
+            <mat-card-title>We're all done! The results are out.</mat-card-title>
+            <mat-card-content>
+              <div fxLayout="row" fxLayout.lt-sm="column">
+                <div fxFlex="75"><p>It's all over the results are out but we've left the videos here so you can still watch them.</p></div>
+                <div fxFlex="25" fxLayoutAlign="end center">
+                  <button type="button" mat-raised-button (click)="onReturnToListClick()">Back To
+                    List</button>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="default" fxFlex="100" *ngIf="!alreadyJudged && !resultsPublished">
+            <mat-card-header fxLayoutAlign="space-between">
+              <mat-card-title>Scores</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+
+              <form [formGroup]="form" (submit)="submitScoresForm()">
+
+                <mat-list>
+                  <div fxLayout="column">
+
+                    <!--Row 1 -->
+                    <div *ngFor="let scoreCategory of scoreCategories" fxLayout="row">
+                      <div class="score-entry" fxFlex="25">
+                        <label>{{scoreCategory.scoreText}} <small>({{scoreCategory.maxMarks}} marks)</small></label>
+                        <input [placeholder]="" [formControlName]="scoreCategory.scoreFieldName"
+                          [name]="scoreCategory.scoreFieldName"
+                          [ngClass]="{'has-error':!form.controls[scoreCategory.scoreFieldName].valid && !form.controls[scoreCategory.scoreFieldName].disabled}"
+                          maintain-original maxlength="2" autocomplete="off">
+                      </div>
+                      <div class="comment-entry" fxFlex>
+                        <label>{{scoreCategory.commentText}}</label>
+                        <textarea
+                          [formControlName]="scoreCategory.commentFieldName"
+                          [name]="scoreCategory.commentFieldName" maxlength="310"></textarea>
+                      </div>
+                    </div>
+                    <!--/Row 1 -->
+                    <!--Row 2 -->
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <div class="overall-comment-entry" fxFlex>
+                        <label>Overall Comments</label>
+                        <textarea formControlName="overallComments"
+                          name="overallComments" maxlength="410"></textarea>
+                      </div>
+                    </div>
+                    <!--/Row 2 -->
+                    <!--Row Button -->
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <mat-list-item>
+                        <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid"
+                          *ngIf="!formSubmitted">
+                          Submit scores and comments&nbsp;<mat-icon>send</mat-icon>
+                        </button>
+                      </mat-list-item>
+                    </div>
+                    <!--/Row Button -->
+                  </div>
+
+
+                </mat-list>
+
+
+              </form>
+
+            </mat-card-content>
+          </mat-card>
+
+        </div>
+      </div>
+
+    </section>
+    <span class="toggle-marking-critera" (click)="drawer.toggle()">Marking Criteria</span>
+  </mat-drawer-content>
+</mat-drawer-container>

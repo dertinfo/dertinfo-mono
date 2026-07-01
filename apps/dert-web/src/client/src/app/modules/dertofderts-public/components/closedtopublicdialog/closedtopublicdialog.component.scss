@@ -1,0 +1,17 @@
+@import url(../../styles/overrides.scss);
+
+.checkbox-invalid {
+    border: solid 1px red;
+}
+
+.cursor-pointer
+{
+    cursor: pointer !important;
+    color: #8FBE36;
+}
+
+.back-to-home-container {
+    padding-bottom: 10px;
+    text-align: right;
+    width: 100%;
+}
