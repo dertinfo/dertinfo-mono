@@ -9,7 +9,8 @@ on:
       - 'dertinfo.sln'
       - 'Directory.Build.props'
       - '.github/workflows/api-cd.yml'
-      - '.github/workflows/reusable/**'
+      - '.github/workflows/reusable-build-push-docker.yml'
+      - '.github/workflows/reusable-deploy-dotnet-appservice.yml'
 
 concurrency:
   group: api-cd-test
@@ -88,7 +89,7 @@ jobs:
 
   docker:
     needs: build
-    uses: ./.github/workflows/reusable/build-push-docker.yml
+    uses: ./.github/workflows/reusable-build-push-docker.yml
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
@@ -98,7 +99,7 @@ jobs:
 
   deploy-test:
     needs: build
-    uses: ./.github/workflows/reusable/deploy-dotnet-appservice.yml
+    uses: ./.github/workflows/reusable-deploy-dotnet-appservice.yml
     with:
       environment: test
       target_app: api

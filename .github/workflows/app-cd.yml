@@ -7,7 +7,8 @@ on:
       - 'apps/dert-app/**'
       - 'package.json'
       - '.github/workflows/app-cd.yml'
-      - '.github/workflows/reusable/**'
+      - '.github/workflows/reusable-build-push-docker.yml'
+      - '.github/workflows/reusable-deploy-static-web-app.yml'
 
 concurrency:
   group: app-cd-test
@@ -15,7 +16,7 @@ concurrency:
 
 jobs:
   docker:
-    uses: ./.github/workflows/reusable/build-push-docker.yml
+    uses: ./.github/workflows/reusable-build-push-docker.yml
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
@@ -24,7 +25,7 @@ jobs:
       image_repository: dertinfo/dertinfo-app
 
   deploy-test:
-    uses: ./.github/workflows/reusable/deploy-static-web-app.yml
+    uses: ./.github/workflows/reusable-deploy-static-web-app.yml
     with:
       environment: test
       workload: app
