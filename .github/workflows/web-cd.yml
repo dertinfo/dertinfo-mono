@@ -27,6 +27,7 @@ jobs:
 
   deploy-test:
     uses: ./.github/workflows/reusable-deploy-static-web-app.yml
+    secrets: inherit
     with:
       environment: test
       workload: web

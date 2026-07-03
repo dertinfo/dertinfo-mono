@@ -18,7 +18,7 @@ See [docs/cicd.md](../../docs/cicd.md) for setup checklist and ADO mapping.
 Reusable workflows:
 
 - Pass non-secrets via `workflow_call` **inputs** or read **`vars`** in the called workflow (e.g. `vars.DOCKERHUB_USERNAME` at repo level; environment-scoped vars on jobs with `environment: test`).
-- Pass credentials via `workflow_call` **secrets** only — never put secrets in `with:` inputs.
+- Pass credentials via `workflow_call` **secrets** or `secrets: inherit` — repository secrets are **not** available in a called workflow unless inherited or passed explicitly. Never put secrets in `with:` inputs.
 
 ## Naming convention
 
