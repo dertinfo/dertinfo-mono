@@ -65,4 +65,4 @@ Store environment-specific Azure values on the matching GitHub Environment (`tes
 
 ## Agent access to GitHub
 
-To triage PRs and Actions runs from Cursor, configure the GitHub MCP server — see [docs/github-mcp-setup.md](../../docs/github-mcp-setup.md).
+Configure GitHub MCP for Actions triage and PR creation — see [docs/github-mcp-setup.md](../../docs/github-mcp-setup.md). PAT needs **Pull requests: Read and write**; omit `X-MCP-Readonly` in `.cursor/mcp.json`.

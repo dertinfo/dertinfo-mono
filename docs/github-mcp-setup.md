@@ -1,6 +1,6 @@
 # GitHub MCP setup (Cursor)
 
-Lets the Cursor agent read **pull requests** and **GitHub Actions** workflow runs for this repository via the [official GitHub MCP server](https://github.com/github/github-mcp-server).
+Lets the Cursor agent read **GitHub Actions** runs, **pull requests**, and **create PRs** for this repository via the [official GitHub MCP server](https://github.com/github/github-mcp-server).
 
 ## 1. Create a fine-grained PAT (this repo only)
 
@@ -11,14 +11,14 @@ Lets the Cursor agent read **pull requests** and **GitHub Actions** workflow run
 5. **Repository access:** **Only select repositories** → choose **`dertinfo-mono`** only.
 6. **Repository permissions:**
 
-   | Permission        | Access   | Why |
-   |-------------------|----------|-----|
-   | **Actions**       | Read-only | Workflow runs, jobs, logs |
-   | **Contents**      | Read-only | Read workflow YAML and repo files |
-   | **Metadata**      | Read-only | Required by GitHub |
-   | **Pull requests** | Read-only | List/review PRs |
+   | Permission        | Access        | Why |
+   |-------------------|---------------|-----|
+   | **Actions**       | Read-only     | Workflow runs, jobs, logs |
+   | **Contents**      | Read-only     | Read workflow YAML and repo files |
+   | **Metadata**      | Read-only     | Required by GitHub |
+   | **Pull requests** | Read and write | List/review PRs and **create PRs** |
 
-   Leave all other permissions at **No access** unless you explicitly want the agent to open PRs or change issues (then grant **Pull requests: Read and write** and remove read-only mode in MCP config — see below).
+   Leave all other permissions at **No access** unless you explicitly want the agent to push commits or edit issues.
 
 7. Click **Generate token** and copy the token (`github_pat_...`). You will not see it again.
 
@@ -49,28 +49,27 @@ The example config enables:
 |------------------|-----|
 | `context`        | Current user / org context |
 | `repos`          | Repository and file access |
-| `pull_requests`  | PR list, diff, checks |
+| `pull_requests`  | PR list, diff, checks, **create PR** |
 | `actions`        | Workflow runs and job logs |
 
-`X-MCP-Readonly: true` prevents the agent from creating or modifying issues, PRs, or repo content. Remove that header if you want write access.
+**Write access:** do **not** set `X-MCP-Readonly`. Omitting it allows `create_pull_request` and related write tools. To lock the agent to read-only triage only, add `"X-MCP-Readonly": "true"` (PR creation will not work).
 
 ## 3. Restart Cursor
 
 1. Fully quit and reopen Cursor (MCP loads at startup).
 2. Open **Settings → Tools & Integrations → MCP**.
 3. Confirm **github** shows a green connected status.
+4. Confirm write tools appear (e.g. `create_pull_request` in the tool list).
 
 ## 4. Verify
 
-In Agent chat, ask for example:
+**Read access:**
 
 > List the latest failed GitHub Actions runs for `dertinfo/dertinfo-mono` on `main`.
 
-Or:
+**Write access (after PR permission on PAT and no read-only header):**
 
-> Show open pull requests on `dertinfo/dertinfo-mono`.
-
-If tools return live data, setup is complete.
+> Create a pull request from `feature/fix-cd-pipelines` to `main` on `dertinfo/dertinfo-mono`.
 
 ## Troubleshooting
 
@@ -78,7 +77,9 @@ If tools return live data, setup is complete.
 |---------|-----|
 | MCP server red / not loading | Check JSON syntax in `.cursor/mcp.json`; restart Cursor |
 | `Bad credentials` / empty results | PAT wrong or expired; regenerate |
-| `403` / resource not accessible | Token missing **Actions** or **Pull requests** read; or org SSO not authorized |
+| `403` / resource not accessible | Token missing **Actions** or **Pull requests** scope; or org SSO not authorized |
+| `create_pull_request` tool missing | Remove `X-MCP-Readonly`; restart Cursor |
+| PR create fails with 403 | PAT needs **Pull requests: Read and write** |
 | Actions tools missing | Ensure `X-MCP-Toolsets` includes `actions` |
 | Too many tools in Cursor | Keep toolsets minimal (as in the example) |
 
