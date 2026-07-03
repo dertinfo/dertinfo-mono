@@ -50,13 +50,15 @@ Reusable deploy workflows accept an `environment` input (`test` \| `prod`) so pr
 
 ## Workflows
 
-### Reusable templates (`.github/workflows/reusable/`)
+### Reusable templates (`.github/workflows/reusable-*.yml`)
+
+GitHub requires reusable workflows at the **top level** of `.github/workflows/` (not in a subfolder).
 
 | Workflow | Purpose |
 |----------|---------|
-| `build-push-docker.yml` | Build and push to Docker Hub (`latest` + run id) |
-| `deploy-dotnet-appservice.yml` | OIDC login + zip/folder deploy to App Service |
-| `deploy-static-web-app.yml` | Deploy to Azure Static Web Apps |
+| `reusable-build-push-docker.yml` | Build and push to Docker Hub (`latest` + run id) |
+| `reusable-deploy-dotnet-appservice.yml` | OIDC login + zip/folder deploy to App Service |
+| `reusable-deploy-static-web-app.yml` | Deploy to Azure Static Web Apps |
 
 ### Per-app CD
 

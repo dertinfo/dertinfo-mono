@@ -61,7 +61,7 @@ Store environment-specific Azure values on the matching GitHub Environment (`tes
 
 - `*-ci.yml` — build/test on PR and `develop`/`main`
 - `*-cd.yml` — deploy to `test` on `main` only; merge Docker publish + Azure deploy per app
-- `reusable/` — shared deploy and Docker push templates; accept `environment` input (`test` \| `prod`)
+- `reusable-*.yml` — shared deploy and Docker push templates at `.github/workflows/` top level; accept `environment` input (`test` \| `prod`)
 
 ## Agent access to GitHub
 
