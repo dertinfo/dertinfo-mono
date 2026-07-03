@@ -10,6 +10,7 @@ alwaysApply: false
 - API: Clean Architecture, DI, EF Core for MSSQL
 - Migrations: `dotnet ef migrations add` from the API project directory
 - Functions: C# isolated worker or in-process per existing project style
+- Configuration: see `docs/configuration.md` — `appsettings.json` for local defaults; secrets in `api.env`/user secrets; Azure App Configuration when `AZURE_APP_CONFIG` is set
 
 ## Commands (from repo root, after import)
 ```bash

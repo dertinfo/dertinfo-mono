@@ -21,7 +21,7 @@ services:
       - StorageAccount__Images__Protocol=http
       - StorageAccount__Images__Name=devstoreaccount1
       - StorageAccount__Images__Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw== # Azurite Key Available Publically
-      - StorageAccount__Images__BlobEndpoint=http://azstorage/devstoreaccount1 #  Running in docker   
+      - StorageAccount__Images__BlobEndpoint=http://azstorage:10000/devstoreaccount1 #  Running in docker   
       - PwaClient__Auth0__ClientId=AGFfa2R7jsYA7vmhBRjU4tl6htgI4Yvh
       #- WebClient__Auth0__ClientId=/run/secrets/AUTH0_WEB_CLIENT_ID
       #- SendGrid__ApiKey=/run/secrets/sendgrid_api_key # This will need to be populated if you want to test email send functionality. See README.md

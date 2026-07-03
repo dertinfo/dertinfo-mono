@@ -1,0 +1,20 @@
+{
+  "name": "dertinfo-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Playwright investigation and smoke scripts for DertInfo (Docker stack on :44200 / :44100)",
+  "scripts": {
+    "postinstall": "playwright install chromium",
+    "test:login:warmup": "node web/login/warmup/run-all.mjs",
+    "test:login:warmup:baseline": "node web/login/warmup/baseline-smoke.mjs",
+    "test:login:warmup:refresh-trap": "node web/login/warmup/refresh-trap.mjs",
+    "test:login:warmup:url-history": "node web/login/warmup/url-history.mjs",
+    "test:login:warmup:mid-race": "node web/login/warmup/mid-warmup-race.mjs",
+    "test:login:warmup:delay-control": "node web/login/warmup/delay-success-control.mjs",
+    "test:login:warmup:hang-vs-auth": "node web/login/warmup/resolver-hang-vs-auth.mjs"
+  },
+  "dependencies": {
+    "playwright": "^1.49.0"
+  }
+}

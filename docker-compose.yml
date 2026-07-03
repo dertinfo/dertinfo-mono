@@ -1,0 +1,108 @@
+services:
+  dertinfo-api:
+    container_name: api
+    image: dertinfo/dertinfo-api
+    build:
+      context: ./apps/dert-api/src
+      dockerfile: dertinfo-api/Dockerfile
+    ports:
+      - "44100:80"
+    env_file:
+      - ./infra/docker/api.env
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80;
+      - SqlConnection__ServerName=sqlserver
+      - SqlConnection__ServerAdminPassword=myUn53cur3Pa55w0rd!
+      - SqlConnection__ServerAdminName=sa
+      - SqlConnection__DatabaseName=DertInfoDb
+      - SendGrid__Enabled=false
+      - Auth0__Domain=dertinfodev.eu.auth0.com
+      - StorageAccount__Images__Protocol=http
+      - StorageAccount__Images__Name=devstoreaccount1
+      - StorageAccount__Images__Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
+      - StorageAccount__Images__BlobEndpoint=http://azstorage:10000/devstoreaccount1
+      - PwaClient__Auth0__ClientId=AGFfa2R7jsYA7vmhBRjU4tl6htgI4Yvh
+      - WebClient__Auth0__ClientId=JREkJwdUbZmUs7d983uBXnrZu9UOWbd9
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+      azstorage:
+        condition: service_started
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-CU13-ubuntu-22.04
+    container_name: sqlserver
+    environment:
+      - SA_PASSWORD=myUn53cur3Pa55w0rd!
+      - ACCEPT_EULA=Y
+    ports:
+      - "44000:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P myUn53cur3Pa55w0rd! -Q "SELECT 1"
+      interval: 10s
+      timeout: 5s
+      start_period: 20s
+      retries: 3
+
+  azstorage:
+    container_name: azstorage
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
+    volumes:
+      - azstorage-data:/data
+    command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0"
+
+  image-resize:
+    container_name: image-resize
+    image: dertinfo/dertinfo-imageresizev4
+    build:
+      context: ./apps/dert-functions/src/dertinfo-image-resize
+      dockerfile: Dockerfile
+    ports:
+      - "44400:80"
+    environment:
+      - AzureWebJobs.ResizeDefaultImages.Disabled=true
+      - AzureWebJobs.ResizeEventImages.Disabled=true
+      - AzureWebJobs.ResizeGroupImages.Disabled=true
+      - AzureWebJobs.ResizeSheetImages.Disabled=true
+      - AzureWebJobsStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azstorage:10000/devstoreaccount1;QueueEndpoint=http://azstorage:10001/devstoreaccount1;
+      - StorageConnection__Images=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azstorage:10000/devstoreaccount1;QueueEndpoint=http://azstorage:10001/devstoreaccount1;
+    depends_on:
+      azstorage:
+        condition: service_started
+
+  web-frontend:
+    container_name: web
+    image: dertinfo/dertinfo-web
+    build:
+      context: ./apps/dert-web
+      dockerfile: Dockerfile
+    env_file:
+      - ./infra/docker/web.env
+    ports:
+      - "44200:4280"
+    depends_on:
+      - dertinfo-api
+
+  app-frontend:
+    container_name: app
+    image: dertinfo/dertinfo-app
+    build:
+      context: ./apps/dert-app
+      dockerfile: Dockerfile
+    env_file:
+      - ./infra/docker/app.env
+    ports:
+      - "44300:4280"
+    depends_on:
+      - dertinfo-api
+
+volumes:
+  sqlserver-data:
+  azstorage-data:

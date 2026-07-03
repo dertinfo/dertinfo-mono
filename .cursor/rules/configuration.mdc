@@ -1,0 +1,30 @@
+---
+description: Configuration and secrets — local defaults vs SaaS vs Azure App Configuration
+alwaysApply: true
+---
+
+# Configuration
+
+Read `docs/configuration.md` for full detail. Apply these rules when editing `appsettings*.json`, `infra/docker/*.env*`, `docker-compose.yml`, or frontend runtime config.
+
+## Checked-in values
+
+- **Default to local-working settings** in source control: localhost URLs, Azurite/storage emulator, disabled email, dev Auth0 tenant domain/audience/client IDs, non-secret SaaS identifiers.
+- **Placeholders** for secrets in `appsettings.json` (e.g. `[located in user secrets | keyvault]`).
+
+## Secrets and SaaS
+
+- **Only put secrets in gitignored files**: `infra/docker/api.env`, user secrets, Azure Key Vault (via App Configuration).
+- **SaaS with no local substitute** (Auth0 management API secret, SendGrid when enabled, etc.) may point at the **shared development tenant/instance** — document in `api.env.example`, never commit real values.
+- **Do not duplicate non-secrets in `api.env`** if already in `appsettings.json` (e.g. `Auth0:ManagementClientId`).
+
+## Azure vs local
+
+- **`AZURE_APP_CONFIG` unset** → use `appsettings.json` + env/user secrets/Docker `env_file`; do not add App Configuration as a local requirement.
+- **`AZURE_APP_CONFIG` set** (test/production) → App Configuration + Key Vault override local defaults; do not hardcode hosted-environment values in the repo.
+
+## Docker `api.env`
+
+- Uncommented lines only (`env_file` ignores `#` comments).
+- Minimum for Auth0 login in Compose: `Auth0__ManagementClientSecret`.
+- After changing `api.env`: `docker compose up -d --force-recreate dertinfo-api`.

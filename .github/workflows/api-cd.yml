@@ -1,0 +1,90 @@
+name: API CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/dert-api/**'
+      - 'packages/**'
+      - 'dertinfo.sln'
+      - 'Directory.Build.props'
+      - '.github/workflows/api-cd.yml'
+      - '.github/workflows/reusable/**'
+
+concurrency:
+  group: api-cd-test
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore apps/dert-api/src/dertinfo-api/dertinfo-api.csproj
+
+      - name: Build
+        run: dotnet build apps/dert-api/src/dertinfo-api/dertinfo-api.csproj --no-restore --configuration Release --runtime win-x86
+
+      - name: Publish
+        run: dotnet publish apps/dert-api/src/dertinfo-api/dertinfo-api.csproj --no-build --configuration Release --runtime win-x86 --output "${{ runner.temp }}/publish"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: drop
+          path: ${{ runner.temp }}/publish
+
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore unit tests
+        run: |
+          dotnet restore apps/dert-api/src/dertinfo-api.utests/dertinfo-api.utests.csproj
+          dotnet restore apps/dert-api/src/dertinfo-repository.utests/dertinfo-repository.utests.csproj
+          dotnet restore apps/dert-api/src/dertinfo-services.utests/dertinfo-services.utests.csproj
+
+      - name: Build unit tests
+        run: |
+          dotnet build apps/dert-api/src/dertinfo-api.utests/dertinfo-api.utests.csproj --no-restore --configuration Release
+          dotnet build apps/dert-api/src/dertinfo-repository.utests/dertinfo-repository.utests.csproj --no-restore --configuration Release
+          dotnet build apps/dert-api/src/dertinfo-services.utests/dertinfo-services.utests.csproj --no-restore --configuration Release
+
+      - name: Run unit tests
+        run: |
+          dotnet test apps/dert-api/src/dertinfo-api.utests/dertinfo-api.utests.csproj --no-build --configuration Release --verbosity normal
+          dotnet test apps/dert-api/src/dertinfo-repository.utests/dertinfo-repository.utests.csproj --no-build --configuration Release --verbosity normal
+          dotnet test apps/dert-api/src/dertinfo-services.utests/dertinfo-services.utests.csproj --no-build --configuration Release --verbosity normal
+
+  docker:
+    needs: build-and-test
+    uses: ./.github/workflows/reusable/build-push-docker.yml
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      dockerfile: apps/dert-api/src/dertinfo-api/Dockerfile
+      context: apps/dert-api/src
+      image_repository: dertinfo/dertinfo-api
+
+  deploy-test:
+    needs: [build-and-test, unit-test]
+    environment: test
+    uses: ./.github/workflows/reusable/deploy-dotnet-appservice.yml
+    secrets:
+      APP_NAME: ${{ secrets.TEST_API_WEBAPP_NAME }}
+    with:
+      environment: test
+      package_path: .
+      artifact_name: drop
+      app_type: webApp
