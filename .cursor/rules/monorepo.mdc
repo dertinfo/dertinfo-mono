@@ -32,3 +32,7 @@ alwaysApply: true
 ## CI/CD
 - See `docs/cicd.md` and `.cursor/rules/cicd.mdc`
 - GitHub Actions: use **variables** for non-secret config; **secrets** only for tokens and credentials
+
+## Change logs
+- See `docs/changelogs/README.md` and `.cursor/rules/changelogs.mdc`
+- When a chat/workstream is completed: add an index row and a detail page under `docs/changelogs/`

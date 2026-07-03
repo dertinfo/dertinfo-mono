@@ -1,0 +1,34 @@
+---
+description: Project change log entries for completed workstreams
+globs:
+  - docs/changelogs/**
+alwaysApply: true
+---
+
+# Change logs
+
+When a chat or workstream is **seen through to completion** (outcome delivered, PRs merged, or the user confirms the work is done), add a change log entry.
+
+## Layout
+
+- Index: [`docs/changelogs/README.md`](../../docs/changelogs/README.md)
+- Detail pages: `docs/changelogs/YYYY-MM-DD-short-slug.md` (completion date)
+
+## Steps
+
+1. Create the detail page using the sections below (in this order).
+2. Add a row at the **top** of the index table in `docs/changelogs/README.md` (newest first).
+3. Link to wider docs (`docs/cicd.md`, `docs/configuration.md`, `docs/planned-fixes/…`) instead of copying them.
+4. List merged PR URLs and important Actions run links where useful.
+5. Include the change log files in the same PR as the work when practical; otherwise open a small docs PR immediately after.
+
+## Detail page sections (required)
+
+1. **Summary of the work completed** — outcome and what changed
+2. **Date the work was started** — `YYYY-MM-DD`
+3. **Date the work was completed** — `YYYY-MM-DD`
+4. **Issues that were encountered on the way** — problems and resolutions
+5. **References to any best practices that we found** — with links
+6. **Any remaining issues that we may wish to address** — follow-ups
+
+Do not invent dates or PR numbers; use git history and GitHub when unsure.

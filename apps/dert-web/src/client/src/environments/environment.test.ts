@@ -5,9 +5,10 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'https://di-apim-integration-stg.azure-api.net/api',
+  // Direct App Service (not APIM). Reintroduce APIM when that layer is ready.
+  apiUrl: 'https://dertinfo-test-api-wa.azurewebsites.net/api',
   auth0CallbackUrl: "https://staging.dertinfo.co.uk",
   allowedDomains: [
-    "di-apim-integration-stg.azure-api.net",
+    "dertinfo-test-api-wa.azurewebsites.net",
   ]
 };
