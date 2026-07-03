@@ -56,7 +56,7 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 
 | Workflow | Purpose |
 |----------|---------|
-| `reusable-build-push-docker.yml` | Build and push to Docker Hub (`latest` + run id) |
+| `reusable-build-push-docker.yml` | Build and push to Docker Hub (`latest-test` / `{run_id}-test` for `test`; `latest` / `{run_id}` for `prod`) |
 | `reusable-deploy-dotnet-appservice.yml` | OIDC login + zip/folder deploy to App Service |
 | `reusable-deploy-static-web-app.yml` | Deploy to Azure Static Web Apps |
 
@@ -153,7 +153,7 @@ If migrating from an earlier setup, rename (do not duplicate) old names such as 
 After secrets are configured:
 
 1. Push a change to `main` under one app path (or re-run the workflow from the Actions tab).
-2. Confirm the workflow completes: artifact deploy to App Service / SWA, Docker Hub tags `latest` and run id.
+2. Confirm the workflow completes: artifact deploy to App Service / SWA, Docker Hub tags `latest-test` and `{run_id}-test` (test CD does not overwrite release tags).
 3. Smoke-test hosted URLs (e.g. `staging.dertinfo.co.uk` for web).
 4. Compare with the last successful ADO run for the same scope.
 5. Leave ADO pipelines enabled until one full release cycle confirms GitHub Actions; then disable ADO triggers.

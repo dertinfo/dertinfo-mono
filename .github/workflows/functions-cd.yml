@@ -43,6 +43,7 @@ jobs:
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
+      environment: test
       dockerfile: apps/dert-functions/src/dertinfo-image-resize/Dockerfile
       context: apps/dert-functions/src/dertinfo-image-resize
       image_repository: dertinfo/dertinfo-imageresizev4

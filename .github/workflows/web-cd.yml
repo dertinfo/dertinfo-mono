@@ -20,6 +20,7 @@ jobs:
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
+      environment: test
       dockerfile: apps/dert-web/Dockerfile
       context: apps/dert-web
       image_repository: dertinfo/dertinfo-web
