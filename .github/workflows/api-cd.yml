@@ -99,6 +99,9 @@ jobs:
 
   deploy-test:
     needs: build
+    permissions:
+      id-token: write
+      contents: read
     uses: ./.github/workflows/reusable-deploy-dotnet-appservice.yml
     with:
       environment: test
