@@ -12,6 +12,10 @@ on:
       image_repository:
         required: true
         type: string
+      environment:
+        required: true
+        type: string
+        description: 'test or prod — test tags use a -test suffix so they do not overwrite release tags'
     secrets:
       DOCKERHUB_TOKEN:
         required: true
@@ -27,11 +31,25 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Resolve image tags
+        id: tags
+        shell: bash
+        run: |
+          if [ "${{ inputs.environment }}" = "prod" ]; then
+            echo "tags<<EOF" >> "$GITHUB_OUTPUT"
+            echo "${{ inputs.image_repository }}:latest" >> "$GITHUB_OUTPUT"
+            echo "${{ inputs.image_repository }}:${{ github.run_id }}" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+          else
+            echo "tags<<EOF" >> "$GITHUB_OUTPUT"
+            echo "${{ inputs.image_repository }}:latest-test" >> "$GITHUB_OUTPUT"
+            echo "${{ inputs.image_repository }}:${{ github.run_id }}-test" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: docker/build-push-action@v6
         with:
           context: ${{ inputs.context }}
           file: ${{ inputs.dockerfile }}
           push: true
-          tags: |
-            ${{ inputs.image_repository }}:latest
-            ${{ inputs.image_repository }}:${{ github.run_id }}
+          tags: ${{ steps.tags.outputs.tags }}
