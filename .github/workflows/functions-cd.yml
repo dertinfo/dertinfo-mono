@@ -48,11 +48,10 @@ jobs:
 
   deploy-test:
     needs: build
-    environment: test
     uses: ./.github/workflows/reusable/deploy-dotnet-appservice.yml
     with:
       environment: test
-      app_name: ${{ vars.AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_STG }}
+      target_app: functions
       package_path: .
       artifact_name: drop
       app_type: webApp

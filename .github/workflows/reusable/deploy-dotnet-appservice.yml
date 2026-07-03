@@ -6,6 +6,9 @@ on:
       environment:
         required: true
         type: string
+      target_app:
+        required: true
+        type: string
       package_path:
         required: true
         type: string
@@ -16,9 +19,6 @@ on:
         required: false
         type: string
         default: webApp
-      app_name:
-        required: true
-        type: string
 
 jobs:
   deploy:
@@ -34,12 +34,12 @@ jobs:
 
       - uses: azure/login@v2
         with:
-          client-id: ${{ vars.AZURE_ENTRA_OIDC_CLIENTID_STG }}
-          tenant-id: ${{ vars.AZURE_ENTRA_OIDC_TENANTID_STG }}
-          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID_STG }}
+          client-id: ${{ inputs.environment == 'prod' && vars.AZURE_ENTRA_OIDC_CLIENTID_PRD || vars.AZURE_ENTRA_OIDC_CLIENTID_STG }}
+          tenant-id: ${{ inputs.environment == 'prod' && vars.AZURE_ENTRA_OIDC_TENANTID_PRD || vars.AZURE_ENTRA_OIDC_TENANTID_STG }}
+          subscription-id: ${{ inputs.environment == 'prod' && vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID_PRD || vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID_STG }}
 
       - uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ inputs.app_name }}
+          app-name: ${{ inputs.environment == 'prod' && (inputs.target_app == 'api' && vars.AZURE_WEBAPP_API_RESOURCENAME_PRD || vars.AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_PRD) || (inputs.target_app == 'api' && vars.AZURE_WEBAPP_API_RESOURCENAME_STG || vars.AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_STG) }}
           package: ${{ inputs.package_path }}
           type: ${{ inputs.app_type }}
