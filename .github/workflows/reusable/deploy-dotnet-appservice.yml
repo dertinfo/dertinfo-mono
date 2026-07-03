@@ -1,0 +1,45 @@
+name: Deploy .NET to Azure App Service
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      package_path:
+        required: true
+        type: string
+      artifact_name:
+        required: true
+        type: string
+      app_type:
+        required: false
+        type: string
+        default: webApp
+      app_name:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name }}
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_ENTRA_OIDC_CLIENTID_STG }}
+          tenant-id: ${{ vars.AZURE_ENTRA_OIDC_TENANTID_STG }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID_STG }}
+
+      - uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ inputs.app_name }}
+          package: ${{ inputs.package_path }}
+          type: ${{ inputs.app_type }}

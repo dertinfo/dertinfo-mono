@@ -27,7 +27,7 @@ namespace DertInfo.Repository.UTests
         public async Task Add_Writes_Single_To_DbSet()
         {
             // Arrange + Act
-            var group = await base.sut.Add(new Group());
+            var group = await base.sut.Add(GroupRepository_Setup_Data.MinimalValidGroup());
             var dbSet = base.mockMemoryContext.Groups;
             var hasEntities = await dbSet.AnyAsync();
 

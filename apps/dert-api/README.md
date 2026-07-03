@@ -64,6 +64,9 @@ Method 7 Step 4) Run '.NET Core Launch (web)'. API will listen on port 44100.
 When using docker compose if any container fails to start just restart the container. In some cases we can get some timing issues that we should resolve using health checks. 
 
 **User Secrets**
+
+For the configuration model (local defaults vs secrets vs Azure App Configuration), see [`docs/configuration.md`](../../docs/configuration.md) at the repo root.
+
 ```
 {
   "StorageAccount:Images:Key": "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==",
@@ -115,8 +118,8 @@ You can inspect the endpoints and models via the swagger definitions at the path
 
 ## Contributing
 
-Please refer to [CONTRIBUTING.md](/CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](/CODE_OF_CONDUCT.md) for information on how others can contribute to the project.
+Please refer to [CONTRIBUTING.md](../../CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](../../CODE_OF_CONDUCT.md) for information on how others can contribute to the project.
 
 ## License
 
-This project is licenced under the GNU_GPLv3 licence. Please refer to the [LICENCE.md](/LICENCE.md) file for more information. 
+This project is licenced under the GNU GPLv3 licence. Please refer to the [LICENCE.md](../../LICENCE.md) file for more information. 

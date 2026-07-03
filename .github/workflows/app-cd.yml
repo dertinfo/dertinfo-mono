@@ -1,0 +1,36 @@
+name: App CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/dert-app/**'
+      - 'package.json'
+      - '.github/workflows/app-cd.yml'
+      - '.github/workflows/reusable/**'
+
+concurrency:
+  group: app-cd-test
+  cancel-in-progress: true
+
+jobs:
+  docker:
+    uses: ./.github/workflows/reusable/build-push-docker.yml
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      dockerfile: apps/dert-app/Dockerfile
+      context: apps/dert-app
+      image_repository: dertinfo/dertinfo-app
+
+  deploy-test:
+    environment: test
+    uses: ./.github/workflows/reusable/deploy-static-web-app.yml
+    secrets:
+      AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_STG }}
+    with:
+      environment: test
+      app_location: apps/dert-app/src/client
+      output_location: dist
+      build_command: npm run ado-build-ui-test
+      submodules: true

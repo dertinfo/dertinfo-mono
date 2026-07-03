@@ -63,7 +63,7 @@ namespace DertInfo.CrossCutting.Connection
             {
                 sb.Append("QueueEndpoint=" + queueEndpoint + ";");
             }
-            
+
             return sb.ToString();
 
         }

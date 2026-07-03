@@ -23,3 +23,12 @@ alwaysApply: true
 ## Boundaries
 - Web and app do not share UI; no shared Angular library unless explicitly requested
 - Do not move EF migrations out of the API
+
+## Configuration
+- See `docs/configuration.md` and `.cursor/rules/configuration.mdc`
+- Checked-in config = local-working defaults; secrets/SaaS credentials only in gitignored `api.env` or user secrets
+- Azure App Configuration applies only when `AZURE_APP_CONFIG` is set (hosted environments)
+
+## CI/CD
+- See `docs/cicd.md` and `.cursor/rules/cicd.mdc`
+- GitHub Actions: use **variables** for non-secret config; **secrets** only for tokens and credentials

@@ -47,6 +47,9 @@ desktop.ini
 .env
 .env.*
 !.env.example
+infra/docker/api.env
+infra/docker/web.env
+infra/docker/app.env
 appsettings.*.json
 !appsettings.json
 !appsettings.Development.json.example

@@ -1,0 +1,58 @@
+name: Functions CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/dert-functions/**'
+      - '.github/workflows/functions-cd.yml'
+      - '.github/workflows/reusable/**'
+
+concurrency:
+  group: functions-cd-test
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore
+        run: dotnet restore apps/dert-functions/src/dertinfo-image-resize/DertInfoImageResizeV4.csproj
+
+      - name: Build
+        run: dotnet build apps/dert-functions/src/dertinfo-image-resize/DertInfoImageResizeV4.csproj --no-restore --configuration Release
+
+      - name: Publish
+        run: dotnet publish apps/dert-functions/src/dertinfo-image-resize/DertInfoImageResizeV4.csproj --no-build --configuration Release --output "${{ runner.temp }}/publish"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: drop
+          path: ${{ runner.temp }}/publish
+
+  docker:
+    needs: build
+    uses: ./.github/workflows/reusable/build-push-docker.yml
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      dockerfile: apps/dert-functions/src/dertinfo-image-resize/Dockerfile
+      context: apps/dert-functions/src/dertinfo-image-resize
+      image_repository: dertinfo/dertinfo-imageresizev4
+
+  deploy-test:
+    needs: build
+    environment: test
+    uses: ./.github/workflows/reusable/deploy-dotnet-appservice.yml
+    with:
+      environment: test
+      app_name: ${{ vars.AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_STG }}
+      package_path: .
+      artifact_name: drop
+      app_type: webApp
