@@ -48,6 +48,8 @@ Naming follows `[SERVICEPROVIDER]_[SERVICETYPE]_[WORKLOADNAME]_[DESCRIPTION]_[TA
 
 Reusable deploy workflows accept an `environment` input (`test` \| `prod`) so production jobs can be added later without restructuring.
 
+Callers that use reusable workflows and need repository secrets must set `secrets: inherit` (or pass secrets explicitly). Secrets are not available inside `workflow_call` jobs by default.
+
 ## Workflows
 
 ### Reusable templates (`.github/workflows/reusable-*.yml`)
