@@ -2,7 +2,25 @@
 
 Deferred work after GitHub Actions CD is stable on the **`test`** environment.
 
-## 0. Upgrade dert-app to Angular 14
+## 0. Fix API tests for CI (priority)
+
+Re-enable `dotnet test` in [`api-ci.yml`](../../.github/workflows/api-ci.yml) and the unit-test job in [`api-cd.yml`](../../.github/workflows/api-cd.yml). Tests are temporarily disabled because they fail on GitHub Actions runners.
+
+### Repository unit tests
+
+- `GroupRepository_Fixture_Add.Add_Writes_Single_To_DbSet` fails with EF Core in-memory nullability: test `Group` entity is missing required properties (`GroupName`, `AccessToken`, etc.). Update test fixtures to satisfy current model constraints.
+
+### Integration tests (`dertinfo-api.itests`)
+
+- All integration tests fail without SQL Server (connection error on startup migration in `Startup.Configure`).
+- Options: SQL Server service container in CI, Testcontainers, in-memory/SQLite test host configuration, or skip integration tests in CI with a separate manual/nightly job.
+
+### When complete
+
+- Restore test step in `api-ci.yml` (`dotnet test dertinfo.sln` or targeted test projects).
+- Restore `unit-test` job in `api-cd.yml` as a deploy gate.
+
+## 1. Upgrade dert-app to Angular 14
 
 Align the Ionic PWA (`apps/dert-app/`) with the website (`apps/dert-web/`) on **Angular 14** so both frontends share a compatible major version. Today the app remains on Angular 13 with an isolated `npm install` under `apps/dert-app/src/client` (no npm workspaces) to avoid dependency clashes in CI.
 
@@ -12,7 +30,7 @@ Scope when undertaken:
 - Update `angular.json`, TypeScript, and any breaking API migrations
 - Re-evaluate whether a shared root `package.json` workspace is desirable after versions align
 
-## 1. Rename test → development
+## 2. Rename test → development
 
 Align GitHub, frontend, and Azure naming when the test environment is retired in favour of a single non-prod **development** environment:
 
@@ -24,7 +42,7 @@ Align GitHub, frontend, and Azure naming when the test environment is retired in
 
 Keep **`prod`** for production.
 
-## 2. Infrastructure as code
+## 3. Infrastructure as code
 
 Migrate deployment of Azure resources from ADO to GitHub Actions.
 
@@ -45,7 +63,7 @@ No IaC exists in the repo today. Future work:
 - Provision App Service, Static Web Apps (or replacements), monitoring, and networking
 - Align parameter naming with `test` / `prod` (and later `development` / `prod`)
 
-## 3. Web and app delivery review
+## 4. Web and app delivery review
 
 Evaluate alternatives to Azure Static Web Apps as part of the development environment redesign:
 
@@ -56,13 +74,13 @@ Evaluate alternatives to Azure Static Web Apps as part of the development enviro
 
 The current SWA + Oryx build path remains until this review completes.
 
-## 4. Production CD on GitHub Actions
+## 5. Production CD on GitHub Actions
 
 - Wire `prod` environment jobs in each `*-cd.yml` (or separate promotion workflow)
 - Add GitHub Environment protection rules (required reviewers, wait timers)
 - Map `PROD_*` secrets and prod subscription OIDC variables
 
-## 5. ADO decommission
+## 6. ADO decommission
 
 After one full release cycle on GitHub Actions:
 
