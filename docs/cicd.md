@@ -2,6 +2,8 @@
 
 How continuous integration and deployment are organised in the DertInfo monorepo.
 
+Completed CD migration work is recorded in the [change log](changelogs/README.md) (see [2026-07-03 GitHub Actions CD pipelines](changelogs/2026-07-03-github-actions-cd-pipelines.md)).
+
 ## Overview
 
 | Concern | Workflows | Trigger |
