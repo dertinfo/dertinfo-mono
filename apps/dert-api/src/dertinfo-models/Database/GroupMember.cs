@@ -1,4 +1,4 @@
-﻿using DertInfo.Models.System.Enumerations;
+using DertInfo.Models.System.Enumerations;
 using System;
 using System.Collections.Generic;
 
@@ -12,10 +12,10 @@ namespace DertInfo.Models.Database
         }
 
         public int GroupId { get; set; }
-        public string Name { get; set; }
-        public string EmailAddress { get; set; }
-        public string TelephoneNumber  { get; set; }
-        public string Facebook { get; set; }
+        public string? Name { get; set; }
+        public string? EmailAddress { get; set; }
+        public string? TelephoneNumber  { get; set; }
+        public string? Facebook { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime? DateJoined { get; set; }
         public MemberType MemberType { get; set; }

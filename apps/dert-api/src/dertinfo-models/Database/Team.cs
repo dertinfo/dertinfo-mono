@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace DertInfo.Models.Database
@@ -13,8 +13,8 @@ namespace DertInfo.Models.Database
         }
 
         public int GroupId { get; set; }
-        public string TeamName { get; set; }
-        public string TeamBio { get; set; }
+        public string? TeamName { get; set; }
+        public string? TeamBio { get; set; }
         public bool ShowShowcase { get; set; }
 
         public virtual ICollection<TeamAggregateScore> TeamAggregateScores { get; set; }

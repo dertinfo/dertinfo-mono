@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace DertInfo.Models.Database
@@ -11,9 +11,9 @@ namespace DertInfo.Models.Database
             JudgeSlots = new HashSet<JudgeSlot>();
         }
 
-        public string Name { get; set; }
-        public string Telephone { get; set; }
-        public string Email { get; set; }
+        public string? Name { get; set; }
+        public string? Telephone { get; set; }
+        public string? Email { get; set; }
 
         public virtual ICollection<EventJudge> EventJudges { get; set; }
         public virtual ICollection<CompetitionJudge> CompetitionJudges { get; set; }

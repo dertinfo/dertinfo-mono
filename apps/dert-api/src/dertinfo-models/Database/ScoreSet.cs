@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace DertInfo.Models.Database
@@ -12,8 +12,8 @@ namespace DertInfo.Models.Database
         }
 
         public int CompetitionId { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
 
         public virtual ICollection<JudgeSlot> JudgeSlots { get; set; }
         public virtual ICollection<ScoreSetScoreCategory> ScoreSetScoreCategories { get; set; }
