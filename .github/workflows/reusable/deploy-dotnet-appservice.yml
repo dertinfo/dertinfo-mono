@@ -16,9 +16,9 @@ on:
         required: false
         type: string
         default: webApp
-    secrets:
-      APP_NAME:
+      app_name:
         required: true
+        type: string
 
 jobs:
   deploy:
@@ -34,12 +34,12 @@ jobs:
 
       - uses: azure/login@v2
         with:
-          client-id: ${{ vars.AZURE_CLIENT_ID }}
-          tenant-id: ${{ vars.AZURE_TENANT_ID }}
-          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ vars.AZURE_ENTRA_OIDC_CLIENTID_STG }}
+          tenant-id: ${{ vars.AZURE_ENTRA_OIDC_TENANTID_STG }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID_STG }}
 
       - uses: azure/webapps-deploy@v3
         with:
-          app-name: ${{ secrets.APP_NAME }}
+          app-name: ${{ inputs.app_name }}
           package: ${{ inputs.package_path }}
           type: ${{ inputs.app_type }}

@@ -1,0 +1,64 @@
+---
+description: GitHub Actions CI/CD workflows — secrets vs variables, reusable templates
+globs:
+  - .github/workflows/**
+  - docs/cicd.md
+---
+
+# CI/CD (GitHub Actions)
+
+See [docs/cicd.md](../../docs/cicd.md) for setup checklist and ADO mapping.
+
+## Secrets vs variables
+
+**Use GitHub variables (`vars.*`)** for non-sensitive configuration: resource names, public usernames, subscription IDs, client IDs, tenant IDs, image repository names passed as workflow inputs.
+
+**Use GitHub secrets (`secrets.*`)** only for credentials: tokens, passwords, deployment keys (Docker Hub token, SWA deploy token, etc.).
+
+Reusable workflows:
+
+- Pass non-secrets via `workflow_call` **inputs** or read **`vars`** in the called workflow (e.g. `vars.DOCKERHUB_USERNAME` at repo level; environment-scoped vars on jobs with `environment: test`).
+- Pass credentials via `workflow_call` **secrets** only — never put secrets in `with:` inputs.
+
+## Naming convention
+
+Use **UPPER_SNAKE_CASE**. Prefer descriptive segments over abbreviating the environment to `TEST`/`PROD` at the start of the name.
+
+**Azure and other cloud resources** (variables and secrets):
+
+```
+[SERVICEPROVIDER]_[SERVICETYPE]_[WORKLOADNAME]_[DESCRIPTION]_[TARGETENV]
+```
+
+| Segment | Meaning | Examples |
+|---------|---------|----------|
+| Service provider | Vendor / platform | `AZURE`, `DOCKERHUB` |
+| Service type | Azure resource or product | `WEBAPP`, `FUNCTIONAPP`, `STATICWEBAPP`, `ENTRA`, `SUBSCRIPTION` |
+| Workload name | Monorepo app or role | `API`, `FUNCTIONS`, `WEB`, `APP`, `OIDC`, `DEPLOY` |
+| Description | What the value holds | `RESOURCENAME`, `DEPLOYTOKEN`, `CLIENTID`, `SUBSCRIPTIONID` |
+| Target env | ADO/Azure stage suffix | `STG` (GitHub `test`), `PRD` (GitHub `prod`) |
+
+Examples:
+
+| Kind | Name |
+|------|------|
+| Variable | `AZURE_WEBAPP_API_RESOURCENAME_STG` |
+| Variable | `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_STG` |
+| Variable | `AZURE_ENTRA_OIDC_CLIENTID_STG` |
+| Secret | `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_STG` |
+| Secret | `DOCKERHUB_TOKEN` |
+
+**Third-party accounts** that are not environment-specific may use a shorter `[PROVIDER]_[DESCRIPTION]` form (no target env suffix):
+
+| Kind | Name |
+|------|------|
+| Variable | `DOCKERHUB_USERNAME` |
+| Secret | `DOCKERHUB_TOKEN` |
+
+Store environment-specific Azure values on the matching GitHub Environment (`test` → `*_STG`, `prod` → `*_PRD`) even when the suffix repeats the environment name — it keeps names self-describing in workflow YAML and logs.
+
+## Layout
+
+- `*-ci.yml` — build/test on PR and `develop`/`main`
+- `*-cd.yml` — deploy to `test` on `main` only; merge Docker publish + Azure deploy per app
+- `reusable/` — shared deploy and Docker push templates; accept `environment` input (`test` \| `prod`)

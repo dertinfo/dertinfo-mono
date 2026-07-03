@@ -22,25 +22,29 @@ GitHub Environments use **`test`** and **`prod`** to align with Azure infrastruc
 | `test` | `Test` | Visual Studio Professional Subscription |
 | `prod` | `Live` | DertInfo Subscription *(not wired yet)* |
 
-ADO variable suffixes `*_Stg` / `*_Prod` map to `test` / `prod` in GitHub. Azure resource names may still mix `test` and `stg` suffixes from historical deployments — individual names are stored as secrets, not renamed in this migration.
+ADO variable suffixes `*_Stg` / `*_Prod` map to `test` / `prod` in GitHub. Azure resource names may still mix `test` and `stg` suffixes from historical deployments — store app/resource names as **environment variables**, not secrets.
 
 ### ADO → GitHub mapping
 
+Naming follows `[SERVICEPROVIDER]_[SERVICETYPE]_[WORKLOADNAME]_[DESCRIPTION]_[TARGETENV]` — see [naming convention](#naming-convention) below. `STG` maps to GitHub environment **`test`**; `PRD` maps to **`prod`**.
+
 | Layer | GitHub (`test`) | ADO |
 |-------|-----------------|-----|
-| API App Service | `TEST_API_WEBAPP_NAME` | `CD_Pipeline.TestEnvApiWebAppName` |
-| Functions App | `TEST_FUNCTIONS_APP_NAME` | `DertInfoImageResizeV4_VariablesGroup.FunctionAppName_Stg` |
-| Web / App SWA token | `AZURE_STATIC_WEB_APPS_API_TOKEN_TEST` | `staging_deployment_token` |
+| API App Service | `AZURE_WEBAPP_API_RESOURCENAME_STG` (variable) | `CD_Pipeline.TestEnvApiWebAppName` |
+| Functions App | `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_STG` (variable) | `DertInfoImageResizeV4_VariablesGroup.FunctionAppName_Stg` |
+| Web SWA deploy token | `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_STG` (secret) | `staging_deployment_token` |
+| App SWA deploy token | `AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_STG` (secret) | `staging_deployment_token` |
 | Angular build | `npm run ado-build-ui-test` | unchanged |
 | Hosted URLs | `staging.dertinfo.co.uk`, etc. | unchanged |
 
 ### `prod` placeholders (not wired yet)
 
-| Secret | ADO source |
-|--------|------------|
-| `PROD_API_WEBAPP_NAME` | `LiveEnvApiWebAppName` |
-| `PROD_FUNCTIONS_APP_NAME` | `FunctionAppName_Prod` |
-| `AZURE_STATIC_WEB_APPS_API_TOKEN_PROD` | `live_deployment_token` |
+| Kind | Name | ADO source |
+|------|------|------------|
+| Variable | `AZURE_WEBAPP_API_RESOURCENAME_PRD` | `LiveEnvApiWebAppName` |
+| Variable | `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_PRD` | `FunctionAppName_Prod` |
+| Secret | `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_PRD` | `live_deployment_token` |
+| Secret | `AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_PRD` | `live_deployment_token` |
 
 Reusable deploy workflows accept an `environment` input (`test` \| `prod`) so production jobs can be added later without restructuring.
 
@@ -88,28 +92,59 @@ On the GitHub **`test`** environment, set **variables**:
 
 | Variable | Description |
 |----------|-------------|
-| `AZURE_CLIENT_ID` | App registration client ID |
-| `AZURE_TENANT_ID` | Entra tenant ID |
-| `AZURE_SUBSCRIPTION_ID` | Test subscription ID (`9ee4f83c-a9a6-41a0-822d-13e18dc6c648` from ADO) |
+| `AZURE_ENTRA_OIDC_CLIENTID_STG` | App registration client ID |
+| `AZURE_ENTRA_OIDC_TENANTID_STG` | Entra tenant ID |
+| `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID_STG` | Test subscription ID (`9ee4f83c-a9a6-41a0-822d-13e18dc6c648` from ADO) |
 
-Repeat for **`prod`** with the DertInfo subscription when production deploy is enabled.
+Repeat for **`prod`** with `_PRD` names and the DertInfo subscription when production deploy is enabled.
 
-### 3. Secrets
+### 3. Variables and secrets
 
-**Repository-level** (shared across environments):
+Use **variables** for non-sensitive configuration (visible in workflow logs and the GitHub UI). Use **secrets** only for tokens, passwords, and deployment keys.
 
-| Secret | Source |
-|--------|--------|
-| `DOCKERHUB_USERNAME` | Docker Hub account |
+#### Naming convention
+
+Use **UPPER_SNAKE_CASE** with this pattern for Azure (and similar cloud) values:
+
+```
+[SERVICEPROVIDER]_[SERVICETYPE]_[WORKLOADNAME]_[DESCRIPTION]_[TARGETENV]
+```
+
+- **Target env:** `STG` for GitHub environment `test` (ADO staging); `PRD` for GitHub environment `prod`.
+- **Third-party, non-env-specific** accounts (e.g. Docker Hub) may use `[PROVIDER]_[DESCRIPTION]` — `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
+
+Avoid prefixing names with `TEST_` or suffixing with `_TEST`; put the environment last as `STG` / `PRD` so the name reads as *what* + *where*.
+
+**Repository variables** (shared across environments):
+
+| Variable | Example | Notes |
+|----------|---------|-------|
+| `DOCKERHUB_USERNAME` | `dertinfo` | Public Docker Hub org/user — not a secret |
+
+**Repository secrets:**
+
+| Secret | Notes |
+|--------|-------|
 | `DOCKERHUB_TOKEN` | Docker Hub access token |
 
-**`test` environment:**
+**`test` environment variables:**
 
-| Secret | ADO variable group / pipeline |
-|--------|-------------------------------|
-| `TEST_API_WEBAPP_NAME` | `CD_Pipeline` → `TestEnvApiWebAppName` |
-| `TEST_FUNCTIONS_APP_NAME` | `DertInfoImageResizeV4_VariablesGroup` → `FunctionAppName_Stg` |
-| `AZURE_STATIC_WEB_APPS_API_TOKEN_TEST` | `staging_deployment_token` |
+| Variable | ADO source |
+|----------|------------|
+| `AZURE_ENTRA_OIDC_CLIENTID_STG` | Entra app registration client ID |
+| `AZURE_ENTRA_OIDC_TENANTID_STG` | Entra tenant ID |
+| `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID_STG` | Test subscription ID |
+| `AZURE_WEBAPP_API_RESOURCENAME_STG` | `CD_Pipeline.TestEnvApiWebAppName` |
+| `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_STG` | `FunctionAppName_Stg` |
+
+**`test` environment secrets:**
+
+| Secret | ADO source |
+|--------|------------|
+| `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_STG` | Web SWA `staging_deployment_token` |
+| `AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_STG` | App SWA `staging_deployment_token` |
+
+If migrating from an earlier setup, rename (do not duplicate) old names such as `TEST_API_WEBAPP_NAME`, `AZURE_CLIENT_ID`, or `AZURE_STATIC_WEB_APPS_API_TOKEN_TEST`.
 
 ### 4. Validate
 

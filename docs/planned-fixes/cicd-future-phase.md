@@ -37,7 +37,7 @@ Scope when undertaken:
 Align GitHub, frontend, and Azure naming when the test environment is retired in favour of a single non-prod **development** environment:
 
 - GitHub Environments: `test` → `development`
-- Secret names: `TEST_*` → `DEV_*` (or equivalent)
+- Variable/secret names: adopt `[PROVIDER]_[TYPE]_[WORKLOAD]_[DESCRIPTION]_[ENV]` with `DEV` target suffix (see [docs/cicd.md](../cicd.md#naming-convention))
 - Angular: `ado-build-ui-test` / `test` build configuration → `development`
 - `environment.test.ts` → `environment.development.ts` (or equivalent)
 - Azure resource tags and URLs where applicable
@@ -80,7 +80,7 @@ The current SWA + Oryx build path remains until this review completes.
 
 - Wire `prod` environment jobs in each `*-cd.yml` (or separate promotion workflow)
 - Add GitHub Environment protection rules (required reviewers, wait timers)
-- Map `PROD_*` secrets and prod subscription OIDC variables
+- Map `*_PRD` variables/secrets and prod subscription OIDC variables on GitHub environment `prod`
 
 ## 6. ADO decommission
 
