@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-and-test:
+  build:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,8 +39,55 @@ jobs:
           name: drop
           path: ${{ runner.temp }}/publish
 
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore unit test projects
+        run: |
+          dotnet restore apps/dert-api/src/dertinfo-api.utests/dertinfo-api.utests.csproj
+          dotnet restore apps/dert-api/src/dertinfo-services.utests/dertinfo-services.utests.csproj
+          dotnet restore apps/dert-api/src/dertinfo-repository.utests/dertinfo-repository.utests.csproj
+
+      - name: Build unit test projects
+        run: |
+          dotnet build apps/dert-api/src/dertinfo-api.utests/dertinfo-api.utests.csproj --no-restore --configuration Release
+          dotnet build apps/dert-api/src/dertinfo-services.utests/dertinfo-services.utests.csproj --no-restore --configuration Release
+          dotnet build apps/dert-api/src/dertinfo-repository.utests/dertinfo-repository.utests.csproj --no-restore --configuration Release
+
+      - name: Run unit tests
+        run: |
+          dotnet test apps/dert-api/src/dertinfo-api.utests/dertinfo-api.utests.csproj --no-build --configuration Release --verbosity normal
+          dotnet test apps/dert-api/src/dertinfo-services.utests/dertinfo-services.utests.csproj --no-build --configuration Release --verbosity normal
+          dotnet test apps/dert-api/src/dertinfo-repository.utests/dertinfo-repository.utests.csproj --no-build --configuration Release --verbosity normal
+
+  integration-test:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore integration tests
+        run: dotnet restore apps/dert-api/src/dertinfo-api.itests/dertinfo-api.itests.csproj
+
+      - name: Build integration tests
+        run: dotnet build apps/dert-api/src/dertinfo-api.itests/dertinfo-api.itests.csproj --no-restore --configuration Release
+
+      # Disabled: requires SQL Server on the runner. See docs/planned-fixes/cicd-future-phase.md.
+      - name: Run integration tests
+        run: dotnet test apps/dert-api/src/dertinfo-api.itests/dertinfo-api.itests.csproj --no-build --configuration Release --verbosity normal
+
   docker:
-    needs: build-and-test
+    needs: build
     uses: ./.github/workflows/reusable/build-push-docker.yml
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -51,7 +98,7 @@ jobs:
       image_repository: dertinfo/dertinfo-api
 
   deploy-test:
-    needs: build-and-test
+    needs: build
     environment: test
     uses: ./.github/workflows/reusable/deploy-dotnet-appservice.yml
     secrets:

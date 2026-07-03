@@ -4,21 +4,23 @@ Deferred work after GitHub Actions CD is stable on the **`test`** environment.
 
 ## 0. Fix API tests for CI (priority)
 
-Re-enable `dotnet test` in [`api-ci.yml`](../../.github/workflows/api-ci.yml) and the unit-test job in [`api-cd.yml`](../../.github/workflows/api-cd.yml). Tests are temporarily disabled because they fail on GitHub Actions runners.
+### Unit tests
 
-### Repository unit tests
+- **Passing:** `dertinfo-api.utests` (17), `dertinfo-services.utests` (19), `dertinfo-repository.utests` (2) — repository fixture updated to use a valid `Group` entity for EF Core in-memory nullability.
 
-- `GroupRepository_Fixture_Add.Add_Writes_Single_To_DbSet` fails with EF Core in-memory nullability: test `Group` entity is missing required properties (`GroupName`, `AccessToken`, etc.). Update test fixtures to satisfy current model constraints.
+Unit tests run in a separate **`unit-test`** job in [`api-ci.yml`](../../.github/workflows/api-ci.yml) and [`api-cd.yml`](../../.github/workflows/api-cd.yml). CI passes build artefacts (`bin`/`obj`) from the **build** job for `--no-build` test runs. CD unit tests build test projects in parallel with the Windows publish job.
 
-### Integration tests (`dertinfo-api.itests`)
+Fix the repository fixture, then gate deploy on `unit-test` if desired.
+
+### Integration tests
 
 - All integration tests fail without SQL Server (connection error on startup migration in `Startup.Configure`).
-- Options: SQL Server service container in CI, Testcontainers, in-memory/SQLite test host configuration, or skip integration tests in CI with a separate manual/nightly job.
+- The **`integration-test`** job exists in both workflows with `if: false` until a SQL Server service container (or equivalent) is added.
 
 ### When complete
 
-- Restore test step in `api-ci.yml` (`dotnet test dertinfo.sln` or targeted test projects).
-- Restore `unit-test` job in `api-cd.yml` as a deploy gate.
+- Enable `integration-test` jobs and add SQL Server to CI.
+- Optionally require `unit-test` (and later `integration-test`) before `deploy-test` in `api-cd.yml`.
 
 ## 1. Upgrade dert-app to Angular 14
 
