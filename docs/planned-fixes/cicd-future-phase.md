@@ -2,6 +2,16 @@
 
 Deferred work after GitHub Actions CD is stable on the **`test`** environment.
 
+## 0. Upgrade dert-app to Angular 14
+
+Align the Ionic PWA (`apps/dert-app/`) with the website (`apps/dert-web/`) on **Angular 14** so both frontends share a compatible major version. Today the app remains on Angular 13 with an isolated `npm install` under `apps/dert-app/src/client` (no npm workspaces) to avoid dependency clashes in CI.
+
+Scope when undertaken:
+
+- Bump `@angular/*`, `@angular-devkit/*`, `@angular-eslint/*`, and `@ionic/angular` to versions compatible with Angular 14
+- Update `angular.json`, TypeScript, and any breaking API migrations
+- Re-evaluate whether a shared root `package.json` workspace is desirable after versions align
+
 ## 1. Rename test → development
 
 Align GitHub, frontend, and Azure naming when the test environment is retired in favour of a single non-prod **development** environment:

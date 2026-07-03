@@ -20,7 +20,7 @@ Consolidated repository for the DertInfo platform.
 ## Prerequisites
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [Node.js 20+](https://nodejs.org/)
+- [Node.js 22+](https://nodejs.org/)
 - SQL Server (local or remote) for API development — or use Docker Compose below
 
 ## Docker quick start

@@ -16,28 +16,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/dert-web/src/client
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
+          cache-dependency-path: apps/dert-web/src/client/package.json
 
       - name: Install
         run: npm install
-        working-directory: apps/dert-web/src/client
 
       - name: Lint
         run: npm run lint
-        working-directory: apps/dert-web/src/client
         continue-on-error: true
 
       - name: Test
         run: npm run test -- --watch=false --browsers=ChromeHeadless
-        working-directory: apps/dert-web/src/client
         continue-on-error: true
 
       - name: Build
         run: npm run build
-        working-directory: apps/dert-web/src/client
