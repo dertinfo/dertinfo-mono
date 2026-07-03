@@ -47,6 +47,7 @@ desktop.ini
 .env
 .env.*
 !.env.example
+.cursor/mcp.json
 infra/docker/api.env
 infra/docker/web.env
 infra/docker/app.env
