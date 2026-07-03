@@ -59,4 +59,4 @@ jobs:
       target_app: functions
       package_path: .
       artifact_name: drop
-      app_type: webApp
+      app_type: functionApp
