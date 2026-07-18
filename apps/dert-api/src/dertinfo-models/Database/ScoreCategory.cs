@@ -13,8 +13,8 @@ namespace DertInfo.Models.Database
 
         public int CompetitionAppliesToId { get; set; }
         public int MaxMarks { get; set; }
-        public string? Name { get; set; }
-        public string? Tag { get; set; }
+        public string Name { get; set; }
+        public string Tag { get; set; }
         public string? Description { get; set; }
         public int SortOrder { get; set; }
         public bool InScoreSet1 { get; set; }

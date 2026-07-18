@@ -13,7 +13,7 @@ namespace DertInfo.Models.Database
 
         public int TeamId { get; set; }
         public int RegistrationId { get; set; }
-        public string? AttendanceNotes { get; set; }
+        public string AttendanceNotes { get; set; }
 
         public virtual ICollection<ActivityTeamAttendance> TeamActivities { get; set; }
         public virtual ICollection<CompetitionEntry> CompetitionEntries { get; set; }

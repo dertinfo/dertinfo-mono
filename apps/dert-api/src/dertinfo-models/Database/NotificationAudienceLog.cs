@@ -16,7 +16,7 @@ namespace DertInfo.Models.Database
         /// <summary>
         /// The users unique identifier.
         /// </summary>
-        public string? UserAuth0Identifier { get; set; }
+        public string UserAuth0Identifier { get; set; }
 
 
         [NotMapped]

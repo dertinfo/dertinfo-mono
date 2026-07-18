@@ -15,7 +15,7 @@ namespace DertInfo.Models.Database
         public int EventId { get; set; }
         public int AudienceTypeId { get; set; }
         public int? CompetitionId { get; set; }
-        public string? Title { get; set; }
+        public string Title { get; set; }
         public string? Description { get; set; }
         public bool IsDefault { get; set; }
         public bool PriceTBC { get; set; }

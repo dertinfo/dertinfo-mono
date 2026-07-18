@@ -4,6 +4,7 @@ using DertInfo.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DertInfo.Repository.Migrations
 {
     [DbContext(typeof(DertInfoContext))]
-    partial class DertInfoContextModelSnapshot : ModelSnapshot
+    [Migration("20260718103258_StringNullabilityFromCleanedData")]
+    partial class StringNullabilityFromCleanedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

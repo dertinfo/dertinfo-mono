@@ -11,17 +11,17 @@ namespace DertInfo.Models.Database
         /// <summary>
         /// The title of the message
         /// </summary>
-        public string? MessageHeader { get; set; }
+        public string MessageHeader { get; set; }
 
         /// <summary>
         /// The part of the message that shows in the summary.
         /// </summary>
-        public string? MessageSummary { get; set; }
+        public string MessageSummary { get; set; }
 
         /// <summary>
         /// The full body of the message if there is one.
         /// </summary>
-        public string? MessageBody { get; set; }
+        public string MessageBody { get; set; }
 
         /// <summary>
         /// Identifies if the message has any details. If the message has details then it can be

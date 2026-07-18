@@ -21,7 +21,7 @@ namespace DertInfo.Models.Database
         public string? SpecialRequirements { get; set; }
         public RegistrationFlowState FlowState { get; set; }
         public bool TermsAndConditionsAgreed { get; set; }
-        public string? TermsAndConditionsAgreedBy { get; set; }
+        public string TermsAndConditionsAgreedBy { get; set; }
 
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<MemberAttendance> MemberAttendances { get; set; }

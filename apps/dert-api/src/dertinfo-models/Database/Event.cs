@@ -19,10 +19,10 @@ namespace DertInfo.Models.Database
             Venues = new HashSet<Venue>();
         }
 
-        public string? Name { get; set; }
-        public string? ContactName { get; set; }
-        public string? ContactEmail { get; set; }
-        public string? ContactTelephone { get; set; }
+        public string Name { get; set; }
+        public string ContactName { get; set; }
+        public string ContactEmail { get; set; }
+        public string ContactTelephone { get; set; }
         public DateTime? RegistrationOpenDate { get; set; }
         public DateTime? RegistrationCloseDate { get; set; }
         public string? EventSynopsis { get; set; }
@@ -36,8 +36,8 @@ namespace DertInfo.Models.Database
         public bool IsPromoted { get; set; }
         public bool IsCancelled { get; set; }
         public bool TermsAndConditionsAgreed { get; set; }
-        public string? TermsAndConditionsAgreedBy { get; set; }
-        public string? SentEmailsBcc { get; set; }
+        public string TermsAndConditionsAgreedBy { get; set; }
+        public string SentEmailsBcc { get; set; }
 
         public virtual ICollection<AttendanceClassification> AttendanceClassifications { get; set; }
         public virtual ICollection<Activity> Activities { get; set; }

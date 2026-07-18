@@ -11,7 +11,7 @@ namespace DertInfo.Models.Database
         }
 
         public int EventId { get; set; }
-        public string? ClassificationName { get; set; }
+        public string ClassificationName { get; set; }
         public decimal ClassificationPrice { get; set; }
         public bool IsDefault { get; set; }
 

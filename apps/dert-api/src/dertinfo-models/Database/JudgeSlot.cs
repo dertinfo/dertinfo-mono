@@ -5,7 +5,7 @@ namespace DertInfo.Models.Database
 {
     public partial class JudgeSlot : DatabaseEntity_WithPermissions
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public int VenueId { get; set; }
         public int CompetitionId { get; set; }
         public int MarkingSet { get; set; }

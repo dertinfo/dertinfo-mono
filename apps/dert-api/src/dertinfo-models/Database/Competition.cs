@@ -18,8 +18,8 @@ namespace DertInfo.Models.Database
             ResultsPublished = false;
         }
 
-        public string? Name { get; set; }
-        public string? CompetitionDescription { get; set; }
+        public string Name { get; set; }
+        public string CompetitionDescription { get; set; }
         public decimal TeamEntryFee { get; set; }
         public int EventId { get; set; }
         public int JudgeRequirementPerVenue { get; set; }
