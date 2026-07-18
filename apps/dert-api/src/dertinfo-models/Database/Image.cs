@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace DertInfo.Models.Database
@@ -13,10 +13,10 @@ namespace DertInfo.Models.Database
             TeamImages = new HashSet<TeamImage>();
         }
 
-        public string Container { get; set; }
+        public string? Container { get; set; }
         public string BlobPath { get; set; }
         public string BlobName { get; set; }
-        public string Extension { get; set; }
+        public string? Extension { get; set; }
         public string ImageAlt { get; set; }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using DertInfo.Models.System.Enumerations;
+using DertInfo.Models.System.Enumerations;
 using System;
 using System.Collections.Generic;
 

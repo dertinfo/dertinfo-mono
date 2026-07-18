@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-07-18 | EF string nullability aligned to cleaned database | [2026-07-03-ef-nullable-string-properties.md](./2026-07-03-ef-nullable-string-properties.md) |
 | 2026-07-03 | GitHub Actions CD pipelines for `test` | [2026-07-03-github-actions-cd-pipelines.md](./2026-07-03-github-actions-cd-pipelines.md) |
 
 ## How entries are added

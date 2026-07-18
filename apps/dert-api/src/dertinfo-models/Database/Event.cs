@@ -1,4 +1,4 @@
-﻿using DertInfo.Models.System.Enumerations;
+using DertInfo.Models.System.Enumerations;
 using System;
 using System.Collections.Generic;
 
@@ -25,13 +25,13 @@ namespace DertInfo.Models.Database
         public string ContactTelephone { get; set; }
         public DateTime? RegistrationOpenDate { get; set; }
         public DateTime? RegistrationCloseDate { get; set; }
-        public string EventSynopsis { get; set; }
+        public string? EventSynopsis { get; set; }
         public DateTime? EventStartDate { get; set; }
         public DateTime? EventEndDate { get; set; }
         public EventTemplateType EventTemplateType { get; set; }
         public EventVisibilityType EventVisibilityType { get; set; }
-        public string LocationTown { get; set; }
-        public string LocationPostcode { get; set; }
+        public string? LocationTown { get; set; }
+        public string? LocationPostcode { get; set; }
         public bool IsConfigured { get; set; }
         public bool IsPromoted { get; set; }
         public bool IsCancelled { get; set; }

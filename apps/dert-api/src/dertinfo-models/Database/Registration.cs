@@ -1,4 +1,4 @@
-﻿using DertInfo.Models.System.Enumerations;
+using DertInfo.Models.System.Enumerations;
 using System;
 using System.Collections.Generic;
 
@@ -18,7 +18,7 @@ namespace DertInfo.Models.Database
         public int DertYear { get; set; }
         public int EstimateAttending { get; set; }
         public int EstimateAccomodation { get; set; }
-        public string SpecialRequirements { get; set; }
+        public string? SpecialRequirements { get; set; }
         public RegistrationFlowState FlowState { get; set; }
         public bool TermsAndConditionsAgreed { get; set; }
         public string TermsAndConditionsAgreedBy { get; set; }
