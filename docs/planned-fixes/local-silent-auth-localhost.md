@@ -9,6 +9,10 @@
 - [`docker-silent-auth-investigation.md`](docker-silent-auth-investigation.md) — earlier Docker/static-callback experiments (reverted)
 - [`web-warmup-race-condition.md`](web-warmup-race-condition.md) — separate warmup/dashboard 401 issue
 
+### Contrast: PWA (`dert-app`) does not show the same local login problem
+
+Verified on local native stack (`ng serve` on `:4201` behind SWA on `http://localhost:44300`): login succeeds and authenticated data loads normally. The silent-auth / post–group-create failure documented here has been observed on **`dert-web`** (`http://localhost:44200`), not on the Ionic PWA under the same Auth0 dev tenant and API. Treat this issue as **web-client-specific** until proven otherwise; do not assume the PWA needs the same interim re-login workaround for basic login and data access.
+
 ---
 
 ## What is actually happening

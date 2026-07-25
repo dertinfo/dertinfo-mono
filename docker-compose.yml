@@ -8,20 +8,20 @@ services:
     ports:
       - "44100:80"
     env_file:
-      - ./infra/docker/api.env
+      - ./infra/secrets/api.env
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80;
-      - SqlConnection__ServerName=sqlserver
-      - SqlConnection__ServerAdminPassword=myUn53cur3Pa55w0rd!
-      - SqlConnection__ServerAdminName=sa
-      - SqlConnection__DatabaseName=DertInfoDb
+      - SqlConnection__ServerName=${SQL_SERVER_HOST:-sqlserver}
+      - SqlConnection__ServerAdminPassword=${SQL_SA_PASSWORD:-myUn53cur3Pa55w0rd!}
+      - SqlConnection__ServerAdminName=${SQL_SA_USER:-sa}
+      - SqlConnection__DatabaseName=${SQL_DATABASE:-DertInfoDb}
       - SendGrid__Enabled=false
       - Auth0__Domain=dertinfodev.eu.auth0.com
       - StorageAccount__Images__Protocol=http
       - StorageAccount__Images__Name=devstoreaccount1
       - StorageAccount__Images__Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
-      - StorageAccount__Images__BlobEndpoint=http://azstorage:10000/devstoreaccount1
+      - StorageAccount__Images__BlobEndpoint=${AZURITE_BLOB_ENDPOINT:-http://azstorage:10000/devstoreaccount1}
       - PwaClient__Auth0__ClientId=AGFfa2R7jsYA7vmhBRjU4tl6htgI4Yvh
       - WebClient__Auth0__ClientId=JREkJwdUbZmUs7d983uBXnrZu9UOWbd9
     depends_on:
@@ -55,7 +55,7 @@ services:
       - "10001:10001"
       - "10002:10002"
     volumes:
-      - azstorage-data:/data
+      - ./infra/data/azurite:/data
     command: "azurite --blobHost 0.0.0.0 --queueHost 0.0.0.0 --tableHost 0.0.0.0"
 
   image-resize:
@@ -71,8 +71,8 @@ services:
       - AzureWebJobs.ResizeEventImages.Disabled=true
       - AzureWebJobs.ResizeGroupImages.Disabled=true
       - AzureWebJobs.ResizeSheetImages.Disabled=true
-      - AzureWebJobsStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azstorage:10000/devstoreaccount1;QueueEndpoint=http://azstorage:10001/devstoreaccount1;
-      - StorageConnection__Images=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azstorage:10000/devstoreaccount1;QueueEndpoint=http://azstorage:10001/devstoreaccount1;
+      - AzureWebJobsStorage=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=${AZURITE_BLOB_ENDPOINT:-http://azstorage:10000/devstoreaccount1};QueueEndpoint=${AZURITE_QUEUE_ENDPOINT:-http://azstorage:10001/devstoreaccount1};
+      - StorageConnection__Images=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=${AZURITE_BLOB_ENDPOINT:-http://azstorage:10000/devstoreaccount1};QueueEndpoint=${AZURITE_QUEUE_ENDPOINT:-http://azstorage:10001/devstoreaccount1};
     depends_on:
       azstorage:
         condition: service_started
@@ -105,4 +105,3 @@ services:
 
 volumes:
   sqlserver-data:
-  azstorage-data:

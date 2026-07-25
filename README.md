@@ -4,79 +4,139 @@ Consolidated repository for the DertInfo platform.
 
 ## Apps
 
-| App | Path | Stack |
-|-----|------|-------|
-| API | `apps/dert-api/` | .NET 8, EF Core, MSSQL |
+| App       | Path                   | Stack                             |
+| --------- | ---------------------- | --------------------------------- |
+| API       | `apps/dert-api/`       | .NET 8, EF Core, MSSQL            |
 | Functions | `apps/dert-functions/` | C# Azure Functions (image resize) |
-| Website | `apps/dert-web/` | Angular |
-| App (PWA) | `apps/dert-app/` | Ionic + Angular (PWA) |
+| Website   | `apps/dert-web/`       | Angular                           |
+| App (PWA) | `apps/dert-app/`       | Ionic + Angular (PWA)             |
 
 ## Packages
 
-| Package | Path | Purpose |
-|---------|------|---------|
+| Package          | Path                         | Purpose                                |
+| ---------------- | ---------------------------- | -------------------------------------- |
 | Shared contracts | `packages/shared-contracts/` | OpenAPI spec and generated API clients |
 
-## Prerequisites
+## First-time setup (clone → running locally)
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [Node.js 22+](https://nodejs.org/)
-- SQL Server (local or remote) for API development — or use Docker Compose below
+Do this once after cloning. Default path runs the **website + API + image resize** on the host (recommended for day-to-day work). **Docker Desktop is not required** for that path.
 
-## Docker quick start
+### 1. Install host tools
 
-Run the full stack (API, website, PWA, image-resize function, SQL Server, and Azurite) with Docker Desktop:
+| Tool | Notes |
+|------|--------|
+| [.NET 8 SDK](https://dotnet.microsoft.com/download) | `dotnet --version` |
+| [Node.js](https://nodejs.org/) ≥ 16.10 (20/24 LTS recommended) | `node --version` |
+| [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads) / Express | Local DB for the API |
+| [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite) ≥ 3.34 | `npm install -g azurite@latest` |
+| [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local) v4 | `func --version` |
+| [SWA CLI](https://azure.github.io/static-web-apps-cli/) | `npm install -g @azure/static-web-apps-cli` |
+| `sqlcmd` | On `PATH` for `npm run doctor` |
+
+Optional: [nvm-windows](https://github.com/coreybutler/nvm-windows). After `nvm use`, reinstall globals (`azurite`, `@azure/static-web-apps-cli`).
+
+### 2. Copy config templates
 
 ```bash
-# From repo root — copy env templates (see docs/configuration.md)
-cp infra/docker/api.env.example infra/docker/api.env
-cp infra/docker/web.env.example infra/docker/web.env
-cp infra/docker/app.env.example infra/docker/app.env
-# Edit api.env: set Auth0__ManagementClientSecret (uncommented)
-
-docker compose up --build
+cp infra/secrets/api.env.example infra/secrets/api.env
+cp infra/dev/runtime.example.json infra/dev/runtime.json
+cp apps/dert-functions/src/dertinfo-image-resize/local.settings.json.example \
+   apps/dert-functions/src/dertinfo-image-resize/local.settings.json
 ```
+
+### 3. Fill `infra/secrets/api.env`
+
+| Kind | What to put |
+|------|-------------|
+| **SQL (you)** | Server (e.g. `.\SQLEXPRESS`), login, password, and **database name** |
+| **Auth0 (team)** | Shared **dev** tenant: domain, audience, SPA client IDs, management client id/secret — ask a teammate or your secrets vault; do not invent a new tenant unless you update Auth0 callbacks |
+| **Storage** | Leave the example Azurite key unless you know you need otherwise |
+
+Create an **empty** SQL database matching `SqlConnection__DatabaseName` (SSMS or `sqlcmd`). The API applies EF migrations on first start.
+
+Auth0 callbacks for local are already `http://localhost:44200` and `http://localhost:44300` in `appsettings.json` — they must be allowed on the SPA apps in the shared tenant.
+
+Details: [`docs/configuration.md`](docs/configuration.md), [`infra/secrets/README.md`](infra/secrets/README.md).
+
+### 4. Install website deps and verify
+
+```bash
+npm run web:install          # required for recommended runtime (website on, PWA off)
+# npm run app:install        # only if you set "app" mode to native or docker
+
+npm run doctor
+npm run start
+npm run status
+```
+
+`runtime.example.json` is the recommended config: API + website with hot reload, image resize on, PWA off, SQL Express via `api.env`. Timings and alternatives: [`infra/dev/README.md`](infra/dev/README.md#recommended-day-to-day-website--api).
 
 | URL | Service |
 |-----|---------|
 | http://localhost:44100 | API |
 | http://localhost:44200 | Website |
-| http://localhost:44300 | PWA app |
-| http://localhost:44400 | Image resize function |
-| localhost:44000 | SQL Server (optional external access) |
+| http://localhost:44400 | Image resize |
+| http://127.0.0.1:10000 | Azurite blob |
+| http://localhost:44300 | PWA (only if enabled in `runtime.json`) |
 
-The API runs EF migrations automatically on startup. Auth0 login in Docker requires an uncommented `Auth0__ManagementClientSecret` in `infra/docker/api.env` (the management client ID is in `appsettings.json`). See [Configuration](docs/configuration.md). Recreate the API container after changing `api.env`:
+Stop with `npm run stop`. Re-run `npm run start` anytime; with `rebuild: false` healthy services are skipped.
+
+**Visual Studio (API F5):** set `"api": { "mode": "off", "rebuild": false }` and use user secrets — see [`apps/dert-api/README.md`](apps/dert-api/README.md#2-visual-studio-f5--debug-the-api-project).
+
+Known local website issues: [warmup race](docs/planned-fixes/web-warmup-race-condition.md), [silent auth on localhost](docs/planned-fixes/local-silent-auth-localhost.md).
+
+## Prerequisites (reference)
+
+Full tool matrix and Azurite/Functions notes: [`docs/configuration.md`](docs/configuration.md#base-settings-for-local-native-development).
+
+**Azurite + Functions:** Core Tools 4.12+ needs Storage API `2024-11-04` → Azurite **≥ 3.34** (not 3.31). After upgrading, stop old processes on `:10000–10002`.
+
+## Local run modes
+
+`npm run start` reads [`infra/dev/runtime.json`](infra/dev/runtime.json) (gitignored). Each service: `mode` (`native` \| `docker` \| `off`), `rebuild`, optional `hotReload`.
+
+| Goal | Approach |
+|------|----------|
+| Edit website + API (usual) | Recommended example above — **no Docker Desktop** |
+| Mix docker deps + native apps | Set individual `mode` values; Docker Desktop required only for `docker` services — [`infra/dev/README.md`](infra/dev/README.md) |
+| Whole stack in Compose | See [Docker](#docker-optional) — easier “just run it”, slower for editing API/web |
+
+## Docker (optional)
+
+**When you need Docker Desktop:** any service with `"mode": "docker"` under `npm run start`, or a full `docker compose up` estate.
 
 ```bash
-docker compose up -d --force-recreate dertinfo-api
+cp infra/secrets/api.env.example infra/secrets/api.env
+cp infra/docker/web.env.example infra/docker/web.env
+cp infra/docker/app.env.example infra/docker/app.env
+docker compose up --build
 ```
 
-Known issues (local website): warmup screen can stick after login — see `docs/planned-fixes/web-warmup-race-condition.md`. Group create may appear to fail on `http://localhost:44200` (silent token renewal blocked by Auth0 on localhost; groups are created — re-login refreshes claims) — see `docs/planned-fixes/local-silent-auth-localhost.md`.
-
-Per-app compose files under `apps/*/infra/docker/` remain available for isolated development.
+Compose uses the same `infra/secrets/api.env` and Azurite data under `infra/data/azurite`. Prefer native hot reload for work on the API or website; use Compose when you want containers without host Azurite/func/swa.
 
 ## Common commands
 
 ```bash
-# .NET (from repo root, after projects are imported)
+npm run doctor
+npm run start
+npm run status
+npm run stop
+
 dotnet build dertinfo.sln
 dotnet test dertinfo.sln
 
-# Angular website
 npm run web:build
-
-# Ionic PWA app
 npm run app:build
 ```
 
 ## Importing existing repositories
 
-| Repo | Status | Path |
-|------|--------|------|
-| [dertinfo-api](https://github.com/dertinfo/dertinfo-api) | Imported | `apps/dert-api/` |
-| [dertinfo-image-resize-v4](https://github.com/dertinfo/dertinfo-image-resize-v4) | Imported | `apps/dert-functions/` |
-| [dertinfo-web](https://github.com/dertinfo/dertinfo-web) | Imported | `apps/dert-web/` (Angular client: `src/client/`) |
-| [dertinfo-app](https://github.com/dertinfo/dertinfo-app) | Imported | `apps/dert-app/` (Ionic client: `src/client/`) |
+| Repo                                                                             | Status   | Path                                             |
+| -------------------------------------------------------------------------------- | -------- | ------------------------------------------------ |
+| [dertinfo-api](https://github.com/dertinfo/dertinfo-api)                         | Imported | `apps/dert-api/`                                 |
+| [dertinfo-image-resize-v4](https://github.com/dertinfo/dertinfo-image-resize-v4) | Imported | `apps/dert-functions/`                           |
+| [dertinfo-web](https://github.com/dertinfo/dertinfo-web)                         | Imported | `apps/dert-web/` (Angular client: `src/client/`) |
+| [dertinfo-app](https://github.com/dertinfo/dertinfo-app)                         | Imported | `apps/dert-app/` (Ionic client: `src/client/`)   |
 
 API solution file (legacy): `apps/dert-api/src/DertInfoApiSolution.sln`  
 Root solution: `dertinfo.sln` (includes API projects)
@@ -88,6 +148,6 @@ Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE
 ## CI/CD
 
 - **CI:** GitHub Actions workflows (`*-ci.yml`) build and test on `main`, `develop`, and pull requests (path-filtered per app).
-- **CD:** GitHub Actions workflows (`*-cd.yml`) deploy to the **`test`** Azure environment and push Docker images to Docker Hub on pushes to `main` only.
+- **CD:** GitHub Actions workflows (`*-cd.yml`) deploy to the `test` Azure environment and push Docker images to Docker Hub on pushes to `main` only.
 
 See [docs/cicd.md](docs/cicd.md) for workflow inventory, secrets setup, and ADO mapping.

@@ -35,7 +35,7 @@ to [dertinfo@gmail.com](mailto:dertinfo@gmail.com)
 
 ## I Have a Question
 
-> If you want to ask a question, we assume that you have read the available [Documentation]().
+> If you want to ask a question, we assume that you have read the available [Documentation](README.md) (especially [First-time setup](README.md#first-time-setup-clone--running-locally) and [docs/configuration.md](docs/configuration.md)).
 
 Before you ask a question, it is best to search for existing [Issues](/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
 
@@ -62,7 +62,7 @@ We will then take care of the issue as soon as possible.
 A good bug report shouldn't leave others needing to chase you up for more information. Therefore, we ask you to investigate carefully, collect information and describe the issue in detail in your report. Please complete the following steps in advance to help us fix any potential bug as fast as possible.
 
 - Make sure that you are using the latest version.
-- Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](). If you are looking for support, you might want to check [this section](#i-have-a-question)).
+- Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](README.md). If you are looking for support, you might want to check [this section](#i-have-a-question)).
 - To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](issues?q=label%3Abug).
 - Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have discussed the issue.
 - Collect information about the bug:
@@ -102,7 +102,7 @@ This section guides you through submitting an enhancement suggestion for CONTRIB
 #### Before Submitting an Enhancement
 
 - Make sure that you are using the latest version.
-- Read the [documentation]() carefully and find out if the functionality is already covered, maybe by an individual configuration.
+- Read the [documentation](README.md) carefully and find out if the functionality is already covered, maybe by an individual configuration.
 - Perform a [search](/issues) to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
 - Find out whether your idea fits with the scope and aims of the project. It's up to you to make a strong case to convince the project's developers of the merits of this feature. Keep in mind that we want features that will be useful to the majority of our users and not just a small subset. If you're just targeting a minority of users, consider writing an add-on/plugin library.
 
@@ -121,15 +121,25 @@ Enhancement suggestions are tracked as [GitHub issues](/issues).
 
 ### Your First Code Contribution
 
+1. Follow **[First-time setup](README.md#first-time-setup-clone--running-locally)** in the root README (tools, `api.env`, empty SQL database, `npm run doctor` / `start`).
+2. Use the recommended [`infra/dev/runtime.example.json`](infra/dev/runtime.example.json) for website + API work (image resize on, PWA off). Modes and timings: [`infra/dev/README.md`](infra/dev/README.md).
+3. Branch from `develop` (or the current integration branch) per [gitflow](https://nvie.com/posts/a-successful-git-branching-model/); open a focused PR. Never push directly to `main` / `develop`.
+4. Run the checks that match your change (`dotnet test`, `npm run web:lint`, etc.) before requesting review.
+
+### Local run modes (short)
+
+| Mode | Use when |
+|------|----------|
+| `native` + `hotReload` | Editing that app (API / website) |
+| `native` without hot reload / `docker` | Dependency you are not changing (e.g. image resize) |
+| `off` | Not needed, or you run it yourself (e.g. API in Visual Studio) |
+
+**Docker Desktop** is only required for `"mode": "docker"` services or full `docker compose up`. The recommended first-run path does not need it.
 
 ### Improving The Documentation
 
+Prefer linking to [`docs/configuration.md`](docs/configuration.md) and [`infra/dev/README.md`](infra/dev/README.md) over duplicating setup steps. When a workstream finishes, add a row under [`docs/changelogs/`](docs/changelogs/README.md).
 
-## Styleguides
-### Commit Messages
-
-
-## Join The Project Team
 
 
 

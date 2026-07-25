@@ -1,0 +1,8 @@
+{
+  "api": { "mode": "native", "rebuild": false, "hotReload": true },
+  "web": { "mode": "native", "rebuild": false, "hotReload": true },
+  "app": { "mode": "off", "rebuild": false },
+  "imageResize": { "mode": "native", "rebuild": false, "hotReload": false },
+  "azurite": { "mode": "native", "rebuild": false },
+  "sql": { "mode": "off", "rebuild": false }
+}
