@@ -1,4 +1,4 @@
-﻿using DertInfo.Models.Database;
+using DertInfo.Models.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,7 +16,7 @@ namespace DertInfo.Models.Database
         /// <summary>
         /// The users unique identifier.
         /// </summary>
-        public string UserAuth0Identifier { get; set; }
+        public string? UserAuth0Identifier { get; set; }
 
 
         [NotMapped]

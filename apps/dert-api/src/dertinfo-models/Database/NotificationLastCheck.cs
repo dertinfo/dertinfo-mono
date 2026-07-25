@@ -1,4 +1,4 @@
-﻿using DertInfo.Models.System.Enumerations;
+using DertInfo.Models.System.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,7 +12,7 @@ namespace DertInfo.Models.Database
         /// <summary>
         /// The users Auth0 unique identifier the primary key for this table.
         /// </summary>
-        public string UserAuth0Identifier { get; set; }
+        public string? UserAuth0Identifier { get; set; }
 
         /// <summary>
         /// This is the date that the user last checked for thier messages. This check happens when the user first accesses the dashboard. 

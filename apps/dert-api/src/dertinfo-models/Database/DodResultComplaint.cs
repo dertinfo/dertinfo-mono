@@ -1,4 +1,4 @@
-﻿namespace DertInfo.Models.Database
+namespace DertInfo.Models.Database
 {
     public class DodResultComplaint : DatabaseEntity
     {
@@ -14,7 +14,7 @@
 
         public bool IsRejected { get; set; }
 
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
 
         public virtual DodResult DodResult { get; set; }
     }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +12,6 @@ namespace DertInfo.Models.Database
     /// </summary>
     public class DatabaseEntity_WithPermissions : DatabaseEntity
     {
-        public string AccessToken { get; set; }
+        public string? AccessToken { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -8,10 +8,10 @@ namespace DertInfo.Models.Database
     public class DodUser : DatabaseEntity
     {
         [Encrypted]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Encrypted]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         public Guid Guid { get; set; }
 

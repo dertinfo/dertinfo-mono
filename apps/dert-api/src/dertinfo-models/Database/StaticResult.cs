@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace DertInfo.Models.Database
@@ -7,7 +7,7 @@ namespace DertInfo.Models.Database
     {
         public int EventId { get; set; }
         public int ResultType { get; set; }
-        public string HtmlContent { get; set; }
+        public string? HtmlContent { get; set; }
         
     }
 }

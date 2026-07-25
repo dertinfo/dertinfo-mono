@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +19,7 @@ namespace DertInfo.Models.Database
         public bool HasScoresEntered { get; set; }
         public bool HasScoresChecked { get; set; }
         public DateTime? DateScoresEntered { get; set; }
-        public string ScoresEnteredBy { get; set; }
+        public string? ScoresEnteredBy { get; set; }
         public int TeamAttendanceId { get; set; }
         public bool Overrun { get; set; }
 
