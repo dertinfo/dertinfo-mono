@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,33 +12,33 @@ namespace DertInfo.Models.Database
 
         public decimal MusicScore { get; set; }
 
-        public string MusicComments { get; set; }
+        public string? MusicComments { get; set; }
 
         public decimal SteppingScore { get; set; }
 
-        public string SteppingComments { get; set; }
+        public string? SteppingComments { get; set; }
 
         public decimal SwordHandlingScore { get; set; }
 
-        public string SwordHandlingComments { get; set; }
+        public string? SwordHandlingComments { get; set; }
 
         public decimal DanceTechniqueScore { get; set; }
 
-        public string DanceTechniqueComments { get; set; }
+        public string? DanceTechniqueComments { get; set; }
 
         public decimal PresentationScore { get; set; }
 
-        public string PresentationComments { get; set; }
+        public string? PresentationComments { get; set; }
 
         public decimal BuzzScore { get; set; }
 
-        public string BuzzComments { get; set; }
+        public string? BuzzComments { get; set; }
 
         public decimal CharactersScore { get; set; }
 
-        public string CharactersComments { get; set; }
+        public string? CharactersComments { get; set; }
 
-        public string OverallComments { get; set; }
+        public string? OverallComments { get; set; }
 
         public bool IsOfficial { get; set; }
 
