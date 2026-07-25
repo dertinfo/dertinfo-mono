@@ -19,15 +19,21 @@ Consolidated repository for the DertInfo platform.
 
 ## Prerequisites
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [Node.js 16.10+](https://nodejs.org/) (Angular 14 floor; raise later as apps upgrade)
-- [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads) (or Express) — set connection in `infra/secrets/api.env`
-- [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite) CLI — **≥ 3.34.0** (use `npm install -g azurite@latest`; check with `azurite --version`)
-- [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local) **v4** (`func`) — e.g. **4.12.x** via `winget upgrade Microsoft.Azure.FunctionsCoreTools` (check with `func --version`)
-- [Azure Static Web Apps CLI](https://azure.github.io/static-web-apps-cli/) (`swa`)
-- `sqlcmd` on `PATH` (for `npm run doctor`)
+| Tool | Version / notes | Check / install |
+|------|-----------------|-----------------|
+| [.NET 8 SDK](https://dotnet.microsoft.com/download) | Required for API + Functions | `dotnet --version` |
+| [Node.js](https://nodejs.org/) | **≥ 16.10** (Angular 14 floor); **20 or 24 LTS** recommended | `node --version` |
+| [nvm-windows](https://github.com/coreybutler/nvm-windows) (optional) | Switch Node versions; `nvm use` often needs an **elevated** terminal (exit 5 = Access denied) | `nvm list` / `nvm use 24.18.0` |
+| npm | Comes with Node; **reinstall globals after `nvm use`** | `npm --version` |
+| [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads) / Express | Connection in `infra/secrets/api.env` | — |
+| [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite) | **≥ 3.34.0** (3.36+ verified with Functions 4.12) | `npm install -g azurite@latest` → `azurite --version` |
+| [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local) | **v4** (e.g. 4.12.x) | `winget upgrade Microsoft.Azure.FunctionsCoreTools` → `func --version` |
+| [Azure Static Web Apps CLI](https://azure.github.io/static-web-apps-cli/) | Required for web/app under `npm run start` | `npm install -g @azure/static-web-apps-cli` → `swa --version` |
+| `sqlcmd` | For `npm run doctor` SQL checks | on `PATH` |
 
-**Functions + Azurite:** Core Tools 4.12+ talks to Storage with API version `2024-11-04`. Azurite **3.31.x** rejects that and Functions host startup fails. After upgrading Azurite, **stop any old Azurite process** still listening on `:10000–10002` (`npm run stop` or kill those ports), then start again — otherwise `npm run start` may reuse the outdated process. If the on-disk store under `infra/data/azurite` fails to start (GC crash), `npm run start` retries with `--inMemoryPersistence`.
+**nvm / npm:** Prefer one active Node via nvm. After `nvm use <version>`, globals are per-version — run `npm install -g azurite@latest @azure/static-web-apps-cli` again. Confirm `where.exe node` and `where.exe azurite` point at the expected Node.
+
+**Azurite + Functions:** Core Tools 4.12+ uses Storage API `2024-11-04`. Azurite **3.31.x** fails Functions host startup. After upgrading Azurite, **stop any old process** on `:10000–10002`. Data lives under `infra/data/azurite` (gitignored). If disk start GC-crashes, reset that folder (rename to `azurite.bak` and recreate empty) or let `npm run start` fall back to `--inMemoryPersistence` **without** `--location` (Azurite 3.36 forbids combining them). Details: [`docs/configuration.md`](docs/configuration.md#base-settings-for-local-native-development), [`infra/dev/README.md`](infra/dev/README.md).
 
 ## Local native quick start
 
@@ -35,23 +41,28 @@ Primary path: everything on the host; Auth0 is whatever cloud tenant you configu
 
 ```bash
 cp infra/secrets/api.env.example infra/secrets/api.env
-# Edit infra/secrets/api.env — SQL password, Azurite key, Auth0 management secret
+# Edit infra/secrets/api.env — SQL, Auth0 domain/audience/client IDs, management secret
+# StorageAccount__Images__Key default is the well-known Azurite key
 
-npm run web:install          # only when node_modules missing
+cp infra/dev/runtime.example.json infra/dev/runtime.json   # optional; all-true if missing
+
+npm run web:install          # when node_modules missing or after Node version change
 npm run app:install
 cp apps/dert-functions/src/dertinfo-image-resize/local.settings.json.example \
    apps/dert-functions/src/dertinfo-image-resize/local.settings.json
 
 npm run doctor
 npm run start
+npm run status
 ```
 
-`npm run start` follows [`infra/dev/runtime.json`](infra/dev/runtime.json) (copy from [`runtime.example.json`](infra/dev/runtime.example.json)). By default all services start; set `"api": false` in your local `runtime.json` to F5 the API in Visual Studio while npm runs the rest.
+`npm run start` follows [`infra/dev/runtime.json`](infra/dev/runtime.json) (gitignored). By default all services start; set `"api": false` to F5 the API in Visual Studio while npm runs the rest.
+
 | URL | Service |
 |-----|---------|
 | http://localhost:44100 | API |
-| http://localhost:44200 | Website |
-| http://localhost:44300 | PWA app |
+| http://localhost:44200 | Website (SWA → ng `:4200`) |
+| http://localhost:44300 | PWA app (SWA → ng `:4201`) |
 | http://localhost:44400 | Image resize |
 | http://127.0.0.1:10000 | Azurite blob |
 
@@ -59,7 +70,7 @@ The API applies EF migrations on startup. Secrets from `infra/secrets/api.env` a
 
 **Visual Studio (API F5 only):** VS does not load `api.env`. Set the same values via **Manage User Secrets** on the API project (`:` keys). See [`apps/dert-api/README.md`](apps/dert-api/README.md#2-visual-studio-f5--debug-the-api-project).
 
-Known issues (local website): warmup screen can stick after login — see `docs/planned-fixes/web-warmup-race-condition.md`. Group create may appear to fail on `http://localhost:44200` (silent token renewal blocked by Auth0 on localhost; groups are created — re-login refreshes claims) — see `docs/planned-fixes/local-silent-auth-localhost.md`.
+Known issues (local website): warmup screen can stick after login — see `docs/planned-fixes/web-warmup-race-condition.md`. Group create may appear to fail on `http://localhost:44200` (silent token renewal blocked by Auth0 on localhost; groups are created — re-login refreshes claims) — see `docs/planned-fixes/local-silent-auth-localhost.md`. The PWA on `:44300` does not show the same basic login problem.
 
 ## Docker (optional)
 

@@ -19,3 +19,5 @@ cp infra/secrets/api.env.example infra/secrets/api.env
 - **Visual Studio F5:** VS does not load `api.env`. Set the same values via **Manage User Secrets** (`:` keys). See [`apps/dert-api/README.md`](../../apps/dert-api/README.md#2-visual-studio-f5--debug-the-api-project).
 
 Do not commit `api.env`. Do not put non-secrets here if they already belong in `appsettings.json`.
+
+See also: [Base settings for local native development](../../docs/configuration.md#base-settings-for-local-native-development).
