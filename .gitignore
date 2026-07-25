@@ -51,14 +51,24 @@ desktop.ini
 infra/docker/api.env
 infra/docker/web.env
 infra/docker/app.env
+infra/secrets/*
+!infra/secrets/*.example
+!infra/secrets/README.md
 appsettings.*.json
 !appsettings.json
 !appsettings.Development.json.example
 secrets.json
 
+# Local durable data (Azurite, etc.) — shared path for native and Docker
+infra/data/
+
 # Logs
 *.log
 logs/
+
+# Local runtime orchestration state
+infra/dev/.pids.json
+infra/dev/runtime.json
 
 # Local import workspace (used during repo merges)
 _import/

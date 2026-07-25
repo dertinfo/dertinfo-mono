@@ -33,6 +33,7 @@
     "@ionic/storage-angular": "^3.0.6",
     "@microsoft/applicationinsights-web": "^2.7.4",
     "auth0-js": "^9.19.0",
+    "dertinfo-monorepo": "file:../../../..",
     "immutable": "^4.0.0",
     "rxjs": "~6.6.0",
     "swiper": "^8.0.6",

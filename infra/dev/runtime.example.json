@@ -1,0 +1,7 @@
+{
+  "api": true,
+  "web": true,
+  "app": true,
+  "imageResize": true,
+  "azurite": true
+}

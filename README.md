@@ -20,52 +20,70 @@ Consolidated repository for the DertInfo platform.
 ## Prerequisites
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [Node.js 22+](https://nodejs.org/)
-- SQL Server (local or remote) for API development — or use Docker Compose below
+- [Node.js 16.10+](https://nodejs.org/) (Angular 14 floor; raise later as apps upgrade)
+- [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads) (or Express) — set connection in `infra/secrets/api.env`
+- [Azurite](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite) CLI — **≥ 3.34.0** (use `npm install -g azurite@latest`; check with `azurite --version`)
+- [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local) **v4** (`func`) — e.g. **4.12.x** via `winget upgrade Microsoft.Azure.FunctionsCoreTools` (check with `func --version`)
+- [Azure Static Web Apps CLI](https://azure.github.io/static-web-apps-cli/) (`swa`)
+- `sqlcmd` on `PATH` (for `npm run doctor`)
 
-## Docker quick start
+**Functions + Azurite:** Core Tools 4.12+ talks to Storage with API version `2024-11-04`. Azurite **3.31.x** rejects that and Functions host startup fails. After upgrading Azurite, **stop any old Azurite process** still listening on `:10000–10002` (`npm run stop` or kill those ports), then start again — otherwise `npm run start` may reuse the outdated process. If the on-disk store under `infra/data/azurite` fails to start (GC crash), `npm run start` retries with `--inMemoryPersistence`.
 
-Run the full stack (API, website, PWA, image-resize function, SQL Server, and Azurite) with Docker Desktop:
+## Local native quick start
+
+Primary path: everything on the host; Auth0 is whatever cloud tenant you configure in `infra/secrets/api.env`. See [Configuration](docs/configuration.md).
 
 ```bash
-# From repo root — copy env templates (see docs/configuration.md)
-cp infra/docker/api.env.example infra/docker/api.env
-cp infra/docker/web.env.example infra/docker/web.env
-cp infra/docker/app.env.example infra/docker/app.env
-# Edit api.env: set Auth0__ManagementClientSecret (uncommented)
+cp infra/secrets/api.env.example infra/secrets/api.env
+# Edit infra/secrets/api.env — SQL password, Azurite key, Auth0 management secret
 
-docker compose up --build
+npm run web:install          # only when node_modules missing
+npm run app:install
+cp apps/dert-functions/src/dertinfo-image-resize/local.settings.json.example \
+   apps/dert-functions/src/dertinfo-image-resize/local.settings.json
+
+npm run doctor
+npm run start
 ```
 
+`npm run start` follows [`infra/dev/runtime.json`](infra/dev/runtime.json) (copy from [`runtime.example.json`](infra/dev/runtime.example.json)). By default all services start; set `"api": false` in your local `runtime.json` to F5 the API in Visual Studio while npm runs the rest.
 | URL | Service |
 |-----|---------|
 | http://localhost:44100 | API |
 | http://localhost:44200 | Website |
 | http://localhost:44300 | PWA app |
-| http://localhost:44400 | Image resize function |
-| localhost:44000 | SQL Server (optional external access) |
+| http://localhost:44400 | Image resize |
+| http://127.0.0.1:10000 | Azurite blob |
 
-The API runs EF migrations automatically on startup. Auth0 login in Docker requires an uncommented `Auth0__ManagementClientSecret` in `infra/docker/api.env` (the management client ID is in `appsettings.json`). See [Configuration](docs/configuration.md). Recreate the API container after changing `api.env`:
+The API applies EF migrations on startup. Secrets from `infra/secrets/api.env` are injected into the process environment by `npm run start` (or Compose `env_file`); .NET applies them over `appsettings.json` via normal configuration precedence.
 
-```bash
-docker compose up -d --force-recreate dertinfo-api
-```
+**Visual Studio (API F5 only):** VS does not load `api.env`. Set the same values via **Manage User Secrets** on the API project (`:` keys). See [`apps/dert-api/README.md`](apps/dert-api/README.md#2-visual-studio-f5--debug-the-api-project).
 
 Known issues (local website): warmup screen can stick after login — see `docs/planned-fixes/web-warmup-race-condition.md`. Group create may appear to fail on `http://localhost:44200` (silent token renewal blocked by Auth0 on localhost; groups are created — re-login refreshes claims) — see `docs/planned-fixes/local-silent-auth-localhost.md`.
 
-Per-app compose files under `apps/*/infra/docker/` remain available for isolated development.
+## Docker (optional)
+
+```bash
+cp infra/secrets/api.env.example infra/secrets/api.env
+cp infra/docker/web.env.example infra/docker/web.env
+cp infra/docker/app.env.example infra/docker/app.env
+docker compose up --build
+```
+
+Compose uses the same `infra/secrets/api.env` and Azurite data under `infra/data/azurite`.
 
 ## Common commands
 
 ```bash
-# .NET (from repo root, after projects are imported)
+npm run doctor
+npm run start
+npm run status
+npm run stop
+
 dotnet build dertinfo.sln
 dotnet test dertinfo.sln
 
-# Angular website
 npm run web:build
-
-# Ionic PWA app
 npm run app:build
 ```
 

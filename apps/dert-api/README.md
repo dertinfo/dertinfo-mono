@@ -36,81 +36,106 @@ In order to get this project running locally you are going to need.
 
 Experimental: Alternatively, you can use Visual Studio Code running in a devcontainer, with SQL Server running in docker.
 
-## Running The Project
+## Ways to run the API
 
-You can run the API locally in 7 ways. 
-- 1) (Visual Studio) Running as a isolated web app
-- 2) (Visual Studio) Running as a container in docker desktop 
-- 3) (Visual Studio) Running the docker compose project - This will spin up the entire estate using images on docker hub for the other parts. 
-- 4) (Docker) Run the image using docker hub image
-- 5) (Docker) Build and Run using the Dockerfile
-- 6) (Docker Compose) Running the docker componse project (/infra/docker)  THis will spin up the API and all resoruces it depends on. 
-- 7) (Visual Studio Code) Running in a devcontainer with supporting components running from the docker compose project
+Canonical configuration model: [`docs/configuration.md`](../../docs/configuration.md). Secrets and tenant-/machine-specific values live in [`infra/secrets/api.env`](../../infra/secrets/api.env) (copy from [`api.env.example`](../../infra/secrets/api.env.example)).
 
-Steps for the above run methods:
-```
-Method 4) > docker run dertinfo/dertinfo-api:latest 
+### 1. Local estate (recommended) — `npm run start`
 
-Method 5) src> docker build -t dertinfo/dertinfo-api -f dertinfo-api/Dockerfile .
+From the **monorepo root**, with SQL Server and Azurite available and `infra/secrets/api.env` filled in:
 
-Method 6) infra/docker> docker compose up 
-
-Method 7 Step 1) Comment out the dertinfo-api service in infra/docker/docker-compose.yml
-Method 7 Step 2) docker compose up
-Method 7 Step 3) src/dertinfo-api> cat <path-to-json-file-containing-user-secrets> | dotnet user-secrets set
-Method 7 Step 4) Run '.NET Core Launch (web)'. API will listen on port 44100.
+```bash
+npm run doctor
+npm run start
 ```
 
-When using docker compose if any container fails to start just restart the container. In some cases we can get some timing issues that we should resolve using health checks. 
+`npm run start` injects `api.env` into the API process environment. .NET overlays those values on `appsettings.json` (`Auth0__Domain` → `Auth0:Domain`, etc.). The API listens on **http://localhost:44100**. See also [`infra/dev/README.md`](../../infra/dev/README.md).
 
-**User Secrets**
+### 2. Visual Studio (F5 / debug the API project)
 
-For the configuration model (local defaults vs secrets vs Azure App Configuration), see [`docs/configuration.md`](../../docs/configuration.md) at the repo root.
+Visual Studio does **not** load `infra/secrets/api.env`. For F5 you must supply the same settings via **.NET user secrets** (or equivalent launch environment variables).
+
+1. Copy [`infra/secrets/api.env.example`](../../infra/secrets/api.env.example) → `infra/secrets/api.env` and fill values (even if you only use VS — keeps one checklist of required keys).
+2. In Visual Studio: right-click the `dertinfo-api` project → **Manage User Secrets**, and set the **same** keys using `:` nesting (not `__`). Example mapping from `api.env`:
+
+| `api.env` key | User secrets key |
+|---------------|------------------|
+| `SqlConnection__ServerName` | `SqlConnection:ServerName` |
+| `SqlConnection__ServerAdminName` | `SqlConnection:ServerAdminName` |
+| `SqlConnection__ServerAdminPassword` | `SqlConnection:ServerAdminPassword` |
+| `SqlConnection__DatabaseName` | `SqlConnection:DatabaseName` |
+| `Auth0__Domain` | `Auth0:Domain` |
+| `Auth0__Audience` | `Auth0:Audience` |
+| `Auth0__ManagementClientId` | `Auth0:ManagementClientId` |
+| `Auth0__ManagementClientSecret` | `Auth0:ManagementClientSecret` |
+| `WebClient__Auth0__ClientId` | `WebClient:Auth0:ClientId` |
+| `PwaClient__Auth0__ClientId` | `PwaClient:Auth0:ClientId` |
+| `StorageAccount__Images__Key` | `StorageAccount:Images:Key` |
+| `ApiInfo__ContactName` | `ApiInfo:ContactName` |
+| `ApiInfo__ContactEmail` | `ApiInfo:ContactEmail` |
+
+Or from a shell in `apps/dert-api/src/dertinfo-api`:
+
+```bash
+dotnet user-secrets set "Auth0:Domain" "your-tenant.eu.auth0.com"
+dotnet user-secrets set "SqlConnection:ServerName" ".\\SQLEXPRESS"
+# …repeat for each key above
+```
+
+3. Ensure Azurite (and SQL) are running if you need storage/DB — e.g. start them via the monorepo tools or your own local installs.
+4. Run / debug the API project. Default local URL: **http://localhost:44100**.
+
+User secrets are stored under your Windows profile (`%APPDATA%\Microsoft\UserSecrets\…`) and are not committed. Keep them in sync manually when you change `api.env`.
+
+### 3. Docker Compose
+
+```bash
+cp infra/secrets/api.env.example infra/secrets/api.env
+# fill secrets
+docker compose up --build
+```
+
+Compose uses `env_file: ./infra/secrets/api.env` for the API container (same file as local native).
+
+### Other / legacy run methods
+
+- Docker image only: `docker run dertinfo/dertinfo-api:latest`
+- Build Dockerfile from `apps/dert-api/src`: `docker build -t dertinfo/dertinfo-api -f dertinfo-api/Dockerfile .`
+- Devcontainer + compose: start dependencies via compose, set user secrets or env, then launch the API from VS Code.
+
+### Secrets checklist (`api.env`)
 
 ```
-{
-  "StorageAccount:Images:Key": "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==",
-  "SqlConnection:ServerName": "[MY_LOCAL_IPv4_IP_ADDRESS],1433",
-  "SqlConnection:ServerAdminPassword": "[MY_SQL_USER_PASSWORD]",
-  "SqlConnection:ServerAdminName": "[MY_SQL_USER_USERNAME]",
-  "SqlConnection:DatabaseName": "[MY_SQL_DATABASE_NAME]",
-  "SendGrid:ApiKey": "[MY_SENDGRID_ACCESS_KEY_FOR_SENDING_EMAILS]"",
-  "PwaClient:Auth0:ClientId": "[MY_AUTH0_APP_CLIENT_ID]",
-  "WebClient:Auth0:ClientId": "[MY_AUTH0_WEB_CLIENT_ID]",
-  "Kestrel:Certificates:Development:Password": "[KESTRAL_UUID_PASSWORD]",
-  "Auth0:ManagementClientSecret": "[MY_AUTH0_MANAGEMENT_CLIENT_SECRET]",
-  "Auth0:Domain": "dertinfodev.eu.auth0.com",
-  "ApiInfo:ContactName": "David Hall",
-  "ApiInfo:ContactEmail": "dertinfo@gmail.com"
-}
+Auth0__Domain=...
+Auth0__Audience=...
+Auth0__ManagementClientId=...
+Auth0__ManagementClientSecret=...
+WebClient__Auth0__ClientId=...
+PwaClient__Auth0__ClientId=...
+SqlConnection__ServerName=...
+SqlConnection__ServerAdminName=...
+SqlConnection__ServerAdminPassword=...
+SqlConnection__DatabaseName=...
+StorageAccount__Images__Key=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==
+ApiInfo__ContactName=...
+ApiInfo__ContactEmail=...
 ```
-You will need to put this file in your visual studio user secrets in order that it doesn't get checked and exposes secrets. 
 
-To note with this configutation: 
-- Auth0:ManagementClientId & Secret - These values are to a special endpoint at Auth0 that allows the manipulation of users in the tenant. We use this endpoint to apply access to user accounts that give them permissions to view groups, events, venues etc. 
-- The StorageAccount references are those for the Azure Storage Emulator and the information is not secret [Azure Storage Explorer Docs](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-emulator)
-- The api infomation is what is displayed when veiwing the [swagger](https://swagger.io/tools/swaggerhub) definitions for the API. 
-- Sendgrid enabled as FALSE is a setting that stops emails being sent in a given environment. 
+Notes:
+- Auth0 tenant settings, SPA client IDs, and SQL connection details differ per developer — they belong in secrets / user secrets, not in checked-in `appsettings.json`.
+- Callback URLs stay in `appsettings.json` (fixed local ports `44200` / `44300`).
+- The StorageAccount key above is the well-known Azurite emulator key.
+- To request credentials for the project’s shared development Auth0 tenant, email [dertinfo@gmail.com](mailto:dertinfo@gmail.com).
 
-> **note:** Please see documentaion/wiki for the values to add to the Json for the Auth0. Also provided are a number of logins that will allow access to preconfigured data to support contibution. 
+### Database
 
-> **sensitive** Setting up the Auth0 accounts from scratch is an extensive process and requires some detailed configuration. To request the managementclient secret for the development and test envionments please email [dertinfo@gmail.com](mailto:dertinfo@gmail.com) once recieved this will allow you use the development and test Auth0 tenants for the project. 
-
-### To run the api.
-
-#### Settings up the database
-You will need to create the database and roll forward the migrations on your first use of the API. 
-
-(Coming soon) It'll be useful to be able to seed the database with a given seed sets appropraite for testing or working with different environments. 
-
-#### From Visual Studio
-
+Create the database named in your secrets if needed. The API applies EF migrations on startup.
 
 ## Usage
 
 When the application is successfully running it will provide the endpoints used for both the web and app clients. 
 
-You can inspect the endpoints and models via the swagger definitions at the path /swagger/index.html (e.g. http://localhost:12345/swagger/indes.html)
+You can inspect the endpoints and models via the swagger definitions at the path /swagger/index.html (e.g. http://localhost:44100/swagger/index.html)
 
 ## Features
 

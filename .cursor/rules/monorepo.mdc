@@ -26,8 +26,8 @@ alwaysApply: true
 
 ## Configuration
 - See `docs/configuration.md` and `.cursor/rules/configuration.mdc`
-- Checked-in config = local-working defaults; secrets/SaaS credentials only in gitignored `api.env` or user secrets
-- Azure App Configuration applies only when `AZURE_APP_CONFIG` is set (hosted environments)
+- Checked-in config = local-working defaults; secrets in gitignored `infra/secrets/` (App Configuration when `AZURE_APP_CONFIG` is set)
+- Local data under `infra/data/`; primary local path is native (SQL Server + Azurite + Auth0 via secrets)
 
 ## CI/CD
 - See `docs/cicd.md` and `.cursor/rules/cicd.mdc`

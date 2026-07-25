@@ -2,6 +2,10 @@
   "name": "dertinfo-monorepo",
   "private": true,
   "scripts": {
+    "doctor": "node infra/dev/doctor.mjs",
+    "start": "node infra/dev/start.mjs",
+    "stop": "node infra/dev/stop.mjs",
+    "status": "node infra/dev/status.mjs",
     "web:install": "npm install --prefix apps/dert-web/src/client",
     "web:build": "npm run build --prefix apps/dert-web/src/client",
     "web:lint": "npm run lint --prefix apps/dert-web/src/client",
@@ -12,6 +16,6 @@
     "app:test": "npm run test --prefix apps/dert-app/src/client"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=16.10.0"
   }
 }
