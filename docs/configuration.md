@@ -113,7 +113,7 @@ cp infra/secrets/api.env.example infra/secrets/api.env
 # Per-project deps (only when missing / out of date — not on every start)
 npm run web:install
 npm run app:install
-cp apps/dert-functions/src/dertinfo-image-resize/local.settings.json.example `
+cp apps/dert-functions/src/dertinfo-image-resize/local.settings.json.example \
    apps/dert-functions/src/dertinfo-image-resize/local.settings.json
 
 npm run doctor    # fail-fast: tooling, secrets, SQL schema, Azurite, Auth0 OIDC
