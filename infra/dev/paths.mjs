@@ -24,6 +24,8 @@ export const PORTS = {
   web: 44200,
   app: 44300,
   imageResize: 44400,
+  /** Docker SQL Server published port (compose sqlserver). */
+  sql: 44000,
   /** Angular ng serve (proxied by SWA CLI onto web/app ports). */
   webNg: 4200,
   appNg: 4201,
@@ -31,6 +33,19 @@ export const PORTS = {
   azuriteQueue: 10001,
   azuriteTable: 10002,
 };
+
+/** Compose service names in root docker-compose.yml */
+export const COMPOSE_SERVICES = {
+  api: 'dertinfo-api',
+  web: 'web-frontend',
+  app: 'app-frontend',
+  imageResize: 'image-resize',
+  azurite: 'azstorage',
+  sql: 'sqlserver',
+};
+
+export const MODES = ['native', 'docker', 'off'];
+export const SERVICES_WITH_HOT_RELOAD = ['api', 'web', 'app', 'imageResize'];
 
 export const PATHS = {
   apiProject: path.join(REPO_ROOT, 'apps', 'dert-api', 'src', 'dertinfo-api', 'dertinfo-api.csproj'),
@@ -76,43 +91,87 @@ export const PATHS = {
   ),
 };
 
-/** Services that npm run start can launch. Booleans in runtime.json. */
-export const RUNTIME_SERVICE_KEYS = ['api', 'web', 'app', 'imageResize', 'azurite'];
+/** Services that npm run start can manage. */
+export const RUNTIME_SERVICE_KEYS = ['api', 'web', 'app', 'imageResize', 'azurite', 'sql'];
 
-/** Defaults when runtime.json is missing (full estate via npm). */
+/** Defaults when runtime.json is missing (recommended website + API day-to-day). */
 export const DEFAULT_RUNTIME = {
-  api: true,
-  web: true,
-  app: true,
-  imageResize: true,
-  azurite: true,
+  api: { mode: 'native', rebuild: false, hotReload: true },
+  web: { mode: 'native', rebuild: false, hotReload: true },
+  app: { mode: 'off', rebuild: false },
+  imageResize: { mode: 'native', rebuild: false, hotReload: false },
+  azurite: { mode: 'native', rebuild: false },
+  sql: { mode: 'off', rebuild: false },
 };
+
+function parseServiceConfig(key, value, relPath) {
+  if (typeof value === 'boolean') {
+    throw new Error(
+      `${relPath}: "${key}" must be an object { mode, rebuild[, hotReload] }, not a boolean. ` +
+        `See ${path.relative(REPO_ROOT, RUNTIME_EXAMPLE_PATH)}.`,
+    );
+  }
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error(
+      `${relPath}: "${key}" must be an object (got ${JSON.stringify(value)}). ` +
+        `See ${path.relative(REPO_ROOT, RUNTIME_EXAMPLE_PATH)}.`,
+    );
+  }
+  const { mode, rebuild, hotReload } = value;
+  if (!MODES.includes(mode)) {
+    throw new Error(
+      `${relPath}: "${key}.mode" must be one of ${MODES.join('|')} (got ${JSON.stringify(mode)})`,
+    );
+  }
+  if (typeof rebuild !== 'boolean') {
+    throw new Error(
+      `${relPath}: "${key}.rebuild" must be a boolean (got ${JSON.stringify(rebuild)})`,
+    );
+  }
+  const cfg = { mode, rebuild };
+  if (SERVICES_WITH_HOT_RELOAD.includes(key)) {
+    if (hotReload === undefined) {
+      cfg.hotReload = DEFAULT_RUNTIME[key].hotReload ?? false;
+    } else if (typeof hotReload !== 'boolean') {
+      throw new Error(
+        `${relPath}: "${key}.hotReload" must be a boolean (got ${JSON.stringify(hotReload)})`,
+      );
+    } else {
+      cfg.hotReload = hotReload;
+    }
+  }
+  return cfg;
+}
 
 /**
  * Load infra/dev/runtime.json. Missing file → DEFAULT_RUNTIME.
- * Each key must be a boolean.
+ * Strict object schema only (no boolean compatibility).
  */
 export function loadRuntime() {
+  const relPath = path.relative(REPO_ROOT, RUNTIME_PATH);
   if (!fs.existsSync(RUNTIME_PATH)) {
-    return { ...DEFAULT_RUNTIME };
+    return JSON.parse(JSON.stringify(DEFAULT_RUNTIME));
   }
   let raw;
   try {
     raw = JSON.parse(fs.readFileSync(RUNTIME_PATH, 'utf8'));
   } catch (err) {
-    throw new Error(`Invalid ${path.relative(REPO_ROOT, RUNTIME_PATH)}: ${err.message}`);
+    throw new Error(`Invalid ${relPath}: ${err.message}`);
   }
-  const runtime = { ...DEFAULT_RUNTIME };
+  const runtime = JSON.parse(JSON.stringify(DEFAULT_RUNTIME));
   for (const key of RUNTIME_SERVICE_KEYS) {
     if (raw[key] === undefined) continue;
-    if (typeof raw[key] !== 'boolean') {
-      throw new Error(
-        `${path.relative(REPO_ROOT, RUNTIME_PATH)}: "${key}" must be true or false (got ${JSON.stringify(raw[key])})`,
-      );
-    }
-    runtime[key] = raw[key];
+    runtime[key] = parseServiceConfig(key, raw[key], relPath);
   }
   return runtime;
+}
+
+export function enabledServices(runtime) {
+  return RUNTIME_SERVICE_KEYS.filter((k) => runtime[k].mode !== 'off');
+}
+
+export function anyMode(runtime, mode) {
+  return RUNTIME_SERVICE_KEYS.some((k) => runtime[k].mode === mode);
 }
 
 /** Required keys in api.env (env-style names). Secrets + machine/tenant-specific settings. */

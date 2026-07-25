@@ -16,7 +16,7 @@ How settings are organised across local development, Docker, and Azure-hosted en
 
 6. **Local durable data** lives under [`infra/data/`](../infra/data/) (e.g. Azurite). Native and Docker Compose both use this path; richer sharing across run types is future work.
 
-7. **Dependencies are per-project** — do not auto-install on start. If `node_modules` (or tooling) is missing, install that project explicitly (`npm run web:install` / `app:install`). Consolidation across the monorepo is future work.
+7. **Dependencies are per-project** — do not auto-install on start. If `node_modules` (or tooling) is missing, install that project explicitly (`npm run web:install`; `app:install` only if the PWA is enabled). Consolidation across the monorepo is future work.
 
 ## Local native development (primary)
 
@@ -73,15 +73,17 @@ Isolated worker build generates `obj/.../WorkerExtensions.csproj` (normal). Orch
 
 Copy from [`api.env.example`](../infra/secrets/api.env.example). Uncommented `KEY=VALUE` lines only. .NET maps `Auth0__Domain` → `Auth0:Domain`.
 
+**First clone:** SQL values are yours (create an empty database matching `DatabaseName`). Auth0 values come from the **shared team dev tenant** (teammate / vault) — see [`infra/secrets/README.md`](../infra/secrets/README.md).
+
 | Key | Purpose |
 |-----|---------|
 | `SqlConnection__ServerName` | e.g. `.\SQLEXPRESS` |
-| `SqlConnection__ServerAdminName` / `ServerAdminPassword` / `DatabaseName` | SQL login + DB |
-| `Auth0__Domain` / `Audience` / `ManagementClientId` / `ManagementClientSecret` | Dev tenant + M2M |
-| `WebClient__Auth0__ClientId` / `PwaClient__Auth0__ClientId` | SPA client IDs |
+| `SqlConnection__ServerAdminName` / `ServerAdminPassword` / `DatabaseName` | SQL login + DB (create empty DB first) |
+| `Auth0__Domain` / `Audience` / `ManagementClientId` / `ManagementClientSecret` | Shared dev tenant + M2M |
+| `WebClient__Auth0__ClientId` / `PwaClient__Auth0__ClientId` | SPA client IDs (same tenant) |
 | `StorageAccount__Images__Key` | Azurite well-known key (example has default) |
 
-Callbacks stay in `appsettings.json` at `http://localhost:44200` / `44300` — register them in Auth0.
+Callbacks stay in `appsettings.json` at `http://localhost:44200` / `44300` — register them in Auth0 (already expected for the shared tenant).
 
 #### Ports
 
@@ -102,39 +104,46 @@ Orchestration waits for each `ng serve` port before starting SWA.
 - [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads) (or Express) — connection details in `infra/secrets/api.env`
 - Azurite CLI **≥ 3.34.0**, Functions Core Tools **v4**, SWA CLI — see tables above
 - `sqlcmd` on `PATH` (for `npm run doctor` database checks)
+- **Docker Desktop** — only if you use `"mode": "docker"` in `runtime.json` or full `docker compose up`
 
 `npm run doctor` fails if Azurite is older than **3.34.0**. After upgrading Azurite, stop any process still bound to `:10000–10002` before `npm run start`.
 
-```bash
-# Secrets
-cp infra/secrets/api.env.example infra/secrets/api.env
-# Edit infra/secrets/api.env — SQL password, Azurite key, Auth0 management secret
+### First run (aligned with recommended runtime)
 
-# Per-project deps (only when missing / out of date — not on every start)
-npm run web:install
-npm run app:install
+Root checklist: [`README.md` — First-time setup](../README.md#first-time-setup-clone--running-locally).
+
+```bash
+cp infra/secrets/api.env.example infra/secrets/api.env
+# Fill SQL + Auth0 (see api.env.example comments). Create empty SQL database.
+
+cp infra/dev/runtime.example.json infra/dev/runtime.json
 cp apps/dert-functions/src/dertinfo-image-resize/local.settings.json.example \
    apps/dert-functions/src/dertinfo-image-resize/local.settings.json
 
-npm run doctor    # fail-fast: tooling, secrets, SQL schema, Azurite, Auth0 OIDC
-npm run start     # services selected in infra/dev/runtime.json
+npm run web:install          # website; skip app:install unless PWA is enabled
+# npm run app:install
+
+npm run doctor
+npm run start
 npm run status
 npm run stop
 ```
 
-Copy [`infra/dev/runtime.example.json`](../infra/dev/runtime.example.json) → `infra/dev/runtime.json` to choose what starts (`api` / `web` / `app` / `imageResize` / `azurite` booleans). Defaults (and the example) start everything; set `"api": false` when debugging the API in Visual Studio.
+Copy [`infra/dev/runtime.example.json`](../infra/dev/runtime.example.json) → `infra/dev/runtime.json`. Each service is `{ "mode": "native"|"docker"|"off", "rebuild": bool, "hotReload"?: bool }` (booleans alone are rejected). The example is the **recommended website + API** day-to-day setup (native api/web with hot reload, image resize on, PWA off, SQL Express via `api.env`). Timing expectations and alternatives: [`infra/dev/README.md`](../infra/dev/README.md#recommended-day-to-day-website--api). Set `"api": { "mode": "off", "rebuild": false }` when debugging the API in Visual Studio.
+
+When the API runs in **docker** and SQL is **native**, Compose sets `SqlConnection__ServerName=host.docker.internal,1433` (SQL Express must allow TCP). Azurite native similarly uses `host.docker.internal:10000`.
 
 | URL | Service |
 |-----|---------|
 | http://localhost:44100 | API |
 | http://localhost:44200 | Website |
-| http://localhost:44300 | PWA app |
+| http://localhost:44300 | PWA app (if enabled) |
 | http://localhost:44400 | Image resize |
 | http://127.0.0.1:10000 | Azurite blob |
 
 Auth0 SPA callback URLs in `appsettings.json` use the fixed local ports (`http://localhost:44200`, `http://localhost:44300`). Register those callbacks in whichever Auth0 tenant you configure via `infra/secrets/api.env`.
 
-Orchestration scripts: [`infra/dev/`](../infra/dev/). Change log for this workstream: [`docs/changelogs/2026-07-25-local-native-dev.md`](./changelogs/2026-07-25-local-native-dev.md).
+Orchestration scripts: [`infra/dev/`](../infra/dev/). Change logs: [`2026-07-25-local-native-dev`](./changelogs/2026-07-25-local-native-dev.md), [`2026-07-25-hybrid-native-docker-start`](./changelogs/2026-07-25-hybrid-native-docker-start.md).
 
 ## Configuration layers (API)
 

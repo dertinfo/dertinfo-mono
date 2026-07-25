@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Fail-fast preflight for local-native development.
+ * Fail-fast preflight for local development (native and/or docker).
  * Does not install packages or start SQL Express.
  */
 import fs from 'node:fs';
@@ -16,13 +16,16 @@ import {
   PORTS,
   REQUIRED_SECRET_KEYS,
   REPO_ROOT,
+  anyMode,
   commandExists,
+  loadRuntime,
   parseEnvFile,
   parseSemver,
   portOpen,
   semverGte,
   toolVersionOutput,
 } from './paths.mjs';
+import { assertDockerAvailable } from './docker.mjs';
 
 const results = [];
 
@@ -36,11 +39,22 @@ function fail(name, detail) {
   console.log(` FAIL ${name} — ${detail}`);
 }
 
-function checkTooling() {
+function checkTooling(runtime) {
   console.log('\nTooling (present only; no install)');
-  if (commandExists('dotnet')) {
-    const v = spawnSync('dotnet', ['--version'], { encoding: 'utf8' });
-    pass('dotnet', (v.stdout || '').trim());
+  const needNativeDotnet =
+    runtime.api.mode === 'native' || runtime.imageResize.mode === 'native';
+  const needNativeFrontend = runtime.web.mode === 'native' || runtime.app.mode === 'native';
+  const needNativeAzurite = runtime.azurite.mode === 'native';
+  const needNativeFunc = runtime.imageResize.mode === 'native';
+  const needDocker = anyMode(runtime, 'docker');
+
+  if (commandExists('dotnet') || !needNativeDotnet) {
+    if (commandExists('dotnet')) {
+      const v = spawnSync('dotnet', ['--version'], { encoding: 'utf8' });
+      pass('dotnet', (v.stdout || '').trim());
+    } else {
+      pass('dotnet', 'skipped (no native api/imageResize)');
+    }
   } else {
     fail('dotnet', 'not found on PATH');
   }
@@ -58,68 +72,97 @@ function checkTooling() {
     fail('node', 'not found on PATH');
   }
 
-  if (commandExists('func')) {
-    const funcOut = toolVersionOutput('func');
-    const funcVer = parseSemver(funcOut);
-    if (funcVer && funcVer.major >= MIN_FUNC_CORE_TOOLS_MAJOR) {
-      pass('func', `Azure Functions Core Tools ${funcVer.raw} (v${MIN_FUNC_CORE_TOOLS_MAJOR}+)`);
-    } else if (funcVer) {
-      fail(
-        'func',
-        `${funcVer.raw} — need Core Tools v${MIN_FUNC_CORE_TOOLS_MAJOR}+ (winget upgrade Microsoft.Azure.FunctionsCoreTools)`,
-      );
+  if (needNativeFunc) {
+    if (commandExists('func')) {
+      const funcOut = toolVersionOutput('func');
+      const funcVer = parseSemver(funcOut);
+      if (funcVer && funcVer.major >= MIN_FUNC_CORE_TOOLS_MAJOR) {
+        pass('func', `Azure Functions Core Tools ${funcVer.raw} (v${MIN_FUNC_CORE_TOOLS_MAJOR}+)`);
+      } else if (funcVer) {
+        fail(
+          'func',
+          `${funcVer.raw} — need Core Tools v${MIN_FUNC_CORE_TOOLS_MAJOR}+ (winget upgrade Microsoft.Azure.FunctionsCoreTools)`,
+        );
+      } else {
+        pass('func', 'Azure Functions Core Tools (version string not parsed)');
+      }
     } else {
-      pass('func', 'Azure Functions Core Tools (version string not parsed)');
+      fail('func', 'Azure Functions Core Tools not on PATH (required for native imageResize)');
     }
   } else {
-    fail('func', 'Azure Functions Core Tools not on PATH');
+    pass('func', 'skipped (imageResize not native)');
   }
 
-  if (commandExists('swa')) {
-    pass('swa', 'Azure Static Web Apps CLI');
-  } else {
-    fail(
-      'swa',
-      'Azure Static Web Apps CLI not on PATH — install: npm install -g @azure/static-web-apps-cli',
-    );
-  }
-
-  if (commandExists('azurite')) {
-    const azOut = toolVersionOutput('azurite');
-    const azVer = parseSemver(azOut);
-    if (azVer && semverGte(azVer, MIN_AZURITE_VERSION)) {
-      pass('azurite', `${azVer.raw} (>= ${MIN_AZURITE_VERSION})`);
-    } else if (azVer) {
-      fail(
-        'azurite',
-        `${azVer.raw} is too old for Functions Core Tools 4.12+ (needs Storage API 2024-11-04). Upgrade: npm install -g azurite@latest then stop any running Azurite (npm run stop / kill :10000) before restart. Minimum ${MIN_AZURITE_VERSION}.`,
-      );
+  if (needNativeFrontend) {
+    if (commandExists('swa')) {
+      pass('swa', 'Azure Static Web Apps CLI');
     } else {
-      fail('azurite', `CLI on PATH but version not parsed from: ${azOut.slice(0, 80)}`);
+      fail(
+        'swa',
+        'Azure Static Web Apps CLI not on PATH — install: npm install -g @azure/static-web-apps-cli',
+      );
     }
   } else {
-    fail('azurite', 'not on PATH — install: npm install -g azurite@latest');
+    pass('swa', 'skipped (web/app not native)');
   }
 
-  if (!fs.existsSync(path.join(PATHS.webClient, 'node_modules'))) {
-    fail('web node_modules', 'missing — run: npm run web:install (from repo root)');
+  if (needNativeAzurite) {
+    if (commandExists('azurite')) {
+      const azOut = toolVersionOutput('azurite');
+      const azVer = parseSemver(azOut);
+      if (azVer && semverGte(azVer, MIN_AZURITE_VERSION)) {
+        pass('azurite', `${azVer.raw} (>= ${MIN_AZURITE_VERSION})`);
+      } else if (azVer) {
+        fail(
+          'azurite',
+          `${azVer.raw} is too old for Functions Core Tools 4.12+ (needs Storage API 2024-11-04). Upgrade: npm install -g azurite@latest. Minimum ${MIN_AZURITE_VERSION}.`,
+        );
+      } else {
+        fail('azurite', `CLI on PATH but version not parsed from: ${azOut.slice(0, 80)}`);
+      }
+    } else {
+      fail('azurite', 'not on PATH — install: npm install -g azurite@latest');
+    }
   } else {
-    pass('web node_modules', PATHS.webClient);
+    pass('azurite CLI', 'skipped (azurite not native)');
   }
 
-  if (!fs.existsSync(path.join(PATHS.appClient, 'node_modules'))) {
-    fail('app node_modules', 'missing — run: npm run app:install (from repo root)');
+  if (needDocker) {
+    try {
+      assertDockerAvailable();
+      pass('docker compose', 'available');
+    } catch (err) {
+      fail('docker compose', err.message);
+    }
   } else {
-    pass('app node_modules', PATHS.appClient);
+    pass('docker compose', 'skipped (no docker-mode services)');
   }
 
-  if (!fs.existsSync(PATHS.functionsSettings)) {
-    fail(
-      'functions local.settings.json',
-      `missing — copy ${path.relative(REPO_ROOT, PATHS.functionsSettingsExample)}`,
-    );
-  } else {
-    pass('functions local.settings.json');
+  if (runtime.web.mode === 'native') {
+    if (!fs.existsSync(path.join(PATHS.webClient, 'node_modules'))) {
+      fail('web node_modules', 'missing — run: npm run web:install (from repo root)');
+    } else {
+      pass('web node_modules', PATHS.webClient);
+    }
+  }
+
+  if (runtime.app.mode === 'native') {
+    if (!fs.existsSync(path.join(PATHS.appClient, 'node_modules'))) {
+      fail('app node_modules', 'missing — run: npm run app:install (from repo root)');
+    } else {
+      pass('app node_modules', PATHS.appClient);
+    }
+  }
+
+  if (runtime.imageResize.mode === 'native') {
+    if (!fs.existsSync(PATHS.functionsSettings)) {
+      fail(
+        'functions local.settings.json',
+        `missing — copy ${path.relative(REPO_ROOT, PATHS.functionsSettingsExample)}`,
+      );
+    } else {
+      pass('functions local.settings.json');
+    }
   }
 }
 
@@ -145,12 +188,27 @@ function checkSecrets() {
   return allOk ? env : null;
 }
 
-function checkSql(env) {
+async function checkSql(env, runtime) {
   console.log('\nSQL Server');
+  const mode = runtime.sql.mode;
+
+  if (mode === 'docker') {
+    const up = await portOpen(PORTS.sql);
+    if (up) pass('sql docker port', `:${PORTS.sql} listening`);
+    else pass('sql docker port', `:${PORTS.sql} not listening yet — start will launch compose sqlserver`);
+    return;
+  }
+
+  if (mode === 'off' && runtime.api.mode === 'docker') {
+    pass('sql', 'mode off with docker api — ensure DB reachable via host.docker.internal or compose');
+    return;
+  }
+
   if (!env) {
     fail('sql', 'skipped (secrets missing)');
     return;
   }
+
   const server = env.SqlConnection__ServerName;
   const user = env.SqlConnection__ServerAdminName;
   const db = env.SqlConnection__DatabaseName;
@@ -185,31 +243,36 @@ function checkSql(env) {
   if (r.status !== 0) {
     fail(
       'sql connect',
-      `cannot reach ${server} / ${db} as ${user}. Ensure SQL is running and the database exists (create an empty database if needed). ${out.slice(0, 200)}`,
+      `cannot reach ${server} / ${db} as ${user}. Ensure SQL is running and the database exists. ${out.slice(0, 200)}`,
     );
     return;
   }
   pass('sql connect', `${server} / ${db}`);
   if (out.includes('NO_HISTORY')) {
-    pass(
-      'sql schema',
-      `__EFMigrationsHistory missing — API will apply migrations on startup`,
-    );
+    pass('sql schema', `__EFMigrationsHistory missing — API will apply migrations on startup`);
     return;
   }
   const count = Number((out.match(/\d+/) || [])[0]);
   if (!Number.isFinite(count) || count < 1) {
-    pass(
-      'sql schema',
-      `no migrations recorded yet — API will apply migrations on startup`,
-    );
+    pass('sql schema', `no migrations recorded yet — API will apply migrations on startup`);
     return;
   }
   pass('sql schema', `${count} migration(s) in __EFMigrationsHistory`);
 }
 
-async function checkAzurite() {
+async function checkAzurite(runtime) {
   console.log('\nAzurite');
+  if (runtime.azurite.mode === 'off') {
+    pass('azurite', 'mode off');
+    return;
+  }
+  if (runtime.azurite.mode === 'docker') {
+    const blob = await portOpen(PORTS.azuriteBlob);
+    if (blob) pass('azurite docker', 'ports listening');
+    else pass('azurite docker', 'not listening yet — start will launch compose azstorage');
+    return;
+  }
+
   const blob = await portOpen(PORTS.azuriteBlob);
   const queue = await portOpen(PORTS.azuriteQueue);
   const table = await portOpen(PORTS.azuriteTable);
@@ -227,6 +290,30 @@ async function checkAzurite() {
       'azurite ports',
       `ports ${PORTS.azuriteBlob}-${PORTS.azuriteTable} closed and azurite CLI missing`,
     );
+  }
+}
+
+function checkMixedMode(runtime) {
+  console.log('\nMixed-mode');
+  if (runtime.api.mode === 'docker' && runtime.sql.mode === 'native') {
+    pass(
+      'api docker + sql native',
+      'compose will use host.docker.internal (SQL Express must allow TCP)',
+    );
+  }
+  if (runtime.api.mode === 'docker' && runtime.azurite.mode === 'native') {
+    pass(
+      'api docker + azurite native',
+      'compose will use host.docker.internal:10000',
+    );
+  }
+  if (runtime.api.mode === 'docker' && runtime.sql.mode === 'off' && runtime.azurite.mode === 'off') {
+    pass('api docker deps', 'sql/azurite off — ensure external deps are up');
+  }
+  if (!anyMode(runtime, 'docker') && !anyMode(runtime, 'native')) {
+    fail('runtime', 'all services are off — nothing to start');
+  } else {
+    pass('runtime modes', 'at least one service enabled');
   }
 }
 
@@ -261,12 +348,28 @@ function checkAuth0(env) {
 }
 
 async function main() {
-  console.log('DertInfo local-native doctor');
+  console.log('DertInfo local estate doctor');
   console.log(`Repo: ${REPO_ROOT}`);
-  checkTooling();
+
+  let runtime;
+  try {
+    runtime = loadRuntime();
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
+
+  console.log('\nRuntime');
+  for (const [k, c] of Object.entries(runtime)) {
+    const hr = c.hotReload != null ? ` hotReload=${c.hotReload}` : '';
+    console.log(`  ${k}: mode=${c.mode} rebuild=${c.rebuild}${hr}`);
+  }
+
+  checkTooling(runtime);
   const env = checkSecrets();
-  checkSql(env);
-  await checkAzurite();
+  await checkSql(env, runtime);
+  await checkAzurite(runtime);
+  checkMixedMode(runtime);
   await checkAuth0(env);
 
   const failed = results.filter((r) => !r.ok);

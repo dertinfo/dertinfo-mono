@@ -1,38 +1,36 @@
 #!/usr/bin/env node
 /**
- * Probe local-native ports (informational).
+ * Probe local estate ports / health (informational).
  */
-import http from 'node:http';
-import { PORTS, portOpen } from './paths.mjs';
+import { PORTS, loadRuntime, portOpen } from './paths.mjs';
+import {
+  isApiHealthy,
+  isAppHealthy,
+  isAzuriteHealthy,
+  isImageResizeHealthy,
+  isSqlHealthy,
+  isWebHealthy,
+} from './health.mjs';
 
-async function httpOk(url, timeoutMs = 2000) {
-  return new Promise((resolve) => {
-    const req = http.get(url, { timeout: timeoutMs }, (res) => {
-      res.resume();
-      resolve(res.statusCode && res.statusCode < 500);
-    });
-    req.on('timeout', () => {
-      req.destroy();
-      resolve(false);
-    });
-    req.on('error', () => resolve(false));
-  });
-}
+const runtime = loadRuntime();
 
-const checks = [
-  ['api', PORTS.api, `http://localhost:${PORTS.api}/swagger/index.html`],
-  ['web', PORTS.web, `http://localhost:${PORTS.web}/`],
-  ['app', PORTS.app, `http://localhost:${PORTS.app}/`],
-  ['imageResize', PORTS.imageResize, null],
-  ['azuriteBlob', PORTS.azuriteBlob, null],
+const rows = [
+  ['api', PORTS.api, () => isApiHealthy()],
+  ['web', PORTS.web, () => isWebHealthy()],
+  ['app', PORTS.app, () => isAppHealthy()],
+  ['imageResize', PORTS.imageResize, () => isImageResizeHealthy()],
+  ['azurite', PORTS.azuriteBlob, () => isAzuriteHealthy()],
+  ['sql', PORTS.sql, () => isSqlHealthy(runtime.sql?.mode ?? 'native')],
 ];
 
-console.log('DertInfo local-native status\n');
-for (const [name, port, url] of checks) {
+console.log('DertInfo local estate status\n');
+for (const [name, port, check] of rows) {
+  const cfg = runtime[name];
+  const mode = cfg?.mode ?? '?';
   const tcp = await portOpen(port);
-  let httpStatus = '';
-  if (tcp && url) {
-    httpStatus = (await httpOk(url)) ? ' http:ok' : ' http:down';
-  }
-  console.log(`  ${tcp ? 'UP  ' : 'DOWN'} ${name.padEnd(12)} :${port}${httpStatus}`);
+  const healthy = await check();
+  const flag = healthy ? 'UP  ' : tcp ? 'WEAK' : 'DOWN';
+  console.log(
+    `  ${flag} ${name.padEnd(12)} :${String(port).padEnd(5)} mode=${mode}${healthy ? ' healthy' : ''}`,
+  );
 }
