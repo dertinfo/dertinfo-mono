@@ -12,8 +12,10 @@ updated: 2026-07-26
 | Area | Purpose |
 |------|---------|
 | [architecture/](architecture/) | Estate structure and subsystem responsibilities |
-| [guides/](guides/) | Cross-cutting how-tos (local estate, etc.) |
-| [infra/](infra/) | Configuration, CI/CD, agent GitHub MCP setup |
+| [subsystems/](subsystems/) | Deep dives (Auth0, security, …) |
+| [standards/](standards/) | Technology conventions (Angular, …) |
+| [guides/](guides/) | Cross-cutting how-tos (local estate, contributing) |
+| [infra/](infra/) | Configuration, CI/CD, secrets rotation, agent GitHub MCP |
 
 API endpoints and schemas: OpenAPI / Swagger via [`packages/shared-contracts/`](../../packages/shared-contracts/) — not duplicated here.
 

@@ -217,6 +217,8 @@ docker compose up --build
 
 - [Local development](../guides/local-development.md) — run the whole estate
 - [Architecture overview](../architecture/overview.md)
+- [Authentication (Auth0)](../subsystems/authentication.md)
+- [Secrets and rotation](secrets-and-rotation.md)
 - [`infra/secrets/README.md`](../../../infra/secrets/README.md) — secrets layout
 - [`infra/dev/README.md`](../../../infra/dev/README.md) — doctor / start / stop
 - [`apps/dert-api/README.md`](../../../apps/dert-api/README.md) — API-specific notes

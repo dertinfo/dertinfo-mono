@@ -11,6 +11,8 @@ How to run the **whole estate** on a developer machine: native host processes, h
 
 Project-local getting started (F5, single-app install) stays in each app README. Configuration keys, secrets, and ports are canonical in [Configuration](../infra/configuration.md).
 
+Docker/Compose narrative also draws on the legacy wiki: [How we use docker & docker-compose](https://github.com/dertinfo/dertinfo/wiki/How-we-use-docker-&-docker-compose-in-DertInfo) — updated for the monorepo (**native-first** for day-to-day work).
+
 ## Recommended path (native)
 
 Day-to-day: API + website + image resize + Azurite on the host. **Docker Desktop is not required.**
@@ -20,7 +22,7 @@ Day-to-day: API + website + image resize + Azurite on the host. **Docker Desktop
 3. `npm run doctor` → `npm run start` → `npm run status`.
 4. Stop with `npm run stop`.
 
-Default URLs: API `44100`, website `44200`, image resize `44400`, Azurite `10000–10002`. PWA `44300` only if enabled in `runtime.json`.
+Default URLs: API `44100`, website `44200`, image resize `44400`, Azurite `10000–10002`. SQL may be host Express or Compose on `44000`. PWA `44300` only if enabled in `runtime.json`.
 
 ## Hybrid native / Docker
 
@@ -33,7 +35,9 @@ Details, timings, and recommended day-to-day matrix: [`infra/dev/README.md`](../
 
 ## Full Docker Compose
 
-Optional “everything in containers” path:
+Optional “everything in containers” path — useful to validate the estate with latest images / built Dockerfiles without installing every host tool. Feedback loop for editing API/web is slower than native hot reload.
+
+Root Compose file: [`docker-compose.yml`](../../../docker-compose.yml) (env templates under [`infra/docker/`](../../../infra/docker/) and [`infra/secrets/`](../../../infra/secrets/)).
 
 ```bash
 cp infra/secrets/api.env.example infra/secrets/api.env
@@ -44,6 +48,12 @@ docker compose up --build
 
 Prefer native/hybrid for editing API or website; use Compose when you want containers without host Azurite/func/SWA. Root README: [Docker (optional)](../../../README.md#docker-optional).
 
+Each app still has a **Dockerfile** for image builds; CD publishes test-tagged images to Docker Hub — see [CI/CD](../infra/cicd.md).
+
+### Codespaces / Docker-in-Docker
+
+If local Docker Desktop is awkward (especially on some Windows setups), GitHub Codespaces can run the estate with Docker-in-Docker. Prefer documenting Codespace specifics in app/repo Codespace config when that path is actively maintained.
+
 ## Visual Studio (API only)
 
 Set `"api": { "mode": "off", "rebuild": false }` in `runtime.json` and debug the API with user secrets — [`apps/dert-api/README.md`](../../../apps/dert-api/README.md).
@@ -53,3 +63,4 @@ Set `"api": { "mode": "off", "rebuild": false }` in `runtime.json` and debug the
 - [Architecture overview](../architecture/overview.md)
 - [Configuration](../infra/configuration.md)
 - [Secrets](../../../infra/secrets/README.md)
+- [Contributing workflow](contributing-workflow.md)

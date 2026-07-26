@@ -32,6 +32,24 @@
   path: roles/event-admin.md
   roles: [event-admin]
 
+- id: venue-admin
+  title: Venue administrator
+  status: active
+  path: roles/venue-admin.md
+  roles: [venue-admin]
+
+- id: dod-admin
+  title: Dert of Derts administrator
+  status: active
+  path: roles/dod-admin.md
+  roles: [dod-admin]
+
+- id: super-admin
+  title: Super administrator
+  status: active
+  path: roles/super-admin.md
+  roles: [super-admin]
+
 - id: auth.login
   title: Log in
   status: active
@@ -42,16 +60,16 @@
   title: Log out
   status: active
   path: features/auth-logout.md
-  roles: [member, group-member, group-admin, event-admin]
+  roles: [member, group-member, group-admin, event-admin, venue-admin, dod-admin, super-admin]
 
 - id: auth.session-continuity
   title: Stay signed in
   status: active
   path: features/auth-session-continuity.md
-  roles: [member, group-member, group-admin, event-admin]
+  roles: [member, group-member, group-admin, event-admin, venue-admin, dod-admin, super-admin]
 
 - id: system.authenticated-session
   title: Authenticated session
   status: active
   path: system/authenticated-session.md
-  roles: [member, group-member, group-admin, event-admin]
+  roles: [member, group-member, group-admin, event-admin, venue-admin, dod-admin, super-admin]

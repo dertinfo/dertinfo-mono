@@ -1,16 +1,16 @@
 ---
-name: Group administrator
+name: Venue administrator
 type: role
 status: active
 updated: 2026-07-26
-id: group-admin
+id: venue-admin
 ---
 
-# Role: Group administrator
+# Role: Venue administrator
 
 ## Summary
 
-A signed-in user who can administer one or more groups they are authorised for.
+A signed-in user who can administer one or more venues they are authorised for (typically within an event’s competition venues).
 
 ## Capabilities
 
@@ -19,9 +19,8 @@ A signed-in user who can administer one or more groups they are authorised for.
 
 ## Limitations
 
-- Scoped to specific groups.
-- Event administration requires [Event administrator](event-admin.md).
-- Venue administration requires [Venue administrator](venue-admin.md).
+- Scoped to specific venues; does not by itself grant full event or platform administration.
+- Group administration requires [Group administrator](group-admin.md).
 - Platform-wide administration requires [Super administrator](super-admin.md).
 
 > Starter stub for reverse-engineering — expand from product behaviour. Roles may combine on one account.

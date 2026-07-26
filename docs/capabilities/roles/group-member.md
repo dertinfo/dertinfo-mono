@@ -20,5 +20,6 @@ A signed-in user associated with one or more groups as a member (not necessarily
 ## Limitations
 
 - Group administration actions require [Group administrator](group-admin.md).
+- Event, venue, DoD, and platform administration require their respective roles.
 
-> Starter stub for reverse-engineering — expand from product behaviour.
+> Starter stub for reverse-engineering — expand from product behaviour. Roles may combine on one account.

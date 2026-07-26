@@ -15,9 +15,13 @@ Platform documentation for humans and AI agents. Organised in three tracks:
 | Topic | Link |
 |-------|------|
 | Architecture | [technical/architecture/overview.md](technical/architecture/overview.md) |
+| Authentication (Auth0) | [technical/subsystems/authentication.md](technical/subsystems/authentication.md) |
+| Angular standards | [technical/standards/angular/](technical/standards/angular/) |
 | Local development (estate) | [technical/guides/local-development.md](technical/guides/local-development.md) |
 | Configuration | [technical/infra/configuration.md](technical/infra/configuration.md) |
+| Secrets & rotation | [technical/infra/secrets-and-rotation.md](technical/infra/secrets-and-rotation.md) |
 | CI/CD | [technical/infra/cicd.md](technical/infra/cicd.md) |
+| Contributing workflow | [technical/guides/contributing-workflow.md](technical/guides/contributing-workflow.md) |
 | Capability catalogue | [capabilities/README.md](capabilities/README.md) |
 | Change logs | [operations/changelogs/](operations/changelogs/) |
 | Planned fixes | [operations/planned-fixes/](operations/planned-fixes/) |

@@ -13,10 +13,14 @@ This catalogue is a **starter skeleton** for a later reverse-engineering pass (e
 
 ## Structure
 
-- [Roles](roles/) — who can act in the platform
+- [Roles](roles/) — who can act in the platform (public user, member, group member/admin, event admin, venue admin, DoD admin, super admin)
 - [Features](features/) — user-facing capabilities
 - [System](system/) — cross-cutting platform behaviour
 - Inventory: [`capabilities.yaml`](capabilities.yaml)
+
+Roles may combine on one account (scoped permissions are not mutually exclusive).
+
+Technical mapping of Auth0 `app_metadata` → JWT claims: [Authentication](../technical/subsystems/authentication.md).
 
 ## How to update
 

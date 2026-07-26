@@ -4,7 +4,7 @@ type: feature
 status: active
 updated: 2026-07-26
 id: auth.logout
-roles: [member, group-member, group-admin, event-admin]
+roles: [member, group-member, group-admin, event-admin, venue-admin, dod-admin, super-admin]
 ---
 
 # Feature: Log out
@@ -15,7 +15,7 @@ A signed-in user can end their authenticated session and return to an unauthenti
 
 ## User roles
 
-- **member**, **group-member**, **group-admin**, **event-admin** — can sign out
+- Any signed-in role (**member**, **group-member**, **group-admin**, **event-admin**, **venue-admin**, **dod-admin**, **super-admin**) can sign out
 
 ## Behaviour
 

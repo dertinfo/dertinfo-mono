@@ -25,7 +25,9 @@ The production version of this solution is visible at [https://www.dertinfo.co.u
 
 This project is a ["Azure Static Web App"](https://azure.microsoft.com/en-gb/products/app-service/static). 
 
-This static web app wraps an ["Angular"](https://angular.dev/) client to support with deployment to Azure Static Web Apps and routing. 
+This static web app wraps an ["Angular"](https://angular.dev/) client to support with deployment to Azure Static Web Apps and routing.
+
+Client conventions (conductor / tracker / repository / resolver): [`docs/technical/standards/angular/`](../../docs/technical/standards/angular/).
 
 ### Docker 
 

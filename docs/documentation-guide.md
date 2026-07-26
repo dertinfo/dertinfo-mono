@@ -30,7 +30,8 @@ docs/
     architecture/
     guides/
     infra/
-    # subsystems/ — create on first use
+    subsystems/            # Auth0, security, …
+    standards/             # Angular, .NET, … technology conventions
   operations/
     changelogs/
     planned-fixes/
@@ -42,7 +43,8 @@ docs/
 
 | Folder | When to create |
 |--------|----------------|
-| `technical/subsystems/` | First deep technical page for a named subsystem |
+| Further `technical/subsystems/` pages | When a new named subsystem needs a deep dive |
+| Further `technical/standards/<tech>/` | When documenting house rules for another stack |
 | Further capability domains | As reverse-engineering fills the catalogue |
 
 ### Do not create
@@ -58,9 +60,10 @@ docs/
 | Folder | Owns |
 |--------|------|
 | `technical/architecture/` | Estate structure and subsystem responsibilities |
-| `technical/guides/` | Cross-cutting how-tos (e.g. run the whole estate) |
-| `technical/infra/` | Configuration model, CI/CD, tooling setup |
-| `technical/subsystems/` | Deeper per-subsystem tech notes when needed |
+| `technical/subsystems/` | Deep technical topics (Auth0, security, …) |
+| `technical/standards/` | Stack-wide conventions (Angular constructs, style, …) |
+| `technical/guides/` | Cross-cutting how-tos (e.g. run the whole estate, contributing) |
+| `technical/infra/` | Configuration model, CI/CD, secrets rotation, tooling setup |
 | App README | That component’s local install / F5 / debug only |
 
 ## Capabilities and `capabilities.yaml`

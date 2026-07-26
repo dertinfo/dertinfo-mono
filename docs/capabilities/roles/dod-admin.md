@@ -1,16 +1,16 @@
 ---
-name: Group administrator
+name: Dert of Derts administrator
 type: role
 status: active
 updated: 2026-07-26
-id: group-admin
+id: dod-admin
 ---
 
-# Role: Group administrator
+# Role: Dert of Derts administrator
 
 ## Summary
 
-A signed-in user who can administer one or more groups they are authorised for.
+A signed-in user who can administer Dert of Derts (DoD) programme areas of the platform (submissions, talks, related DoD administration).
 
 ## Capabilities
 
@@ -19,9 +19,7 @@ A signed-in user who can administer one or more groups they are authorised for.
 
 ## Limitations
 
-- Scoped to specific groups.
-- Event administration requires [Event administrator](event-admin.md).
-- Venue administration requires [Venue administrator](venue-admin.md).
+- Does not by itself grant group, event, or venue administration.
 - Platform-wide administration requires [Super administrator](super-admin.md).
 
 > Starter stub for reverse-engineering — expand from product behaviour. Roles may combine on one account.

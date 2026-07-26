@@ -4,7 +4,7 @@ type: system
 status: active
 updated: 2026-07-26
 id: system.authenticated-session
-roles: [member, group-member, group-admin, event-admin]
+roles: [member, group-member, group-admin, event-admin, venue-admin, dod-admin, super-admin]
 ---
 
 # System capability: Authenticated session

@@ -4,7 +4,7 @@ type: feature
 status: active
 updated: 2026-07-26
 id: auth.session-continuity
-roles: [member, group-member, group-admin, event-admin]
+roles: [member, group-member, group-admin, event-admin, venue-admin, dod-admin, super-admin]
 ---
 
 # Feature: Stay signed in
@@ -15,7 +15,7 @@ A signed-in user can continue using the platform across page loads and within a 
 
 ## User roles
 
-- **member**, **group-member**, **group-admin**, **event-admin**
+- **member**, **group-member**, **group-admin**, **event-admin**, **venue-admin**, **dod-admin**, **super-admin**
 
 ## Behaviour
 
