@@ -1,10 +1,13 @@
-
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { JWT_OPTIONS, JwtModule } from '@auth0/angular-jwt';
+import {
+  AuthClientConfig,
+  AuthHttpInterceptor,
+  AuthModule,
+} from '@auth0/auth0-angular';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ConfigurationService } from 'app/core/services/configuration.service';
@@ -14,11 +17,8 @@ import { QuillModule } from 'ngx-quill';
 import { AppComponent } from './app.component';
 import { rootRouterConfig } from './app.routes';
 
-import { AuthService } from './core/authentication/auth.service';
-import { AuthGuard } from './core/guards/auth.guard';
 import { AppInsightsService } from './core/logging/appinsights.service';
 import { ErrorHandlerService } from './core/logging/errorhandler.service';
-import { WarmupResolver } from './core/resolvers/warmup.resolver';
 import { ClientSettingsService } from './core/services/clientsettings.service';
 import { NavigationService } from './core/services/navigation.service';
 import { RoutePartsService } from './core/services/route-parts.service';
@@ -33,12 +33,46 @@ import { DertOfDertsRegionModule } from './regions/dertofderts/dertofderts-regio
 import { SessionRegionModule } from './regions/session/session-region.module';
 import { TermsRegionModule } from './regions/terms/terms-region.module';
 import { AppSharedModule } from './shared/app-shared.module';
-import { jwtOptions } from './core/jwt-utils';
 
-export function initSettings(configurationService: ConfigurationService, appInsightsService: AppInsightsService, http: HttpClient) {
+/**
+ * APP_INITIALIZER — Auth flow step 1–2:
+ *  1. Load local/staging/prod callback URL + API base (assets or environment.*).
+ *  2. Fetch Auth0 domain/clientId/audience from GET {api}/clientconfiguration/web.
+ *  3. AuthClientConfig.set — configure @auth0/auth0-angular with refresh tokens for ALL envs.
+ *
+ * Same path for local (localhost:44200), staging (staging.dertinfo.co.uk), and prod (www.dertinfo.co.uk).
+ */
+export function initSettings(
+  configurationService: ConfigurationService,
+  appInsightsService: AppInsightsService,
+  authClientConfig: AuthClientConfig,
+) {
   console.log('Application Initialising');
   return () => {
-    return configurationService.loadConfig(http).then(() => {
+    // loadConfig uses HttpBackend internally so AuthHttpInterceptor cannot deadlock bootstrap.
+    return configurationService.loadConfig().then((config) => {
+      // Step 2 — apply Auth0 SPA SDK settings after remote config is available.
+      // useRefreshTokens + localstorage: renew via /oauth/token (not iframe /silent).
+      authClientConfig.set({
+        domain: config.auth0TenantDomain,
+        clientId: config.auth0ClientId,
+        authorizationParams: {
+          audience: config.auth0Audience,
+          redirect_uri: `${config.auth0CallbackUrl}/callback`,
+          scope: 'openid profile email offline_access',
+        },
+        useRefreshTokens: true,
+        // Prefer refresh tokens on localhost; do not fall back to consent_required iframe silent auth.
+        useRefreshTokensFallback: false,
+        cacheLocation: 'localstorage',
+        httpInterceptor: {
+          // Step 5 — AuthHttpInterceptor attaches Bearer AT to matching API URLs.
+          allowedList: [
+            `${config.apiUrl}/*`,
+          ],
+        },
+      });
+
       appInsightsService.initialiseInsights();
     });
   };
@@ -49,16 +83,19 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
 
-export function getJwtToken(): string {
-  return localStorage.getItem('access_token');
-}
-
 @NgModule({
   imports: [
     // Angular
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    // Auth0 Angular SDK — placeholders overwritten in APP_INITIALIZER via AuthClientConfig.set.
+    // Real domain/clientId/audience/redirect come from ConfigurationService (local + staging + prod).
+    // Pinned to 2.2.3: newer 2.x pulls makeEnvironmentProviders (Angular 15+) which breaks Angular 14.
+    AuthModule.forRoot({
+      domain: 'placeholder.auth0.com',
+      clientId: 'placeholder',
+    }),
     // Region imports. note - if we lazy we should be able to remove these.
     AuthenticatedRegionModule,
     CallbacksRegionModule,
@@ -80,12 +117,6 @@ export function getJwtToken(): string {
         deps: [HttpClient]
       }
     }),
-    JwtModule.forRoot({
-      jwtOptionsProvider: {
-        provide: JWT_OPTIONS,
-        useFactory: jwtOptions.options
-      }
-    }),
     RouterModule.forRoot(rootRouterConfig, { enableTracing: false, useHash: false, anchorScrolling: 'enabled', relativeLinkResolution: 'legacy' }),
     QuillModule.forRoot()
   ],
@@ -94,7 +125,14 @@ export function getJwtToken(): string {
     NavigationService,
     DashboardResolver,
     CookieService,
-    { provide: APP_INITIALIZER, useFactory: initSettings, deps: [ConfigurationService, AppInsightsService, HttpClient], multi: true },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initSettings,
+      deps: [ConfigurationService, AppInsightsService, AuthClientConfig],
+      multi: true,
+    },
+    // Attaches Authorization: Bearer <access_token> to URLs in httpInterceptor.allowedList.
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'en-GB' },
     { provide: ErrorHandler, useClass: ErrorHandlerService }
   ],

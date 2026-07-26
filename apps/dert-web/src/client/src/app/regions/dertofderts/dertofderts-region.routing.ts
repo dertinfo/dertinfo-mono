@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
+import { WarmupGuard } from 'app/core/guards/warmup.guard';
 import { ClientSettingsResolver } from 'app/core/resolvers/clientsettings.resolver';
-import { WarmupResolver } from 'app/core/resolvers/warmup.resolver';
 import { DertOfDertsRegionComponent } from './dertofderts-region.component';
 
 const routes: Routes = [
@@ -10,8 +10,8 @@ const routes: Routes = [
     children: [
       {
         path: 'dertofderts',
+        canActivate: [WarmupGuard],
         resolve: {
-          warmup: WarmupResolver,
           clientSettings: ClientSettingsResolver
         },
         loadChildren: () => import('../../modules/dertofderts-public/dertofderts-public.module').then(m => m.DertOfDertsPublicModule),

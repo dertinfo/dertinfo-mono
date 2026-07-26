@@ -6,6 +6,7 @@
 export const environment = {
   production: true,
   apiUrl: 'https://dertinfo-live-api-wa.azurewebsites.net/api',
+  // Auth0 Allowed Callback base (production). Same Auth0 Angular SDK path as local/staging.
   auth0CallbackUrl: "https://www.dertinfo.co.uk",
   allowedDomains: [
     "dertinfo-live-api-wa.azurewebsites.net"

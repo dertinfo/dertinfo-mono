@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { ClientSettingsResolver } from './core/resolvers/clientsettings.resolver';
-import { WarmupResolver } from './core/resolvers/warmup.resolver';
 import { AuthenticatedRegionRoutes } from './regions/authenticated/authenticated-region.routing';
 import { BlanksRegionRoutes } from './regions/blanks/blanks-region.routing';
 import { CallbacksRegionRoutes } from './regions/callbacks/callbacks-region.routing';

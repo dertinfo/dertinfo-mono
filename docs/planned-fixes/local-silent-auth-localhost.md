@@ -1,6 +1,6 @@
 # Investigation: Local silent auth fails on localhost after group create
 
-**Status:** Diagnosis complete — deferred while monorepo stabilisation continues. Acceptable interim: re-login after group create on `http://localhost:44200`. Future work may include HTTPS local dev hostname, Codespaces/tunnel callbacks, or auth library updates — without changing production auth flow until deliberately planned.
+**Status:** Resolved (2026-07-26) — website migrated to `@auth0/auth0-angular` with refresh-token renewal (`getAccessTokenSilently`), replacing `auth0-js` silent iframe `/silent`. See changelog [`2026-07-26-web-auth-refresh-warmup.md`](../changelogs/2026-07-26-web-auth-refresh-warmup.md). This page remains as the historical diagnosis of `consent_required` on localhost silent auth.
 
 **Symptom:** After creating a group locally (`http://localhost:44200`), the create-group modal stays open, the dashboard group list does not refresh, and `GET /api/group` does not run after a successful `POST /api/group/minimal` (201). Production (`https://www.dertinfo.co.uk`) works for the same flow.
 
@@ -148,8 +148,10 @@ Recommended first experiment when returning to this: **Option A** (local HTTPS h
 
 ## Success criteria (when revisiting)
 
-1. Submit group create → modal closes (or navigates to group-configure as originally designed).
-2. Network: `POST /api/group/minimal` (201) → silent iframe loads `/silent` → `GET /api/group` (200).
-3. Dashboard group count increases; new group visible without manual re-login.
-4. Auth0 log: `ssa` (not `fsa`) after create on local dev origin.
-5. Console: no `Silent token renewal returned no access token` or `Consent required`.
+_Met on 2026-07-26 via refresh-token path (criteria below updated from silent-iframe expectations)._
+
+1. Submit group create → modal closes (or navigates to group-configure as originally designed). ✅
+2. Network: `POST /api/group/minimal` (201) → refresh-token grant (`/oauth/token`) → dashboard/nav uses refreshed claims. ✅
+3. Dashboard group count increases; new group visible without manual re-login. ✅
+4. Auth0: no failed silent iframe auth (`fsa` / `consent_required` on `/silent`) for this flow. ✅
+5. Console: no `Silent token renewal returned no access token` or iframe `Consent required`. ✅

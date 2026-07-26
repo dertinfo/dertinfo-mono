@@ -38,8 +38,4 @@ export class TopbarComponent implements OnInit {
         domHelper.toggleClass(appBody, 'collapsed-menu');
         domHelper.removeClass(document.getElementsByClassName('has-submenu'), 'open');
     }
-
-    onSignOutClick() {
-      this.authService.logout();
-    }
 }

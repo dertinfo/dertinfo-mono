@@ -1,0 +1,46 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.signout-page {
+  justify-content: center;
+}
+
+.signout-box {
+  width: 50%;
+  max-width: 640px;
+  min-width: 280px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem;
+  text-align: center;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.signout-icon {
+  display: block;
+  margin: 0 auto 1rem;
+  width: 48px;
+  height: 48px;
+  font-size: 48px;
+  line-height: 48px;
+}
+
+.signout-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.signout-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.6);
+  white-space: nowrap;
+}

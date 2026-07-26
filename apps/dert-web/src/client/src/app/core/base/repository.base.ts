@@ -25,6 +25,8 @@ export class RepositoryBase {
         //     // The backend returned an unsuccessful response code.
         // }
 
-        return throwError(err.json().error || 'Server error');
+        // Angular HttpErrorResponse has .error, not .json() (Http legacy API).
+        const message = (err && (err.error || err.message)) || 'Server error';
+        return throwError(message);
     }
 }

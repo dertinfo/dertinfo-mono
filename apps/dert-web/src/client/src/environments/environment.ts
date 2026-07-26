@@ -7,6 +7,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:44100/api',
+  // Auth0 Allowed Callback base (local). SDK uses `${auth0CallbackUrl}/callback`.
   auth0CallbackUrl: "http://localhost:44200",
   allowedDomains: [
     "localhost:44100"
