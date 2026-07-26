@@ -53,34 +53,90 @@ namespace DertInfo.Services.Entity.Images
 
         public async Task<Image> GetDefaultGroupImage()
         {
-            // Test to see if there is an image in the database with the default name
-            var defaultImage = await _imageRepository.SingleOrDefault(i => i.BlobName.EndsWith(_dertInfoConfiguration.Defaults_GroupImageName));
-
-            // Image is present in the database return the image
-            if (defaultImage != null)
-            {
-                return defaultImage;
-            }
-
-            // Image is not present in the database create the image and sizes
-            var container = _storageAccountConnection.getDefaultPicturesContainer();
-            return await this.CreateDefaultImage(Properties.Resources.GroupDefaultImage, container, _dertInfoConfiguration.Defaults_GroupImageName, "png");
+            return await this.GetOrEnsureDefaultImage(
+                _dertInfoConfiguration.Defaults_GroupImageName,
+                Properties.Resources.GroupDefaultImage);
         }
 
         public async Task<Image> GetDefaultEventImage()
         {
-            // Test to see if there is an image in the database with the default name
-            var defaultImage = await _imageRepository.SingleOrDefault(i => i.BlobName.EndsWith(_dertInfoConfiguration.Defaults_EventImageName));
+            return await this.GetOrEnsureDefaultImage(
+                _dertInfoConfiguration.Defaults_EventImageName,
+                Properties.Resources.EventDefaultImage);
+        }
 
-            // Image is present in the database return the image
-            if (defaultImage != null)
+        /// <summary>
+        /// Resolve the default group/event image, ensuring the blob exists in storage.
+        /// Restored SQL + empty Azurite (or wiped storage) leaves a DB row with no blob;
+        /// we re-upload the embedded resource in that case instead of returning a broken URL.
+        /// </summary>
+        private async Task<Image> GetOrEnsureDefaultImage(string defaultImageName, byte[] embeddedResourceImage)
+        {
+            var defaultImage = await _imageRepository.SingleOrDefault(i => i.BlobName.EndsWith(defaultImageName));
+            var container = _storageAccountConnection.getDefaultPicturesContainer();
+
+            if (defaultImage == null)
             {
-                return defaultImage;
+                return await this.CreateDefaultImage(embeddedResourceImage, container, defaultImageName, "png");
             }
 
-            // Image is not present in the database create the image and sizes
-            var container = _storageAccountConnection.getDefaultPicturesContainer();
-            return await this.CreateDefaultImage(Properties.Resources.EventDefaultImage, container, _dertInfoConfiguration.Defaults_EventImageName, "png");
+            var resolvedContainer = string.IsNullOrWhiteSpace(defaultImage.Container)
+                ? container
+                : defaultImage.Container;
+            // Prefer DB path; if missing, use originals/ (same layout CreateDefaultImage writes).
+            var resolvedBlobPath = string.IsNullOrWhiteSpace(defaultImage.BlobPath)
+                ? _storageAccountConnection.getOriginalsFolder()
+                : defaultImage.BlobPath;
+            var blobName = defaultImage.BlobName;
+
+            if (!await this.DefaultImageBlobExists(resolvedContainer, resolvedBlobPath, blobName))
+            {
+                await this.UploadDefaultImageBlob(embeddedResourceImage, resolvedContainer, resolvedBlobPath, blobName);
+
+                // Keep the DB row aligned with where we just wrote the blob (common after old/null paths).
+                var needsUpdate = false;
+                if (defaultImage.Container != resolvedContainer)
+                {
+                    defaultImage.Container = resolvedContainer;
+                    needsUpdate = true;
+                }
+                if (defaultImage.BlobPath != resolvedBlobPath)
+                {
+                    defaultImage.BlobPath = resolvedBlobPath;
+                    needsUpdate = true;
+                }
+                if (!defaultImage.IsProtected)
+                {
+                    defaultImage.IsProtected = true;
+                    needsUpdate = true;
+                }
+                if (needsUpdate)
+                {
+                    await _imageRepository.Update(defaultImage);
+                }
+            }
+
+            return defaultImage;
+        }
+
+        private async Task<bool> DefaultImageBlobExists(string container, string blobPath, string blobName)
+        {
+            var connectionString = _storageAccountConnection.getImagesStorageConnectionString();
+            return await _blobStorageRepository.TestExists(
+                connectionString,
+                container,
+                blobPath ?? string.Empty,
+                blobName);
+        }
+
+        private async Task UploadDefaultImageBlob(byte[] embeddedResourceImage, string blobContainer, string blobPath, string blobName)
+        {
+            Ensure.Any.IsNotNull(embeddedResourceImage, nameof(embeddedResourceImage), opts => opts.WithMessage("Embedded resource image is null"));
+            Ensure.String.IsNotNullOrWhiteSpace(blobContainer);
+            Ensure.String.IsNotNullOrWhiteSpace(blobName);
+
+            var connectionString = _storageAccountConnection.getImagesStorageConnectionString();
+            await _blobStorageRepository.UploadFileToBlob(embeddedResourceImage, connectionString, blobContainer, blobPath ?? string.Empty, blobName);
         }
 
         /// <summary>
@@ -110,21 +166,17 @@ namespace DertInfo.Services.Entity.Images
             Ensure.String.IsNotNullOrWhiteSpace(targetContainer);
             Ensure.String.IsNotNullOrWhiteSpace(staticImageName);
 
-            var connectionString = this._storageAccountConnection.getImagesStorageConnectionString();
-            var blobContainer = targetContainer;
             var blobPath = this._storageAccountConnection.getOriginalsFolder();
-            var blobName = staticImageName;
             var blobExtension = imageExtension.Replace(".", string.Empty);
 
-            // Create the blob for the image
-            var blobUri = await this._blobStorageRepository.UploadFileToBlob(embeddedResourceImage, connectionString, blobContainer, blobPath, blobName);
+            await this.UploadDefaultImageBlob(embeddedResourceImage, targetContainer, blobPath, staticImageName);
 
             // Create a database reference to the image
             var defaultImageDbEntry = new Image()
             {
-                Container = blobContainer,
+                Container = targetContainer,
                 BlobPath = blobPath,
-                BlobName = blobName,
+                BlobName = staticImageName,
                 Extension = blobExtension,
                 IsProtected = true
             };
