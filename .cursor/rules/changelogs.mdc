@@ -1,7 +1,7 @@
 ---
 description: Project change log entries for completed workstreams
 globs:
-  - docs/changelogs/**
+  - docs/operations/changelogs/**
 alwaysApply: true
 ---
 
@@ -11,14 +11,14 @@ When a chat or workstream is **seen through to completion** (outcome delivered, 
 
 ## Layout
 
-- Index: [`docs/changelogs/README.md`](../../docs/changelogs/README.md)
-- Detail pages: `docs/changelogs/YYYY-MM-DD-short-slug.md` (completion date)
+- Index: [`docs/operations/changelogs/README.md`](../../docs/operations/changelogs/README.md)
+- Detail pages: `docs/operations/changelogs/YYYY-MM-DD-short-slug.md` (completion date)
 
 ## Steps
 
 1. Create the detail page using the sections below (in this order).
-2. Add a row at the **top** of the index table in `docs/changelogs/README.md` (newest first).
-3. Link to wider docs (`docs/cicd.md`, `docs/configuration.md`, `docs/planned-fixes/…`) instead of copying them.
+2. Add a row at the **top** of the index table in `docs/operations/changelogs/README.md` (newest first).
+3. Link to wider docs (`docs/technical/infra/cicd.md`, `docs/technical/infra/configuration.md`, `docs/operations/planned-fixes/…`) instead of copying them.
 4. List merged PR URLs and important Actions run links where useful.
 5. Include the change log files in the same PR as the work when practical; otherwise open a small docs PR immediately after.
 

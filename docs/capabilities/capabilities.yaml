@@ -1,0 +1,195 @@
+# Capability inventory
+# Markdown pages are the narrative source of truth.
+# Agents: add YAML + markdown together; do not regenerate markdown from this file.
+
+# --- Roles ---
+- id: public-user
+  title: Public user
+  status: active
+  path: roles/public-user.md
+  roles: [public-user]
+
+- id: member
+  title: Member
+  status: active
+  path: roles/member.md
+  roles: [member]
+
+- id: group-member
+  title: Group member
+  status: active
+  path: roles/group-member.md
+  roles: [group-member]
+
+- id: group-admin
+  title: Group administrator
+  status: active
+  path: roles/group-admin.md
+  roles: [group-admin]
+
+- id: event-admin
+  title: Event administrator
+  status: active
+  path: roles/event-admin.md
+  roles: [event-admin]
+
+- id: venue-admin
+  title: Venue administrator
+  status: active
+  path: roles/venue-admin.md
+  roles: [venue-admin]
+
+- id: dod-admin
+  title: Dert of Derts administrator
+  status: active
+  path: roles/dod-admin.md
+  roles: [dod-admin]
+
+- id: super-admin
+  title: Super administrator
+  status: deprecated
+  path: roles/super-admin.md
+  roles: [super-admin]
+
+# --- System ---
+- id: system.domain-glossary
+  title: Domain glossary
+  status: active
+  path: system/domain-glossary.md
+  roles: []
+
+- id: system.authenticated-session
+  title: Authenticated session
+  status: active
+  path: system/authenticated-session.md
+  roles: [member, group-member, group-admin, event-admin, venue-admin, dod-admin, super-admin]
+
+- id: system.image-handling
+  title: Image handling
+  status: active
+  path: system/image-handling.md
+  roles: []
+
+# --- Auth ---
+- id: auth.login
+  title: Log in
+  status: active
+  path: features/auth-login.md
+  roles: [public-user, member]
+
+- id: auth.logout
+  title: Log out
+  status: active
+  path: features/auth-logout.md
+  roles: [member, group-member, group-admin, event-admin, venue-admin, dod-admin, super-admin]
+
+- id: auth.session-continuity
+  title: Stay signed in
+  status: active
+  path: features/auth-session-continuity.md
+  roles: [member, group-member, group-admin, event-admin, venue-admin, dod-admin, super-admin]
+
+# --- Primary features ---
+- id: groups.manage
+  title: Create and manage group
+  status: active
+  path: features/groups-manage.md
+  roles: [member, group-admin]
+
+- id: events.create
+  title: Create event
+  status: active
+  path: features/events-create.md
+  roles: [event-admin]
+
+- id: registration.submit
+  title: Submit event registration
+  status: active
+  path: features/registration-submit.md
+  roles: [group-admin]
+
+- id: registration.confirm
+  title: Confirm registrations
+  status: active
+  path: features/registration-confirm.md
+  roles: [event-admin]
+
+- id: invoicing.payment-status
+  title: Invoicing and payment status
+  status: active
+  path: features/invoicing.md
+  roles: [event-admin, group-admin]
+
+- id: competitions.run
+  title: Run competitions
+  status: active
+  path: features/competitions-run.md
+  roles: [event-admin]
+
+- id: scoring.venue-capture
+  title: Venue score capture
+  status: active
+  path: features/venue-score-capture.md
+  roles: [venue-admin, event-admin]
+
+- id: scoring.validate
+  title: Validate scores
+  status: active
+  path: features/scoring-validate.md
+  roles: [event-admin]
+
+- id: results.publish
+  title: Publish competition results
+  status: active
+  path: features/results-publish.md
+  roles: [event-admin, group-admin, group-member, member, public-user]
+
+- id: public.content
+  title: Public content
+  status: active
+  path: features/public-content.md
+  roles: [public-user]
+
+- id: dod.programme
+  title: Dert of Derts
+  status: active
+  path: features/dod-programme.md
+  roles: [public-user, dod-admin, member]
+
+- id: messaging.send-email
+  title: Send email
+  status: active
+  path: features/send-email.md
+  roles: [event-admin, group-admin]
+
+- id: messaging.in-app-notifications
+  title: In-app notifications
+  status: active
+  path: features/in-app-notifications.md
+  roles: [member, group-admin, event-admin]
+
+- id: account.gdpr-consent
+  title: User account and GDPR consent
+  status: active
+  path: features/account-gdpr-consent.md
+  roles: [member]
+
+- id: public.cookie-consent
+  title: Cookie consent
+  status: active
+  path: features/cookie-consent.md
+  roles: [public-user]
+
+# --- Additional ---
+- id: registration.email-templates
+  title: Registration email templates
+  status: active
+  path: features/registration-email-templates.md
+  roles: [event-admin, group-admin]
+
+# --- Deprecated ---
+- id: platform.super-admin-deprecated
+  title: Super-admin privilege (deprecated)
+  status: deprecated
+  path: features/super-admin-deprecated.md
+  roles: [super-admin]

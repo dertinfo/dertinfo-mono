@@ -30,4 +30,4 @@ Never commit `api.env`.
 
 Do not put non-secrets here if they already belong in `appsettings.json`.
 
-See also: [Configuration](../../docs/configuration.md), [First-time setup](../../README.md#first-time-setup-clone--running-locally).
+See also: [Configuration](../../docs/technical/infra/configuration.md), [First-time setup](../../README.md#first-time-setup-clone--running-locally).

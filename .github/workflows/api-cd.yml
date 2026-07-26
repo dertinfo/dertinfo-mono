@@ -83,7 +83,7 @@ jobs:
       - name: Build integration tests
         run: dotnet build apps/dert-api/src/dertinfo-api.itests/dertinfo-api.itests.csproj --no-restore --configuration Release
 
-      # Disabled: requires SQL Server on the runner. See docs/planned-fixes/cicd-future-phase.md.
+      # Disabled: requires SQL Server on the runner. See docs/operations/planned-fixes/cicd-future-phase.md.
       - name: Run integration tests
         run: dotnet test apps/dert-api/src/dertinfo-api.itests/dertinfo-api.itests.csproj --no-build --configuration Release --verbosity normal
 

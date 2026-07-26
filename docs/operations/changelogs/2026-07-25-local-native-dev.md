@@ -6,13 +6,13 @@ Delivered a host-first local development path for the monorepo so the full estat
 
 **Outcomes:**
 
-- Root npm scripts: `doctor`, `start`, `stop`, `status` backed by [`infra/dev/`](../../infra/dev/)
-- Secrets template and docs: [`infra/secrets/`](../../infra/secrets/), [`docs/configuration.md`](../configuration.md)
+- Root npm scripts: `doctor`, `start`, `stop`, `status` backed by [`infra/dev/`](../../../infra/dev/)
+- Secrets template and docs: [`infra/secrets/`](../../../infra/secrets/), [`docs/technical/infra/configuration.md`](../../technical/infra/configuration.md)
 - Fixed local ports: API `:44100`, web ng `:4200` → SWA `:44200`, app ng `:4201` → SWA `:44300`, Functions `:44400`, Azurite `:10000–10002`
 - Documented tooling floors (Node ≥ 16.10 / verified on 24 LTS, Azurite ≥ 3.34, Functions Core Tools v4, SWA CLI)
 - Verified full `npm run start` on Windows with SQL Express and Auth0 dev tenant
 
-Operational how-to: [README local native quick start](../../README.md#local-native-quick-start), [`infra/dev/README.md`](../../infra/dev/README.md), [`docs/configuration.md`](../configuration.md#base-settings-for-local-native-development).
+Operational how-to: [README local native quick start](../../../README.md#local-native-quick-start), [`infra/dev/README.md`](../../../infra/dev/README.md), [`docs/technical/infra/configuration.md`](../../technical/infra/configuration.md#base-settings-for-local-native-development).
 
 ### Pull requests
 
@@ -66,7 +66,7 @@ Related: main received EF8 string nullability via [#10](https://github.com/derti
 
 ## References to any best practices that we found
 
-- Prefer **host-native** local run with checked-in local defaults and gitignored `infra/secrets/api.env` ([configuration principles](../configuration.md))
+- Prefer **host-native** local run with checked-in local defaults and gitignored `infra/secrets/api.env` ([configuration principles](../../technical/infra/configuration.md))
 - Keep **secrets and per-developer values** out of `appsettings.json`; inject via process env (`Auth0__X` → `Auth0:X`)
 - Pin **tooling floors** in doctor rather than failing obscurely at runtime (Azurite / Core Tools)
 - Use **fixed ports** so Auth0 callbacks and SWA URLs stay stable across developers
@@ -76,8 +76,8 @@ Related: main received EF8 string nullability via [#10](https://github.com/derti
 
 ## Any remaining issues that we may wish to address
 
-- Website silent-auth / group-create UX on localhost — still deferred; PWA does not show the same login problem ([`local-silent-auth-localhost.md`](../planned-fixes/local-silent-auth-localhost.md))
-- Website warmup race — separate planned fix ([`web-warmup-race-condition.md`](../planned-fixes/web-warmup-race-condition.md))
+- Website silent-auth / group-create UX on localhost — still deferred; PWA does not show the same login problem ([`local-silent-auth-localhost.md`](../investigations/local-silent-auth-localhost.md))
+- Website warmup race — separate planned fix ([`web-warmup-race-condition.md`](../investigations/web-warmup-race-condition.md))
 - Managed process logs under `infra/dev/logs/` are often empty on Windows (stdio capture) — improve logging for diagnosis
 - Optional: clear guidance / automation if `infra/data/azurite` GC-crashes again without manual rename
 - Changelog/PR polish and any remaining review comments on [#11](https://github.com/dertinfo/dertinfo-mono/pull/11)

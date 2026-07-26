@@ -35,7 +35,7 @@ to [dertinfo@gmail.com](mailto:dertinfo@gmail.com)
 
 ## I Have a Question
 
-> If you want to ask a question, we assume that you have read the available [Documentation](README.md) (especially [First-time setup](README.md#first-time-setup-clone--running-locally) and [docs/configuration.md](docs/configuration.md)).
+> If you want to ask a question, we assume that you have read the available [Documentation](README.md) (especially [First-time setup](README.md#first-time-setup-clone--running-locally) and [docs/technical/infra/configuration.md](docs/technical/infra/configuration.md)).
 
 Before you ask a question, it is best to search for existing [Issues](/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
 
@@ -138,7 +138,7 @@ Enhancement suggestions are tracked as [GitHub issues](/issues).
 
 ### Improving The Documentation
 
-Prefer linking to [`docs/configuration.md`](docs/configuration.md) and [`infra/dev/README.md`](infra/dev/README.md) over duplicating setup steps. When a workstream finishes, add a row under [`docs/changelogs/`](docs/changelogs/README.md).
+Prefer linking to [`docs/technical/infra/configuration.md`](docs/technical/infra/configuration.md) and [`infra/dev/README.md`](infra/dev/README.md) over duplicating setup steps. When a workstream finishes, add a row under [`docs/operations/changelogs/`](docs/operations/changelogs/README.md).
 
 
 

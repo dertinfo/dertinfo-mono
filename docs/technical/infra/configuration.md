@@ -6,15 +6,15 @@ How settings are organised across local development, Docker, and Azure-hosted en
 
 1. **Checked-in configuration should make local development work** — defaults in `appsettings.json` use Azurite endpoints and fixed local callback ports. Tenant- and machine-specific values (SQL, Auth0) live in `infra/secrets/api.env`.
 
-2. **Secrets live outside source control** — under [`infra/secrets/`](../infra/secrets/) (gitignored real files beside `*.example` templates). Placeholders in `appsettings.json` use `[located in user secrets | keyvault]`.
+2. **Secrets live outside source control** — under [`infra/secrets/`](../../../infra/secrets/) (gitignored real files beside `*.example` templates). Placeholders in `appsettings.json` use `[located in user secrets | keyvault]`.
 
 3. **Checked-in values must hold for all consumers of the repo** — shared Auth0 domain/audience (and similar) only if they are correct for every developer. Put secrets **and** per-developer / per-tenant values (SQL connection, SPA Auth0 client IDs) in `infra/secrets/api.env` so empty placeholders make the required replacements obvious.
 
 4. **Azure-hosted environments use Azure App Configuration** — when `AZURE_APP_CONFIG` is set, the API overlays labelled settings (and Key Vault references) onto `appsettings.json`.
 
-5. **Local runs without Azure App Configuration** — if `AZURE_APP_CONFIG` is unset, secrets from [`infra/secrets/api.env`](../infra/secrets/api.env) are set as **process environment variables** before the API starts (`npm run start` or Compose `env_file`). .NET’s default configuration precedence overlays them on `appsettings.json` (same hierarchical keys as App Configuration; mechanism differs).
+5. **Local runs without Azure App Configuration** — if `AZURE_APP_CONFIG` is unset, secrets from [`infra/secrets/api.env`](../../../infra/secrets/api.env) are set as **process environment variables** before the API starts (`npm run start` or Compose `env_file`). .NET’s default configuration precedence overlays them on `appsettings.json` (same hierarchical keys as App Configuration; mechanism differs).
 
-6. **Local durable data** lives under [`infra/data/`](../infra/data/) (e.g. Azurite). Native and Docker Compose both use this path; richer sharing across run types is future work.
+6. **Local durable data** lives under [`infra/data/`](../../../infra/data/) (e.g. Azurite). Native and Docker Compose both use this path; richer sharing across run types is future work.
 
 7. **Dependencies are per-project** — do not auto-install on start. If `node_modules` (or tooling) is missing, install that project explicitly (`npm run web:install`; `app:install` only if the PWA is enabled). Consolidation across the monorepo is future work.
 
@@ -71,9 +71,9 @@ Isolated worker build generates `obj/.../WorkerExtensions.csproj` (normal). Orch
 
 #### Required `infra/secrets/api.env` keys
 
-Copy from [`api.env.example`](../infra/secrets/api.env.example). Uncommented `KEY=VALUE` lines only. .NET maps `Auth0__Domain` → `Auth0:Domain`.
+Copy from [`api.env.example`](../../../infra/secrets/api.env.example). Uncommented `KEY=VALUE` lines only. .NET maps `Auth0__Domain` → `Auth0:Domain`.
 
-**First clone:** SQL values are yours (create an empty database matching `DatabaseName`). Auth0 values come from the **shared team dev tenant** (teammate / vault) — see [`infra/secrets/README.md`](../infra/secrets/README.md).
+**First clone:** SQL values are yours (create an empty database matching `DatabaseName`). Auth0 values come from the **shared team dev tenant** (teammate / vault) — see [`infra/secrets/README.md`](../../../infra/secrets/README.md).
 
 | Key | Purpose |
 |-----|---------|
@@ -110,7 +110,7 @@ Orchestration waits for each `ng serve` port before starting SWA.
 
 ### First run (aligned with recommended runtime)
 
-Root checklist: [`README.md` — First-time setup](../README.md#first-time-setup-clone--running-locally).
+Root checklist: [`README.md` — First-time setup](../../../README.md#first-time-setup-clone--running-locally).
 
 ```bash
 cp infra/secrets/api.env.example infra/secrets/api.env
@@ -129,7 +129,7 @@ npm run status
 npm run stop
 ```
 
-Copy [`infra/dev/runtime.example.json`](../infra/dev/runtime.example.json) → `infra/dev/runtime.json`. Each service is `{ "mode": "native"|"docker"|"off", "rebuild": bool, "hotReload"?: bool }` (booleans alone are rejected). The example is the **recommended website + API** day-to-day setup (native api/web with hot reload, image resize on, PWA off, SQL Express via `api.env`). Timing expectations and alternatives: [`infra/dev/README.md`](../infra/dev/README.md#recommended-day-to-day-website--api). Set `"api": { "mode": "off", "rebuild": false }` when debugging the API in Visual Studio.
+Copy [`infra/dev/runtime.example.json`](../../../infra/dev/runtime.example.json) → `infra/dev/runtime.json`. Each service is `{ "mode": "native"|"docker"|"off", "rebuild": bool, "hotReload"?: bool }` (booleans alone are rejected). The example is the **recommended website + API** day-to-day setup (native api/web with hot reload, image resize on, PWA off, SQL Express via `api.env`). Timing expectations and alternatives: [`infra/dev/README.md`](../../../infra/dev/README.md#recommended-day-to-day-website--api). Set `"api": { "mode": "off", "rebuild": false }` when debugging the API in Visual Studio.
 
 When the API runs in **docker** and SQL is **native**, Compose sets `SqlConnection__ServerName=host.docker.internal,1433` (SQL Express must allow TCP). Azurite native similarly uses `host.docker.internal:10000`.
 
@@ -143,7 +143,7 @@ When the API runs in **docker** and SQL is **native**, Compose sets `SqlConnecti
 
 Auth0 SPA callback URLs in `appsettings.json` use the fixed local ports (`http://localhost:44200`, `http://localhost:44300`). Register those callbacks in whichever Auth0 tenant you configure via `infra/secrets/api.env`.
 
-Orchestration scripts: [`infra/dev/`](../infra/dev/). Change logs: [`2026-07-25-local-native-dev`](./changelogs/2026-07-25-local-native-dev.md), [`2026-07-25-hybrid-native-docker-start`](./changelogs/2026-07-25-hybrid-native-docker-start.md).
+Orchestration scripts: [`infra/dev/`](../../../infra/dev/). Estate how-to: [Local development](../guides/local-development.md). Change logs: [`2026-07-25-local-native-dev`](../../operations/changelogs/2026-07-25-local-native-dev.md), [`2026-07-25-hybrid-native-docker-start`](../../operations/changelogs/2026-07-25-hybrid-native-docker-start.md).
 
 ## Configuration layers (API)
 
@@ -160,7 +160,7 @@ Orchestration scripts: [`infra/dev/`](../infra/dev/). Change logs: [`2026-07-25-
 Deployed hosts set `AZURE_APP_CONFIG` and load labelled configuration (Key Vault for secret values). Locally, with that variable **unset**:
 
 - **`npm run start` / Compose:** load `infra/secrets/api.env` into the process environment; `CreateDefaultBuilder` applies those variables over `appsettings.json`.
-- **Visual Studio F5:** set the same settings via **user secrets** (Manage User Secrets). Map `Auth0__Domain` → `Auth0:Domain`, etc. Details: [`apps/dert-api/README.md`](../apps/dert-api/README.md#2-visual-studio-f5--debug-the-api-project).
+- **Visual Studio F5:** set the same settings via **user secrets** (Manage User Secrets). Map `Auth0__Domain` → `Auth0:Domain`, etc. Details: [`apps/dert-api/README.md`](../../../apps/dert-api/README.md#2-visual-studio-f5--debug-the-api-project).
 
 No custom secrets parsing in `Program.cs`.
 
@@ -215,7 +215,11 @@ docker compose up --build
 
 ## Related docs
 
-- [`infra/secrets/README.md`](../infra/secrets/README.md) — secrets layout
-- [`infra/dev/README.md`](../infra/dev/README.md) — doctor / start / stop
-- [`apps/dert-api/README.md`](../apps/dert-api/README.md) — API-specific notes
-- [`README.md`](../README.md) — monorepo quick start
+- [Local development](../guides/local-development.md) — run the whole estate
+- [Architecture overview](../architecture/overview.md)
+- [Authentication (Auth0)](../subsystems/authentication.md)
+- [Secrets and rotation](secrets-and-rotation.md)
+- [`infra/secrets/README.md`](../../../infra/secrets/README.md) — secrets layout
+- [`infra/dev/README.md`](../../../infra/dev/README.md) — doctor / start / stop
+- [`apps/dert-api/README.md`](../../../apps/dert-api/README.md) — API-specific notes
+- [`README.md`](../../../README.md) — monorepo quick start

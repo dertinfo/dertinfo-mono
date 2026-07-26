@@ -37,7 +37,7 @@ Scope when undertaken:
 Align GitHub, frontend, and Azure naming when the test environment is retired in favour of a single non-prod **development** environment:
 
 - GitHub Environments: `test` → `development`
-- Variable/secret names: adopt `[PROVIDER]_[TYPE]_[WORKLOAD]_[DESCRIPTION]_[ENV]` with `DEV` target suffix (see [docs/cicd.md](../cicd.md#naming-convention))
+- Variable/secret names: adopt `[PROVIDER]_[TYPE]_[WORKLOAD]_[DESCRIPTION]_[ENV]` with `DEV` target suffix (see [docs/technical/infra/cicd.md](../../technical/infra/cicd.md#naming-convention))
 - Angular: `ado-build-ui-test` / `test` build configuration → `development`
 - `environment.test.ts` → `environment.development.ts` (or equivalent)
 - Azure resource tags and URLs where applicable
@@ -92,4 +92,4 @@ After one full release cycle on GitHub Actions:
 
 ## Related docs
 
-- [cicd.md](../cicd.md) — current GitHub Actions setup and secrets checklist
+- [cicd.md](../../technical/infra/cicd.md) — current GitHub Actions setup and secrets checklist

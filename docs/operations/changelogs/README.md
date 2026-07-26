@@ -2,7 +2,7 @@
 
 Chronological record of completed workstreams in this monorepo. Each entry links to a detail page describing what was done, issues encountered, practices adopted, and any follow-up work.
 
-For operational how-to (CI/CD setup, configuration, planned fixes), see the wider docs under [`docs/`](../).
+For operational how-to (CI/CD setup, configuration, planned fixes), see the wider docs under [`docs/`](../../).
 
 ## Index
 
@@ -17,10 +17,10 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 When a chat or workstream is **seen through to completion**, add:
 
-1. A new detail page: `docs/changelogs/YYYY-MM-DD-short-slug.md` (use the completion date).
+1. A new detail page: `docs/operations/changelogs/YYYY-MM-DD-short-slug.md` (use the completion date).
 2. A row at the **top** of the index table above (newest first).
 
-Use the [detail page template](#detail-page-template) below. Prefer linking to existing docs (`docs/cicd.md`, `docs/configuration.md`, planned-fixes, etc.) rather than duplicating them.
+Use the [detail page template](#detail-page-template) below. Prefer linking to existing docs (`docs/technical/infra/cicd.md`, `docs/technical/infra/configuration.md`, planned-fixes, etc.) rather than duplicating them.
 
 ### Detail page template
 
@@ -49,5 +49,5 @@ YYYY-MM-DD
 
 ## Any remaining issues that we may wish to address
 
-- Follow-ups (link to `docs/planned-fixes/` when applicable)
+- Follow-ups (link to `docs/operations/planned-fixes/` when applicable)
 ```

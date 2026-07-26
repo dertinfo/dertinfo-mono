@@ -29,5 +29,5 @@ npm run test:login:warmup
 
 ## Related docs
 
-- [`docs/planned-fixes/web-warmup-race-condition.md`](../../../../docs/planned-fixes/web-warmup-race-condition.md)
-- [`docs/configuration.md`](../../../../docs/configuration.md) — Auth0 / Docker `api.env`
+- [`docs/operations/investigations/web-warmup-race-condition.md`](../../../../docs/operations/investigations/web-warmup-race-condition.md)
+- [`docs/technical/infra/configuration.md`](../../../../docs/technical/infra/configuration.md) — Auth0 / Docker `api.env`

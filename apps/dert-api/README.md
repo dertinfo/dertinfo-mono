@@ -38,7 +38,7 @@ Experimental: Alternatively, you can use Visual Studio Code running in a devcont
 
 ## Ways to run the API
 
-Canonical configuration model: [`docs/configuration.md`](../../docs/configuration.md). Secrets and tenant-/machine-specific values live in [`infra/secrets/api.env`](../../infra/secrets/api.env) (copy from [`api.env.example`](../../infra/secrets/api.env.example)).
+Canonical configuration model: [`docs/technical/infra/configuration.md`](../../docs/technical/infra/configuration.md). Secrets and tenant-/machine-specific values live in [`infra/secrets/api.env`](../../infra/secrets/api.env) (copy from [`api.env.example`](../../infra/secrets/api.env.example)).
 
 ### 1. Local estate (recommended) — `npm run start`
 

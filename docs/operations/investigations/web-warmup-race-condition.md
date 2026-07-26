@@ -36,7 +36,7 @@ Two separate failure modes were reproduced against the Docker stack (`localhost:
 
 Dashboard navigation requires authenticated calls (`[Authorize]` on API). Without a valid `Auth0:ManagementClientSecret` in `infra/docker/api.env` (or user secrets when running outside Docker), or with an invalid/expired browser token, `/api/group`, `/api/event/web`, and `/api/notification/check` can return **401**. The second navigation then fails and the user remains on the warmup route.
 
-**Interim fix (resolved for Docker):** Set **uncommented** `Auth0__ManagementClientSecret` in `infra/docker/api.env` (`ManagementClientId` is already in `appsettings.json`). See `docs/configuration.md`. Recreate the API container:
+**Interim fix (resolved for Docker):** Set **uncommented** `Auth0__ManagementClientSecret` in `infra/docker/api.env` (`ManagementClientId` is already in `appsettings.json`). See `docs/technical/infra/configuration.md`. Recreate the API container:
 
 ```bash
 docker compose up -d --force-recreate dertinfo-api
@@ -130,4 +130,4 @@ docker-compose.yml                      # env_file: ./infra/docker/api.env
 | Date | Decision |
 |------|----------|
 | 2026-07-01 | Defer race-condition refactor; unblock dashboard by fixing Docker `api.env` Auth0 management secret |
-| 2026-07-01 | Dashboard reachable with `Auth0__ManagementClientSecret` in `api.env`; configuration policy documented in `docs/configuration.md` |
+| 2026-07-01 | Dashboard reachable with `Auth0__ManagementClientSecret` in `api.env`; configuration policy documented in `docs/technical/infra/configuration.md` |
