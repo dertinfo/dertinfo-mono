@@ -58,15 +58,21 @@ export class DashboardConductor {
 
     return new Promise((resolve, reject) => {
       const groupAddObs = this.dashboardRepo.createMinimal(groupMinimalSubmissionDto);
-      const subs = groupAddObs.subscribe((groupDto: GroupDto) => {
-        subs.unsubscribe();
-        this.authService.renewToken()
-          .then((data) => {
-            this.navigationService.addGroupForUser(groupDto);
-            resolve(groupDto);
-          })
-          .catch((err) => reject(err));
-      });
+      const subs = groupAddObs.subscribe(
+        (groupDto: GroupDto) => {
+          subs.unsubscribe();
+          this.authService.renewToken()
+            .then(() => {
+              this.navigationService.addGroupForUser(groupDto);
+              resolve(groupDto);
+            })
+            .catch((err) => reject(err));
+        },
+        (err) => {
+          subs.unsubscribe();
+          reject(err);
+        }
+      );
     });
   }
 
@@ -76,15 +82,21 @@ export class DashboardConductor {
 
     return new Promise((resolve, reject) => {
       const eventAddObs = this.eventRepo.createMinimal(eventMinimalSubmissionDto);
-      const subs = eventAddObs.subscribe((eventDto: EventDto) => {
-        subs.unsubscribe();
-        this.authService.renewToken()
-          .then((data) => {
-            this.navigationService.addEventForUser(eventDto);
-            resolve(eventDto);
-          })
-          .catch((err) => reject(err));
-      });
+      const subs = eventAddObs.subscribe(
+        (eventDto: EventDto) => {
+          subs.unsubscribe();
+          this.authService.renewToken()
+            .then(() => {
+              this.navigationService.addEventForUser(eventDto);
+              resolve(eventDto);
+            })
+            .catch((err) => reject(err));
+        },
+        (err) => {
+          subs.unsubscribe();
+          reject(err);
+        }
+      );
     });
   }
 

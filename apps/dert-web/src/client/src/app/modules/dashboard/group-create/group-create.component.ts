@@ -58,7 +58,8 @@ export class GroupCreateComponent implements OnInit, OnDestroy {
           this.router.navigate(['group-configure', savedGroup.groupName, savedGroup.id]);
         },
         (error) => {
-          console.error('ERROR: Adding Group Failed');
+          console.error('ERROR: Adding Group Failed', error);
+          this.isSubmitting = false;
         }
       );
     }

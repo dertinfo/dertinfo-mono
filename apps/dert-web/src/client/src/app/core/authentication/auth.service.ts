@@ -1,196 +1,257 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
+import { AuthService as Auth0AngularService } from '@auth0/auth0-angular';
 import { UserSettingsUpdateSubmissionDto } from 'app/models/dto';
-import * as auth0 from 'auth0-js';
 import { Subject } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { UserData } from '../../models/auth/userdata.model';
 import { ConfigurationService } from '../services/configuration.service';
 
+/**
+ * DertInfo AuthService facade over @auth0/auth0-angular.
+ *
+ * Login flow (Authorization Code + PKCE + rotating refresh tokens):
+ *  1. APP_INITIALIZER loads ConfigurationService (local/staging/prod callback + remote Auth0 ids).
+ *  2. AuthClientConfig.set(...) configures the SDK (see app.module.ts initSettings).
+ *  3. login() → Auth0 Universal Login → redirect back to {auth0CallbackUrl}/callback.
+ *  4. AuthCallbackComponent waits for isAuthenticated$, then maps id-token claims → UserData
+ *     and navigates to /dashboard.
+ *  5. AuthHttpInterceptor attaches Bearer access tokens to API calls (no auth0-js renewAuth iframe).
+ *  6. renewToken() uses getAccessTokenSilently({ cacheMode: 'off' }) so post–group-create claim
+ *     refresh uses the refresh_token grant (works on localhost; avoids consent_required silent iframe).
+ *  7. logout() — prefer /auth/signout first; clears local session then Auth0 logout
+ *     with returnTo = site root ('' → /home). ErrorHandler ignores HTTP errors while loggingOut.
+ *
+ * Staging/prod use the same path; only ConfigurationService callback/API values differ.
+ */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
   /**
-   * This subject is used for the side nav to be able to identify when a user has changed the settings so
-   * that it can update the name displayed.
+   * Side-nav listens so display name updates after settings changes / claim refresh.
    */
   private userDataChangedSubject: Subject<UserData> = new Subject<UserData>();
-  private _autoRefreshTokenAt = 60000;
 
-  public auth0 = null;
-  public auth0Silent = null;
+  /**
+   * Mirror of Auth0 isAuthenticated$ for sync callers (e.g. templates / legacy checks).
+   * Do not use for route guards — AuthGuard waits on isLoading$ / isAuthenticated$ instead.
+   */
+  private authenticated = false;
+
+  /**
+   * True while Auth0 federated logout redirect is in progress.
+   * ErrorHandler skips session error pages so in-flight API failures do not flash /session/404.
+   */
+  private loggingOut = false;
+
+  private readonly userDataStorageKey = 'user_data';
 
   public get userDataChanged$() {
     return this.userDataChangedSubject.asObservable();
   }
 
-  constructor(public router: Router, private _configurationService: ConfigurationService) {
-
-    const auth0ClientId = _configurationService.auth0ClientId;
-    const auth0TenantDomain = _configurationService.auth0TenantDomain;
-    const auth0CallbackUrl = _configurationService.auth0CallbackUrl;
-    const auth0Audience = _configurationService.auth0Audience;
-    const callbackUrl = _configurationService.auth0CallbackUrl;
-
-    this.auth0 = new auth0.WebAuth({
-      clientID: auth0ClientId,
-      domain: auth0TenantDomain,
-      responseType: 'token id_token',
-      audience: auth0Audience,
-      redirectUri: `${auth0CallbackUrl}/callback`,
-      scope: 'openid profile email offline_access'
-    });
-
-    this.auth0Silent = new auth0.WebAuth({
-      clientID: auth0ClientId,
-      domain: auth0TenantDomain,
-      scope: 'openid profile email offline_access',
-      responseType: 'token id_token',
-      redirectUri: `${callbackUrl}`
-    });
-
+  /** Used by ErrorHandlerService during Auth0 logout redirect. */
+  public get isLoggingOut(): boolean {
+    return this.loggingOut;
   }
 
-  public login(): void {
-    this.auth0.authorize();
-  }
-
-  public handleAuthentication(): void {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        // window.location.hash = ''; //note - causes error in app. Does not redirect if set.
-        this.setSession(authResult);
-        this.router.navigate(['/dashboard']);
-      } else if (err) {
-        this.router.navigate(['/home']);
-        console.log(err);
-        alert(`Error: ${err.error}. Check the console for further details.`);
+  constructor(
+    public router: Router,
+    private _configurationService: ConfigurationService,
+    private auth0: Auth0AngularService,
+    @Inject(DOCUMENT) private document: Document,
+  ) {
+    // Keep a sync flag for non-guard callers after the SDK has settled.
+    this.auth0.isAuthenticated$.subscribe((isAuth) => {
+      this.authenticated = isAuth;
+      if (isAuth) {
+        // Keep a sync AT copy for ng2-file-upload (cannot use AuthHttpInterceptor).
+        this.ensureAccessTokenCached().catch(() => { /* ignore until login completes */ });
       }
     });
+
+    // When the SDK restores a session from localStorage (page refresh), rebuild UserData from claims.
+    this.auth0.idTokenClaims$
+      .pipe(filter((claims) => !!claims))
+      .subscribe((claims) => {
+        this.applyClaimsToUserData(claims as Record<string, unknown>);
+      });
+  }
+
+  /**
+   * Step 3 — send the browser to Auth0 Universal Login.
+   * redirect_uri / audience / scope come from AuthClientConfig (set at APP_INITIALIZER).
+   */
+  public login(): void {
+    this.auth0.loginWithRedirect({
+      appState: { target: '/dashboard' },
+    });
+  }
+
+  /**
+   * Step 4 — called from /callback after Auth0 redirects back with ?code=&state=.
+   * The SDK exchanges the code for tokens automatically on app bootstrap; we wait until
+   * authenticated, ensure UserData is populated, then navigate to the intended route.
+   */
+  public handleAuthentication(): void {
+    this.auth0.error$.pipe(take(1)).subscribe((err) => {
+      if (err) {
+        console.error('Auth0 callback error', err);
+        this.router.navigate(['/home']);
+      }
+    });
+
+    this.auth0.isAuthenticated$
+      .pipe(
+        filter((isAuth) => isAuth === true),
+        take(1),
+      )
+      .subscribe(() => {
+        this.auth0.idTokenClaims$.pipe(take(1)).subscribe((claims) => {
+          if (claims) {
+            this.applyClaimsToUserData(claims as Record<string, unknown>);
+          }
+          this.auth0.appState$.pipe(take(1)).subscribe((appState) => {
+            const target = (appState && (appState as { target?: string }).target) || '/dashboard';
+            this.router.navigateByUrl(target);
+          });
+        });
+      });
   }
 
   public updateUserDetails(updatedSettings: UserSettingsUpdateSubmissionDto) {
-    const user_data: UserData = JSON.parse(localStorage.getItem('user_data'));
+    const user_data: UserData = this.userData();
+    if (!user_data) {
+      return;
+    }
 
     user_data.firstname = updatedSettings.firstName;
     user_data.lastname = updatedSettings.lastName;
 
-    // Update the details in the local storage
-    localStorage.setItem('user_data', JSON.stringify(user_data));
-
-    // Notify that there has been a change so that the side navigation can update
+    localStorage.setItem(this.userDataStorageKey, JSON.stringify(user_data));
     this.userDataChangedSubject.next(user_data);
   }
 
+  /**
+   * Step 7 — clear app session, then Auth0 logout.
+   * returnTo is the site root (auth0CallbackUrl / origin). Angular '' redirects to /home.
+   * Must be listed in Auth0 Allowed Logout URLs (local/staging/prod origins).
+   * Prefer navigating to /auth/signout first so the user sees a signing-out message.
+   */
   public logout(): void {
-    // Remove tokens and expiry time from localStorage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-    localStorage.removeItem('user_data');
+    this.loggingOut = true;
+    localStorage.removeItem(this.userDataStorageKey);
+    localStorage.removeItem('dertinfo_access_token');
 
-    this.auth0.logout();
-
-    // Go back to the home route
-    this.router.navigate(['/']);
+    // returnTo = root only; SPA maps '' → home after Auth0 redirects back.
+    const returnTo = this._configurationService.auth0CallbackUrl || this.document.location.origin;
+    this.auth0.logout({
+      logoutParams: {
+        returnTo,
+      },
+    }).pipe(take(1)).subscribe({
+      error: (err) => {
+        console.error('Auth0 logout failed', err);
+        this.loggingOut = false;
+        this.router.navigate(['/home']);
+      },
+    });
   }
 
+  /**
+   * Access token for non-HttpClient callers (e.g. ng2-file-upload).
+   * Prefer AuthHttpInterceptor for Angular HttpClient requests.
+   */
   public accessToken(): string {
-    // Check whether the current time is past the
-    // access token's expiry time
-    const accessToken = localStorage.getItem('access_token');
-    return accessToken;
+    // Sync read from Auth0 localStorage cache is not exposed; callers that need a token
+    // for upload widgets should prefer the last known token from getAccessTokenSilently.
+    // We keep a best-effort sync path via a short-lived cache updated on renew/login.
+    return localStorage.getItem('dertinfo_access_token') || '';
   }
 
   public isAuthenticated(): boolean {
-    // Check whether the current time is past the
-    // access token's expiry time
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-
-    if (expiresAt !== null) {
-      const millisecondsToExpiry = expiresAt - new Date().getTime();
-
-      if (millisecondsToExpiry < this._autoRefreshTokenAt) {
-        console.log('***Auto Refreshing Token***');
-        this.renewToken();
-      }
-
-      return new Date().getTime() < expiresAt;
-    }
-
-    return false;
+    return this.authenticated;
   }
 
   public userData(): UserData {
-    const user_data = JSON.parse(localStorage.getItem('user_data'));
-    return user_data;
+    const raw = localStorage.getItem(this.userDataStorageKey);
+    return raw ? JSON.parse(raw) : null;
   }
 
+  /**
+   * Step 6 — force a new access token (and refreshed custom claims) via refresh_token grant.
+   * Used after group/event create when the API updates Auth0 app_metadata; the previous AT
+   * still lacks the new groupadmin/eventadmin claim until we renew.
+   *
+   * cacheMode: 'off' bypasses the SDK cache so Auth0 re-evaluates claims.
+   * This is NOT the old auth0-js renewAuth iframe (/silent) path.
+   */
   public renewToken(): Promise<void> {
+    console.log('AuthService - renewToken (refresh_token grant, cache bypass)');
+    // RxJS 6: use toPromise (firstValueFrom is RxJS 7+).
+    return this.auth0.getAccessTokenSilently({
+      cacheMode: 'off',
+      detailedResponse: true,
+    } as any).pipe(take(1)).toPromise().then((result: any) => {
+      const token = typeof result === 'string' ? result : result?.access_token;
+      if (token) {
+        localStorage.setItem('dertinfo_access_token', token);
+      }
 
-    const callbackUrl = this._configurationService.auth0CallbackUrl;
-    const auth0Audience = this._configurationService.auth0Audience;
-
-    return new Promise<void>((resolve, reject) => {
-      console.log('AuthService - renewToken');
-      this.auth0.renewAuth({
-        audience: auth0Audience,
-        redirectUri: `${callbackUrl}/silent`,
-        usePostMessage: true,
-        postMessageOrigin: `${callbackUrl}`
-      }, (err, result) => {
-        if (err) {
-          console.error(err);
-          reject(err);
-        } else {
-          console.log(result);
-          this.setSession(result);
-          resolve();
+      return this.auth0.idTokenClaims$.pipe(take(1)).toPromise().then((claims) => {
+        if (claims) {
+          this.applyClaimsToUserData(claims as Record<string, unknown>);
         }
       });
     });
-
   }
 
+  /**
+   * @deprecated Silent iframe callback removed — refresh tokens replace /silent.
+   * Kept as a no-op so any lingering route does not crash during migration.
+   */
   public parseSilentResponse() {
-
-    const callbackUrl = this._configurationService.auth0CallbackUrl;
-
-    this.auth0Silent.parseHash((err, response) => {
-      parent.postMessage(err || response, `${callbackUrl}`);
-    });
+    console.warn('parseSilentResponse is obsolete; refresh tokens replace silent iframe renewal.');
   }
 
   public addGdprConsent() {
-    const user_data: UserData = JSON.parse(localStorage.getItem('user_data'));
+    const user_data: UserData = this.userData();
+    if (!user_data) {
+      return;
+    }
     user_data.gdprConsentGained = true;
-    localStorage.setItem('user_data', JSON.stringify(user_data));
+    localStorage.setItem(this.userDataStorageKey, JSON.stringify(user_data));
   }
 
-  private setSession(authResult): void {
-    // Set the time that the access token will expire at
-    const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
+  /**
+   * Map Auth0 id-token claims (including https://dertinfo.co.uk/* custom claims) into UserData.
+   */
+  private applyClaimsToUserData(claims: Record<string, unknown>): void {
+    const user_data: UserData = {
+      email: (claims['email'] as string) || '',
+      name: (claims['name'] as string) || '',
+      nickname: (claims['nickname'] as string) || '',
+      picture: (claims['picture'] as string) || '',
+      firstname: (claims['https://dertinfo.co.uk/firstname'] as string) || '',
+      lastname: (claims['https://dertinfo.co.uk/lastname'] as string) || '',
+      phone: (claims['https://dertinfo.co.uk/phone'] as string) || '',
+      gdprConsentGained: !!(claims['https://dertinfo.co.uk/gdprconsentgained']),
+      dertOfDertsAdmin: !!(claims['https://dertinfo.co.uk/dodadmin']),
+      superAdmin: !!(claims['https://dertinfo.co.uk/superadmin']),
+    };
 
-    if (authResult.idTokenPayload) {
-      const user_data: UserData = {
-        email: authResult.idTokenPayload['email'],
-        name: authResult.idTokenPayload['name'],
-        nickname: authResult.idTokenPayload['nickname'],
-        picture: authResult.idTokenPayload['picture'],
-        firstname: authResult.idTokenPayload['https://dertinfo.co.uk/firstname'],
-        lastname: authResult.idTokenPayload['https://dertinfo.co.uk/lastname'],
-        phone: authResult.idTokenPayload['https://dertinfo.co.uk/phone'],
-        gdprConsentGained: authResult.idTokenPayload['https://dertinfo.co.uk/gdprconsentgained'],
-        dertOfDertsAdmin: authResult.idTokenPayload['https://dertinfo.co.uk/dodadmin'],
-        superAdmin: authResult.idTokenPayload['https://dertinfo.co.uk/superadmin']
-      };
+    localStorage.setItem(this.userDataStorageKey, JSON.stringify(user_data));
+    this.userDataChangedSubject.next(user_data);
+  }
 
-      localStorage.setItem('user_data', JSON.stringify(user_data));
-
-      // Populate the subject so the side nav can get the data
-      this.userDataChangedSubject.next(user_data);
-    }
+  /**
+   * Called after successful login/renew to cache AT for upload widgets that cannot use the interceptor.
+   */
+  public ensureAccessTokenCached(): Promise<string> {
+    return this.auth0.getAccessTokenSilently().pipe(take(1)).toPromise().then((token) => {
+      localStorage.setItem('dertinfo_access_token', token);
+      return token;
+    });
   }
 }

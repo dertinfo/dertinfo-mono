@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from 'app/core/guards/auth.guard';
+import { WarmupGuard } from 'app/core/guards/warmup.guard';
 import { ClientSettingsResolver } from 'app/core/resolvers/clientsettings.resolver';
-import { WarmupResolver } from 'app/core/resolvers/warmup.resolver';
 import { DashboardResolver } from 'app/modules/dashboard/dashboard.resolver';
 import { NotificationCheckResolver } from 'app/modules/notification/services/notification-check.resolver';
 import { AuthenticatedRegionComponent } from './authenticated-region.component';
@@ -16,8 +16,9 @@ const routes: Routes = [
                 path: 'dashboard',
                 loadChildren: () => import('../../modules/dashboard/dashboard.module').then(m => m.DashboardModule),
                 data: { title: 'Dashboard', breadcrumb: 'DASHBOARD' },
+                // WarmupGuard owns cold→/session/warmup redirect (not a Resolve — avoids router race).
+                canActivate: [WarmupGuard],
                 resolve: {
-                    warmup: WarmupResolver,
                     notificationThumbnail: NotificationCheckResolver,
                     dashboarddata: DashboardResolver,
                 },

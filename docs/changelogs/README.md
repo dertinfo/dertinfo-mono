@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-07-26 | Website Auth0 refresh tokens and warmup race fix | [2026-07-26-web-auth-refresh-warmup.md](./2026-07-26-web-auth-refresh-warmup.md) |
 | 2026-07-25 | Hybrid native/Docker local startup | [2026-07-25-hybrid-native-docker-start.md](./2026-07-25-hybrid-native-docker-start.md) |
 | 2026-07-25 | Local-native development orchestration | [2026-07-25-local-native-dev.md](./2026-07-25-local-native-dev.md) |
 | 2026-07-03 | GitHub Actions CD pipelines for `test` | [2026-07-03-github-actions-cd-pipelines.md](./2026-07-03-github-actions-cd-pipelines.md) |

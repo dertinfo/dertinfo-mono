@@ -1,22 +1,28 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router, RouterStateSnapshot } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { ConfigurationService } from 'app/core/services/configuration.service';
 
 /**
- * This service hold the state as to whether the Api has been called in this session.
- * If the Api is cold then the user interface appears unresponsive for approximately 40s.
- * THis happens when the API is completely cold. To combat this then if the API has not
- * been called in this session we'll redirect the user to a page that states getting things ready
- * This will give time for the api to warm up. Rather than be non responsive.
+ * API cold-start warmup.
  *
- * This service holds the state as to whether the api has been called or not.
+ * Why: a cold Azure/API instance can leave the UI unresponsive for ~40s. We ping GET {api}/status
+ * once per browser session before loading authenticated dashboard data.
+ *
+ * Flow (do NOT navigate from a Resolve — that races the router):
+ *  1. WarmupGuard (CanActivate) sees cold → stores pending URL → navigates to /session/warmup.
+ *  2. WarmupComponent / giveItAKick calls GET /status (unauthenticated).
+ *  3. On success → sessionStorage.sessionwarm=true → navigateByUrl(pending, { replaceUrl: true }).
+ *  4. Warm path → guard allows activation; dashboard resolvers run with a warm API.
  */
 @Injectable({ providedIn: 'root' })
 export class WarmupService {
 
     private _apiCalled: boolean = false;
     private _apiResponded: boolean = false;
+
+    /** Destination to resume after a successful kick (set by WarmupGuard). */
+    private _pendingUrl: string = '/dashboard';
 
     constructor(
         private configurationService: ConfigurationService,
@@ -33,32 +39,50 @@ export class WarmupService {
         return isWarm;
     }
 
-    public giveItAKick(continueTo: RouterStateSnapshot) {
-        const url = this.configurationService.baseApiUrl + `/status`;
-        const obs$ = this.http.get(url);
+    public getPendingUrl(): string {
+        return this._pendingUrl || '/dashboard';
+    }
 
+    public setPendingUrl(url: string) {
+        // Avoid treating the warmup route itself as the destination (refresh / direct visit).
+        if (!url || url.indexOf('/session/warmup') === 0) {
+            this._pendingUrl = '/dashboard';
+            return;
+        }
+        this._pendingUrl = url;
+    }
+
+    /**
+     * Kick the API and continue to the pending URL (or continueToUrl if provided).
+     */
+    public giveItAKick(continueToUrl?: string) {
+        const destination = continueToUrl || this.getPendingUrl();
+        this.setPendingUrl(destination);
+
+        const url = this.configurationService.baseApiUrl + `/status`;
         this._apiCalled = true;
 
-        const subs = obs$.subscribe(
-            () => {
+        const subs = this.http.get(url).subscribe({
+            next: () => {
                 console.log('Warmup kick succeeded');
                 this._apiResponded = true;
                 this.setSessionWarm();
-                this.continueTo(continueTo);
+                this.continueTo(this.getPendingUrl());
                 subs.unsubscribe();
             },
-            () => {
+            error: () => {
                 console.log('Warmup kick failed');
                 subs.unsubscribe();
             },
-            () => {
+            complete: () => {
                 console.log('Warmup kick completed');
-            }
-        );
+            },
+        });
     }
 
-    private continueTo(continueTo: RouterStateSnapshot) {
-        this.router.navigateByUrl(continueTo.url);
+    public continueTo(url?: string) {
+        const target = url || this.getPendingUrl();
+        this.router.navigateByUrl(target, { replaceUrl: true });
     }
 
     private setSessionWarm() {
@@ -68,6 +92,5 @@ export class WarmupService {
     private getSessionWarm(): boolean {
         const sessionData = sessionStorage.getItem('sessionwarm');
         return sessionData ? JSON.parse(sessionData) : false;
-
     }
 }

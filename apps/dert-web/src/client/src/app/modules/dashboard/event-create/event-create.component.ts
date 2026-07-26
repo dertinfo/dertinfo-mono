@@ -63,7 +63,8 @@ export class EventCreateComponent implements OnInit, OnDestroy {
           this.router.navigate(['event-configure', savedEvent.name, savedEvent.id]);
         },
         (error) => {
-          console.error('ERROR: Adding Event Failed');
+          console.error('ERROR: Adding Event Failed', error);
+          this.isSubmitting = false;
         }
       );
     }

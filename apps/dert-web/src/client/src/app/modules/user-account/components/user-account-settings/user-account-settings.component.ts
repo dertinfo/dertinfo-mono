@@ -93,7 +93,7 @@ export class UserAccountSettingsComponent implements OnInit, OnDestroy {
 
       // Insurance - to ensure the clear down has completed after the delete.
       setTimeout(() => {
-        this._authService.logout();
+        this._router.navigate(['/auth/signout']);
       }, 2000); // note - this matches with the redirect after delete.
 
     });

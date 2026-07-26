@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CallbacksRegionComponent } from './callbacks-region.component';
 import { AuthCallbackComponent } from './components/auth-callback/auth-callback.component';
-import { AuthSilentComponent } from './components/auth-silent/auth-silent.component';
 
 @NgModule({
   imports: [
@@ -10,7 +9,6 @@ import { AuthSilentComponent } from './components/auth-silent/auth-silent.compon
   ],
   declarations: [
     AuthCallbackComponent,
-    AuthSilentComponent,
     CallbacksRegionComponent
   ],
   providers: [],

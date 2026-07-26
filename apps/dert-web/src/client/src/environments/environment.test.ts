@@ -7,6 +7,7 @@ export const environment = {
   production: true,
   // Direct App Service (not APIM). Reintroduce APIM when that layer is ready.
   apiUrl: 'https://dertinfo-test-api-wa.azurewebsites.net/api',
+  // Auth0 Allowed Callback base (staging). Same Auth0 Angular SDK path as local/prod.
   auth0CallbackUrl: "https://staging.dertinfo.co.uk",
   allowedDomains: [
     "dertinfo-test-api-wa.azurewebsites.net",
