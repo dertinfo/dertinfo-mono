@@ -25,7 +25,7 @@ Replaced boolean `infra/dev/runtime.json` toggles with per-service `{ mode, rebu
 - Fail fast on invalid runtime schema (no boolean compatibility shim).
 - `--no-deps` on per-service `docker compose up` so mixed modes do not pull unwanted compose dependencies.
 - Azurite Storage API `2024-11-04` probe before reuse; Functions `--script-root` after build (WorkerExtensions).
-- Orchestration notes: [`infra/dev/README.md`](../../infra/dev/README.md), configuration: [`docs/configuration.md`](../configuration.md).
+- Orchestration notes: [`infra/dev/README.md`](../../../infra/dev/README.md), configuration: [`docs/technical/infra/configuration.md`](../../technical/infra/configuration.md).
 
 ## Any remaining issues that we may wish to address
 

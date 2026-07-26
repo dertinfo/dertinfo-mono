@@ -1,0 +1,57 @@
+# Capability inventory
+# Markdown pages are the narrative source of truth.
+# Agents: add YAML + markdown together; do not regenerate markdown from this file.
+
+- id: public-user
+  title: Public user
+  status: active
+  path: roles/public-user.md
+  roles: [public-user]
+
+- id: member
+  title: Member
+  status: active
+  path: roles/member.md
+  roles: [member]
+
+- id: group-member
+  title: Group member
+  status: active
+  path: roles/group-member.md
+  roles: [group-member]
+
+- id: group-admin
+  title: Group administrator
+  status: active
+  path: roles/group-admin.md
+  roles: [group-admin]
+
+- id: event-admin
+  title: Event administrator
+  status: active
+  path: roles/event-admin.md
+  roles: [event-admin]
+
+- id: auth.login
+  title: Log in
+  status: active
+  path: features/auth-login.md
+  roles: [public-user, member]
+
+- id: auth.logout
+  title: Log out
+  status: active
+  path: features/auth-logout.md
+  roles: [member, group-member, group-admin, event-admin]
+
+- id: auth.session-continuity
+  title: Stay signed in
+  status: active
+  path: features/auth-session-continuity.md
+  roles: [member, group-member, group-admin, event-admin]
+
+- id: system.authenticated-session
+  title: Authenticated session
+  status: active
+  path: system/authenticated-session.md
+  roles: [member, group-member, group-admin, event-admin]

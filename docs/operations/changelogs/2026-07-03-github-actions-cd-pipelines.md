@@ -19,7 +19,7 @@ Reusable workflows live at the top level of `.github/workflows/`:
 | `reusable-deploy-dotnet-appservice.yml` | OIDC + App Service / Function App zip deploy |
 | `reusable-deploy-static-web-app.yml` | SWA deploy with inherited secrets |
 
-Operational setup (variables, secrets, OIDC, naming) is documented in [`docs/cicd.md`](../cicd.md). Agent GitHub access is documented in [`docs/github-mcp-setup.md`](../github-mcp-setup.md). Deferred work remains in [`docs/planned-fixes/cicd-future-phase.md`](../planned-fixes/cicd-future-phase.md).
+Operational setup (variables, secrets, OIDC, naming) is documented in [`docs/technical/infra/cicd.md`](../../technical/infra/cicd.md). Agent GitHub access is documented in [`docs/technical/infra/github-mcp-setup.md`](../../technical/infra/github-mcp-setup.md). Deferred work remains in [`docs/operations/planned-fixes/cicd-future-phase.md`](../planned-fixes/cicd-future-phase.md).
 
 ### Pull requests
 
@@ -58,7 +58,7 @@ Operational setup (variables, secrets, OIDC, naming) is documented in [`docs/cic
 
 4. **Federated credential subject mismatch**  
    Entra federated credential was configured for `repo:…:ref:refs/heads/main`, but deploy jobs use GitHub Environment `test`, so the token subject is `repo:dertinfo/dertinfo-mono:environment:test`.  
-   **Fix (config):** Federated credential entity type **Environment**, name `test`. Documented in [`docs/cicd.md`](../cicd.md).
+   **Fix (config):** Federated credential entity type **Environment**, name `test`. Documented in [`docs/technical/infra/cicd.md`](../../technical/infra/cicd.md).
 
 5. **Placeholder / missing Azure and Docker Hub config**  
    Early runs used a placeholder client ID; Docker push returned `denied: requested access to the resource is denied`.  
@@ -78,16 +78,16 @@ Operational setup (variables, secrets, OIDC, naming) is documented in [`docs/cic
 
 ## References to any best practices that we found
 
-- **Variables vs secrets:** Non-sensitive config (resource names, client/tenant/subscription IDs, Docker Hub username) as GitHub **variables**; tokens and deploy keys as **secrets**. See [`.cursor/rules/cicd.mdc`](../../.cursor/rules/cicd.mdc) and [`docs/cicd.md`](../cicd.md).
+- **Variables vs secrets:** Non-sensitive config (resource names, client/tenant/subscription IDs, Docker Hub username) as GitHub **variables**; tokens and deploy keys as **secrets**. See [`.cursor/rules/cicd.mdc`](../../../.cursor/rules/cicd.mdc) and [`docs/technical/infra/cicd.md`](../../technical/infra/cicd.md).
 - **Naming:** `[SERVICEPROVIDER]_[SERVICETYPE]_[WORKLOADNAME]_[DESCRIPTION]_[TARGETENV]` (e.g. `AZURE_WEBAPP_API_RESOURCENAME_STG`). Environment suffix `STG` / `PRD` maps to GitHub environments `test` / `prod`.
 - **Reusable workflows:** Must live at `.github/workflows/` top level; callers must not set `environment:`; use `secrets: inherit` or explicit `secrets:` for credentials; grant `id-token: write` on callers that need OIDC.
 - **OIDC for GitHub Environments:** Federated credential subject must match the job’s environment (`…:environment:test`), not only the branch ref.
 - **Test image tags:** Never push untagged `latest` from test CD; use a `-test` suffix so release tags stay authoritative.
-- **GitHub MCP for triage:** Fine-grained PAT + Actions/PR toolsets; see [`docs/github-mcp-setup.md`](../github-mcp-setup.md).
+- **GitHub MCP for triage:** Fine-grained PAT + Actions/PR toolsets; see [`docs/technical/infra/github-mcp-setup.md`](../../technical/infra/github-mcp-setup.md).
 
 ## Any remaining issues that we may wish to address
 
-- **Production CD** — Wire `prod` jobs, `*_PRD` variables/secrets, and Entra federated credentials for environment `prod`. See [`docs/planned-fixes/cicd-future-phase.md`](../planned-fixes/cicd-future-phase.md).
+- **Production CD** — Wire `prod` jobs, `*_PRD` variables/secrets, and Entra federated credentials for environment `prod`. See [`docs/operations/planned-fixes/cicd-future-phase.md`](../planned-fixes/cicd-future-phase.md).
 - **API integration tests** — Still disabled (`if: false`) until SQL Server is available in CI.
 - **Functions IaC** — Bicep infra pipeline not yet migrated to GitHub Actions.
 - **ADO decommission** — Leave ADO pipelines disabled only after a full release cycle on GitHub Actions.

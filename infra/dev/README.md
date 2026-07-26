@@ -16,7 +16,7 @@ Scripts for running the estate on the developer machine with per-service **mode*
 | `stop.mjs` | Stop managed native PIDs + tracked compose services |
 | `status.mjs` | Health probes (`npm run status`) |
 
-Full host prerequisites: [`docs/configuration.md`](../../docs/configuration.md#base-settings-for-local-native-development).
+Full host prerequisites: [`docs/technical/infra/configuration.md`](../../docs/technical/infra/configuration.md#base-settings-for-local-native-development). Estate guide: [`docs/technical/guides/local-development.md`](../../docs/technical/guides/local-development.md).
 
 **Docker Desktop** is required only when at least one service has `"mode": "docker"`. The recommended day-to-day config is all native and does not need Docker.
 

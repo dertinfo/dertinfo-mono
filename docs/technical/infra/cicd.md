@@ -180,7 +180,7 @@ From ADO variable group `DertInfoImageResizeV4_Infrastucture_Staging_VariablesGr
 | `excessiveUseActionGroupName` | `di-agrp-excessiveuse-stg` |
 | `excessiveUseActionGroupResourceGroupName` | `di-rg-monitoring-stg` |
 
-See [planned-fixes/cicd-future-phase.md](planned-fixes/cicd-future-phase.md) for IaC migration.
+See [planned-fixes/cicd-future-phase.md](../../operations/planned-fixes/cicd-future-phase.md) for IaC migration.
 
 ## ADO pipeline inventory (legacy)
 

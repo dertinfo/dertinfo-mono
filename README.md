@@ -56,7 +56,7 @@ Create an **empty** SQL database matching `SqlConnection__DatabaseName` (SSMS or
 
 Auth0 callbacks for local are already `http://localhost:44200` and `http://localhost:44300` in `appsettings.json` — they must be allowed on the SPA apps in the shared tenant.
 
-Details: [`docs/configuration.md`](docs/configuration.md), [`infra/secrets/README.md`](infra/secrets/README.md).
+Details: [`docs/technical/infra/configuration.md`](docs/technical/infra/configuration.md), [`infra/secrets/README.md`](infra/secrets/README.md).
 
 ### 4. Install website deps and verify
 
@@ -83,11 +83,11 @@ Stop with `npm run stop`. Re-run `npm run start` anytime; with `rebuild: false` 
 
 **Visual Studio (API F5):** set `"api": { "mode": "off", "rebuild": false }` and use user secrets — see [`apps/dert-api/README.md`](apps/dert-api/README.md#2-visual-studio-f5--debug-the-api-project).
 
-Known local website issues: [warmup race](docs/planned-fixes/web-warmup-race-condition.md), [silent auth on localhost](docs/planned-fixes/local-silent-auth-localhost.md).
+Resolved local website investigations (historical): [warmup race](docs/operations/investigations/web-warmup-race-condition.md), [silent auth on localhost](docs/operations/investigations/local-silent-auth-localhost.md). Estate how-to: [Local development](docs/technical/guides/local-development.md). Architecture: [overview](docs/technical/architecture/overview.md).
 
 ## Prerequisites (reference)
 
-Full tool matrix and Azurite/Functions notes: [`docs/configuration.md`](docs/configuration.md#base-settings-for-local-native-development).
+Full tool matrix and Azurite/Functions notes: [`docs/technical/infra/configuration.md`](docs/technical/infra/configuration.md#base-settings-for-local-native-development).
 
 **Azurite + Functions:** Core Tools 4.12+ needs Storage API `2024-11-04` → Azurite **≥ 3.34** (not 3.31). After upgrading, stop old processes on `:10000–10002`.
 
@@ -150,4 +150,8 @@ Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE
 - **CI:** GitHub Actions workflows (`*-ci.yml`) build and test on `main`, `develop`, and pull requests (path-filtered per app).
 - **CD:** GitHub Actions workflows (`*-cd.yml`) deploy to the `test` Azure environment and push Docker images to Docker Hub on pushes to `main` only.
 
-See [docs/cicd.md](docs/cicd.md) for workflow inventory, secrets setup, and ADO mapping.
+See [docs/technical/infra/cicd.md](docs/technical/infra/cicd.md) for workflow inventory, secrets setup, and ADO mapping.
+
+## Documentation
+
+Platform docs hub: [`docs/README.md`](docs/README.md) (capabilities, technical, operations).

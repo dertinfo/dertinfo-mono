@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Configuration
 
-Read `docs/configuration.md` for full detail. Apply these rules when editing `appsettings*.json`, `infra/secrets/*`, `infra/docker/*`, `docker-compose.yml`, `infra/dev/*`, or frontend runtime config.
+Read `docs/technical/infra/configuration.md` for full detail. Apply these rules when editing `appsettings*.json`, `infra/secrets/*`, `infra/docker/*`, `docker-compose.yml`, `infra/dev/*`, or frontend runtime config.
 
 ## Local estate (primary)
 

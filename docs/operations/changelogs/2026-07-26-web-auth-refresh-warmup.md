@@ -37,11 +37,11 @@ Branch: `feature/web-auth-refresh-warmup` (uncommitted at changelog write time; 
 
 ## References to any best practices that we found
 
-- Prefer **refresh tokens** over silent iframe renewal on localhost; Auth0 does not skip consent for `http://localhost` silent auth — see [Skipping consent for first-party clients](https://auth0.com/docs/api-auth/user-consent#skipping-consent-for-first-party-clients) and prior diagnosis in [`docs/planned-fixes/local-silent-auth-localhost.md`](../planned-fixes/local-silent-auth-localhost.md).
-- Do **not** navigate from Angular `Resolve` guards for side-effect redirects; use `CanActivate` + a pending-URL service ([`docs/planned-fixes/web-warmup-race-condition.md`](../planned-fixes/web-warmup-race-condition.md)).
+- Prefer **refresh tokens** over silent iframe renewal on localhost; Auth0 does not skip consent for `http://localhost` silent auth — see [Skipping consent for first-party clients](https://auth0.com/docs/api-auth/user-consent#skipping-consent-for-first-party-clients) and prior diagnosis in [`docs/operations/investigations/local-silent-auth-localhost.md`](../investigations/local-silent-auth-localhost.md).
+- Do **not** navigate from Angular `Resolve` guards for side-effect redirects; use `CanActivate` + a pending-URL service ([`docs/operations/investigations/web-warmup-race-condition.md`](../investigations/web-warmup-race-condition.md)).
 - Bootstrap config HTTP must bypass interceptors (`HttpBackend`) when the interceptor depends on that config.
 - Pin SDK majors carefully against the Angular version in `apps/dert-web` (Angular 14).
-- Local estate: [`docs/configuration.md`](../configuration.md), [`infra/dev/README.md`](../../infra/dev/README.md) — API + web + Azurite for group/image flows.
+- Local estate: [`docs/technical/infra/configuration.md`](../../technical/infra/configuration.md), [`infra/dev/README.md`](../../../infra/dev/README.md) — API + web + Azurite for group/image flows.
 
 ## Any remaining issues that we may wish to address
 
@@ -51,4 +51,4 @@ Branch: `feature/web-auth-refresh-warmup` (uncommitted at changelog write time; 
 - Optional: Auth0 “Allow Skipping User Consent” / reduce repeated consent screens during local testing.
 - Playwright warmup e2e under `tests/e2e/web/login/warmup/` may need updates for `WarmupGuard` behaviour.
 - Staging/prod smoke of login + group create after deploy.
-- **Integration / e2e coverage for auth behaviours** (refresh, logout, long-session token renew, etc.) — see [`docs/planned-fixes/web-auth-integration-tests.md`](../planned-fixes/web-auth-integration-tests.md).
+- **Integration / e2e coverage for auth behaviours** (refresh, logout, long-session token renew, etc.) — see [`docs/operations/planned-fixes/web-auth-integration-tests.md`](../planned-fixes/web-auth-integration-tests.md).
