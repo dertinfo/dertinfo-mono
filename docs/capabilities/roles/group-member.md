@@ -10,16 +10,16 @@ id: group-member
 
 ## Summary
 
-A signed-in user associated with one or more groups as a member (not necessarily an administrator of those groups).
+A signed-in user associated with one or more groups as a member (not necessarily a group administrator).
 
 ## Capabilities
 
-- [Log out](../features/auth-logout.md)
-- [Stay signed in](../features/auth-session-continuity.md)
+- [Log out](../features/auth-logout.md) / [Stay signed in](../features/auth-session-continuity.md)
+- [Publish competition results](../features/results-publish.md) — after publish, may view own team’s scores and score sheets when associated with that team
 
 ## Limitations
 
-- Group administration actions require [Group administrator](group-admin.md).
-- Event, venue, DoD, and platform administration require their respective roles.
+- Group administration, registration submit, and invoicing require [Group administrator](group-admin.md).
+- Event/venue/DoD administration require their respective roles.
 
-> Starter stub for reverse-engineering — expand from product behaviour. Roles may combine on one account.
+See [Domain glossary](../system/domain-glossary.md).

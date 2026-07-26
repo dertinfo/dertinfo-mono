@@ -23,6 +23,7 @@ Platform documentation for humans and AI agents. Organised in three tracks:
 | CI/CD | [technical/infra/cicd.md](technical/infra/cicd.md) |
 | Contributing workflow | [technical/guides/contributing-workflow.md](technical/guides/contributing-workflow.md) |
 | Capability catalogue | [capabilities/README.md](capabilities/README.md) |
+| Domain glossary | [capabilities/system/domain-glossary.md](capabilities/system/domain-glossary.md) |
 | Change logs | [operations/changelogs/](operations/changelogs/) |
 | Planned fixes | [operations/planned-fixes/](operations/planned-fixes/) |
 | Investigations | [operations/investigations/](operations/investigations/) |

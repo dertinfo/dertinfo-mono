@@ -10,21 +10,21 @@ id: member
 
 ## Summary
 
-A signed-in user of the platform (authenticated account), with or without additional scoped roles.
+A signed-in user of the platform. Any member may create a group; further powers depend on additional scoped roles.
 
 ## Capabilities
 
-- [Log in](../features/auth-login.md)
-- [Log out](../features/auth-logout.md)
-- [Stay signed in](../features/auth-session-continuity.md)
+- [Log in](../features/auth-login.md) / [Log out](../features/auth-logout.md) / [Stay signed in](../features/auth-session-continuity.md)
+- [User account and GDPR consent](../features/account-gdpr-consent.md)
+- [Create and manage group](../features/groups-manage.md) — **create** a group only; managing requires group-admin
+- [Publish competition results](../features/results-publish.md) — after publish, own-team scores/sheets if associated with a team
+- [Dert of Derts](../features/dod-programme.md) — as the product allows
+- [In-app notifications](../features/in-app-notifications.md) — rarely used
 
 ## Limitations
 
-- Group, event, venue, DoD, and platform administration require the corresponding roles:
-  - [Group member](group-member.md) / [Group administrator](group-admin.md)
-  - [Event administrator](event-admin.md)
-  - [Venue administrator](venue-admin.md)
-  - [Dert of Derts administrator](dod-admin.md)
-  - [Super administrator](super-admin.md)
+- Cannot manage a group without [Group administrator](group-admin.md).
+- Event, venue, and DoD admin powers need the corresponding roles.
+- Platform-wide [super-admin](super-admin.md) is **deprecated**.
 
-> Starter stub for reverse-engineering — expand from product behaviour. Roles may combine on one account.
+See [Domain glossary](../system/domain-glossary.md).

@@ -10,18 +10,23 @@ id: group-admin
 
 ## Summary
 
-A signed-in user who can administer one or more groups they are authorised for.
+Administers one or more sword-dancing **groups**: members, teams, images, event registration, invoices, and (after results publish) own-team scores.
 
 ## Capabilities
 
-- [Log out](../features/auth-logout.md)
-- [Stay signed in](../features/auth-session-continuity.md)
+- [Create and manage group](../features/groups-manage.md)
+- [Submit event registration](../features/registration-submit.md) — submit and edit while still open (until event admin confirms)
+- [Invoicing and payment status](../features/invoicing.md) — view invoices and paid status
+- [Registration email templates](../features/registration-email-templates.md) — receives submitted/confirmed emails
+- [Send email](../features/send-email.md) — receives platform emails
+- [Publish competition results](../features/results-publish.md) — after publish, own team’s scores and score sheets
+- Auth: [Log out](../features/auth-logout.md), [Stay signed in](../features/auth-session-continuity.md)
 
 ## Limitations
 
-- Scoped to specific groups.
-- Event administration requires [Event administrator](event-admin.md).
-- Venue administration requires [Venue administrator](venue-admin.md).
-- Platform-wide administration requires [Super administrator](super-admin.md).
+- Ordinary group **members** cannot manage the group.
+- Cannot confirm registrations or validate competition scores (event admin).
+- Cannot change scores after they have been checked (venue capture lock).
+- Cannot see other groups’ score sheets.
 
-> Starter stub for reverse-engineering — expand from product behaviour. Roles may combine on one account.
+See [Domain glossary](../system/domain-glossary.md).

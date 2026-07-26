@@ -10,16 +10,15 @@ id: dod-admin
 
 ## Summary
 
-A signed-in user who can administer Dert of Derts (DoD) programme areas of the platform (submissions, talks, related DoD administration).
+Administers the online **Dert of Derts** programme (submissions, judging programme areas, talks, settings, and related DoD admin).
 
 ## Capabilities
 
-- [Log out](../features/auth-logout.md)
-- [Stay signed in](../features/auth-session-continuity.md)
+- [Dert of Derts](../features/dod-programme.md)
+- Auth: [Log out](../features/auth-logout.md), [Stay signed in](../features/auth-session-continuity.md)
 
 ## Limitations
 
-- Does not by itself grant group, event, or venue administration.
-- Platform-wide administration requires [Super administrator](super-admin.md).
+- Does not by itself grant core event venue scoring or group registration administration.
 
-> Starter stub for reverse-engineering — expand from product behaviour. Roles may combine on one account.
+See [Domain glossary](../system/domain-glossary.md).

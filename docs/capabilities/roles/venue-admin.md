@@ -10,17 +10,17 @@ id: venue-admin
 
 ## Summary
 
-A signed-in user who can administer one or more venues they are authorised for (typically within an event’s competition venues).
+At competition venues, captures scores and photographs judge score sheets (primarily via the **app**) for dances at venues they administer.
 
 ## Capabilities
 
-- [Log out](../features/auth-logout.md)
-- [Stay signed in](../features/auth-session-continuity.md)
+- [Venue score capture](../features/venue-score-capture.md)
+- Auth: [Log out](../features/auth-logout.md), [Stay signed in](../features/auth-session-continuity.md)
 
 ## Limitations
 
-- Scoped to specific venues; does not by itself grant full event or platform administration.
-- Group administration requires [Group administrator](group-admin.md).
-- Platform-wide administration requires [Super administrator](super-admin.md).
+- Once scores are **checked/validated** by an event admin, cannot change those scores or score sheets.
+- Does not own results publish — [Event administrator](event-admin.md) only.
+- Does not by itself grant event or group administration.
 
-> Starter stub for reverse-engineering — expand from product behaviour. Roles may combine on one account.
+See [Domain glossary](../system/domain-glossary.md).

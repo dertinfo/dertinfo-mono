@@ -10,18 +10,26 @@ id: event-admin
 
 ## Summary
 
-A signed-in user who can administer one or more events they are authorised for.
+Administers one or more **events** (e.g. Dert): create event, registrations, invoicing, competitions, score validation, reporting, and publishing results. Typical website “organiser” role.
 
 ## Capabilities
 
-- [Log out](../features/auth-logout.md)
-- [Stay signed in](../features/auth-session-continuity.md)
+- [Create event](../features/events-create.md)
+- [Confirm registrations](../features/registration-confirm.md)
+- [Invoicing and payment status](../features/invoicing.md) — mark invoices paid
+- [Registration email templates](../features/registration-email-templates.md)
+- [Run competitions](../features/competitions-run.md)
+- [Venue score capture](../features/venue-score-capture.md) — may also enter scores live at a venue
+- [Validate scores](../features/scoring-validate.md)
+- [Publish competition results](../features/results-publish.md)
+- [Send email](../features/send-email.md) — registration and related outbound mail
+- [In-app notifications](../features/in-app-notifications.md) — rarely used
+- Auth: [Log out](../features/auth-logout.md), [Stay signed in](../features/auth-session-continuity.md)
 
 ## Limitations
 
-- Scoped to specific events.
-- Group administration requires [Group administrator](group-admin.md).
-- Venue administration requires [Venue administrator](venue-admin.md).
-- Platform-wide administration requires [Super administrator](super-admin.md).
+- After scores are checked, venue admins can no longer edit those scores/sheets.
+- A separate “competition admin” role is not used in current practice.
+- As **data owners** for event-related personal data, event admins hold organisational responsibility under GDPR — see [User account and GDPR consent](../features/account-gdpr-consent.md).
 
-> Starter stub for reverse-engineering — expand from product behaviour. Roles may combine on one account.
+See [Domain glossary](../system/domain-glossary.md).

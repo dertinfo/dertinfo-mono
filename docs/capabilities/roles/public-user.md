@@ -10,14 +10,19 @@ id: public-user
 
 ## Summary
 
-Someone using the platform without a signed-in account. Can discover public information and start sign-in.
+Someone using the platform without a signed-in account (or browsing public pages).
 
 ## Capabilities
 
 - [Log in](../features/auth-login.md)
+- [Public content](../features/public-content.md)
+- [Cookie consent](../features/cookie-consent.md)
+- [Publish competition results](../features/results-publish.md) — public award outcomes only, after publish
+- [Dert of Derts](../features/dod-programme.md) — public DoD flows as offered
 
 ## Limitations
 
 - Cannot access member-only or administrator areas until signed in.
+- Cannot see group score sheets.
 
-> Starter stub for reverse-engineering — expand from product behaviour.
+See [Domain glossary](../system/domain-glossary.md).

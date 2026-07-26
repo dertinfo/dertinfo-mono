@@ -1,25 +1,30 @@
 ---
 name: Super administrator
 type: role
-status: active
+status: deprecated
 updated: 2026-07-26
 id: super-admin
 ---
 
-# Role: Super administrator
+# Role: Super administrator (deprecated)
 
 ## Summary
 
-A signed-in user with platform-wide administrative authority, beyond group-, event-, venue-, or DoD-scoped roles.
+Historically a signed-in user with platform-wide administrative authority beyond group-, event-, venue-, or DoD-scoped roles.
 
-## Capabilities
+## Status
 
-- [Log out](../features/auth-logout.md)
-- [Stay signed in](../features/auth-session-continuity.md)
+**Deprecated — should be removed.**
+
+- Do not treat this as a current product role for new capability design.
+- Prefer scoped roles: [Group administrator](group-admin.md), [Event administrator](event-admin.md), [Venue administrator](venue-admin.md), [Dert of Derts administrator](dod-admin.md).
+- Remaining code or Auth0 claims that grant “super admin” should be planned for removal rather than expanded.
+
+## Capabilities (legacy)
+
+- Auth: [Log out](../features/auth-logout.md), [Stay signed in](../features/auth-session-continuity.md)
+- See also: [Deprecated super-admin privilege](../features/super-admin-deprecated.md)
 
 ## Limitations
 
-- Highest privilege role; use should be tightly controlled.
-- Scoped operational roles ([Group administrator](group-admin.md), [Event administrator](event-admin.md), [Venue administrator](venue-admin.md), [Dert of Derts administrator](dod-admin.md)) remain the normal path for day-to-day administration.
-
-> Starter stub for reverse-engineering — expand from product behaviour.
+- Not part of the intended long-term role model.
