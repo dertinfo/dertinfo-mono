@@ -20,7 +20,7 @@ This approach would be **risky if full CD already depended on these pipelines** 
 
 | PR | Title |
 |----|--------|
-| *(filled after open)* | Docs / subscription foundation (`feature/docs-library-restructure`) |
+| [#16](https://github.com/dertinfo/dertinfo-mono/pull/16) | Docs restructure, subscription foundation Bicep, and CD workflows |
 
 ## Date the work was started
 
