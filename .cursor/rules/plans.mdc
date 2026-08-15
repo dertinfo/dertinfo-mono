@@ -1,0 +1,22 @@
+---
+description: Structure for Cursor plans — outcomes, steps, then detail
+alwaysApply: true
+---
+
+# Plans
+
+When creating or updating a Cursor plan (CreatePlan / plan markdown), use this structure in order:
+
+## 1. Outcomes
+
+A short bullet list of **defined, verifiable outcomes** for the work. Each bullet is something that will be true when the work is done.
+
+## 2. Steps
+
+A short bullet list of **actions** intended to achieve those outcomes. Keep steps actionable and ordered; avoid burying the plan of action in prose.
+
+## 3. Detail
+
+Supporting context only **after** outcomes and steps: diagrams, file paths, allow-lists, constraints, out of scope, and rationale. Omit detail that does not help execute or verify the outcomes.
+
+Do not lead with long narrative or options matrices; put the goal and plan of action first.

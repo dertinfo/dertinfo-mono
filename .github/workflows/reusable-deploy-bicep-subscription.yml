@@ -1,0 +1,100 @@
+name: Deploy Bicep at Azure subscription scope
+
+# Privileged identity: subscription-scope deploy (RGs, policy, role assignments).
+# Configure a dedicated Entra app / service principal with rights on the target
+# subscription, federated to this workflow via OIDC on the GitHub Environment.
+# Do NOT use the RG-scoped infra identity here.
+#
+# Leaf params: main.dev.bicepparam / main.prod.bicepparam (extends main.shared.bicepparam).
+# Secrets / identifiable placeholders via extra_parameters / extra_secure_parameters.
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'GitHub Environment name (e.g. development, production)'
+        required: true
+        type: string
+      template_path:
+        description: 'Path to subscription main.bicep relative to repo root'
+        required: false
+        type: string
+        default: infra/bicep/subscription/main.bicep
+      parameters_path:
+        description: 'Path to main.dev.bicepparam or main.prod.bicepparam relative to repo root'
+        required: true
+        type: string
+      location:
+        description: 'Azure location for the subscription deployment metadata'
+        required: false
+        type: string
+        default: uksouth
+      deployment_name:
+        description: 'Optional ARM deployment name'
+        required: false
+        type: string
+        default: ''
+      extra_parameters:
+        description: 'Additional az --parameters overrides (non-secret), space-separated key=value'
+        required: false
+        type: string
+        default: ''
+    secrets:
+      extra_secure_parameters:
+        description: 'Optional secure --parameters string built by the caller from GitHub secrets'
+        required: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      # Subscription-scope SP (distinct from RG deploy identity). Set on the GitHub Environment:
+      #   vars.AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION
+      #   vars.AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION
+      #   vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION }}
+          tenant-id: ${{ vars.AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID }}
+
+      - name: Ensure Bicep CLI
+        run: az bicep install
+
+      - name: Deploy Bicep (subscription)
+        env:
+          EXTRA_PARAMETERS: ${{ inputs.extra_parameters }}
+          EXTRA_SECURE_PARAMETERS: ${{ secrets.extra_secure_parameters }}
+          DEPLOYMENT_NAME: ${{ inputs.deployment_name }}
+          PIPELINE_PRINCIPAL_ID: ${{ vars.AZURE_ENTRA_OIDC_PRINCIPALID_RG }}
+        run: |
+          set -euo pipefail
+          NAME_ARGS=()
+          if [ -n "${DEPLOYMENT_NAME}" ]; then
+            NAME_ARGS=(--name "${DEPLOYMENT_NAME}")
+          fi
+          ARGS=(
+            deployment sub create
+            --location "${{ inputs.location }}"
+            --template-file "${{ inputs.template_path }}"
+            --parameters "${{ inputs.parameters_path }}"
+            "${NAME_ARGS[@]}"
+          )
+          if [ -n "${EXTRA_PARAMETERS}" ]; then
+            # shellcheck disable=SC2206
+            ARGS+=(--parameters ${EXTRA_PARAMETERS})
+          fi
+          if [ -n "${PIPELINE_PRINCIPAL_ID}" ]; then
+            ARGS+=(--parameters "pipelinePrincipalId=${PIPELINE_PRINCIPAL_ID}")
+          fi
+          if [ -n "${EXTRA_SECURE_PARAMETERS}" ]; then
+            # shellcheck disable=SC2206
+            ARGS+=(--parameters ${EXTRA_SECURE_PARAMETERS})
+          fi
+          az "${ARGS[@]}"

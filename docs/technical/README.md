@@ -2,7 +2,7 @@
 name: Technical documentation
 type: index
 status: active
-updated: 2026-07-26
+updated: 2026-08-15
 ---
 
 # Technical documentation
@@ -14,7 +14,7 @@ updated: 2026-07-26
 | [architecture/](architecture/) | Estate structure and subsystem responsibilities |
 | [subsystems/](subsystems/) | Deep dives (Auth0, security, …) |
 | [standards/](standards/) | Technology conventions (Angular, …) |
-| [guides/](guides/) | Cross-cutting how-tos (local estate, contributing) |
+| [guides/](guides/) | Cross-cutting how-tos (local estate, contributing, GitHub Azure OIDC) |
 | [infra/](infra/) | Configuration, CI/CD, secrets rotation, agent GitHub MCP |
 
 API endpoints and schemas: OpenAPI / Swagger via [`packages/shared-contracts/`](../../packages/shared-contracts/) — not duplicated here.

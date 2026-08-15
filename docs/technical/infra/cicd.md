@@ -63,6 +63,16 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 | `reusable-build-push-docker.yml` | Build and push to Docker Hub (`latest-test` / `{run_id}-test` for `test`; `latest` / `{run_id}` for `prod`) |
 | `reusable-deploy-dotnet-appservice.yml` | OIDC login + zip/folder deploy to App Service |
 | `reusable-deploy-static-web-app.yml` | Deploy to Azure Static Web Apps |
+| `reusable-deploy-bicep-resourcegroup.yml` | OIDC + `az deployment group create` (workload infra) |
+| `reusable-deploy-bicep-subscription.yml` | OIDC + `az deployment sub create` (subscription foundation) |
+
+### Infrastructure CD
+
+| Workflow | Scope | Notes |
+|----------|-------|-------|
+| `subscription-infra-cd.yml` | Subscription | Privileged SP; Environments `development` / `production` — see [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) |
+
+App CD Environments remain `test` / `prod` today; subscription foundation uses `development` / `production` to match env tags `dev` / `prd`. Both new-stack Environments require approval from either `dertinfo` or `davidsmonkeys` before deploy jobs run.
 
 ### Per-app CD
 
@@ -86,13 +96,11 @@ Complete these steps in the GitHub repository **before the first CD run**.
 
 ### 2. Azure OIDC (recommended)
 
-For each environment, create an Entra ID app registration with a federated credential:
+GitHub Actions signs in to Azure with **OIDC federated credentials** (no client secret). The token **subject must match the job’s GitHub Environment** (for example `repo:dertinfo/dertinfo-mono:environment:test`), not only a branch ref.
 
-- **Issuer:** `https://token.actions.githubusercontent.com`
-- **Subject:** `repo:<org>/<repo>:ref:refs/heads/main` (adjust org/repo)
-- **Audience:** `api://AzureADTokenExchange`
+**New-stack Environments (`development` / `production`):** apply the checked-in JSON in [`infra/configuration/`](../../../infra/configuration/) as described in [GitHub Actions OIDC to Azure](../guides/github-azure-federated-credentials.md).
 
-Grant the app **Contributor** on the target resource group(s) or individual web apps.
+**Existing app CD (`test` / `prod`):** create an Entra app registration per environment with a federated credential (same issuer and audience; subject `…:environment:test` or `…:environment:prod`). Grant the app **Contributor** on the target resource group(s) or individual web apps.
 
 On the GitHub **`test`** environment, set **variables**:
 
