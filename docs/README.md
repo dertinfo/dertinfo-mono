@@ -18,6 +18,7 @@ Platform documentation for humans and AI agents. Organised in three tracks:
 | Authentication (Auth0) | [technical/subsystems/authentication.md](technical/subsystems/authentication.md) |
 | Angular standards | [technical/standards/angular/](technical/standards/angular/) |
 | Local development (estate) | [technical/guides/local-development.md](technical/guides/local-development.md) |
+| GitHub Azure OIDC (federated credentials) | [technical/guides/github-azure-federated-credentials.md](technical/guides/github-azure-federated-credentials.md) |
 | Configuration | [technical/infra/configuration.md](technical/infra/configuration.md) |
 | Secrets & rotation | [technical/infra/secrets-and-rotation.md](technical/infra/secrets-and-rotation.md) |
 | CI/CD | [technical/infra/cicd.md](technical/infra/cicd.md) |

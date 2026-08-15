@@ -1,0 +1,40 @@
+---
+description: Bicep main.bicep section order, AVM usage, and extendable params
+globs: "**/infra/bicep/**/*.{bicep,bicepparam}"
+alwaysApply: false
+---
+
+# Bicep layout
+
+## Section order in `main.bicep`
+
+1. Parameters  
+2. Variables  
+3. References  
+4. Resources  
+5. Modules  
+6. **AVM Modules**  
+7. Outputs  
+
+## Modules vs AVM Modules
+
+- **AVM Modules** — call Azure Verified Modules (`br/public:avm/...`) **directly** from `main.bicep`. Pin versions explicitly.
+- **Modules** — local `.bicep` only when they add real composition (multiple resources, shared logic, reuse).
+- Do **not** create a local subfolder whose only job is to wrap a single AVM call.
+
+## Parameter files (`extends`)
+
+Requires Bicep CLI **0.44.1+**.
+
+```
+main.shared.bicepparam          # using none — shared non-secret defaults
+main.dev.bicepparam        # using 'main.bicep' + extends './main.shared.bicepparam'
+main.prod.bicepparam        # using 'main.bicep' + extends './main.shared.bicepparam'
+```
+
+- Put shared allow-lists, location, product slug, and empty placeholders in `main.shared.bicepparam`.
+- Leaf files override only what differs per environment.
+- **Never** commit secrets or identifiable estate ids (subscription ids, principal ids, passwords). Declare empty `// SECRET` / `// PLACEHOLDER` values; inject via pipeline or CLI.
+- Prefer not duplicating full param lists across env files — that is what `extends` is for.
+
+See `docs/operations/planned-fixes/bicep-avm-infra-pipelines.md`.

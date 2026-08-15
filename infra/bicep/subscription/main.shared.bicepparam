@@ -1,0 +1,54 @@
+/*
+Shared subscription parameters (not bound to a template).
+Leaf files (main.dev.bicepparam / main.prod.bicepparam) use: extends './main.shared.bicepparam'
+Requires Bicep CLI 0.44.1+.
+Do not put secrets or identifiable estate ids here.
+*/
+
+using none
+
+param location = 'uksouth'
+param productSlug = 'dertinfo'
+param workloadParts = [
+  'config'
+  'storage'
+  'web'
+  'app'
+  'api'
+]
+param pipelineRoleDefinitionIdOrName = 'Contributor'
+param allowedResourceTypes = [
+  'Microsoft.Web/staticSites'
+  'Microsoft.Web/serverfarms'
+  'Microsoft.Web/sites'
+  'Microsoft.Web/sites/config'
+  'Microsoft.Web/sites/basicPublishingCredentialsPolicies'
+  'Microsoft.Sql/servers'
+  'Microsoft.Sql/servers/databases'
+  'Microsoft.Sql/servers/firewallRules'
+  'Microsoft.Storage/storageAccounts'
+  'Microsoft.Storage/storageAccounts/blobServices'
+  'Microsoft.Storage/storageAccounts/blobServices/containers'
+  'Microsoft.KeyVault/vaults'
+  'Microsoft.AppConfiguration/configurationStores'
+  'Microsoft.Insights/components'
+  'Microsoft.OperationalInsights/workspaces'
+  'Microsoft.Resources/deployments'
+  'Microsoft.Authorization/policyDefinitions'
+  'Microsoft.Authorization/policyAssignments'
+  'Microsoft.Authorization/roleAssignments'
+]
+param allowedAppServicePlanSkus = [
+  'F1'
+  'D1'
+  'B1'
+  'Free'
+  'Shared'
+  'Basic'
+]
+param allowedSqlDatabaseSkus = [
+  'Basic'
+]
+param enableTelemetry = false
+// PLACEHOLDER — Entra object id of GitHub Actions infra identity; supply via CLI / pipeline override
+param pipelinePrincipalId = ''
