@@ -28,7 +28,8 @@ param enableTelemetry bool = false
 // Variables
 // #####################################################
 
-var policyAllowedResourceTypesId = '/providers/Microsoft.Authorization/policyDefinitions/a08ec900-254a-4555-9bf5-e42af04b5c51'
+// Built-in: Allowed resource types (https://www.azadvertizer.net/azpolicyadvertizer/a08ec900-254a-4555-9bf5-e42af04b5c5c.html)
+var policyAllowedResourceTypesId = '/providers/Microsoft.Authorization/policyDefinitions/a08ec900-254a-4555-9bf5-e42af04b5c5c'
 var appServiceSkuPolicyName = 'di-policy-appservice-skus-${assignmentSuffix}'
 var sqlSkuPolicyName = 'di-policy-sql-skus-${assignmentSuffix}'
 

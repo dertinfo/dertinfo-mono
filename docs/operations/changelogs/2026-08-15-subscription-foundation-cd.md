@@ -50,6 +50,10 @@ This approach would be **risky if full CD already depended on these pipelines** 
    First Actions parse of `subscription-infra-cd.yml` failed: nested job `deploy` requested `id-token: write` but the caller only allowed `id-token: none`. Same class of issue as app CD (see [2026-07-03 entry](./2026-07-03-github-actions-cd-pipelines.md) item 3).  
    **Fix:** Add `permissions: id-token: write` and `contents: read` on each `uses:` job in `subscription-infra-cd.yml`.
 
+6. **Wrong GUID for built-in Allowed resource types policy**  
+   Assignment referenced `…e42af04b5c51` (`PolicyDefinitionNotFound`). The built-in id ends in **`5c`**, not `51`: `a08ec900-254a-4555-9bf5-e42af04b5c5c`.  
+   **Fix:** Correct `policyAllowedResourceTypesId` in `infra/bicep/subscription/policy/main.bicep`.
+
 ## References to any best practices that we found
 
 - **Privileged vs restricted deploy identities:** Subscription foundation SP (Contributor + role-assignment rights) vs later RG-scoped SP — [agent-safe-subscription-foundation.md](../planned-fixes/agent-safe-subscription-foundation.md)
