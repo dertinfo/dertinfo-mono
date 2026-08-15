@@ -28,5 +28,7 @@ Platform documentation for humans and AI agents. Organised in three tracks:
 | Change logs | [operations/changelogs/](operations/changelogs/) |
 | Planned fixes | [operations/planned-fixes/](operations/planned-fixes/) |
 | Investigations | [operations/investigations/](operations/investigations/) |
+| Security reviews | [operations/security/](operations/security/) |
+| Infra operator scripts (OIDC identities) | [infra/scripts/](../infra/scripts/) |
 
 Per-app getting started remains in each app’s README under `apps/`. Root [README](../README.md) covers first-time clone → run.

@@ -36,6 +36,7 @@ docs/
     changelogs/
     planned-fixes/
     investigations/
+    security/              # Point-in-time operational security reviews
     agents/
 ```
 
@@ -46,6 +47,7 @@ docs/
 | Further `technical/subsystems/` pages | When a new named subsystem needs a deep dive |
 | Further `technical/standards/<tech>/` | When documenting house rules for another stack |
 | Further capability domains | As reverse-engineering fills the catalogue |
+| `operations/security/` | When recording an operational security review (e.g. workflow / OIDC gates) |
 
 ### Do not create
 

@@ -70,9 +70,9 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 
 | Workflow | Scope | Notes |
 |----------|-------|-------|
-| `subscription-infra-cd.yml` | Subscription | Privileged SP; Environments `development` / `production` — see [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) |
+| `subscription-infra-cd.yml` | Subscription | Privileged SP **per Environment**; Environments `development` / `production` — see [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) and [OIDC security review](../../operations/security/github-workflows-security-review.md) |
 
-App CD Environments remain `test` / `prod` today; subscription foundation uses `development` / `production` to match env tags `dev` / `prd`. Both new-stack Environments require approval from either `dertinfo` or `davidsmonkeys` before deploy jobs run.
+App CD Environments remain `test` / `prod` today; subscription foundation uses `development` / `production` to match env tags `dev` / `prd`. Each new-stack Environment has its **own** Entra app (client) id and subscription id — do not share one SP across both. Both Environments require approval from either `dertinfo` or `davidsmonkeys` before deploy jobs run. Operator scripts: [`infra/scripts/`](../../../infra/scripts/).
 
 ### Per-app CD
 
@@ -98,7 +98,7 @@ Complete these steps in the GitHub repository **before the first CD run**.
 
 GitHub Actions signs in to Azure with **OIDC federated credentials** (no client secret). The token **subject must match the job’s GitHub Environment** (for example `repo:dertinfo/dertinfo-mono:environment:test`), not only a branch ref.
 
-**New-stack Environments (`development` / `production`):** apply the checked-in JSON in [`infra/configuration/`](../../../infra/configuration/) as described in [GitHub Actions OIDC to Azure](../guides/github-azure-federated-credentials.md).
+**New-stack Environments (`development` / `production`):** apply the checked-in JSON in [`infra/configuration/`](../../../infra/configuration/) via [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1) (or manually) as described in [GitHub Actions OIDC to Azure](../guides/github-azure-federated-credentials.md). Use a **separate** Entra app registration per Environment; set that Environment’s `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` to the matching client id.
 
 **Existing app CD (`test` / `prod`):** create an Entra app registration per environment with a federated credential (same issuer and audience; subject `…:environment:test` or `…:environment:prod`). Grant the app **Contributor** on the target resource group(s) or individual web apps.
 
@@ -124,7 +124,7 @@ Use **UPPER_SNAKE_CASE** with this pattern for Azure (and similar cloud) values:
 [SERVICEPROVIDER]_[SERVICETYPE]_[WORKLOADNAME]_[DESCRIPTION]_[TARGETENV]
 ```
 
-- **Target env:** `STG` for GitHub environment `test` (ADO staging); `PRD` for GitHub environment `prod`.
+- **Target env:** three-letter acronym only — `STG` for GitHub environment `test` (ADO staging); `DEV` for development; `PRD` for production. **Never `PROD`.** See [`.cursor/rules/env-acronyms.mdc`](../../../.cursor/rules/env-acronyms.mdc).
 - **Third-party, non-env-specific** accounts (e.g. Docker Hub) may use `[PROVIDER]_[DESCRIPTION]` — `DOCKERHUB_USERNAME`, `DOCKERHUB_TOKEN`.
 
 Avoid prefixing names with `TEST_` or suffixing with `_TEST`; put the environment last as `STG` / `PRD` so the name reads as *what* + *where*.

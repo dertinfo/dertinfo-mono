@@ -7,26 +7,28 @@ updated: 2026-08-15
 
 # Planned: Agent-safe Azure subscription foundation
 
-**Status:** In progress — prerequisite before parked estate / workload Bicep work.
+**Status:** In progress — **development** subscription foundation deployed via Actions. Production subscription exists; first prod CD pending SP RBAC confirmation. Prerequisite before parked estate / workload Bicep work.
 
-**Related:** [Azure estate (dev/prd)](azure-estate-dev-prd.md) (parked), [Bicep AVM + infra pipelines](bicep-avm-infra-pipelines.md) (parked), [Hosting and cost decisions](hosting-cost-decisions.md) (parked)
+**Related:** [Azure estate (dev/prd)](azure-estate-dev-prd.md) (parked), [Bicep AVM + infra pipelines](bicep-avm-infra-pipelines.md) (parked), [Hosting and cost decisions](hosting-cost-decisions.md) (parked), [GitHub workflows security review](../security/github-workflows-security-review.md)
 
 ---
 
 ## Outcomes
 
-- Empty Azure subscription is created by the **tenant administrator** (portal / billing).
-- Subscription foundation Bicep is deployed via **GitHub Actions** at **subscription scope**, using a **privileged service principal** (OIDC) that may create RGs, policy, and role assignments.
+- Empty Azure subscriptions are created by the **tenant administrator** (portal / billing) — Development and Production.
+- Subscription foundation Bicep is deployed via **GitHub Actions** at **subscription scope**, using a **privileged service principal per Environment** (OIDC) that may create RGs, policy, and role assignments.
+- **Isolation:** development and production use **separate** Entra apps/SPs; each has RBAC only on its own subscription (see [why](#identity-isolation)).
 - Subscription policy **denies** resource types and SKUs outside the DertInfo allow-list (SQL **Basic** only for now).
 - Development resource groups exist with naming `rg-dev-dertinfo-<part>-uks`.
 - Workload infra uses a **separate, more restricted** identity at **resource group** scope (`az deployment group create`).
 - Agents do not hold subscription-scope deploy rights; they change infra only via PRs that run these pipelines.
+- Environment required reviewers (`dertinfo` / `davidsmonkeys`) must approve before deploy jobs obtain Azure tokens.
 
 ## Steps (admin + repo)
 
-1. Tenant admin creates an empty Azure subscription (portal / billing).
-2. Create an Entra app / service principal for **subscription infra CD**; grant it rights on that subscription sufficient to deploy RGs, policy definitions/assignments, and role assignments (typically Contributor plus ability to assign roles, e.g. User Access Administrator, or a custom role).
-3. Federate that SP to GitHub Actions OIDC on Environments **`development`** and **`production`**; set environment variables (see below).
+1. Tenant admin creates empty Azure subscription(s) (portal / billing).
+2. Create **two** Entra apps / service principals for **subscription infra CD** (development and production) via [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1); each gets Contributor + User Access Administrator on **its** subscription only.
+3. Apply federated credentials (script uses [`infra/configuration/`](../../../infra/configuration/)); set GitHub Environment variables (see below).
 4. Configure required reviewers on both Environments (see below).
 5. Optionally create a second SP for **RG-scoped** workload deploys; set `AZURE_ENTRA_OIDC_PRINCIPALID_RG` so subscription Bicep can grant it Contributor on each RG.
 6. Run [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) (`workflow_dispatch` or push to `main` under `infra/bicep/subscription/**`) to deploy `main.dev.bicepparam` / `main.prod.bicepparam`.
@@ -35,12 +37,29 @@ updated: 2026-08-15
 
 ---
 
+## Identity isolation
+
+A **shared** app registration for both Environments would typically need RBAC on **both** subscriptions. On a **public** monorepo, that increases blast radius if GitHub write access or an approval account is abused.
+
+**Required pattern:** one app + SP per Environment:
+
+| GitHub Environment | Entra app (example display name) | Azure RBAC scope |
+|--------------------|----------------------------------|------------------|
+| `development` | `dertinfo-github-subscription-development` | DertInfo Development subscription only |
+| `production` | `dertinfo-github-subscription-production` | DertInfo Production subscription only |
+
+Create with the operator script; remove a retired client id with [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](../../../infra/scripts/Remove-DertInfoSubscriptionOidcIdentity.ps1). Do **not** attach both federated JSON files to one privileged SP for this foundation.
+
+Threat model detail: [github-workflows-security-review.md](../security/github-workflows-security-review.md).
+
+---
+
 ## Deploy channels
 
 | Channel | Who | Scope | How |
 |---------|-----|-------|-----|
 | Create empty subscription | Tenant administrator | Billing / portal | Manual — not automated in this repo |
-| Subscription foundation | Privileged **subscription** SP (OIDC) | Subscription | GitHub Actions → `az deployment sub create` |
+| Subscription foundation | Privileged **per-Environment** subscription SP (OIDC) | That Environment’s subscription | GitHub Actions → `az deployment sub create` |
 | Workload infra | Restricted **RG** SP (OIDC) | Resource group | GitHub Actions → `az deployment group create` with leaf params + secret/placeholder overrides |
 
 Agents author Bicep via PRs; they do not authenticate as the subscription SP locally for day-to-day work.
@@ -56,14 +75,16 @@ Agents author Bicep via PRs; they do not authenticate as the subscription SP loc
 
 ### Environment variables (per GitHub Environment)
 
+Each Environment must use **its own** client id (and matching subscription id):
+
 | Variable | Purpose |
 |----------|---------|
-| `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` | App (client) id of the **subscription-scope** deploy SP |
+| `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` | App (client) id of **that Environment’s** subscription-scope deploy SP |
 | `AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION` | Entra tenant id |
-| `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID` | Target Azure subscription id |
+| `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID` | Target Azure subscription id for that Environment |
 | `AZURE_ENTRA_OIDC_PRINCIPALID_RG` | Optional — object id of the RG deploy SP (passed as `pipelinePrincipalId`) |
 
-Federate the subscription SP using [`infra/configuration/github-azure-dev-credential.json`](../../../infra/configuration/github-azure-dev-credential.json) and [`github-azure-prd-credential.json`](../../../infra/configuration/github-azure-prd-credential.json) — see [GitHub Actions OIDC to Azure](../../technical/guides/github-azure-federated-credentials.md). App CD still uses Environments `test` / `prod` ([cicd.md](../../technical/infra/cicd.md)).
+Federate using [`infra/configuration/github-azure-dev-credential.json`](../../../infra/configuration/github-azure-dev-credential.json) and [`github-azure-prd-credential.json`](../../../infra/configuration/github-azure-prd-credential.json) — see [GitHub Actions OIDC to Azure](../../technical/guides/github-azure-federated-credentials.md). Preferred create path: [`infra/scripts/`](../../../infra/scripts/). App CD still uses Environments `test` / `prod` ([cicd.md](../../technical/infra/cicd.md)).
 
 ### Environment protection rules
 
@@ -99,17 +120,19 @@ RG-scoped reusable workflow remains [reusable-deploy-bicep-resourcegroup.yml](..
 
 - Subscription Bicep: [`infra/bicep/subscription/`](../../../infra/bicep/subscription/)
 - Subscription CD: [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) + [reusable-deploy-bicep-subscription.yml](../../../.github/workflows/reusable-deploy-bicep-subscription.yml)
+- Operator scripts: [`infra/scripts/`](../../../infra/scripts/)
 - RG CD (workload): [reusable-deploy-bicep-resourcegroup.yml](../../../.github/workflows/reusable-deploy-bicep-resourcegroup.yml)
 
 ---
 
 ## Checklist
 
-- [x] Admin creates empty subscription
-- [x] Subscription-scope SP created, RBAC on subscription, OIDC federated to GitHub Environments
-- [x] Environment vars set (`AZURE_ENTRA_OIDC_*_SUBSCRIPTION`, subscription id)
+- [x] Admin creates empty subscription(s) (Development; Production)
+- [x] Isolated subscription-scope SPs created, RBAC per subscription, OIDC federated to GitHub Environments
+- [x] Environment vars set (`AZURE_ENTRA_OIDC_*_SUBSCRIPTION`, subscription id) per Environment
 - [x] Required reviewers on `development` and `production` (`dertinfo`, `davidsmonkeys`)
-- [ ] Subscription CD workflow run succeeds for development
+- [x] Subscription CD workflow run succeeds for **development**
+- [ ] Production SP RBAC confirmed; Subscription CD succeeds for **production**
 - [ ] Optional: RG SP principal id set; role assignments created by Bicep
 - [ ] Policy deny verified (e.g. attempt disallowed SKU)
 - [ ] RG deploy workflow wired with restricted identity

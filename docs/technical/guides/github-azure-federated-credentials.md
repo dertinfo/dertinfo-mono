@@ -42,11 +42,24 @@ That is what allows Actions to **deploy** (subscription Bicep, later RG Bicep, a
 
 ## Create the Entra apps and apply the JSON
 
-Do this as tenant administrator. Typical shape: **one app registration + service principal per environment**, then apply the matching JSON to that app.
+**Preferred:** run the operator script (creates **separate** apps for development and production, applies the JSON above, and grants Contributor + User Access Administrator on each subscription only):
+
+```powershell
+cd infra\scripts
+.\New-DertInfoSubscriptionOidcIdentities.ps1 `
+  -DevSubscriptionId '<development-subscription-guid>' `
+  -PrdSubscriptionId '<production-subscription-guid>'
+```
+
+See [`infra/scripts/README.md`](../../../infra/scripts/README.md). Run as tenant / subscription administrator from **PowerShell**. The script prints the GitHub Environment variable values to set next.
+
+Do this as tenant administrator. **Required shape for subscription foundation:** **one app registration + service principal per Environment**, each with RBAC only on that Environment’s subscription. Do **not** use a single privileged SP for both development and production — a shared identity would hold rights on both subscriptions and enlarge blast radius on a public monorepo. Rationale: [GitHub workflows security review](../../operations/security/github-workflows-security-review.md).
+
+Manual equivalent (if not using the script):
 
 ```bash
-# Development app (example display name)
-APP_ID=$(az ad app create --display-name "dertinfo-github-development" --query appId -o tsv)
+# Development app
+APP_ID=$(az ad app create --display-name "dertinfo-github-subscription-development" --query appId -o tsv)
 az ad sp create --id "$APP_ID"
 
 az ad app federated-credential create \
@@ -56,7 +69,7 @@ az ad app federated-credential create \
 
 ```bash
 # Production app
-APP_ID=$(az ad app create --display-name "dertinfo-github-production" --query appId -o tsv)
+APP_ID=$(az ad app create --display-name "dertinfo-github-subscription-production" --query appId -o tsv)
 az ad sp create --id "$APP_ID"
 
 az ad app federated-credential create \
@@ -64,9 +77,11 @@ az ad app federated-credential create \
   --parameters "@infra/configuration/github-azure-prd-credential.json"
 ```
 
-You can attach **both** JSON files to a **single** app if one identity should serve both Environments. Prefer separate apps so production RBAC is not granted to the development identity.
+Then assign Contributor and User Access Administrator on the matching subscription to each service principal (see the script for the exact `az role assignment create` shape).
 
-Grant Azure RBAC on the **service principal** (not only the app registration): subscription-scope rights for [subscription infra CD](../../operations/planned-fixes/agent-safe-subscription-foundation.md); later, RG-scope Contributor for workload Bicep. Apply the **same** JSON to every Entra app that Actions should impersonate for that Environment (for example a second, narrower RG-deploy app).
+Do **not** attach both federated JSON files to one subscription-foundation SP. (A narrower, separate RG-deploy app may reuse the **same Environment’s** JSON only.)
+
+Grant Azure RBAC on the **service principal** (not only the app registration): subscription-scope rights for [subscription infra CD](../../operations/planned-fixes/agent-safe-subscription-foundation.md); later, RG-scope Contributor for workload Bicep. Apply the **matching** environment JSON to every Entra app that Actions should impersonate for that Environment (for example a second, narrower RG-deploy app).
 
 Confirm:
 
@@ -114,6 +129,8 @@ MSYS_NO_PATHCONV=1 az role assignment create \
 
 ## Related
 
+- Operator scripts: [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1) (create) and [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](../../../infra/scripts/Remove-DertInfoSubscriptionOidcIdentity.ps1) (tear down by client id) — [`infra/scripts/README.md`](../../../infra/scripts/README.md)
+- Security review: [GitHub workflows — subscription OIDC](../../operations/security/github-workflows-security-review.md)
 - Folder README: [`infra/configuration/README.md`](../../../infra/configuration/README.md)
 - [CI/CD](../infra/cicd.md) — workflow inventory and existing `test` / `prod` app CD OIDC
 - [Agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md)

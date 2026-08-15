@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-08-15 | Subscription OIDC isolation and successful development CD | [2026-08-15-subscription-oidc-isolation-dev-cd.md](./2026-08-15-subscription-oidc-isolation-dev-cd.md) |
 | 2026-08-15 | Subscription foundation Bicep and CD workflows (untested on merge) | [2026-08-15-subscription-foundation-cd.md](./2026-08-15-subscription-foundation-cd.md) |
 | 2026-07-26 | Website Auth0 refresh tokens and warmup race fix | [2026-07-26-web-auth-refresh-warmup.md](./2026-07-26-web-auth-refresh-warmup.md) |
 | 2026-07-25 | Hybrid native/Docker local startup | [2026-07-25-hybrid-native-docker-start.md](./2026-07-25-hybrid-native-docker-start.md) |
