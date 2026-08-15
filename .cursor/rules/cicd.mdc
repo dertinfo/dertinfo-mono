@@ -22,7 +22,7 @@ Reusable workflows:
 
 ## Naming convention
 
-Use **UPPER_SNAKE_CASE**. Prefer descriptive segments over abbreviating the environment to `TEST`/`PROD` at the start of the name.
+Use **UPPER_SNAKE_CASE**. Prefer descriptive segments over putting a vague env token at the **start** of the name. For the **target env** suffix, use three-letter acronyms only: **`STG`** (legacy staging / GitHub `test`), **`DEV`** (development), **`PRD`** (production). Never use **`PROD`** — see [`.cursor/rules/env-acronyms.mdc`](env-acronyms.mdc).
 
 **Azure and other cloud resources** (variables and secrets):
 
@@ -36,7 +36,7 @@ Use **UPPER_SNAKE_CASE**. Prefer descriptive segments over abbreviating the envi
 | Service type | Azure resource or product | `WEBAPP`, `FUNCTIONAPP`, `STATICWEBAPP`, `ENTRA`, `SUBSCRIPTION` |
 | Workload name | Monorepo app or role | `API`, `FUNCTIONS`, `WEB`, `APP`, `OIDC`, `DEPLOY` |
 | Description | What the value holds | `RESOURCENAME`, `DEPLOYTOKEN`, `CLIENTID`, `SUBSCRIPTIONID` |
-| Target env | ADO/Azure stage suffix | `STG` (GitHub `test`), `PRD` (GitHub `prod`) |
+| Target env | Stage suffix (three letters) | `STG` (GitHub `test`), `DEV` (development), `PRD` (production — never `PROD`) |
 
 Examples:
 

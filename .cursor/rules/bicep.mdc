@@ -33,6 +33,7 @@ main.prod.bicepparam        # using 'main.bicep' + extends './main.shared.bicepp
 ```
 
 - Put shared allow-lists, location, product slug, and empty placeholders in `main.shared.bicepparam`.
+- Env leaf overrides: `environmentTag` is `dev` or `prd` (never `prod`). Acronyms in docs/vars: `DEV` / `PRD` — see [env-acronyms.mdc](env-acronyms.mdc).
 - Leaf files override only what differs per environment.
 - **Never** commit secrets or identifiable estate ids (subscription ids, principal ids, passwords). Declare empty `// SECRET` / `// PLACEHOLDER` values; inject via pipeline or CLI.
 - Prefer not duplicating full param lists across env files — that is what `extends` is for.

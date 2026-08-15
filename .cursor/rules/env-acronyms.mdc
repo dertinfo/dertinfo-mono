@@ -1,0 +1,41 @@
+---
+description: Environment acronyms — DEV and PRD only (never PROD)
+alwaysApply: true
+---
+
+# Environment acronyms (DEV / PRD)
+
+When abbreviating environments in this repo, use **exactly three letters**:
+
+| Meaning | Acronym (vars, suffixes, docs) | Lowercase tag (RG names, Bicep `environmentTag`) |
+|---------|--------------------------------|--------------------------------------------------|
+| Development | `DEV` | `dev` |
+| Production | `PRD` | `prd` |
+
+## Never
+
+- **`PROD`** or **`prod`** as the production **acronym** (four letters / wrong short form). Use **`PRD`** / **`prd`**.
+- Inventing other short forms (`PR`, `PRODCTION`, `DEVL`, `TEST` as a substitute for development, etc.).
+
+## Allowed full words (not acronyms)
+
+These are **names**, not the three-letter scheme — leave them as full words when that is the real identifier:
+
+- GitHub Environments: `development`, `production` (new-stack); legacy app CD: `test`, `prod` (GitHub Environment **name** for historical app CD — variable **suffixes** for that stack remain `STG` / `PRD`)
+- Prose: “development subscription”, “production deploy”
+- Workflow `environment:` input values that must match GitHub Environment names (`development`, `production`, `test`, `prod`)
+
+## Examples
+
+| Good | Bad |
+|------|-----|
+| `AZURE_…_PRD`, `*_DEV` | `AZURE_…_PROD`, `*_PRODUCTION` |
+| `environmentTag = 'prd'` | `environmentTag = 'prod'` |
+| `rg-prd-dertinfo-api-uks` | `rg-prod-dertinfo-api-uks` |
+| Docs: “suffix `PRD`” | Docs: “suffix `PROD`” |
+
+## Agent behaviour
+
+- When writing or editing CI variables, Bicep tags, docs, or scripts, prefer **`DEV`/`PRD`** (and `dev`/`prd` tags).
+- If you see **`PROD`** used as an environment acronym, correct it to **`PRD`** (or ask before renaming a live GitHub Environment / Azure resource).
+- Leaf param file `main.prod.bicepparam` is legacy naming tied to “prod” dispatch; new work should prefer **`prd`** in tags and acronyms. Do not silently rename checked-in leaf filenames without an explicit task (workflow paths must stay in sync).

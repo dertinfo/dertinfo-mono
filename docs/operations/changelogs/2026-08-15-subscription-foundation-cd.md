@@ -64,7 +64,8 @@ This approach would be **risky if full CD already depended on these pipelines** 
 
 ## Any remaining issues that we may wish to address
 
-- **Untested Actions path (immediate follow-up):** Run **Subscription infra CD** from `main` (target `dev`), approve Environment, fix OIDC/RBAC/Bicep failures in a follow-up PR. Do not treat foundation as verified until that succeeds.
+- **Follow-up completed in part:** Development CD succeeded after #17/#18; identities isolated — see [2026-08-15-subscription-oidc-isolation-dev-cd.md](./2026-08-15-subscription-oidc-isolation-dev-cd.md) and [security review](../security/github-workflows-security-review.md).
+- **Production CD** — First `prod` run after Production SP RBAC.
 - **Policy and RG verification:** Confirm deny of disallowed types/SKUs; wire optional `AZURE_ENTRA_OIDC_PRINCIPALID_RG` and RG deploy identity.
 - **Workflow-testability for future CD:** Revisit how we introduce new pipelines without merging untested YAML to `main` (e.g. documented “workflows-first” micro-PR + run with feature-branch ref; or local `az` gate before merge). This matters once production continuous delivery depends on these workflows.
 - **Unpark** estate / workload Bicep planned-fixes only after subscription deploy is verified — [azure-estate-dev-prd.md](../planned-fixes/azure-estate-dev-prd.md), [bicep-avm-infra-pipelines.md](../planned-fixes/bicep-avm-infra-pipelines.md).
