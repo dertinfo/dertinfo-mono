@@ -17,7 +17,7 @@ Hardened and verified the **agent-safe subscription foundation** after the initi
 |----|--------|
 | [#17](https://github.com/dertinfo/dertinfo-mono/pull/17) | Fix subscription CD OIDC permissions and MCP setup docs |
 | [#18](https://github.com/dertinfo/dertinfo-mono/pull/18) | Fix Allowed resource types policy definition GUID |
-| *(this PR)* | OIDC isolation docs, operator scripts, security review, changelog |
+| [#19](https://github.com/dertinfo/dertinfo-mono/pull/19) | OIDC isolation docs, workflow security review, and DEV/PRD acronyms |
 
 ## Date the work was started
 
