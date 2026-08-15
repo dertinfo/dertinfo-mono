@@ -46,6 +46,10 @@ This approach would be **risky if full CD already depended on these pipelines** 
 4. **Separate Environment naming from app CD**  
    App CD uses `test` / `prod`; subscription foundation uses `development` / `production` to align with `dev` / `prd` tags. Easy to misconfigure vars or federated subjects if mixed with `*_STG` / `*_PRD` app CD names.
 
+5. **Caller must grant `id-token: write` for reusable OIDC deploy**  
+   First Actions parse of `subscription-infra-cd.yml` failed: nested job `deploy` requested `id-token: write` but the caller only allowed `id-token: none`. Same class of issue as app CD (see [2026-07-03 entry](./2026-07-03-github-actions-cd-pipelines.md) item 3).  
+   **Fix:** Add `permissions: id-token: write` and `contents: read` on each `uses:` job in `subscription-infra-cd.yml`.
+
 ## References to any best practices that we found
 
 - **Privileged vs restricted deploy identities:** Subscription foundation SP (Contributor + role-assignment rights) vs later RG-scoped SP — [agent-safe-subscription-foundation.md](../planned-fixes/agent-safe-subscription-foundation.md)
