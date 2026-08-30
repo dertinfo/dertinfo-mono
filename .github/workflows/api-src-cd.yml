@@ -110,6 +110,7 @@ jobs:
       package_path: .
       artifact_name: drop
       app_type: webApp
+      azure_oidc_workload: API
 
   docker-prod:
     needs: deploy-dev
@@ -134,3 +135,4 @@ jobs:
       package_path: .
       artifact_name: drop
       app_type: webApp
+      azure_oidc_workload: API

@@ -66,5 +66,11 @@ param allowedSqlDatabaseSkus = [
   'Basic'
 ]
 param enableTelemetry = false
-// PLACEHOLDER — Entra object id of GitHub Actions infra identity; supply via CLI / pipeline override
-param pipelinePrincipalId = ''
+// PLACEHOLDER — Entra object ids of workload SPs; supply via CLI / pipeline override
+param pipelinePrincipalIdConfig = ''
+param pipelinePrincipalIdMonitoring = ''
+param pipelinePrincipalIdStorage = ''
+param pipelinePrincipalIdApi = ''
+param pipelinePrincipalIdWeb = ''
+param pipelinePrincipalIdApp = ''
+param pipelinePrincipalIdFunctions = ''

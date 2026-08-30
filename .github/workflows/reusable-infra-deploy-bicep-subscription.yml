@@ -54,14 +54,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # Subscription-scope SP (distinct from RG deploy identity). Set on the GitHub Environment:
+      # Subscription-scope SP only. Workload infra/src CD uses CLIENTID_WORKLOAD_*.
       #   vars.AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION
-      #   vars.AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION
+      #   vars.AZURE_ENTRA_OIDC_TENANTID
       #   vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID
       - uses: azure/login@v2
         with:
           client-id: ${{ vars.AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION }}
-          tenant-id: ${{ vars.AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION }}
+          tenant-id: ${{ vars.AZURE_ENTRA_OIDC_TENANTID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID }}
 
       - name: Ensure Bicep CLI
@@ -72,7 +72,13 @@ jobs:
           EXTRA_PARAMETERS: ${{ inputs.extra_parameters }}
           EXTRA_SECURE_PARAMETERS: ${{ secrets.extra_secure_parameters }}
           DEPLOYMENT_NAME: ${{ inputs.deployment_name }}
-          PIPELINE_PRINCIPAL_ID: ${{ vars.AZURE_ENTRA_OIDC_PRINCIPALID_RG }}
+          PRINCIPAL_CONFIG: ${{ vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_CONFIG }}
+          PRINCIPAL_MONITORING: ${{ vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_MONITORING }}
+          PRINCIPAL_STORAGE: ${{ vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_STORAGE }}
+          PRINCIPAL_API: ${{ vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_API }}
+          PRINCIPAL_WEB: ${{ vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_WEB }}
+          PRINCIPAL_APP: ${{ vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_APP }}
+          PRINCIPAL_FUNCTIONS: ${{ vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_FUNCTIONS }}
         run: |
           set -euo pipefail
           NAME_ARGS=()
@@ -90,8 +96,26 @@ jobs:
             # shellcheck disable=SC2206
             ARGS+=(--parameters ${EXTRA_PARAMETERS})
           fi
-          if [ -n "${PIPELINE_PRINCIPAL_ID}" ]; then
-            ARGS+=(--parameters "pipelinePrincipalId=${PIPELINE_PRINCIPAL_ID}")
+          if [ -n "${PRINCIPAL_CONFIG}" ]; then
+            ARGS+=(--parameters "pipelinePrincipalIdConfig=${PRINCIPAL_CONFIG}")
+          fi
+          if [ -n "${PRINCIPAL_MONITORING}" ]; then
+            ARGS+=(--parameters "pipelinePrincipalIdMonitoring=${PRINCIPAL_MONITORING}")
+          fi
+          if [ -n "${PRINCIPAL_STORAGE}" ]; then
+            ARGS+=(--parameters "pipelinePrincipalIdStorage=${PRINCIPAL_STORAGE}")
+          fi
+          if [ -n "${PRINCIPAL_API}" ]; then
+            ARGS+=(--parameters "pipelinePrincipalIdApi=${PRINCIPAL_API}")
+          fi
+          if [ -n "${PRINCIPAL_WEB}" ]; then
+            ARGS+=(--parameters "pipelinePrincipalIdWeb=${PRINCIPAL_WEB}")
+          fi
+          if [ -n "${PRINCIPAL_APP}" ]; then
+            ARGS+=(--parameters "pipelinePrincipalIdApp=${PRINCIPAL_APP}")
+          fi
+          if [ -n "${PRINCIPAL_FUNCTIONS}" ]; then
+            ARGS+=(--parameters "pipelinePrincipalIdFunctions=${PRINCIPAL_FUNCTIONS}")
           fi
           if [ -n "${EXTRA_SECURE_PARAMETERS}" ]; then
             # shellcheck disable=SC2206

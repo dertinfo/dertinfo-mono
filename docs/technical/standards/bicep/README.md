@@ -53,7 +53,7 @@ Use the comment banners already in the subscription and workload templates.
 using none
 param location = 'uksouth'
 // PLACEHOLDER — supply via pipeline / CLI
-param pipelinePrincipalId = ''
+param pipelinePrincipalIdApi = ''
 // SECRET — supply via pipeline / CLI
 param sqlAdminPassword = ''
 ```

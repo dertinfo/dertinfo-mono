@@ -24,8 +24,8 @@
 
 .EXAMPLE
   .\New-DertInfoSubscriptionOidcIdentities.ps1 `
-    -DevSubscriptionId 'ba5b2be9-94bd-4bd1-8a55-1231ec299f00' `
-    -PrdSubscriptionId '<production-subscription-guid>'
+    -DevSubscriptionId '00000000-0000-0000-0000-000000000000' `
+    -PrdSubscriptionId '11111111-1111-1111-1111-111111111111'
 #>
 [CmdletBinding()]
 param(
@@ -202,12 +202,12 @@ Write-Host "=== GitHub Environment variables (set these next) ===" -ForegroundCo
 Write-Host ""
 Write-Host "Environment: development"
 Write-Host "  AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION     = $($dev.ClientId)"
-Write-Host "  AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION     = $tenantId"
+Write-Host "  AZURE_ENTRA_OIDC_TENANTID                  = $tenantId"
 Write-Host "  AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID   = $($dev.SubscriptionId)"
 Write-Host ""
 Write-Host "Environment: production"
 Write-Host "  AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION     = $($prd.ClientId)"
-Write-Host "  AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION     = $tenantId"
+Write-Host "  AZURE_ENTRA_OIDC_TENANTID                  = $tenantId"
 Write-Host "  AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID   = $($prd.SubscriptionId)"
 Write-Host ""
 Write-Host "Isolation: development SP is only on the development subscription; production SP only on production."

@@ -8,8 +8,8 @@ Azure CLI (admin / break-glass):
   az account set --subscription <new-subscription-id>
   az deployment sub create --location uksouth --template-file main.bicep --parameters main.dev.bicepparam
   az deployment sub create --location uksouth --template-file main.bicep --parameters main.prod.bicepparam
-Optional overrides (e.g. pipeline principal):
-  --parameters pipelinePrincipalId=<entra-object-id>
+Optional overrides (workload SP object ids; empty skips that part):
+  --parameters pipelinePrincipalIdApi=<entra-object-id>
 Shared non-secret defaults: main.shared.bicepparam (extends). Leaf files: main.dev.bicepparam / main.prod.bicepparam.
 Requires Bicep CLI 0.44.1+.
 */
@@ -43,8 +43,26 @@ param workloadParts array = [
   'monitoring'
 ]
 
-@description('Entra object id of the GitHub Actions infra deploy identity. Leave empty to skip role assignments.')
-param pipelinePrincipalId string = ''
+@description('Entra object id of the config workload SP. Leave empty to skip that RG role assignment.')
+param pipelinePrincipalIdConfig string = ''
+
+@description('Entra object id of the monitoring workload SP.')
+param pipelinePrincipalIdMonitoring string = ''
+
+@description('Entra object id of the storage workload SP.')
+param pipelinePrincipalIdStorage string = ''
+
+@description('Entra object id of the api workload SP.')
+param pipelinePrincipalIdApi string = ''
+
+@description('Entra object id of the web workload SP.')
+param pipelinePrincipalIdWeb string = ''
+
+@description('Entra object id of the app workload SP.')
+param pipelinePrincipalIdApp string = ''
+
+@description('Entra object id of the functions workload SP. No functions RG yet; reserved for later.')
+param pipelinePrincipalIdFunctions string = ''
 
 @description('Role definition id or name for the pipeline identity on each RG (Contributor by default).')
 param pipelineRoleDefinitionIdOrName string = 'Contributor'
@@ -84,8 +102,36 @@ var regionTla = regionTlaByLocation[location]
 
 var resourceGroupNames = [for part in workloadParts: 'rg-${environmentTag}-${productSlug}-${part}-${regionTla}']
 
-// Lookup of the config part RG created in the resourceGroups loop. Not a name to deploy.
+// Lookups of part RGs created in the resourceGroups loop. Not names to deploy.
 var configResourceGroupLookup = 'rg-${environmentTag}-${productSlug}-config-${regionTla}'
+var monitoringResourceGroupLookup = 'rg-${environmentTag}-${productSlug}-monitoring-${regionTla}'
+
+var workloadDeployPrincipals = [
+  {
+    part: 'config'
+    principalId: pipelinePrincipalIdConfig
+  }
+  {
+    part: 'monitoring'
+    principalId: pipelinePrincipalIdMonitoring
+  }
+  {
+    part: 'storage'
+    principalId: pipelinePrincipalIdStorage
+  }
+  {
+    part: 'api'
+    principalId: pipelinePrincipalIdApi
+  }
+  {
+    part: 'web'
+    principalId: pipelinePrincipalIdWeb
+  }
+  {
+    part: 'app'
+    principalId: pipelinePrincipalIdApp
+  }
+]
 
 var resourceGroupTags = {
   environment: environmentTag
@@ -134,51 +180,83 @@ module resourceGroups 'br/public:avm/res/resources/resource-group:0.4.4' = [
 ]
 
 module pipelineRgRoleAssignments 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = [
-  for name in resourceGroupNames: if (!empty(pipelinePrincipalId)) {
-    name: 'avm-rbac-${name}'
-    scope: resourceGroup(name)
+  for item in workloadDeployPrincipals: if (!empty(item.principalId)) {
+    name: 'avm-rbac-${item.part}'
+    scope: resourceGroup('rg-${environmentTag}-${productSlug}-${item.part}-${regionTla}')
     dependsOn: [
       resourceGroups
     ]
     params: {
-      principalId: pipelinePrincipalId
+      principalId: item.principalId
       roleDefinitionIdOrName: pipelineRoleDefinitionIdOrName
       principalType: 'ServicePrincipal'
-      description: 'GitHub Actions infra deploy identity (RG scope)'
+      description: 'GitHub Actions ${item.part} workload identity (RG Contributor)'
       enableTelemetry: enableTelemetry
     }
   }
 ]
 
 // Storage infra CD reads SQL admin secrets from Key Vault in the config RG (lookup only).
-module pipelineConfigKvSecretsUser 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalId)) {
-  name: 'avm-rbac-config-kv-secrets-user'
+module pipelineStorageKvSecretsUser 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdStorage)) {
+  name: 'avm-rbac-storage-kv-secrets-user'
   scope: resourceGroup(configResourceGroupLookup)
   dependsOn: [
     resourceGroups
     pipelineRgRoleAssignments
   ]
   params: {
-    principalId: pipelinePrincipalId
+    principalId: pipelinePrincipalIdStorage
     roleDefinitionIdOrName: 'Key Vault Secrets User'
     principalType: 'ServicePrincipal'
-    description: 'GitHub Actions infra identity — read SQL admin secrets from config Key Vault'
+    description: 'Storage workload identity — read SQL admin secrets from config Key Vault'
     enableTelemetry: enableTelemetry
   }
 }
 
-module pipelineConfigUserAccessAdmin 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalId)) {
-  name: 'avm-rbac-config-uaa'
+module pipelineApiConfigUserAccessAdmin 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdApi)) {
+  name: 'avm-rbac-api-config-uaa'
   scope: resourceGroup(configResourceGroupLookup)
   dependsOn: [
     resourceGroups
     pipelineRgRoleAssignments
   ]
   params: {
-    principalId: pipelinePrincipalId
+    principalId: pipelinePrincipalIdApi
     roleDefinitionIdOrName: 'User Access Administrator'
     principalType: 'ServicePrincipal'
-    description: 'GitHub Actions infra identity — grant API MI App Config / Key Vault data-plane roles'
+    description: 'API workload identity — grant site MI App Config / Key Vault data-plane roles'
+    enableTelemetry: enableTelemetry
+  }
+}
+
+module pipelineApiConfigReader 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdApi)) {
+  name: 'avm-rbac-api-config-reader'
+  scope: resourceGroup(configResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+  ]
+  params: {
+    principalId: pipelinePrincipalIdApi
+    roleDefinitionIdOrName: 'Reader'
+    principalType: 'ServicePrincipal'
+    description: 'API workload identity — resolve existing Key Vault and App Configuration'
+    enableTelemetry: enableTelemetry
+  }
+}
+
+module pipelineApiMonitoringReader 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdApi)) {
+  name: 'avm-rbac-api-monitoring-reader'
+  scope: resourceGroup(monitoringResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+  ]
+  params: {
+    principalId: pipelinePrincipalIdApi
+    roleDefinitionIdOrName: 'Reader'
+    principalType: 'ServicePrincipal'
+    description: 'API workload identity — resolve existing Application Insights'
     enableTelemetry: enableTelemetry
   }
 }

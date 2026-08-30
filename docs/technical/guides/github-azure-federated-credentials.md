@@ -2,14 +2,14 @@
 name: GitHub Azure federated credentials
 type: guide
 status: active
-updated: 2026-08-15
+updated: 2026-08-30
 ---
 
 # GitHub Actions OIDC to Azure (federated credentials)
 
 How DertInfo lets **GitHub Actions** sign in to Azure **without a client secret**, using Entra ID federated identity credentials. The checked-in JSON in [`infra/configuration/`](../../../infra/configuration/) is the trust policy applied to the Entra app; it is not a password.
 
-App CD still uses GitHub Environments **`test`** / **`prod`**. This guide and these JSON files are for the **new-stack** Environments **`development`** and **`production`** (subscription foundation and later workload infra). See [CI/CD](../infra/cicd.md) for the older app CD OIDC variables.
+App CD still uses GitHub Environments **`test`** / **`prod`**. This guide and these JSON files are for the **new-stack** Environments **`development`** and **`production`** (subscription foundation and workload infra / Src CD). See [CI/CD](../infra/cicd.md) for the older app CD OIDC variables.
 
 ## What the files are
 
@@ -38,7 +38,7 @@ These files contain **no secrets**. Do not put client secrets, certificates, ten
 3. Entra accepts that token **only if** a federated credential on the target app matches issuer + subject + audience.
 4. Entra issues an Azure AD access token for that app’s service principal. GitHub never stores an Azure client secret.
 
-That is what allows Actions to **deploy** (subscription Bicep, later RG Bicep, and similar) into Azure.
+That is what allows Actions to **deploy** (subscription Bicep, workload RG Bicep, and API / Functions Src CD) into Azure.
 
 ## Create the Entra apps and apply the JSON
 
@@ -79,9 +79,20 @@ az ad app federated-credential create \
 
 Then assign Contributor and User Access Administrator on the matching subscription to each service principal (see the script for the exact `az role assignment create` shape).
 
-Do **not** attach both federated JSON files to one subscription-foundation SP. (A narrower, separate RG-deploy app may reuse the **same Environment’s** JSON only.)
+Do **not** attach both federated JSON files to one subscription-foundation SP. Workload apps reuse the **same Environment’s** JSON only.
 
-Grant Azure RBAC on the **service principal** (not only the app registration): subscription-scope rights for [subscription infra CD](../../operations/planned-fixes/agent-safe-subscription-foundation.md); later, RG-scope Contributor for workload Bicep. Apply the **matching** environment JSON to every Entra app that Actions should impersonate for that Environment (for example a second, narrower RG-deploy app).
+Grant Azure RBAC on the **service principal** (not only the app registration): subscription-scope Contributor + User Access Administrator for [subscription infra CD](../../operations/planned-fixes/agent-safe-subscription-foundation.md) only. Workload SPs get RG-scoped roles from subscription Bicep — never subscription UAA. Apply the matching environment JSON to every Entra app that Actions should impersonate for that Environment.
+
+### Workload identities (one Environment at a time)
+
+```powershell
+cd infra\scripts
+.\New-DertInfoWorkloadOidcIdentities.ps1 `
+  -GitHubEnvironment development `
+  -SubscriptionId '<development-subscription-guid>'
+```
+
+That master script calls [`New-DertInfoWorkloadOidcIdentity.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentity.ps1) for `config`, `monitoring`, `storage`, `api`, `web`, `app`, and `functions`. Display names are `dertinfo-github-workload-<part>-development` or `dertinfo-github-workload-<part>-production`. It does **not** assign Azure roles. Tear down one app with [`Remove-DertInfoWorkloadOidcIdentity.ps1`](../../../infra/scripts/Remove-DertInfoWorkloadOidcIdentity.ps1).
 
 Confirm:
 
@@ -91,17 +102,19 @@ az ad app federated-credential list --id "$APP_ID" -o table
 
 ## GitHub Environment variables
 
-Create GitHub Environments named **`development`** and **`production`**. On each, set variables (not secrets) for the app that Environment should login as:
+Create GitHub Environments named **`development`** and **`production`**. On each, set variables (not secrets):
 
 | Variable | Purpose |
 |----------|---------|
-| `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` | App (client) id of the subscription-scope deploy identity |
-| `AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION` | Entra tenant id |
+| `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` | App (client) id of the **subscription-scope** deploy identity only |
+| `AZURE_ENTRA_OIDC_TENANTID` | Entra tenant id (shared) |
 | `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID` | Target Azure subscription id |
+| `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` | App (client) id of that workload’s infra and Src CD identity |
+| `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_<PART>` | Object id of that workload SP (subscription Bicep RG RBAC) |
 
-Optional: `AZURE_ENTRA_OIDC_PRINCIPALID_RG` — object id of a separate RG-scoped identity for Bicep to grant Contributor.
+`<PART>` is `CONFIG`, `MONITORING`, `STORAGE`, `API`, `WEB`, `APP`, or `FUNCTIONS`. The master workload script prints these names and values for copy-paste.
 
-Do not commit those ids in the JSON files or in `main.*.bicepparam`.
+Do not commit those ids in the JSON files or in `main.*.bicepparam`. Do not use `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` for RG or Src deploy. If you still have `AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION`, rename it to `AZURE_ENTRA_OIDC_TENANTID`.
 
 ### Required reviewers
 
@@ -129,7 +142,7 @@ MSYS_NO_PATHCONV=1 az role assignment create \
 
 ## Related
 
-- Operator scripts: [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1) (create) and [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](../../../infra/scripts/Remove-DertInfoSubscriptionOidcIdentity.ps1) (tear down by client id) — [`infra/scripts/README.md`](../../../infra/scripts/README.md)
+- Operator scripts: [`infra/scripts/README.md`](../../../infra/scripts/README.md) — subscription pair plus [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1) / [`Remove-DertInfoWorkloadOidcIdentity.ps1`](../../../infra/scripts/Remove-DertInfoWorkloadOidcIdentity.ps1)
 - Security review: [GitHub workflows — subscription OIDC](../../operations/security/github-workflows-security-review.md)
 - Folder README: [`infra/configuration/README.md`](../../../infra/configuration/README.md)
 - [CI/CD](../infra/cicd.md) — workflow inventory and existing `test` / `prod` app CD OIDC
