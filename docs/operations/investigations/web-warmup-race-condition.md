@@ -1,6 +1,6 @@
 # Planned fix: Website warmup screen race condition
 
-**Status:** Resolved (2026-07-26) — `WarmupGuard` owns cold→warmup redirect (no navigate-from-resolver); `WarmupComponent` recovers if already warm / kicks on init; `RepositoryBase.processApiError` fixed. See changelog [`2026-07-26-web-auth-refresh-warmup.md`](../changelogs/2026-07-26-web-auth-refresh-warmup.md). This page remains as the historical investigation.
+**Status:** Resolved (2026-07-26) — `WarmupGuard` owns cold→warmup redirect (no navigate-from-resolver); `WarmupComponent` recovers if already warm / kicks on init; `RepositoryBase.processApiError` fixed. See changelog [`2026-07-26-001-web-auth-refresh-warmup.md`](../changelogs/2026-07-26-001-web-auth-refresh-warmup.md). This page remains as the historical investigation.
 
 **App:** `apps/dert-web/src/client/`  
 **Symptom:** User lands on `/session/warmup` (“Warming up”) and never reaches `/dashboard`, even when `/api/status` returns 200 in the network tab.

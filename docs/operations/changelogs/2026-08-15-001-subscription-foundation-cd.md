@@ -7,7 +7,7 @@ Landed the **agent-safe Azure subscription foundation** into the monorepo so sub
 **What shipped (code + docs):**
 
 - Subscription Bicep under [`infra/bicep/subscription/`](../../../infra/bicep/subscription/) (`targetScope = 'subscription'`: RGs, allow-list policy, optional RG role assignments)
-- Workflows: [`subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml), [`reusable-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-deploy-bicep-subscription.yml), plus RG-scoped reusable stub
+- Workflows: [`subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml), [`reusable-infra-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-infra-deploy-bicep-subscription.yml), plus RG-scoped reusable stub
 - Entra federated-credential JSON and guide: [`infra/configuration/`](../../../infra/configuration/), [GitHub Actions OIDC to Azure](../../technical/guides/github-azure-federated-credentials.md)
 - Planned fix hub: [agent-safe-subscription-foundation.md](../planned-fixes/agent-safe-subscription-foundation.md); related estate / Bicep / cost notes **parked**
 - CI/CD inventory updates in [cicd.md](../../technical/infra/cicd.md); GitHub Environments `development` / `production` with required reviewers `dertinfo` or `davidsmonkeys`
@@ -41,13 +41,13 @@ This approach would be **risky if full CD already depended on these pipelines** 
    **Workaround:** PowerShell/CMD, or `MSYS_NO_PATHCONV=1` (documented in the OIDC guide).
 
 3. **OIDC subject must match GitHub Environment, not branch**  
-   Federated credentials use `repo:dertinfo/dertinfo-mono:environment:development` / `production` (checked-in JSON). Branch refs alone are insufficient for these jobs. Same class of issue as earlier app CD (`test` environment subject). See [github-azure-federated-credentials.md](../../technical/guides/github-azure-federated-credentials.md) and historical notes in [2026-07-03-github-actions-cd-pipelines.md](./2026-07-03-github-actions-cd-pipelines.md).
+   Federated credentials use `repo:dertinfo/dertinfo-mono:environment:development` / `production` (checked-in JSON). Branch refs alone are insufficient for these jobs. Same class of issue as earlier app CD (`test` environment subject). See [github-azure-federated-credentials.md](../../technical/guides/github-azure-federated-credentials.md) and historical notes in [2026-07-03-001-github-actions-cd-pipelines.md](./2026-07-03-001-github-actions-cd-pipelines.md).
 
 4. **Separate Environment naming from app CD**  
    App CD uses `test` / `prod`; subscription foundation uses `development` / `production` to align with `dev` / `prd` tags. Easy to misconfigure vars or federated subjects if mixed with `*_STG` / `*_PRD` app CD names.
 
 5. **Caller must grant `id-token: write` for reusable OIDC deploy**  
-   First Actions parse of `subscription-infra-cd.yml` failed: nested job `deploy` requested `id-token: write` but the caller only allowed `id-token: none`. Same class of issue as app CD (see [2026-07-03 entry](./2026-07-03-github-actions-cd-pipelines.md) item 3).  
+   First Actions parse of `subscription-infra-cd.yml` failed: nested job `deploy` requested `id-token: write` but the caller only allowed `id-token: none`. Same class of issue as app CD (see [2026-07-03 entry](./2026-07-03-001-github-actions-cd-pipelines.md) item 3).  
    **Fix:** Add `permissions: id-token: write` and `contents: read` on each `uses:` job in `subscription-infra-cd.yml`.
 
 6. **Wrong GUID for built-in Allowed resource types policy**  
@@ -64,7 +64,7 @@ This approach would be **risky if full CD already depended on these pipelines** 
 
 ## Any remaining issues that we may wish to address
 
-- **Follow-up completed in part:** Development CD succeeded after #17/#18; identities isolated — see [2026-08-15-subscription-oidc-isolation-dev-cd.md](./2026-08-15-subscription-oidc-isolation-dev-cd.md) and [security review](../security/github-workflows-security-review.md).
+- **Follow-up completed in part:** Development CD succeeded after #17/#18; identities isolated — see [2026-08-15-002-subscription-oidc-isolation-dev-cd.md](./2026-08-15-002-subscription-oidc-isolation-dev-cd.md) and [security review](../security/github-workflows-security-review.md).
 - **Production CD** — First `prod` run after Production SP RBAC.
 - **Policy and RG verification:** Confirm deny of disallowed types/SKUs; wire optional `AZURE_ENTRA_OIDC_PRINCIPALID_RG` and RG deploy identity.
 - **Workflow-testability for future CD:** Revisit how we introduce new pipelines without merging untested YAML to `main` (e.g. documented “workflows-first” micro-PR + run with feature-branch ref; or local `az` gate before merge). This matters once production continuous delivery depends on these workflows.

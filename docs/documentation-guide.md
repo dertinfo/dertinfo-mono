@@ -168,7 +168,7 @@ Problem, proposed approach, status, links to related investigations/changelogs. 
 
 ### Changelog
 
-See [operations/changelogs/README.md](operations/changelogs/README.md).
+See [operations/changelogs/README.md](operations/changelogs/README.md). Filenames are `YYYY-MM-DD-NNN-short-slug.md` (`NNN` = `001`, `002`, … for that completion date) so several entries on one day stay ordered in the file list.
 
 ## Agent rules
 

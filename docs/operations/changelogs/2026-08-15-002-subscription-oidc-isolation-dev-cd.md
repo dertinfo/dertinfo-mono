@@ -2,7 +2,7 @@
 
 ## Summary of the work completed
 
-Hardened and verified the **agent-safe subscription foundation** after the initial merge ([change log 2026-08-15 foundation landing](./2026-08-15-subscription-foundation-cd.md)):
+Hardened and verified the **agent-safe subscription foundation** after the initial merge ([change log 2026-08-15 foundation landing](./2026-08-15-001-subscription-foundation-cd.md)):
 
 - **Isolated Entra app registrations** — separate subscription-scope apps/SPs for GitHub Environments **`development`** and **`production`** (replacing the earlier shared identity). Development SP has RBAC only on DertInfo Development; production SP only on DertInfo Production.
 - **Why:** On a public monorepo, a single SP with rights on both subscriptions enlarges blast radius if OIDC or GitHub write access is abused. Isolation keeps a development compromise from administering production Azure.
@@ -33,7 +33,7 @@ Hardened and verified the **agent-safe subscription foundation** after the initi
    First setup used one app for both Environments. Replaced with isolated apps so production RBAC is never granted to the development identity.
 
 2. **Earlier merge was untested in Actions**  
-   Workflows had to land on `main` before they were visible; first runs failed on `id-token: write` (caller permissions) and a typo’d built-in policy GUID (`…5c51` → `…5c5c`). Fixed in #17 / #18. See [2026-08-15-subscription-foundation-cd.md](./2026-08-15-subscription-foundation-cd.md).
+   Workflows had to land on `main` before they were visible; first runs failed on `id-token: write` (caller permissions) and a typo’d built-in policy GUID (`…5c51` → `…5c5c`). Fixed in #17 / #18. See [2026-08-15-001-subscription-foundation-cd.md](./2026-08-15-001-subscription-foundation-cd.md).
 
 3. **Empty subscriptions have no default policy assignments**  
    New Development/Production subscriptions did not inherit “default” assignments; foundation Bicep assigns DertInfo allow-lists. Incremental ARM deploy does not remove unrelated assignments.

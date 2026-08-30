@@ -12,7 +12,12 @@ When a chat or workstream is **seen through to completion** (outcome delivered, 
 ## Layout
 
 - Index: [`docs/operations/changelogs/README.md`](../../docs/operations/changelogs/README.md)
-- Detail pages: `docs/operations/changelogs/YYYY-MM-DD-short-slug.md` (completion date)
+- Detail pages: `docs/operations/changelogs/YYYY-MM-DD-NNN-short-slug.md`
+  - `YYYY-MM-DD` is the **completion** date
+  - `NNN` is a three-digit sequence **for that date** (`001`, `002`, …) so the file list stays in order when several entries share a day
+  - The first entry on a day is always `001` — do not omit the number
+
+To pick `NNN`, list existing files for that date and use the next number after the highest. The index table is newest first (higher `NNN` above lower `NNN` on the same date).
 
 ## Steps
 
