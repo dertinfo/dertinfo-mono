@@ -107,6 +107,7 @@ Do not use `prod` in names.
 - Storage Bicep reads the password with `getSecret()`. Set `sqlAdministratorLogin` in the param file when you flip `prerequisitesExist` (same value as Key Vault `sql-dertinfo-storage-administrator-login`).
 - The API uses `AZURE_APP_CONFIG` (store endpoint URI) and `DefaultAzureCredential` — not an App Configuration access key.
 - Workload SPs get **Contributor on their own RG only**. Do not grant User Access Administrator by default. Cross-RG extras (subscription Bicep): storage gets **Reader** + **Key Vault Secrets User** on the config RG (`existing` vault + `getSecret()`); API gets **Reader** on config and monitoring, plus **conditioned UAA** on config only (may assign/delete App Configuration Data Reader and Key Vault Secrets User — the site MI roles in [`appService.bicep`](../../../infra/bicep/api/appService.bicep)). Incremental ARM does not remove leftover unconstrained assignments from an older template — delete those in Azure if they still appear on other RGs.
+- Resource providers are **not** in subscription Bicep. [Subscription infra CD](../../infra/cicd.md) registers them on the subscription before it deploys the template. Do not add a `Microsoft.Resources/providers` resource or a provider-namespace param. Local / break-glass: [`Register-DertInfoResourceProviders.ps1`](../../../infra/scripts/Register-DertInfoResourceProviders.ps1).
 
 ## Pinning AVM
 

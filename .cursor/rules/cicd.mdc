@@ -61,7 +61,7 @@ Store environment-specific Azure values on the matching GitHub Environment (`dev
 
 - `*-src-ci.yml` — build/test app source on pull requests **into `main`** (path-filtered)
 - `*-src-cd.yml` — app source deploy on push to `main`; Environments `development` then gated `production`
-- `*-infra-cd.yml` — Bicep at subscription or RG scope (`infra/bicep/<part>`)
+- `*-infra-cd.yml` — Bicep at subscription or RG scope (`infra/bicep/<part>`). Subscription CD registers resource providers (bash array in the reusable workflow) before deploy; that list is not in Bicep (workload SPs cannot register).
 - `reusable-src-*.yml` — app source deploy and Docker push templates
 - `reusable-infra-*.yml` — Bicep deploy templates (subscription or resource group)
 - Reusable workflows live at `.github/workflows/` top level; accept `environment` input (`development` \| `production`)

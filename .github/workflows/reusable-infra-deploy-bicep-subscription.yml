@@ -67,6 +67,29 @@ jobs:
       - name: Ensure Bicep CLI
         run: az bicep install
 
+      # Workload SPs are RG Contributor only and cannot register providers.
+      # ARM auto-register only covers types in *this* template (RGs, policy, RBAC).
+      # Keep in sync with Register-DertInfoResourceProviders.ps1
+      - name: Register workload resource providers
+        run: |
+          set -euo pipefail
+          providers=(
+            Microsoft.AppConfiguration
+            Microsoft.Authorization
+            Microsoft.Insights
+            Microsoft.KeyVault
+            Microsoft.ManagedIdentity
+            Microsoft.OperationalInsights
+            Microsoft.Security
+            Microsoft.Sql
+            Microsoft.Storage
+            Microsoft.Web
+          )
+          for ns in "${providers[@]}"; do
+            echo "Registering ${ns}"
+            az provider register --namespace "${ns}"
+          done
+
       - name: Deploy Bicep (subscription)
         env:
           EXTRA_PARAMETERS: ${{ inputs.extra_parameters }}
