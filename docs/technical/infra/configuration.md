@@ -78,7 +78,7 @@ Copy from [`api.env.example`](../../../infra/secrets/api.env.example). Uncomment
 | Key | Purpose |
 |-----|---------|
 | `SqlConnection__ServerName` | e.g. `.\SQLEXPRESS` |
-| `SqlConnection__ServerAdminName` / `ServerAdminPassword` / `DatabaseName` | SQL login + DB (create empty DB first) |
+| `SqlConnection__ServerAdminName` / `ServerAdminPassword` / `DatabaseName` | Local SQL Express login + DB (create empty DB first). Hosted Azure SQL uses Entra (no password) |
 | `Auth0__Domain` / `Audience` / `ManagementClientId` / `ManagementClientSecret` | Shared dev tenant + M2M |
 | `WebClient__Auth0__ClientId` / `PwaClient__Auth0__ClientId` | SPA client IDs (same tenant) |
 | `StorageAccount__Images__Key` | Azurite well-known key (example has default) |
@@ -163,6 +163,17 @@ Deployed hosts set `AZURE_APP_CONFIG` and load labelled configuration (Key Vault
 - **Visual Studio F5:** set the same settings via **user secrets** (Manage User Secrets). Map `Auth0__Domain` → `Auth0:Domain`, etc. Details: [`apps/dert-api/README.md`](../../../apps/dert-api/README.md#2-visual-studio-f5--debug-the-api-project).
 
 No custom secrets parsing in `Program.cs`.
+
+### Hosted Azure SQL (Entra-only)
+
+When `AZURE_APP_CONFIG` is set, the API builds the SQL connection with `Authentication=Active Directory Default` (site managed identity). App Configuration needs only:
+
+| Key | Purpose |
+|-----|---------|
+| `SqlConnection:ServerName` | Azure SQL FQDN |
+| `SqlConnection:DatabaseName` | Database name |
+
+Do not put `SqlConnection:ServerAdminName` or `ServerAdminPassword` in hosted App Configuration. Local SQL Express still uses those keys in `infra/secrets/api.env`. Groups and operator scripts: [Secrets and rotation](secrets-and-rotation.md).
 
 ### Auth0 (local)
 

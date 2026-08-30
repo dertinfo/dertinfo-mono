@@ -12,5 +12,5 @@ param environmentTag = 'prd'
 param imagesStorageAccountName = 'stprddertinfoimagesuks'
 param sqlServerName = 'sql-prd-dertinfo-storage-uks'
 param sqlDatabaseName = 'sqldb-prd-dertinfo-storage-uks'
-param keyVaultName = 'kv-prd-dertinfo-uks'
 param sqlBackupShortTermRetentionDays = 7
+param prerequisitesExist = false

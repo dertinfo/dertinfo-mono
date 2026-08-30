@@ -102,11 +102,11 @@ Do not use `prod` in names.
 
 ## Secrets
 
-- Key Vault must set AVM `enableVaultForTemplateDeployment: true` so `getSecret()` works.
-- SQL admin secrets are operator-seeded in Key Vault as `sql-dertinfo-storage-administrator-password` and `sql-dertinfo-storage-administrator-login` (storage SQL server, not a generic SQL login).
-- Storage Bicep reads the password with `getSecret()`. Set `sqlAdministratorLogin` in the param file when you flip `prerequisitesExist` (same value as Key Vault `sql-dertinfo-storage-administrator-login`).
-- The API uses `AZURE_APP_CONFIG` (store endpoint URI) and `DefaultAzureCredential` — not an App Configuration access key.
-- Workload SPs get **Contributor on their own RG only**. Do not grant User Access Administrator by default. Cross-RG extras (subscription Bicep): storage gets **Reader** + **Key Vault Secrets User** on the config RG (`existing` vault + `getSecret()`); API gets **Reader** on config and monitoring, plus **conditioned UAA** on config only (may assign/delete App Configuration Data Reader and Key Vault Secrets User — the site MI roles in [`appService.bicep`](../../../infra/bicep/api/appService.bicep)). Incremental ARM does not remove leftover unconstrained assignments from an older template — delete those in Azure if they still appear on other RGs.
+- Key Vault must set AVM `enableVaultForTemplateDeployment: true` if a workload uses `getSecret()`. Hosted SQL does **not** use Key Vault credentials.
+- Azure SQL is **Entra-only**. The server Entra admin is the `dertinfo-sql-admins-<environment>` group. The app principal is `dertinfo-sql-db-access-<environment>`. Before SQL: [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/New-DertInfoSqlEntraGroups.ps1). After SQL: [`New-DertInfoSqlDbAccessUser.ps1`](../../../infra/scripts/New-DertInfoSqlDbAccessUser.ps1) (`CREATE USER` as a SQL Entra admin). Add the App Service MI to the access group later. Do not commit group object ids.
+- Storage `prerequisitesExist` means the Entra admin group name, object id, and tenant id are set (pipeline vars / CLI), not that Key Vault SQL secrets exist. Do not create `sql-dertinfo-storage-administrator-login` / `-password`.
+- The API uses `AZURE_APP_CONFIG` (store endpoint URI) and `DefaultAzureCredential` — not an App Configuration access key. Hosted SQL uses `Authentication=Active Directory Default`.
+- Workload SPs get **Contributor on their own RG only**. Do not grant User Access Administrator by default. Cross-RG extras (subscription Bicep): API gets **Reader** on config and monitoring, plus **conditioned UAA** on config only (may assign/delete App Configuration Data Reader and Key Vault Secrets User — the site MI roles in [`appService.bicep`](../../../infra/bicep/api/appService.bicep)). Storage does **not** get roles on the config RG. Incremental ARM does not remove leftover storage Reader / Key Vault Secrets User on config — delete those in Azure if they remain.
 - Resource providers are **not** in subscription Bicep. [Subscription infra CD](../../infra/cicd.md) registers them on the subscription before it deploys the template. Do not add a `Microsoft.Resources/providers` resource or a provider-namespace param. Local / break-glass: [`Register-DertInfoResourceProviders.ps1`](../../../infra/scripts/Register-DertInfoResourceProviders.ps1).
 
 ## Pinning AVM
@@ -139,6 +139,6 @@ az deployment group create \
   --parameters infra/bicep/config/main.dev.bicepparam
 ```
 
-Storage/API: leave `prerequisitesExist` false until the prerequisites listed on that param in `main.bicep` exist, then set it true in the param file (and set `sqlAdministratorLogin` for storage).
+Storage/API: leave `prerequisitesExist` false until the prerequisites listed on that param in `main.bicep` exist, then set it true in the param file (storage also needs Entra admin group ids from the pipeline).
 
 Related: [CI/CD](../../infra/cicd.md), [configuration](../../infra/configuration.md), [Azure estate planned fix](../../../operations/planned-fixes/azure-estate-dev-prd.md).

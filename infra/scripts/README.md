@@ -10,6 +10,8 @@ Operator scripts for Azure / Entra setup that are not Bicep and not local secret
 | [`New-DertInfoWorkloadOidcIdentities.ps1`](New-DertInfoWorkloadOidcIdentities.ps1) | Master: create all workload identities for **one** Environment / subscription; prints copy-paste GitHub variables |
 | [`Remove-DertInfoWorkloadOidcIdentity.ps1`](Remove-DertInfoWorkloadOidcIdentity.ps1) | Tear down **one** workload identity by app (client) id |
 | [`Register-DertInfoResourceProviders.ps1`](Register-DertInfoResourceProviders.ps1) | Register workload resource providers (local / break-glass; keep in sync with the subscription CD reusable workflow) |
+| [`New-DertInfoSqlEntraGroups.ps1`](New-DertInfoSqlEntraGroups.ps1) | **Before SQL:** create or reuse the two Entra groups; prints GitHub variable names |
+| [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (needs sqlcmd; you must be a SQL Entra admin) |
 
 ## Why two subscription apps (not one)
 
@@ -58,7 +60,7 @@ Run the **master** script once per Environment. It calls [`New-DertInfoWorkloadO
   -SubscriptionId '<production-subscription-guid>'
 ```
 
-Copy the printed `AZURE_ENTRA_OIDC_*` names and values onto that GitHub Environment. Then re-run subscription infra CD so Bicep can grant each SP Contributor on its RG (plus the extra RG-scoped roles storage and API need).
+Copy the printed `AZURE_ENTRA_OIDC_*` names and values onto that GitHub Environment. Then re-run subscription infra CD so Bicep can grant each SP Contributor on its RG (plus the extra RG-scoped roles API needs).
 
 Tear down one workload app:
 
@@ -66,6 +68,20 @@ Tear down one workload app:
 .\Remove-DertInfoWorkloadOidcIdentity.ps1 `
   -ClientId '<app-registration-client-id>'
 ```
+
+## Entra-only Azure SQL groups
+
+```powershell
+.\New-DertInfoSqlEntraGroups.ps1 -GitHubEnvironment development
+```
+
+Run this **before** SQL exists. It only creates or reuses the two groups. Paste `AZURE_ENTRA_SQL_ADMIN_GROUP_NAME` and `AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID` onto that GitHub Environment. Flip storage `prerequisitesExist`, re-run storage infra CD, then bind the access group to the database:
+
+```powershell
+.\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development
+```
+
+Add operators and the App Service MI to the Entra groups later (portal or `az ad group member add`).
 
 Related artefacts:
 

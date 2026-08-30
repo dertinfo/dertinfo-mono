@@ -20,7 +20,7 @@ Operational / management access to third-party dashboards is typically via the o
 | Secret | Purpose |
 |--------|---------|
 | Images storage account access key | API writes original images to blob storage |
-| SQL username / password | Database access |
+| SQL username / password | **Local only** (`infra/secrets/api.env`). Hosted Azure SQL is Entra-only (App Service MI in the database access group) |
 | SQL server name / database name | Connection targeting (not always “secret”, but environment-specific) |
 | SendGrid API key | Transactional email |
 | Auth0 Management Client secret | API updates Auth0 user `app_metadata` |
@@ -31,27 +31,21 @@ Never commit these values. Hosted environments: Key Vault (often referenced from
 
 Restart the API after Key Vault / App Configuration updates unless a configuration refresh mechanism is enabled (it is not, by default).
 
-### Database credentials
+### Hosted Azure SQL (Entra-only)
 
-1. Connect as admin (`sa` / Azure SQL admin).
-2. Create or alter the login/user:
+There is no SQL admin password and no Key Vault SQL login secrets. Access is:
 
-```sql
--- Against master (admin)
-CREATE LOGIN your_login_name WITH PASSWORD = 'your_password';
+1. **Before SQL** — create groups with [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/New-DertInfoSqlEntraGroups.ps1). The server Entra admin is `dertinfo-sql-admins-<environment>`.
+2. **After SQL** — a SQL Entra admin runs [`New-DertInfoSqlDbAccessUser.ps1`](../../../infra/scripts/New-DertInfoSqlDbAccessUser.ps1) to bind `dertinfo-sql-db-access-<environment>` (`CREATE USER ... FROM EXTERNAL PROVIDER` plus `db_datareader` / `db_datawriter` / `db_ddladmin`).
+3. Add operators and the App Service MI to those Entra groups later (portal or `az ad group member add`). Do not add the MI to the admins group.
 
--- Against the application database (admin)
-CREATE USER your_user_name FOR LOGIN your_login_name;
-ALTER ROLE db_datareader ADD MEMBER your_user_name;
-ALTER ROLE db_datawriter ADD MEMBER your_user_name;
+Hosted App Configuration needs `SqlConnection:ServerName` and `SqlConnection:DatabaseName` only. The API uses `Authentication=Active Directory Default` when `AZURE_APP_CONFIG` is set.
 
--- Or change password
-ALTER LOGIN your_login_name WITH PASSWORD = 'new_password';
-```
+To revoke app access, remove the MI from the database access group (or remove the database user). To revoke operator access, remove the person from the admins group.
 
-3. Update Key Vault values.
-4. Restart the API.
-5. If credentials were compromised, delete or disable the old login after cutover.
+### Local SQL Express
+
+Rotate the login in `infra/secrets/api.env` (`SqlConnection__ServerAdminName` / `ServerAdminPassword`) on your machine. That path is not used in Azure.
 
 ### Images storage account
 

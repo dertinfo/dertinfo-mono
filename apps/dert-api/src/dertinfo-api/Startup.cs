@@ -63,20 +63,36 @@ namespace DertInfo.Api
             .AddDbContext<DertInfoContext>(options =>
             {
                 var sqlServerName = Configuration["SqlConnection:ServerName"];
-                var sqlServerAdminUsername = Configuration["SqlConnection:ServerAdminName"];
-                var sqlServerAdminPassword = Configuration["SqlConnection:ServerAdminPassword"];
                 var sqlServerDatabaseName = Configuration["SqlConnection:DatabaseName"];
+                string connectionString;
 
-                string connectionString =
-                    "Server=" + sqlServerName + ";" +
-                    "Database=" + sqlServerDatabaseName + ";" +
-                    "User Id=" + sqlServerAdminUsername + ";" +
-                    "Password=" + sqlServerAdminPassword + ";" +
-                    "Persist Security Info=False;";
+                // Hosted: AZURE_APP_CONFIG is set; connect as the site managed identity (Entra).
+                // Local: api.env SQL user/password when App Configuration is unset.
+                if (!string.IsNullOrWhiteSpace(Configuration["AZURE_APP_CONFIG"]))
+                {
+                    connectionString =
+                        "Server=" + sqlServerName + ";" +
+                        "Database=" + sqlServerDatabaseName + ";" +
+                        "Authentication=Active Directory Default;" +
+                        "Encrypt=True;" +
+                        "Persist Security Info=False;";
+                }
+                else
+                {
+                    var sqlServerAdminUsername = Configuration["SqlConnection:ServerAdminName"];
+                    var sqlServerAdminPassword = Configuration["SqlConnection:ServerAdminPassword"];
 
-                if (Environment.IsDevelopment())
-                { 
-                    connectionString += "Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+                    connectionString =
+                        "Server=" + sqlServerName + ";" +
+                        "Database=" + sqlServerDatabaseName + ";" +
+                        "User Id=" + sqlServerAdminUsername + ";" +
+                        "Password=" + sqlServerAdminPassword + ";" +
+                        "Persist Security Info=False;";
+
+                    if (Environment.IsDevelopment())
+                    {
+                        connectionString += "Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+                    }
                 }
 
                 options.UseSqlServer(connectionString);
