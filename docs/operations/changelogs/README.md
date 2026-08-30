@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-08-30 | Per-workload Entra OIDC identities and GitHub Environment variables | [2026-08-30-002-per-workload-oidc-identities.md](./2026-08-30-002-per-workload-oidc-identities.md) |
 | 2026-08-30 | New-stack Bicep, GitHub Flow, and src/infra CD | [2026-08-30-001-new-stack-bicep-and-github-flow.md](./2026-08-30-001-new-stack-bicep-and-github-flow.md) |
 | 2026-08-15 | Subscription OIDC isolation and successful development CD | [2026-08-15-002-subscription-oidc-isolation-dev-cd.md](./2026-08-15-002-subscription-oidc-isolation-dev-cd.md) |
 | 2026-08-15 | Subscription foundation Bicep and CD workflows (untested on merge) | [2026-08-15-001-subscription-foundation-cd.md](./2026-08-15-001-subscription-foundation-cd.md) |
