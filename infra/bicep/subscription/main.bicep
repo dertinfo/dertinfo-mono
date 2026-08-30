@@ -6,7 +6,6 @@ Foundation deploy: GitHub Actions subscription-infra-cd.yml (privileged subscrip
 Author: DertInfo
 Azure CLI (admin / break-glass):
   az account set --subscription <new-subscription-id>
-  pwsh ../../scripts/Register-DertInfoResourceProviders.ps1
   az deployment sub create --location uksouth --template-file main.bicep --parameters main.dev.bicepparam
   az deployment sub create --location uksouth --template-file main.bicep --parameters main.prod.bicepparam
 Optional overrides (workload SP object ids; empty skips that part):
