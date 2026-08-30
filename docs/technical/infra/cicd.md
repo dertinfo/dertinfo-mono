@@ -76,7 +76,7 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 | `subscription-infra-cd.yml` | Subscription | Privileged SP **per Environment**; **this pipeline registers resource providers on the subscription**, then deploys RGs + policy + RBAC — [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) |
 | `config-infra-cd.yml` | `rg-<env>-dertinfo-config-uks` | Key Vault + App Configuration |
 | `monitoring-infra-cd.yml` | `rg-<env>-dertinfo-monitoring-uks` | Log Analytics (1 GB/day) + Application Insights |
-| `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; SQL when `prerequisitesExist` is true in the param file (needs Reader + Key Vault Secrets User on the config RG) |
+| `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; Entra-only SQL when `prerequisitesExist` is true (passes `AZURE_ENTRA_SQL_ADMIN_GROUP_*` and tenant id). After subscription CD, delete leftover storage-SP Reader and Key Vault Secrets User on the config RG (incremental ARM will not drop them). |
 | `api-infra-cd.yml` | `rg-<env>-dertinfo-api-uks` | Windows App Service when `prerequisitesExist` is true in the param file |
 
 **Resource providers:** [`subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml) (via [`reusable-infra-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-infra-deploy-bicep-subscription.yml)) is what applies them to the Azure subscription. After OIDC login it runs `az provider register` for each namespace in that workflow’s bash array, then deploys the subscription Bicep. The list is not in Bicep. Workload infra CD does not register providers (those identities are RG Contributor only). Local / break-glass: [`Register-DertInfoResourceProviders.ps1`](../../../infra/scripts/Register-DertInfoResourceProviders.ps1) (keep in sync with the reusable workflow).
@@ -111,6 +111,7 @@ Branching rule: [`.cursor/rules/github-flow.mdc`](../../../.cursor/rules/github-
 - **`development`** and **`production`** — required for new-stack infra and app CD
 - Set Environment-scoped `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION`, `AZURE_ENTRA_OIDC_TENANTID`, `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID`
 - Set per-workload `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` and `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_<PART>` (paste from [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1))
+- After [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/New-DertInfoSqlEntraGroups.ps1): `AZURE_ENTRA_SQL_ADMIN_GROUP_NAME` and `AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID` (storage infra CD). Keep `AZURE_ENTRA_SQL_DBACCESS_GROUP_*` for operator scripts; do not commit object ids.
 - Set `AZURE_WEBAPP_API_RESOURCENAME` = `app-<env>-dertinfo-api-uks` after API infra exists
 - SWA tokens: `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV` / `_PRD` (and the `APP` equivalents) when those sites exist
 

@@ -32,20 +32,22 @@ param sqlServerName string
 @description('SQL database name.')
 param sqlDatabaseName string
 
-@description('Key Vault name in the config resource group (short: kv-<env>-dertinfo-uks).')
-param keyVaultName string
+@description('Display name of the Entra SQL admins group (dertinfo-sql-admins-development or -production).')
+param sqlEntraAdminGroupName string = ''
 
-@description('SQL administrator login. Set in the param file when prerequisitesExist is true (same value as Key Vault sql-dertinfo-storage-administrator-login).')
-param sqlAdministratorLogin string = ''
+@description('Object id of the Entra SQL admins group. PLACEHOLDER — supply via CLI / pipeline.')
+param sqlEntraAdminGroupObjectId string = ''
+
+@description('Entra tenant id. PLACEHOLDER — supply via CLI / pipeline.')
+param entraTenantId string = ''
 
 @description('Point-in-time backup retention in days. Azure SQL minimum is 1 (use for development). Production uses 7 with Local redundancy.')
 param sqlBackupShortTermRetentionDays int
 
 // Flip in main.shared.bicepparam (or a leaf) after these exist; workflows do not detect them:
-// - Key Vault kv-<env>-dertinfo-uks in rg-<env>-dertinfo-config-uks (enableVaultForTemplateDeployment)
-// - Secrets sql-dertinfo-storage-administrator-login and sql-dertinfo-storage-administrator-password
-// - sqlAdministratorLogin set in the param file to the login secret value
-@description('When true, deploy SQL using Key Vault secrets. When false, deploy the storage account only.')
+// - Entra groups from New-DertInfoSqlEntraGroups.ps1
+// - sqlEntraAdminGroupName, sqlEntraAdminGroupObjectId, and entraTenantId set (pipeline / CLI)
+@description('When true, deploy Entra-only SQL. When false, deploy the storage account only.')
 param prerequisitesExist bool = false
 
 @description('Disable AVM telemetry.')
@@ -62,9 +64,6 @@ var regionTlaByLocation = {
 }
 
 var regionTla = regionTlaByLocation[location]
-
-// Lookup of the existing config part RG (Key Vault). Not a name to deploy.
-var configResourceGroupLookup = 'rg-${environmentTag}-${productSlug}-config-${regionTla}'
 
 var resourceTags = {
   environment: environmentTag
@@ -93,14 +92,14 @@ var imageContainers = [
 // #####################################################
 
 module sql './sql.bicep' = if (prerequisitesExist) {
-  name: 'sql-with-kv'
+  name: 'sql-entra'
   params: {
     location: location
     sqlServerName: sqlServerName
     sqlDatabaseName: sqlDatabaseName
-    administratorLogin: sqlAdministratorLogin
-    configResourceGroupLookup: configResourceGroupLookup
-    keyVaultName: keyVaultName
+    sqlEntraAdminGroupName: sqlEntraAdminGroupName
+    sqlEntraAdminGroupObjectId: sqlEntraAdminGroupObjectId
+    entraTenantId: entraTenantId
     sqlBackupShortTermRetentionDays: sqlBackupShortTermRetentionDays
     tags: resourceTags
     enableTelemetry: enableTelemetry

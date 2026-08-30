@@ -55,7 +55,7 @@ Examples:
 | Variable | `DOCKERHUB_USERNAME` |
 | Secret | `DOCKERHUB_TOKEN` |
 
-Store environment-specific Azure values on the matching GitHub Environment (`development` → `*_DEV`, `production` → `*_PRD`). New-stack OIDC: `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` (subscription foundation only), `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` (that part’s infra and Src CD), shared `AZURE_ENTRA_OIDC_TENANTID` and `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID`.
+Store environment-specific Azure values on the matching GitHub Environment (`development` → `*_DEV`, `production` → `*_PRD`). New-stack OIDC: `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` (subscription foundation only), `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` (that part’s infra and Src CD), shared `AZURE_ENTRA_OIDC_TENANTID` and `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID`. Storage SQL Entra admin: `AZURE_ENTRA_SQL_ADMIN_GROUP_NAME` and `AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID`.
 
 ## Layout
 

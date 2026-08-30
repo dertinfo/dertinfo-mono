@@ -167,7 +167,7 @@ Call these (and similar) from the **AVM Modules** section of `main.bicep`, not v
 This monorepo is **public**. Checked-in `main.bicep`, `main.shared.bicepparam`, and leaf `main.*.bicepparam` files must contain **no secrets** (passwords, connection strings, deploy tokens, client secrets, private keys, etc.) and **no identifiable estate detail** (exact subscription IDs, principal IDs, and similar).
 
 - Prefer `@secure()` on secret parameters in `main.bicep`. In `main.shared.bicepparam` (and/or leaves), still list every required secret/identifiable param with an **empty value** and a `// SECRET` or `// PLACEHOLDER` comment — never a real password, token, or id.
-- SQL admin passwords and similar are supplied at deploy via **pipeline overrides** from GitHub Secrets (same mechanism for dev and prd) or local secure CLI input.
+- Hosted Azure SQL is Entra-only (no admin password). Storage deploy overrides `sqlEntraAdminGroupName`, `sqlEntraAdminGroupObjectId`, and `entraTenantId` from GitHub Environment variables (not secrets). Other secrets still use pipeline overrides or local secure CLI input.
 - Where a value is only needed at deploy and would enlarge attack surface if published, leave it empty and inject via pipeline override — refine the exact list during implementation so **development remains locally deployable** without leaking sensitive estate detail.
 
 Non-secret SKUs, public naming patterns, and tags are fine in `main.shared.bicepparam` and env leaves.

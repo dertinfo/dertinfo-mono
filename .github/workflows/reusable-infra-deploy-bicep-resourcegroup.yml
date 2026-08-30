@@ -71,6 +71,10 @@ jobs:
         env:
           EXTRA_PARAMETERS: ${{ inputs.extra_parameters }}
           EXTRA_SECURE_PARAMETERS: ${{ secrets.extra_secure_parameters }}
+          OIDC_WORKLOAD: ${{ inputs.azure_oidc_workload }}
+          SQL_ADMIN_GROUP_NAME: ${{ vars.AZURE_ENTRA_SQL_ADMIN_GROUP_NAME }}
+          SQL_ADMIN_GROUP_OBJECTID: ${{ vars.AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID }}
+          ENTRA_TENANT_ID: ${{ vars.AZURE_ENTRA_OIDC_TENANTID }}
         run: |
           set -euo pipefail
           ARGS=(
@@ -82,6 +86,17 @@ jobs:
           if [ -n "${EXTRA_PARAMETERS}" ]; then
             # shellcheck disable=SC2206
             ARGS+=(--parameters ${EXTRA_PARAMETERS})
+          fi
+          if [ "${OIDC_WORKLOAD}" = "STORAGE" ]; then
+            if [ -n "${SQL_ADMIN_GROUP_NAME}" ]; then
+              ARGS+=(--parameters "sqlEntraAdminGroupName=${SQL_ADMIN_GROUP_NAME}")
+            fi
+            if [ -n "${SQL_ADMIN_GROUP_OBJECTID}" ]; then
+              ARGS+=(--parameters "sqlEntraAdminGroupObjectId=${SQL_ADMIN_GROUP_OBJECTID}")
+            fi
+            if [ -n "${ENTRA_TENANT_ID}" ]; then
+              ARGS+=(--parameters "entraTenantId=${ENTRA_TENANT_ID}")
+            fi
           fi
           if [ -n "${EXTRA_SECURE_PARAMETERS}" ]; then
             # shellcheck disable=SC2206

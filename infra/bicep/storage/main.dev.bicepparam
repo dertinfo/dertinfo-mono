@@ -11,5 +11,5 @@ param environmentTag = 'dev'
 param imagesStorageAccountName = 'stdevdertinfoimagesuks'
 param sqlServerName = 'sql-dev-dertinfo-storage-uks'
 param sqlDatabaseName = 'sqldb-dev-dertinfo-storage-uks'
-param keyVaultName = 'kv-dev-dertinfo-uks'
 param sqlBackupShortTermRetentionDays = 1
+param prerequisitesExist = true

@@ -201,39 +201,8 @@ module pipelineRgRoleAssignments 'br/public:avm/res/authorization/role-assignmen
   }
 ]
 
-// Storage infra CD uses existing Key Vault in the config RG and getSecret() for the SQL admin password.
-// Reader is control-plane (Microsoft.KeyVault/vaults/read). Secrets User is the secret data plane.
-module pipelineStorageConfigReader 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdStorage)) {
-  name: 'avm-rbac-storage-config-reader'
-  scope: resourceGroup(configResourceGroupLookup)
-  dependsOn: [
-    resourceGroups
-    pipelineRgRoleAssignments
-  ]
-  params: {
-    principalId: pipelinePrincipalIdStorage
-    roleDefinitionIdOrName: 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // 'Reader'
-    principalType: 'ServicePrincipal'
-    description: 'Storage workload identity — resolve existing Key Vault in the config RG'
-    enableTelemetry: enableTelemetry
-  }
-}
-
-module pipelineStorageKvSecretsUser 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdStorage)) {
-  name: 'avm-rbac-storage-kv-secrets-user'
-  scope: resourceGroup(configResourceGroupLookup)
-  dependsOn: [
-    resourceGroups
-    pipelineRgRoleAssignments
-  ]
-  params: {
-    principalId: pipelinePrincipalIdStorage
-    roleDefinitionIdOrName: '4633458b-17de-408a-b874-0445c86b69e6' // 'Key Vault Secrets User'
-    principalType: 'ServicePrincipal'
-    description: 'Storage workload identity — read SQL admin secrets from config Key Vault'
-    enableTelemetry: enableTelemetry
-  }
-}
+// Storage workload has Contributor on the storage RG only (no Reader / Key Vault Secrets User on config).
+// Incremental ARM does not delete leftover storage-on-config assignments — remove those in Azure.
 
 // Special case: API infra CD assigns two data-plane roles to the site MI on the config RG.
 // UAA is not a default workload role. Condition limits write/delete to those two role definition ids.

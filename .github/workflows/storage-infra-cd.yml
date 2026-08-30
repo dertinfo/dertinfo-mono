@@ -1,7 +1,7 @@
 name: Storage infra CD
 
-# Deploys infra/bicep/storage at RG scope (images Storage Account always; SQL when
-# prerequisitesExist is true in the Bicep param file).
+# Deploys infra/bicep/storage at RG scope (images Storage Account always; Entra-only
+# SQL when prerequisitesExist is true in the Bicep param file).
 
 on:
   workflow_dispatch:

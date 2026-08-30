@@ -10,7 +10,11 @@ using none
 param location = 'uksouth'
 param productSlug = 'dertinfo'
 param enableTelemetry = false
-// Default false. Set true only after config KV + SQL admin secrets exist (see comment on this param in main.bicep).
+// Default false. Set true only after Entra SQL admin group ids are set (see comment on this param in main.bicep).
 param prerequisitesExist = false
-// PLACEHOLDER — set when prerequisitesExist is true (same value as Key Vault sql-dertinfo-storage-administrator-login)
-param sqlAdministratorLogin = ''
+// PLACEHOLDER — Entra SQL admins group display name (dertinfo-sql-admins-development or -production)
+param sqlEntraAdminGroupName = ''
+// PLACEHOLDER — Entra SQL admins group object id; supply via CLI / pipeline
+param sqlEntraAdminGroupObjectId = ''
+// PLACEHOLDER — Entra tenant id; supply via CLI / pipeline
+param entraTenantId = ''
