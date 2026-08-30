@@ -12,12 +12,13 @@ on:
   workflow_dispatch:
     inputs:
       target:
-        description: 'Parameter leaf / environment'
+        description: 'Deployment target'
         required: true
         type: choice
+        default: full
         options:
-          - dev
-          - prod
+          - full
+          - dev-only
   push:
     branches:
       - main
@@ -28,7 +29,7 @@ on:
 
 jobs:
   deploy-dev:
-    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'dev')
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.target == 'full' || inputs.target == 'dev-only'))
     permissions:
       id-token: write
       contents: read
@@ -41,7 +42,8 @@ jobs:
     secrets: inherit
 
   deploy-prod:
-    if: github.event_name == 'workflow_dispatch' && inputs.target == 'prod'
+    needs: deploy-dev
+    if: (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'full')) && needs.deploy-dev.result == 'success'
     permissions:
       id-token: write
       contents: read
