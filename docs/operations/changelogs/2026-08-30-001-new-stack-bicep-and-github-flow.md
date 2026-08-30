@@ -47,7 +47,7 @@ We wanted infra deploys to succeed even when an upstream part is missing (`prere
 
 ## Any remaining issues that we may wish to address
 
-- Operator must seed `sql-dertinfo-storage-administrator-login` and `sql-dertinfo-storage-administrator-password` in each Key Vault, then re-run storage infra CD.
+- Operator must seed `sql-dertinfo-storage-administrator-login` and `sql-dertinfo-storage-administrator-password` in each Key Vault, set `prerequisitesExist` (and `sqlAdministratorLogin`) in the storage param file, then re-run storage infra CD. Flip API `prerequisitesExist` after config KV, App Configuration, and Application Insights exist.
 - Populate App Configuration labelled keys (Auth0, SQL connection shape, and so on) so the API can start against the new stack.
 - Re-run subscription foundation CD so the `monitoring` RGs and config-RG extra roles exist.
 - Web / app / functions src CD will fail until those Azure resources and tokens exist.

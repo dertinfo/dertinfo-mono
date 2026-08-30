@@ -37,21 +37,6 @@ on:
         required: false
         type: string
         default: ''
-      detect_prerequisites:
-        description: 'When true, detect cross-part prerequisites and pass prerequisitesExist'
-        required: false
-        type: boolean
-        default: false
-      prerequisites_kind:
-        description: 'storage | api — which resources to detect'
-        required: false
-        type: string
-        default: ''
-      prerequisites_override:
-        description: 'auto | true | false — default auto uses Azure detection'
-        required: false
-        type: string
-        default: auto
     secrets:
       extra_secure_parameters:
         description: 'Optional secure --parameters string built by the caller from GitHub secrets'
@@ -76,65 +61,10 @@ jobs:
       - name: Ensure Bicep CLI
         run: az bicep install
 
-      - name: Detect prerequisites
-        id: prereq
-        if: inputs.detect_prerequisites
-        env:
-          OVERRIDE: ${{ inputs.prerequisites_override }}
-          KIND: ${{ inputs.prerequisites_kind }}
-          GH_ENVIRONMENT: ${{ inputs.environment }}
-        run: |
-          set -euo pipefail
-          if [ "${GH_ENVIRONMENT}" = "production" ]; then
-            TAG=prd
-          else
-            TAG=dev
-          fi
-          KV_NAME="kv-${TAG}-dertinfo-uks"
-          KV_RG="rg-${TAG}-dertinfo-config-uks"
-          APPCS_NAME="appcs-${TAG}-dertinfo-config-uks"
-          APPI_NAME="appi-${TAG}-dertinfo-monitoring-uks"
-          APPI_RG="rg-${TAG}-dertinfo-monitoring-uks"
-
-          exist=false
-          sql_login=""
-
-          if [ "${OVERRIDE}" = "true" ]; then
-            exist=true
-          elif [ "${OVERRIDE}" = "false" ]; then
-            exist=false
-          elif [ "${KIND}" = "storage" ]; then
-            if az keyvault show --name "${KV_NAME}" --resource-group "${KV_RG}" --query name -o tsv >/dev/null 2>&1 \
-              && az keyvault secret show --vault-name "${KV_NAME}" --name sql-dertinfo-storage-administrator-login --query name -o tsv >/dev/null 2>&1 \
-              && az keyvault secret show --vault-name "${KV_NAME}" --name sql-dertinfo-storage-administrator-password --query name -o tsv >/dev/null 2>&1; then
-              exist=true
-              sql_login="$(az keyvault secret show --vault-name "${KV_NAME}" --name sql-dertinfo-storage-administrator-login --query value -o tsv)"
-            fi
-          elif [ "${KIND}" = "api" ]; then
-            if az keyvault show --name "${KV_NAME}" --resource-group "${KV_RG}" --query name -o tsv >/dev/null 2>&1 \
-              && az appconfig show --name "${APPCS_NAME}" --resource-group "${KV_RG}" --query name -o tsv >/dev/null 2>&1 \
-              && az monitor app-insights component show --app "${APPI_NAME}" --resource-group "${APPI_RG}" --query name -o tsv >/dev/null 2>&1; then
-              exist=true
-            fi
-          fi
-
-          if [ "${exist}" = "true" ]; then
-            echo "prerequisitesExist=true" >> "$GITHUB_OUTPUT"
-            echo "sql_login=${sql_login}" >> "$GITHUB_OUTPUT"
-            echo "Prerequisites present; gated resources will deploy."
-          else
-            echo "prerequisitesExist=false" >> "$GITHUB_OUTPUT"
-            echo "sql_login=" >> "$GITHUB_OUTPUT"
-            echo "Prerequisites missing or override=false; gated resources will be skipped (deploy still succeeds)."
-          fi
-
       - name: Deploy Bicep (resource group)
         env:
           EXTRA_PARAMETERS: ${{ inputs.extra_parameters }}
           EXTRA_SECURE_PARAMETERS: ${{ secrets.extra_secure_parameters }}
-          DETECT: ${{ inputs.detect_prerequisites }}
-          PREREQ_EXIST: ${{ steps.prereq.outputs.prerequisitesExist }}
-          SQL_LOGIN: ${{ steps.prereq.outputs.sql_login }}
         run: |
           set -euo pipefail
           ARGS=(
@@ -146,12 +76,6 @@ jobs:
           if [ -n "${EXTRA_PARAMETERS}" ]; then
             # shellcheck disable=SC2206
             ARGS+=(--parameters ${EXTRA_PARAMETERS})
-          fi
-          if [ "${DETECT}" = "true" ]; then
-            ARGS+=(--parameters "prerequisitesExist=${PREREQ_EXIST:-false}")
-            if [ -n "${SQL_LOGIN:-}" ]; then
-              ARGS+=(--parameters "sqlAdministratorLogin=${SQL_LOGIN}")
-            fi
           fi
           if [ -n "${EXTRA_SECURE_PARAMETERS}" ]; then
             # shellcheck disable=SC2206

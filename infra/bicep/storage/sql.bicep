@@ -14,7 +14,7 @@ param sqlServerName string
 @description('SQL database name.')
 param sqlDatabaseName string
 
-@description('SQL administrator login (from Key Vault; passed by the caller).')
+@description('SQL administrator login (plain string from the caller param file; password comes from Key Vault).')
 param administratorLogin string
 
 @description('Lookup of the existing config part RG that holds the Key Vault. Not a name to deploy.')

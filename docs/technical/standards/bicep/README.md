@@ -81,7 +81,7 @@ Workloads that **read or assign into another part** take `param prerequisitesExi
 
 Put `existing` Key Vault / App Configuration / Application Insights and `getSecret()` **inside a local module** that is itself `if (prerequisitesExist)`. An unconditional `existing` in `main.bicep` makes ARM resolve the resource even when unused, and the deploy fails.
 
-Infra CD detects the upstream resources (and SQL admin secrets for storage) after OIDC login and passes `prerequisitesExist=true|false`. `workflow_dispatch` can override (`auto` / `true` / `false`). A green run that skipped gated resources must log that clearly.
+Set `prerequisitesExist` in the Bicep param file (`main.shared.bicepparam` or a leaf). Workflows do not detect or override it. Comment next to the param in `main.bicep` lists what must exist before you flip it.
 
 ## Naming and length limits
 
@@ -104,7 +104,7 @@ Do not use `prod` in names.
 
 - Key Vault must set AVM `enableVaultForTemplateDeployment: true` so `getSecret()` works.
 - SQL admin secrets are operator-seeded in Key Vault as `sql-dertinfo-storage-administrator-password` and `sql-dertinfo-storage-administrator-login` (storage SQL server, not a generic SQL login).
-- Storage Bicep reads the password with `getSecret()` and receives the login as a pipeline override after detection.
+- Storage Bicep reads the password with `getSecret()`. Set `sqlAdministratorLogin` in the param file when you flip `prerequisitesExist` (same value as Key Vault `sql-dertinfo-storage-administrator-login`).
 - The API uses `AZURE_APP_CONFIG` (store endpoint URI) and `DefaultAzureCredential` — not an App Configuration access key.
 
 ## Pinning AVM
@@ -137,6 +137,6 @@ az deployment group create \
   --parameters infra/bicep/config/main.dev.bicepparam
 ```
 
-Storage/API: omit `prerequisitesExist` (defaults false) or pass `prerequisitesExist=true` plus `sqlAdministratorLogin=...` only when the Key Vault and secrets exist.
+Storage/API: leave `prerequisitesExist` false until the prerequisites listed on that param in `main.bicep` exist, then set it true in the param file (and set `sqlAdministratorLogin` for storage).
 
 Related: [CI/CD](../../infra/cicd.md), [configuration](../../infra/configuration.md), [Azure estate planned fix](../../../operations/planned-fixes/azure-estate-dev-prd.md).

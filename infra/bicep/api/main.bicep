@@ -47,6 +47,10 @@ param monitoringResourceGroupName string
 @description('Application Insights component name.')
 param applicationInsightsName string
 
+// Flip in main.shared.bicepparam (or a leaf) after these exist; workflows do not detect them:
+// - Key Vault kv-<env>-dertinfo-uks in rg-<env>-dertinfo-config-uks
+// - App Configuration appcs-<env>-dertinfo-config-uks in the config RG
+// - Application Insights appi-<env>-dertinfo-monitoring-uks in rg-<env>-dertinfo-monitoring-uks
 @description('When true, deploy the plan and site and wire App Config / Insights. When false, succeed with no API resources.')
 param prerequisitesExist bool = false
 

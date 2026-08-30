@@ -31,7 +31,7 @@ Conventions for Bicep (naming inside resources, parameter style, secrets handlin
 
 Target RGs: `rg-<env>-dertinfo-<part>-uks` — see [azure-estate-dev-prd.md](azure-estate-dev-prd.md).
 
-Suggested deploy order: **config + monitoring → storage → api → web / app**. Storage and API use `prerequisitesExist` so they succeed if run early.
+Suggested deploy order: **config + monitoring → storage → api → web / app**. Storage and API keep `prerequisitesExist` false until you flip it in the param file after those parts exist.
 
 ---
 

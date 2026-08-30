@@ -10,7 +10,7 @@ using none
 param location = 'uksouth'
 param productSlug = 'dertinfo'
 param enableTelemetry = false
-// Default false so a local deploy without overrides does not resolve Key Vault.
+// Default false. Set true only after config KV + SQL admin secrets exist (see comment on this param in main.bicep).
 param prerequisitesExist = false
-// PLACEHOLDER — supply via pipeline when prerequisitesExist is true (value from Key Vault sql-dertinfo-storage-administrator-login)
+// PLACEHOLDER — set when prerequisitesExist is true (same value as Key Vault sql-dertinfo-storage-administrator-login)
 param sqlAdministratorLogin = ''

@@ -35,12 +35,16 @@ param sqlDatabaseName string
 @description('Key Vault name in the config resource group (short: kv-<env>-dertinfo-uks).')
 param keyVaultName string
 
-@description('SQL administrator login. Supply via pipeline when prerequisitesExist is true.')
+@description('SQL administrator login. Set in the param file when prerequisitesExist is true (same value as Key Vault sql-dertinfo-storage-administrator-login).')
 param sqlAdministratorLogin string = ''
 
 @description('Point-in-time backup retention in days. Azure SQL minimum is 1 (use for development). Production uses 7 with Local redundancy.')
 param sqlBackupShortTermRetentionDays int
 
+// Flip in main.shared.bicepparam (or a leaf) after these exist; workflows do not detect them:
+// - Key Vault kv-<env>-dertinfo-uks in rg-<env>-dertinfo-config-uks (enableVaultForTemplateDeployment)
+// - Secrets sql-dertinfo-storage-administrator-login and sql-dertinfo-storage-administrator-password
+// - sqlAdministratorLogin set in the param file to the login secret value
 @description('When true, deploy SQL using Key Vault secrets. When false, deploy the storage account only.')
 param prerequisitesExist bool = false
 

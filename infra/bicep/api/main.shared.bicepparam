@@ -10,5 +10,5 @@ using none
 param location = 'uksouth'
 param productSlug = 'dertinfo'
 param enableTelemetry = false
-// Default false so a local deploy without overrides does not resolve cross-RG resources.
+// Default false. Set true only after config KV, App Configuration, and Application Insights exist (see comment on this param in main.bicep).
 param prerequisitesExist = false

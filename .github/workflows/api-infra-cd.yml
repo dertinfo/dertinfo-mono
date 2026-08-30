@@ -1,6 +1,7 @@
 name: API infra CD
 
-# Deploys infra/bicep/api at RG scope (Windows App Service when prerequisites exist).
+# Deploys infra/bicep/api at RG scope (Windows App Service when prerequisitesExist
+# is true in the Bicep param file).
 
 on:
   workflow_dispatch:
@@ -13,15 +14,6 @@ on:
         options:
           - full
           - dev-only
-      prerequisites_override:
-        description: 'App Service prerequisite handling'
-        required: true
-        type: choice
-        default: auto
-        options:
-          - auto
-          - true
-          - false
   push:
     branches:
       - main
@@ -43,9 +35,6 @@ jobs:
       template_path: infra/bicep/api/main.bicep
       parameters_path: infra/bicep/api/main.dev.bicepparam
       location: uksouth
-      detect_prerequisites: true
-      prerequisites_kind: api
-      prerequisites_override: ${{ github.event_name == 'workflow_dispatch' && inputs.prerequisites_override || 'auto' }}
     secrets: inherit
 
   deploy-prod:
@@ -61,7 +50,4 @@ jobs:
       template_path: infra/bicep/api/main.bicep
       parameters_path: infra/bicep/api/main.prod.bicepparam
       location: uksouth
-      detect_prerequisites: true
-      prerequisites_kind: api
-      prerequisites_override: ${{ github.event_name == 'workflow_dispatch' && inputs.prerequisites_override || 'auto' }}
     secrets: inherit
