@@ -1,6 +1,6 @@
 # Change log
 
-Chronological record of completed workstreams in this monorepo. Each entry links to a detail page describing what was done, issues encountered, practices adopted, and any follow-up work.
+Chronological record of completed workstreams in this monorepo. Each entry links to a detail page describing what was done, why, issues encountered, practices adopted, and any follow-up work.
 
 For operational how-to (CI/CD setup, configuration, planned fixes), see the wider docs under [`docs/`](../../).
 
@@ -35,6 +35,10 @@ Use the [detail page template](#detail-page-template) below. Prefer linking to e
 ## Summary of the work completed
 
 Brief description of the outcome and what changed.
+
+## Why the work was completed
+
+Rationale: what we were trying to achieve and why these changes were the right ones (not a repeat of the summary).
 
 ## Date the work was started
 

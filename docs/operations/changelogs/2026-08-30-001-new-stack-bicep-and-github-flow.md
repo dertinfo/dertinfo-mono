@@ -10,6 +10,12 @@ Changelog detail pages are `YYYY-MM-DD-NNN-short-slug.md` so several entries on 
 
 Bicep house rules: [docs/technical/standards/bicep/](../../technical/standards/bicep/). CI/CD: [cicd.md](../../technical/infra/cicd.md). Contributing: [contributing workflow](../../technical/guides/contributing-workflow.md). A future Linux App Service move is recorded in [cicd-future-phase.md](../planned-fixes/cicd-future-phase.md).
 
+## Why the work was completed
+
+The monorepo needed a new Azure stack (development and production) that can be deployed from GitHub Actions while live traffic stays on the existing repos and Azure DevOps. That meant IaC for each workload part, cheap SKUs (SQL Basic, Local backup, 1 GB/day Log Analytics), and subscription policy that still denies unexpected resource types and SKUs.
+
+We wanted infra deploys to succeed even when an upstream part is missing (`prerequisitesExist`), and we wanted pipeline names to say whether they ship **src** or **infra**. Branching was simplified to GitHub Flow (`main` only): CI on the PR, CD after merge, so `develop` is not an integration branch. Changelog filenames gained a same-day sequence so several entries on one date stay ordered in the file list.
+
 ## Date the work was started
 
 2026-08-30
