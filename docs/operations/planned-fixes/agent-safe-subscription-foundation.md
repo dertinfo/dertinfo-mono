@@ -30,7 +30,7 @@ updated: 2026-08-15
 2. Create **two** Entra apps / service principals for **subscription infra CD** (development and production) via [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1); each gets Contributor + User Access Administrator on **its** subscription only.
 3. Apply federated credentials (script uses [`infra/configuration/`](../../../infra/configuration/)); set GitHub Environment variables (see below).
 4. Configure required reviewers on both Environments (see below).
-5. Optionally create a second SP for **RG-scoped** workload deploys; set `AZURE_ENTRA_OIDC_PRINCIPALID_RG` so subscription Bicep can grant it Contributor on each RG.
+5. Create **per-workload** Entra apps via [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1) (one Environment at a time). Paste `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_*` and `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_*` onto that GitHub Environment. Do **not** use the subscription SP for workload deploys.
 6. Run [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) (push to `main` under `infra/bicep/subscription/**` or `workflow_dispatch` with target `full`) to deploy `main.dev.bicepparam` and, upon review approval, `main.prod.bicepparam` (or target `dev-only` to deploy only to development).
 7. Verify: policy deny (disallowed SKU); RG workflow can deploy allowed resources with the restricted identity.
 8. Unpark estate / workload Bicep planned fixes only after verification.
@@ -60,7 +60,7 @@ Threat model detail: [github-workflows-security-review.md](../security/github-wo
 |---------|-----|-------|-----|
 | Create empty subscription | Tenant administrator | Billing / portal | Manual — not automated in this repo |
 | Subscription foundation | Privileged **per-Environment** subscription SP (OIDC) | That Environment’s subscription | GitHub Actions → `az deployment sub create` |
-| Workload infra | Restricted **RG** SP (OIDC) | Resource group | GitHub Actions → `az deployment group create` with leaf params + secret/placeholder overrides |
+| Workload infra / Src CD | Per-workload SP (OIDC) | That part’s resource group | GitHub Actions → `az deployment group create` or zip deploy; identity is `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` |
 
 Agents author Bicep via PRs; they do not authenticate as the subscription SP locally for day-to-day work.
 
@@ -80,9 +80,10 @@ Each Environment must use **its own** client id (and matching subscription id):
 | Variable | Purpose |
 |----------|---------|
 | `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` | App (client) id of **that Environment’s** subscription-scope deploy SP |
-| `AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION` | Entra tenant id |
+| `AZURE_ENTRA_OIDC_TENANTID` | Entra tenant id |
 | `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID` | Target Azure subscription id for that Environment |
-| `AZURE_ENTRA_OIDC_PRINCIPALID_RG` | Optional — object id of the RG deploy SP (passed as `pipelinePrincipalId`) |
+| `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` | App (client) id of that workload SP (infra and Src CD) |
+| `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_<PART>` | Object id of that workload SP (subscription Bicep RG RBAC) |
 
 Federate using [`infra/configuration/github-azure-dev-credential.json`](../../../infra/configuration/github-azure-dev-credential.json) and [`github-azure-prd-credential.json`](../../../infra/configuration/github-azure-prd-credential.json) — see [GitHub Actions OIDC to Azure](../../technical/guides/github-azure-federated-credentials.md). Preferred create path: [`infra/scripts/`](../../../infra/scripts/). App CD still uses Environments `test` / `prod` ([cicd.md](../../technical/infra/cicd.md)).
 
@@ -95,7 +96,7 @@ Both GitHub Environments **`development`** and **`production`** require a review
 
 Configure under **Settings → Environments → [name] → Deployment protection rules → Required reviewers**.
 
-RG-scoped reusable workflow remains [reusable-infra-deploy-bicep-resourcegroup.yml](../../../.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml) with its own identity vars (`AZURE_ENTRA_OIDC_CLIENTID`, etc.).
+RG-scoped reusable workflow is [reusable-infra-deploy-bicep-resourcegroup.yml](../../../.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml). Callers pass `azure_oidc_workload` (`CONFIG`, `API`, …); the reusable reads `vars.AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` after the GitHub Environment is applied.
 
 ---
 
@@ -129,11 +130,11 @@ RG-scoped reusable workflow remains [reusable-infra-deploy-bicep-resourcegroup.y
 
 - [x] Admin creates empty subscription(s) (Development; Production)
 - [x] Isolated subscription-scope SPs created, RBAC per subscription, OIDC federated to GitHub Environments
-- [x] Environment vars set (`AZURE_ENTRA_OIDC_*_SUBSCRIPTION`, subscription id) per Environment
+- [x] Environment vars set (`AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION`, `AZURE_ENTRA_OIDC_TENANTID`, subscription id) per Environment
 - [x] Required reviewers on `development` and `production` (`dertinfo`, `davidsmonkeys`)
 - [x] Subscription CD workflow run succeeds for **development**
 - [ ] Production SP RBAC confirmed; Subscription CD succeeds for **production**
-- [ ] Optional: RG SP principal id set; role assignments created by Bicep
+- [ ] Workload identities created; `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_*` / `PRINCIPALID_WORKLOAD_*` pasted; subscription CD grants RG RBAC
 - [ ] Policy deny verified (e.g. attempt disallowed SKU)
-- [ ] RG deploy workflow wired with restricted identity
-- [ ] Unpark related planned fixes when ready for workload Bicep
+- [x] Workload infra CD wired to per-part client ids (not the subscription SP)
+- [ ] Unpark related planned fixes when ready for remaining estate work

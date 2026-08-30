@@ -60,6 +60,7 @@ jobs:
       package_path: .
       artifact_name: drop
       app_type: functionApp
+      azure_oidc_workload: FUNCTIONS
 
   docker-prod:
     needs: deploy-dev
@@ -84,3 +85,4 @@ jobs:
       package_path: .
       artifact_name: drop
       app_type: functionApp
+      azure_oidc_workload: FUNCTIONS

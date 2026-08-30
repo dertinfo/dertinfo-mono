@@ -35,6 +35,7 @@ jobs:
       template_path: infra/bicep/api/main.bicep
       parameters_path: infra/bicep/api/main.dev.bicepparam
       location: uksouth
+      azure_oidc_workload: API
     secrets: inherit
 
   deploy-prod:
@@ -50,4 +51,5 @@ jobs:
       template_path: infra/bicep/api/main.bicep
       parameters_path: infra/bicep/api/main.prod.bicepparam
       location: uksouth
+      azure_oidc_workload: API
     secrets: inherit

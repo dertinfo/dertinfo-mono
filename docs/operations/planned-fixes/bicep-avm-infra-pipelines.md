@@ -90,7 +90,7 @@ using none
 param location = 'uksouth'
 param productSlug = 'dertinfo'
 // PLACEHOLDER — supply via pipeline / CLI override
-param pipelinePrincipalId = ''
+param pipelinePrincipalIdApi = ''
 // SECRET — supply via pipeline / CLI override
 param sqlAdminPassword = ''
 ```

@@ -3,10 +3,16 @@ name: Subscription infra CD
 # Deploys infra/bicep/subscription at subscription scope via a privileged SP (OIDC).
 # Create GitHub Environments "development" and "production" with:
 #   vars.AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION
-#   vars.AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION
+#   vars.AZURE_ENTRA_OIDC_TENANTID
 #   vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID
-# Optional (object id of the RG-scoped deploy identity, for role assignment in Bicep):
-#   vars.AZURE_ENTRA_OIDC_PRINCIPALID_RG
+# Workload SP object ids (optional; empty skips that part's RG RBAC):
+#   vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_CONFIG
+#   vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_MONITORING
+#   vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_STORAGE
+#   vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_API
+#   vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_WEB
+#   vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_APP
+#   vars.AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_FUNCTIONS
 
 on:
   workflow_dispatch:

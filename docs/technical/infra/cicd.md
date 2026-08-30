@@ -64,10 +64,10 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 | Workflow | Purpose |
 |----------|---------|
 | `reusable-src-build-push-docker.yml` | Build and push to Docker Hub (`latest-dev` / `{run_id}-dev` for `development`; `latest` / `{run_id}` for `production`) |
-| `reusable-src-deploy-dotnet-appservice.yml` | OIDC login + zip/folder deploy to App Service |
+| `reusable-src-deploy-dotnet-appservice.yml` | OIDC login (`azure_oidc_workload` → `CLIENTID_WORKLOAD_*`) + zip/folder deploy to App Service |
 | `reusable-src-deploy-static-web-app.yml` | Deploy to Azure Static Web Apps |
-| `reusable-infra-deploy-bicep-resourcegroup.yml` | OIDC + `az deployment group create` (workload infra) |
-| `reusable-infra-deploy-bicep-subscription.yml` | OIDC + `az deployment sub create` (subscription foundation) |
+| `reusable-infra-deploy-bicep-resourcegroup.yml` | OIDC (`azure_oidc_workload` → `CLIENTID_WORKLOAD_*`) + `az deployment group create` (workload infra) |
+| `reusable-infra-deploy-bicep-subscription.yml` | OIDC (`CLIENTID_SUBSCRIPTION`) + `az deployment sub create` (subscription foundation) |
 
 ### Infrastructure CD
 
@@ -107,7 +107,8 @@ Branching rule: [`.cursor/rules/github-flow.mdc`](../../../.cursor/rules/github-
 ### 1. Create GitHub Environments
 
 - **`development`** and **`production`** — required for new-stack infra and app CD
-- Set Environment-scoped `AZURE_ENTRA_OIDC_CLIENTID`, `AZURE_ENTRA_OIDC_TENANTID`, `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID`
+- Set Environment-scoped `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION`, `AZURE_ENTRA_OIDC_TENANTID`, `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID`
+- Set per-workload `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` and `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_<PART>` (paste from [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1))
 - Set `AZURE_WEBAPP_API_RESOURCENAME` = `app-<env>-dertinfo-api-uks` after API infra exists
 - SWA tokens: `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV` / `_PRD` (and the `APP` equivalents) when those sites exist
 
@@ -115,7 +116,7 @@ Branching rule: [`.cursor/rules/github-flow.mdc`](../../../.cursor/rules/github-
 
 GitHub Actions signs in to Azure with **OIDC federated credentials** (no client secret). The token **subject must match the job’s GitHub Environment** (for example `repo:dertinfo/dertinfo-mono:environment:development`), not only a branch ref.
 
-**New-stack Environments (`development` / `production`):** apply the checked-in JSON in [`infra/configuration/`](../../../infra/configuration/) via [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1) (or manually) as described in [GitHub Actions OIDC to Azure](../guides/github-azure-federated-credentials.md). Use a **separate** Entra app registration per Environment; set that Environment’s `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` to the matching client id.
+**New-stack Environments (`development` / `production`):** apply the checked-in JSON in [`infra/configuration/`](../../../infra/configuration/) via [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1) (subscription foundation) and [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1) (one Environment at a time) as described in [GitHub Actions OIDC to Azure](../guides/github-azure-federated-credentials.md). Do **not** use `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` for workload infra or Src CD.
 
 **Existing app CD (`test` / `prod`):** create an Entra app registration per environment with a federated credential (same issuer and audience; subject `…:environment:test` or `…:environment:prod`). Grant the app **Contributor** on the target resource group(s) or individual web apps.
 

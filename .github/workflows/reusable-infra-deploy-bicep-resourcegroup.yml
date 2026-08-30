@@ -1,8 +1,9 @@
 name: Deploy Bicep to Azure resource group
 
-# Restricted identity deploys at RG scope only.
+# Workload identity deploys at RG scope only (AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_*).
 # Subscription foundation uses reusable-infra-deploy-bicep-subscription.yml with a
-# separate privileged SP — do not point this workflow at infra/bicep/subscription.
+# separate privileged SP — do not point this workflow at infra/bicep/subscription
+# and do not pass AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION here.
 #
 # Same process for development and production: main.bicep + leaf main.<env>.bicepparam
 # (extends main.shared.bicepparam), then optional overrides from the GitHub Environment
@@ -37,6 +38,10 @@ on:
         required: false
         type: string
         default: ''
+      azure_oidc_workload:
+        description: 'Workload suffix: CONFIG, MONITORING, STORAGE, API, WEB, APP, or FUNCTIONS'
+        required: true
+        type: string
     secrets:
       extra_secure_parameters:
         description: 'Optional secure --parameters string built by the caller from GitHub secrets'
@@ -52,9 +57,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Workload SP only — never AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION.
       - uses: azure/login@v2
         with:
-          client-id: ${{ vars.AZURE_ENTRA_OIDC_CLIENTID }}
+          client-id: ${{ vars[format('AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_{0}', inputs.azure_oidc_workload)] }}
           tenant-id: ${{ vars.AZURE_ENTRA_OIDC_TENANTID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID }}
 
