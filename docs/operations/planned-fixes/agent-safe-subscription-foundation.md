@@ -60,7 +60,7 @@ Threat model detail: [github-workflows-security-review.md](../security/github-wo
 |---------|-----|-------|-----|
 | Create empty subscription | Tenant administrator | Billing / portal | Manual — not automated in this repo |
 | Subscription foundation | Privileged **per-Environment** subscription SP (OIDC) | That Environment’s subscription | GitHub Actions → `az deployment sub create` |
-| Workload infra / Src CD | Per-workload SP (OIDC) | That part’s resource group | GitHub Actions → `az deployment group create` or zip deploy; identity is `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` |
+| Workload infra / Src CD | Per-workload SP (OIDC) | That part’s resource group (Contributor). Storage also gets **Reader** + **Key Vault Secrets User** on the config RG. API also gets **Reader** on config and monitoring, plus **conditioned** UAA on the config RG only (may assign App Configuration Data Reader and Key Vault Secrets User only) | GitHub Actions → `az deployment group create` or zip deploy; identity is `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` |
 
 Agents author Bicep via PRs; they do not authenticate as the subscription SP locally for day-to-day work.
 

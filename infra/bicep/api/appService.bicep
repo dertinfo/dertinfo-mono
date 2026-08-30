@@ -138,7 +138,7 @@ module appConfigDataReader 'br/public:avm/res/authorization/role-assignment/rg-s
   scope: resourceGroup(configResourceGroupLookup)
   params: {
     principalId: webApp.outputs.systemAssignedMIPrincipalId!
-    roleDefinitionIdOrName: 'App Configuration Data Reader'
+    roleDefinitionIdOrName: '516239f1-63e1-4d78-a4de-a74fb236a071' // 'App Configuration Data Reader'
     principalType: 'ServicePrincipal'
     description: 'API web app reads Azure App Configuration'
     enableTelemetry: enableTelemetry
@@ -150,7 +150,7 @@ module keyVaultSecretsUser 'br/public:avm/res/authorization/role-assignment/rg-s
   scope: resourceGroup(configResourceGroupLookup)
   params: {
     principalId: webApp.outputs.systemAssignedMIPrincipalId!
-    roleDefinitionIdOrName: 'Key Vault Secrets User'
+    roleDefinitionIdOrName: '4633458b-17de-408a-b874-0445c86b69e6' // 'Key Vault Secrets User'
     principalType: 'ServicePrincipal'
     description: 'API web app resolves App Configuration Key Vault references'
     enableTelemetry: enableTelemetry

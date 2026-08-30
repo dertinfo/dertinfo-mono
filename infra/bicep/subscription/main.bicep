@@ -65,7 +65,7 @@ param pipelinePrincipalIdApp string = ''
 param pipelinePrincipalIdFunctions string = ''
 
 @description('Role definition id or name for the pipeline identity on each RG (Contributor by default).')
-param pipelineRoleDefinitionIdOrName string = 'Contributor'
+param pipelineRoleDefinitionIdOrName string = 'b24988ac-6180-42a0-ab88-20f7382dd24c' // 'Contributor'
 
 @description('Resource types allowed by Azure Policy (Deny). Values come from main.shared.bicepparam.')
 param allowedResourceTypes array
@@ -139,6 +139,11 @@ var resourceGroupTags = {
   iac: 'infra-bicep-subscription'
 }
 
+// Roles the API workload SP may assign on the config RG (site MI only). Not a default for other workloads.
+var appConfigurationDataReaderRoleId = '516239f1-63e1-4d78-a4de-a74fb236a071'
+var keyVaultSecretsUserRoleId = '4633458b-17de-408a-b874-0445c86b69e6'
+var apiConfigRoleAssignmentCondition = '((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/write\'})) OR (@Request[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${appConfigurationDataReaderRoleId}, ${keyVaultSecretsUserRoleId}})) AND ((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/delete\'})) OR (@Resource[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${appConfigurationDataReaderRoleId}, ${keyVaultSecretsUserRoleId}}))'
+
 // #####################################################
 // References
 // #####################################################
@@ -190,13 +195,30 @@ module pipelineRgRoleAssignments 'br/public:avm/res/authorization/role-assignmen
       principalId: item.principalId
       roleDefinitionIdOrName: pipelineRoleDefinitionIdOrName
       principalType: 'ServicePrincipal'
-      description: 'GitHub Actions ${item.part} workload identity (RG Contributor)'
+      description: 'GitHub Actions ${item.part} workload identity (Contributor on its own RG only)'
       enableTelemetry: enableTelemetry
     }
   }
 ]
 
-// Storage infra CD reads SQL admin secrets from Key Vault in the config RG (lookup only).
+// Storage infra CD uses existing Key Vault in the config RG and getSecret() for the SQL admin password.
+// Reader is control-plane (Microsoft.KeyVault/vaults/read). Secrets User is the secret data plane.
+module pipelineStorageConfigReader 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdStorage)) {
+  name: 'avm-rbac-storage-config-reader'
+  scope: resourceGroup(configResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+  ]
+  params: {
+    principalId: pipelinePrincipalIdStorage
+    roleDefinitionIdOrName: 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // 'Reader'
+    principalType: 'ServicePrincipal'
+    description: 'Storage workload identity — resolve existing Key Vault in the config RG'
+    enableTelemetry: enableTelemetry
+  }
+}
+
 module pipelineStorageKvSecretsUser 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdStorage)) {
   name: 'avm-rbac-storage-kv-secrets-user'
   scope: resourceGroup(configResourceGroupLookup)
@@ -206,13 +228,15 @@ module pipelineStorageKvSecretsUser 'br/public:avm/res/authorization/role-assign
   ]
   params: {
     principalId: pipelinePrincipalIdStorage
-    roleDefinitionIdOrName: 'Key Vault Secrets User'
+    roleDefinitionIdOrName: '4633458b-17de-408a-b874-0445c86b69e6' // 'Key Vault Secrets User'
     principalType: 'ServicePrincipal'
     description: 'Storage workload identity — read SQL admin secrets from config Key Vault'
     enableTelemetry: enableTelemetry
   }
 }
 
+// Special case: API infra CD assigns two data-plane roles to the site MI on the config RG.
+// UAA is not a default workload role. Condition limits write/delete to those two role definition ids.
 module pipelineApiConfigUserAccessAdmin 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdApi)) {
   name: 'avm-rbac-api-config-uaa'
   scope: resourceGroup(configResourceGroupLookup)
@@ -222,9 +246,11 @@ module pipelineApiConfigUserAccessAdmin 'br/public:avm/res/authorization/role-as
   ]
   params: {
     principalId: pipelinePrincipalIdApi
-    roleDefinitionIdOrName: 'User Access Administrator'
+    roleDefinitionIdOrName: '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9' // 'User Access Administrator'
     principalType: 'ServicePrincipal'
-    description: 'API workload identity — grant site MI App Config / Key Vault data-plane roles'
+    condition: apiConfigRoleAssignmentCondition
+    conditionVersion: '2.0'
+    description: 'API workload identity — assign only App Configuration Data Reader and Key Vault Secrets User on the config RG'
     enableTelemetry: enableTelemetry
   }
 }
@@ -238,7 +264,7 @@ module pipelineApiConfigReader 'br/public:avm/res/authorization/role-assignment/
   ]
   params: {
     principalId: pipelinePrincipalIdApi
-    roleDefinitionIdOrName: 'Reader'
+    roleDefinitionIdOrName: 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // 'Reader'
     principalType: 'ServicePrincipal'
     description: 'API workload identity — resolve existing Key Vault and App Configuration'
     enableTelemetry: enableTelemetry
@@ -254,7 +280,7 @@ module pipelineApiMonitoringReader 'br/public:avm/res/authorization/role-assignm
   ]
   params: {
     principalId: pipelinePrincipalIdApi
-    roleDefinitionIdOrName: 'Reader'
+    roleDefinitionIdOrName: 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // 'Reader'
     principalType: 'ServicePrincipal'
     description: 'API workload identity — resolve existing Application Insights'
     enableTelemetry: enableTelemetry

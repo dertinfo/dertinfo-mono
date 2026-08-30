@@ -38,6 +38,7 @@ The subscription SP has User Access Administrator on the whole subscription. Usi
 ## Any remaining issues that we may wish to address
 
 - Operator must run the master script for `development` (then `production`), paste client ids and principal ids, and rename `AZURE_ENTRA_OIDC_TENANTID_SUBSCRIPTION` to `AZURE_ENTRA_OIDC_TENANTID`.
-- Re-run subscription infra CD after the principal ids are set so RG role assignments exist, then test a workload infra CD (for example config).
+- Re-run subscription infra CD after the principal ids are set so RG role assignments exist (storage: Reader + Key Vault Secrets User on config; API: Reader on config and monitoring, conditioned UAA on config), then test a workload infra CD (for example config).
+- API UAA on the config RG is now conditioned (App Configuration Data Reader + Key Vault Secrets User only). Incremental ARM does not drop leftover unconstrained UAA or all-RG Contributor from the old single-`pipelinePrincipalId` loop — remove those assignments in Azure if they remain.
 - Functions still has no new-stack resource group; `CLIENTID_WORKLOAD_FUNCTIONS` is created for Src CD later.
 - Web/app Src CD still use SWA tokens; their Entra apps exist for later infra.

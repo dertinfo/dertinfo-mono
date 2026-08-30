@@ -17,7 +17,7 @@ param workloadParts = [
   'api'
   'monitoring'
 ]
-param pipelineRoleDefinitionIdOrName = 'Contributor'
+param pipelineRoleDefinitionIdOrName = 'b24988ac-6180-42a0-ab88-20f7382dd24c' // 'Contributor'
 param allowedResourceTypes = [
   'Microsoft.Web/staticSites'
   'Microsoft.Web/serverfarms'
