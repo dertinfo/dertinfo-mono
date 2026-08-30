@@ -1,4 +1,4 @@
-name: Functions src CD
+name: Functions Src CD
 
 on:
   push:

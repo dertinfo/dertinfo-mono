@@ -1,4 +1,4 @@
-name: Web src CI
+name: Web Src CI
 
 on:
   pull_request:

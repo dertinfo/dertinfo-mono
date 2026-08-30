@@ -1,4 +1,4 @@
-name: API src CD
+name: API Src CD
 
 on:
   push:
