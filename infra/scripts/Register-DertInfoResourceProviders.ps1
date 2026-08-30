@@ -3,8 +3,7 @@
   Register the Azure resource providers required by new-stack workload Bicep.
 
 .DESCRIPTION
-  Runs az provider register for each namespace in resourceProvidersToRegister
-  (infra/bicep/subscription/main.shared.bicepparam). Idempotent. Does not wait
+  Runs az provider register for each namespace. Idempotent. Does not wait
   for every region to finish; ARM allows creates while a provider is Registering.
 
   Subscription CD registers the same list before az deployment sub create.
@@ -30,8 +29,7 @@ function Assert-AzCli {
 
 Assert-AzCli
 
-# Keep in sync with resourceProvidersToRegister in
-# infra/bicep/subscription/main.shared.bicepparam
+# Keep in sync with reusable-infra-deploy-bicep-subscription.yml
 $namespaces = @(
   'Microsoft.AppConfiguration'
   'Microsoft.Authorization'

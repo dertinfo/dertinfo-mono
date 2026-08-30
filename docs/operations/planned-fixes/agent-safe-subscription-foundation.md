@@ -31,7 +31,7 @@ updated: 2026-08-15
 3. Apply federated credentials (script uses [`infra/configuration/`](../../../infra/configuration/)); set GitHub Environment variables (see below).
 4. Configure required reviewers on both Environments (see below).
 5. Create **per-workload** Entra apps via [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1) (one Environment at a time). Paste `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_*` and `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_*` onto that GitHub Environment. Do **not** use the subscription SP for workload deploys.
-6. Run [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) (push to `main` under `infra/bicep/subscription/**` or `workflow_dispatch` with target `full`). That pipeline **registers `resourceProvidersToRegister` on the subscription**, then deploys `main.dev.bicepparam` and, upon review approval, `main.prod.bicepparam` (or target `dev-only` to deploy only to development). See [CI/CD](../../technical/infra/cicd.md).
+6. Run [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) (push to `main` under `infra/bicep/subscription/**` or `workflow_dispatch` with target `full`). That pipeline **registers resource providers on the subscription** (list in the reusable workflow, not in Bicep), then deploys `main.dev.bicepparam` and, upon review approval, `main.prod.bicepparam` (or target `dev-only` to deploy only to development). See [CI/CD](../../technical/infra/cicd.md).
 7. Verify: policy deny (disallowed SKU); RG workflow can deploy allowed resources with the restricted identity.
 8. Unpark estate / workload Bicep planned fixes only after verification.
 
@@ -59,7 +59,7 @@ Threat model detail: [github-workflows-security-review.md](../security/github-wo
 | Channel | Who | Scope | How |
 |---------|-----|-------|-----|
 | Create empty subscription | Tenant administrator | Billing / portal | Manual — not automated in this repo |
-| Subscription foundation | Privileged **per-Environment** subscription SP (OIDC) | That Environment’s subscription | GitHub Actions → register `resourceProvidersToRegister` then `az deployment sub create` |
+| Subscription foundation | Privileged **per-Environment** subscription SP (OIDC) | That Environment’s subscription | GitHub Actions → register resource providers (pipeline list, not Bicep) then `az deployment sub create` |
 | Workload infra / Src CD | Per-workload SP (OIDC) | That part’s resource group (Contributor). Storage also gets **Reader** + **Key Vault Secrets User** on the config RG. API also gets **Reader** on config and monitoring, plus **conditioned** UAA on the config RG only (may assign App Configuration Data Reader and Key Vault Secrets User only) | GitHub Actions → `az deployment group create` or zip deploy; identity is `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` |
 
 Agents author Bicep via PRs; they do not authenticate as the subscription SP locally for day-to-day work.

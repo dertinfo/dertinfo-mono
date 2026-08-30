@@ -69,7 +69,7 @@ jobs:
 
       # Workload SPs are RG Contributor only and cannot register providers.
       # ARM auto-register only covers types in *this* template (RGs, policy, RBAC).
-      # Keep in sync with resourceProvidersToRegister in main.shared.bicepparam
+      # Keep in sync with Register-DertInfoResourceProviders.ps1
       - name: Register workload resource providers
         run: |
           set -euo pipefail

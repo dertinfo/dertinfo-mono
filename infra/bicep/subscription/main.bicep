@@ -89,9 +89,6 @@ param allowedSqlDatabaseSkus array = [
 @description('Disable AVM telemetry.')
 param enableTelemetry bool = false
 
-@description('Resource provider namespaces required by workload Bicep. Values come from main.shared.bicepparam. ARM cannot PUT-register providers; subscription CD (or Register-DertInfoResourceProviders.ps1) registers this list. Workload SPs cannot.')
-param resourceProvidersToRegister array
-
 // #####################################################
 // Variables
 // #####################################################
@@ -155,11 +152,6 @@ var apiConfigRoleAssignmentCondition = '((!(ActionMatches{\'Microsoft.Authorizat
 // #####################################################
 // Resources
 // #####################################################
-
-// Resource providers: param resourceProvidersToRegister. Registration is
-// POST-only (az provider register). ARM has no deployable PUT. Subscription
-// CD registers the list before this template runs so RG-scoped workload
-// identities (Contributor on one RG) can deploy.
 
 // #####################################################
 // Modules
@@ -306,4 +298,3 @@ output location string = location
 output allowedResourceTypesAssignmentId string = policyModule.outputs.allowedResourceTypesAssignmentId
 output appServiceSkuAssignmentId string = policyModule.outputs.appServiceSkuAssignmentId
 output sqlSkuAssignmentId string = policyModule.outputs.sqlSkuAssignmentId
-output resourceProvidersToRegister array = resourceProvidersToRegister

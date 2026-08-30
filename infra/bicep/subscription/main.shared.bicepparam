@@ -66,18 +66,6 @@ param allowedSqlDatabaseSkus = [
   'Basic'
 ]
 param enableTelemetry = false
-param resourceProvidersToRegister = [
-  'Microsoft.AppConfiguration'
-  'Microsoft.Authorization'
-  'Microsoft.Insights'
-  'Microsoft.KeyVault'
-  'Microsoft.ManagedIdentity'
-  'Microsoft.OperationalInsights'
-  'Microsoft.Security'
-  'Microsoft.Sql'
-  'Microsoft.Storage'
-  'Microsoft.Web'
-]
 // PLACEHOLDER — Entra object ids of workload SPs; supply via CLI / pipeline override
 param pipelinePrincipalIdConfig = ''
 param pipelinePrincipalIdMonitoring = ''
