@@ -31,7 +31,7 @@ updated: 2026-08-15
 3. Apply federated credentials (script uses [`infra/configuration/`](../../../infra/configuration/)); set GitHub Environment variables (see below).
 4. Configure required reviewers on both Environments (see below).
 5. Optionally create a second SP for **RG-scoped** workload deploys; set `AZURE_ENTRA_OIDC_PRINCIPALID_RG` so subscription Bicep can grant it Contributor on each RG.
-6. Run [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) (`workflow_dispatch` or push to `main` under `infra/bicep/subscription/**`) to deploy `main.dev.bicepparam` / `main.prod.bicepparam`.
+6. Run [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) (push to `main` under `infra/bicep/subscription/**` or `workflow_dispatch` with target `full`) to deploy `main.dev.bicepparam` and, upon review approval, `main.prod.bicepparam` (or target `dev-only` to deploy only to development).
 7. Verify: policy deny (disallowed type/SKU); RG workflow can deploy allowed resources with the restricted identity.
 8. Unpark estate / workload Bicep planned fixes only after verification.
 
@@ -70,7 +70,7 @@ Agents author Bicep via PRs; they do not authenticate as the subscription SP loc
 
 | Workflow | Role |
 |----------|------|
-| [`.github/workflows/subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml) | Caller: `workflow_dispatch` (dev/prod) and push to `main` for subscription path changes (deploys **dev**) |
+| [`.github/workflows/subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml) | Caller: `push` to `main` (auto dev $\rightarrow$ gated prod) and `workflow_dispatch` (target `full` or `dev-only`) |
 | [`.github/workflows/reusable-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-deploy-bicep-subscription.yml) | Reusable: OIDC login + `az deployment sub create` |
 
 ### Environment variables (per GitHub Environment)
