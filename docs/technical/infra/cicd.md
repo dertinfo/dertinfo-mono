@@ -76,7 +76,7 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 | `subscription-infra-cd.yml` | Subscription | Privileged SP **per Environment**; RGs + policy — [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) |
 | `config-infra-cd.yml` | `rg-<env>-dertinfo-config-uks` | Key Vault + App Configuration |
 | `monitoring-infra-cd.yml` | `rg-<env>-dertinfo-monitoring-uks` | Log Analytics (1 GB/day) + Application Insights |
-| `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; SQL when `prerequisitesExist` is true in the param file |
+| `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; SQL when `prerequisitesExist` is true in the param file (needs Reader + Key Vault Secrets User on the config RG) |
 | `api-infra-cd.yml` | `rg-<env>-dertinfo-api-uks` | Windows App Service when `prerequisitesExist` is true in the param file |
 
 Bicep house rules: [Bicep standards](../standards/bicep/). Operator scripts: [`infra/scripts/`](../../../infra/scripts/).
