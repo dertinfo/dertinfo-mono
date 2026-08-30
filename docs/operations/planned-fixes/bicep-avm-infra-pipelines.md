@@ -20,17 +20,18 @@ Conventions for Bicep (naming inside resources, parameter style, secrets handlin
 
 ## Workloads and paths
 
-| Part | Path (planned) | Resources (planned) |
-|------|----------------|---------------------|
-| config | `apps/dertinfo-config/infra/bicep/` | Key Vault, App Configuration |
-| storage | `apps/dertinfo-storage/infra/bicep/` | Images Storage Account, Azure SQL |
-| web | `apps/dert-web/infra/bicep/` | Static Web App |
-| app | `apps/dert-app/infra/bicep/` | Static Web App |
-| api | `apps/dert-api/infra/bicep/` | App Service Plan + Web App (Windows / current `win-x86` CD) |
+| Part | Path | Resources |
+|------|------|-----------|
+| config | [`infra/bicep/config/`](../../../infra/bicep/config/) | Key Vault, App Configuration |
+| monitoring | [`infra/bicep/monitoring/`](../../../infra/bicep/monitoring/) | Log Analytics (1 GB/day cap), Application Insights |
+| storage | [`infra/bicep/storage/`](../../../infra/bicep/storage/) | Images Storage Account, Azure SQL (gated) |
+| api | [`infra/bicep/api/`](../../../infra/bicep/api/) | App Service Plan + Web App (Windows / `win-x86` CD) |
+| web | (later) | Static Web App |
+| app | (later) | Static Web App |
 
 Target RGs: `rg-<env>-dertinfo-<part>-uks` — see [azure-estate-dev-prd.md](azure-estate-dev-prd.md).
 
-Suggested deploy order: **config → storage → api → web / app**.
+Suggested deploy order: **config + monitoring → storage → api → web / app**. Storage and API use `prerequisitesExist` so they succeed if run early.
 
 ---
 

@@ -1,21 +1,14 @@
-name: API CI
+name: API src CI
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'apps/dert-api/**'
-      - 'packages/**'
-      - 'dertinfo.sln'
-      - 'Directory.Build.props'
-      - '.github/workflows/api-ci.yml'
   pull_request:
+    branches: [main]
     paths:
       - 'apps/dert-api/**'
       - 'packages/**'
       - 'dertinfo.sln'
       - 'Directory.Build.props'
-      - '.github/workflows/api-ci.yml'
+      - '.github/workflows/api-src-ci.yml'
 
 jobs:
   build:

@@ -1,0 +1,67 @@
+name: Storage infra CD
+
+# Deploys infra/bicep/storage at RG scope (images Storage Account always; SQL when prerequisites exist).
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Deployment target'
+        required: true
+        type: choice
+        default: full
+        options:
+          - full
+          - dev-only
+      prerequisites_override:
+        description: 'SQL prerequisite handling'
+        required: true
+        type: choice
+        default: auto
+        options:
+          - auto
+          - true
+          - false
+  push:
+    branches:
+      - main
+    paths:
+      - 'infra/bicep/storage/**'
+      - '.github/workflows/storage-infra-cd.yml'
+      - '.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml'
+
+jobs:
+  deploy-dev:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.target == 'full' || inputs.target == 'dev-only'))
+    permissions:
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml
+    with:
+      environment: development
+      resource_group: rg-dev-dertinfo-storage-uks
+      template_path: infra/bicep/storage/main.bicep
+      parameters_path: infra/bicep/storage/main.dev.bicepparam
+      location: uksouth
+      detect_prerequisites: true
+      prerequisites_kind: storage
+      prerequisites_override: ${{ github.event_name == 'workflow_dispatch' && inputs.prerequisites_override || 'auto' }}
+    secrets: inherit
+
+  deploy-prod:
+    needs: deploy-dev
+    if: (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'full')) && needs.deploy-dev.result == 'success'
+    permissions:
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml
+    with:
+      environment: production
+      resource_group: rg-prd-dertinfo-storage-uks
+      template_path: infra/bicep/storage/main.bicep
+      parameters_path: infra/bicep/storage/main.prod.bicepparam
+      location: uksouth
+      detect_prerequisites: true
+      prerequisites_kind: storage
+      prerequisites_override: ${{ github.event_name == 'workflow_dispatch' && inputs.prerequisites_override || 'auto' }}
+    secrets: inherit

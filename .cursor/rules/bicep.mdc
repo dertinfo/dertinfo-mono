@@ -37,5 +37,6 @@ main.prod.bicepparam        # using 'main.bicep' + extends './main.shared.bicepp
 - Leaf files override only what differs per environment.
 - **Never** commit secrets or identifiable estate ids (subscription ids, principal ids, passwords). Declare empty `// SECRET` / `// PLACEHOLDER` values; inject via pipeline or CLI.
 - Prefer not duplicating full param lists across env files — that is what `extends` is for.
+- Workloads that read another part (`existing` / `getSecret()`) take `prerequisitesExist` (default false). Put those references in a local module that is `if (prerequisitesExist)` so ARM does not resolve missing resources. See [Bicep standards](../../docs/technical/standards/bicep/).
 
 See `docs/operations/planned-fixes/bicep-avm-infra-pipelines.md`.

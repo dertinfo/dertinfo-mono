@@ -2,29 +2,32 @@
 
 How continuous integration and deployment are organised in the DertInfo monorepo.
 
-Completed CD migration work is recorded in the [change log](changelogs/README.md) (see [2026-07-03 GitHub Actions CD pipelines](changelogs/2026-07-03-github-actions-cd-pipelines.md)).
+Completed CD migration work is recorded in the [change log](changelogs/README.md) (see [2026-07-03 GitHub Actions CD pipelines](changelogs/2026-07-03-001-github-actions-cd-pipelines.md)).
 
 ## Overview
 
 | Concern | Workflows | Trigger |
 |---------|-----------|---------|
-| **CI** (build, test, lint) | `*-ci.yml` | `main`, `develop`, pull requests (path-filtered) |
-| **CD** (deploy + Docker Hub) | `*-cd.yml` | `main` only (path-filtered) |
+| **CI** (build, test, lint) | `*-src-ci.yml` | Pull requests **into `main`** (path-filtered). GitHub Flow — no `develop` branch. |
+| **Src CD** (app deploy + Docker Hub) | `*-src-cd.yml` | Push to **`main`** after merge (path-filtered) |
+| **Infra CD** (Bicep) | `*-infra-cd.yml` | Push to **`main`** after merge (path-filtered) |
 
-CD workflows replace the per-app Azure DevOps pipelines under `apps/*/pipelines/`. Each `*-cd.yml` merges the former **source deploy** and **Docker Hub** pipelines into one workflow.
+Src CD workflows replace the per-app Azure DevOps pipelines under `apps/*/pipelines/`. Each `*-src-cd.yml` merges the former **source deploy** and **Docker Hub** pipelines into one workflow.
 
 Legacy ADO definitions remain in the repo as reference until GitHub Actions is validated in production use.
 
 ## Environments
 
-GitHub Environments use **`test`** and **`prod`** to align with Azure infrastructure naming.
+**New stack** (this monorepo) uses GitHub Environments **`development`** and **`production`**, matching Azure tags `dev` / `prd`. Live traffic today is still deployed from **separate repositories + Azure DevOps**; these Environments are the GitHub Actions + Bicep path.
 
-| GitHub Environment | ADO stage | Azure subscription (from ADO) |
-|--------------------|-----------|-------------------------------|
-| `test` | `Test` | Visual Studio Professional Subscription |
-| `prod` | `Live` | DertInfo Subscription *(not wired yet)* |
+| GitHub Environment | Azure tag | Typical RG prefix |
+|--------------------|-----------|-------------------|
+| `development` | `dev` | `rg-dev-dertinfo-*-uks` |
+| `production` | `prd` | `rg-prd-dertinfo-*-uks` |
 
-ADO variable suffixes `*_Stg` / `*_Prod` map to `test` / `prod` in GitHub. Azure resource names may still mix `test` and `stg` suffixes from historical deployments — store app/resource names as **environment variables**, not secrets.
+Each Environment has its **own** Entra app (OIDC) and subscription id. Both require approval from `dertinfo` or `davidsmonkeys` before deploy jobs run.
+
+OIDC and naming for the older ADO-mapped `test` / `prod` Environments are historical; new workflows do not use them. See [GitHub Actions OIDC](../guides/github-azure-federated-credentials.md).
 
 ### ADO → GitHub mapping
 
@@ -48,40 +51,44 @@ Naming follows `[SERVICEPROVIDER]_[SERVICETYPE]_[WORKLOADNAME]_[DESCRIPTION]_[TA
 | Secret | `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_PRD` | `live_deployment_token` |
 | Secret | `AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_PRD` | `live_deployment_token` |
 
-Reusable deploy workflows accept an `environment` input (`test` \| `prod`) so production jobs can be added later without restructuring.
+Reusable deploy workflows accept an `environment` input (`development` \| `production`).
 
 Callers that use reusable workflows and need repository secrets must set `secrets: inherit` (or pass secrets explicitly). Secrets are not available inside `workflow_call` jobs by default.
 
 ## Workflows
 
-### Reusable templates (`.github/workflows/reusable-*.yml`)
+### Reusable templates (`.github/workflows/reusable-src-*.yml` / `reusable-infra-*.yml`)
 
 GitHub requires reusable workflows at the **top level** of `.github/workflows/` (not in a subfolder).
 
 | Workflow | Purpose |
 |----------|---------|
-| `reusable-build-push-docker.yml` | Build and push to Docker Hub (`latest-test` / `{run_id}-test` for `test`; `latest` / `{run_id}` for `prod`) |
-| `reusable-deploy-dotnet-appservice.yml` | OIDC login + zip/folder deploy to App Service |
-| `reusable-deploy-static-web-app.yml` | Deploy to Azure Static Web Apps |
-| `reusable-deploy-bicep-resourcegroup.yml` | OIDC + `az deployment group create` (workload infra) |
-| `reusable-deploy-bicep-subscription.yml` | OIDC + `az deployment sub create` (subscription foundation) |
+| `reusable-src-build-push-docker.yml` | Build and push to Docker Hub (`latest-dev` / `{run_id}-dev` for `development`; `latest` / `{run_id}` for `production`) |
+| `reusable-src-deploy-dotnet-appservice.yml` | OIDC login + zip/folder deploy to App Service |
+| `reusable-src-deploy-static-web-app.yml` | Deploy to Azure Static Web Apps |
+| `reusable-infra-deploy-bicep-resourcegroup.yml` | OIDC + `az deployment group create` (workload infra) |
+| `reusable-infra-deploy-bicep-subscription.yml` | OIDC + `az deployment sub create` (subscription foundation) |
 
 ### Infrastructure CD
 
 | Workflow | Scope | Notes |
 |----------|-------|-------|
-| `subscription-infra-cd.yml` | Subscription | Privileged SP **per Environment**; Environments `development` / `production` — see [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) and [OIDC security review](../../operations/security/github-workflows-security-review.md) |
+| `subscription-infra-cd.yml` | Subscription | Privileged SP **per Environment**; RGs + policy — [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) |
+| `config-infra-cd.yml` | `rg-<env>-dertinfo-config-uks` | Key Vault + App Configuration |
+| `monitoring-infra-cd.yml` | `rg-<env>-dertinfo-monitoring-uks` | Log Analytics (1 GB/day) + Application Insights |
+| `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; SQL when `prerequisitesExist` |
+| `api-infra-cd.yml` | `rg-<env>-dertinfo-api-uks` | Windows App Service when `prerequisitesExist` |
 
-App CD Environments remain `test` / `prod` today; subscription foundation uses `development` / `production` to match env tags `dev` / `prd`. Each new-stack Environment has its **own** Entra app (client) id and subscription id — do not share one SP across both. Both Environments require approval from either `dertinfo` or `davidsmonkeys` before deploy jobs run. Operator scripts: [`infra/scripts/`](../../../infra/scripts/).
+Bicep house rules: [Bicep standards](../standards/bicep/). Operator scripts: [`infra/scripts/`](../../../infra/scripts/).
 
-### Per-app CD
+### Per-app src CD
 
 | Workflow | Build | Docker image | Deploy target |
 |----------|-------|--------------|---------------|
-| `api-cd.yml` | .NET `win-x86` publish + unit tests | `dertinfo/dertinfo-api` | API App Service (`test`) |
-| `web-cd.yml` | SWA Oryx build | `dertinfo/dertinfo-web` | Static Web App (`test`) |
-| `app-cd.yml` | SWA Oryx build | `dertinfo/dertinfo-app` | Static Web App (`test`) |
-| `functions-cd.yml` | .NET publish | `dertinfo/dertinfo-imageresizev4` | Function App (`test`) |
+| `api-src-cd.yml` | .NET `win-x86` publish; unit tests **gate** deploy | `dertinfo/dertinfo-api` | New-stack API App Service (`development` then gated `production`) |
+| `web-src-cd.yml` | SWA Oryx build | `dertinfo/dertinfo-web` | Static Web App (`development` / `production`) — needs SWA tokens |
+| `app-src-cd.yml` | SWA Oryx build | `dertinfo/dertinfo-app` | Static Web App (`development` / `production`) — needs SWA tokens |
+| `functions-src-cd.yml` | .NET publish | `dertinfo/dertinfo-imageresizev4` | Function App (`development` / `production`) — needs Function resource |
 
 Docker images are for **local development** (root `docker-compose.yml`, Codespaces). Hosted Azure deployments use native App Service / SWA deploy, not containers.
 
@@ -89,14 +96,24 @@ Docker images are for **local development** (root `docker-compose.yml`, Codespac
 
 Complete these steps in the GitHub repository **before the first CD run**.
 
+### 0. Protect `main` (GitHub Flow)
+
+CI on a PR does not block merge by itself. On `main`, require a pull request and require the relevant `*-src-ci.yml` job names to pass (and be up to date) before merge.
+
+Path-filtered CI jobs are **skipped** when the PR does not touch those paths. Prefer a ruleset that treats skipped checks as non-blocking, or do not mark a path-specific job as required unless every PR is expected to run it.
+
+Branching rule: [`.cursor/rules/github-flow.mdc`](../../../.cursor/rules/github-flow.mdc). Guide: [Contributing workflow](../guides/contributing-workflow.md).
+
 ### 1. Create GitHub Environments
 
-- **`test`** — required now
-- **`prod`** — optional; create when ready for production cutover
+- **`development`** and **`production`** — required for new-stack infra and app CD
+- Set Environment-scoped `AZURE_ENTRA_OIDC_CLIENTID`, `AZURE_ENTRA_OIDC_TENANTID`, `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID`
+- Set `AZURE_WEBAPP_API_RESOURCENAME` = `app-<env>-dertinfo-api-uks` after API infra exists
+- SWA tokens: `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV` / `_PRD` (and the `APP` equivalents) when those sites exist
 
 ### 2. Azure OIDC (recommended)
 
-GitHub Actions signs in to Azure with **OIDC federated credentials** (no client secret). The token **subject must match the job’s GitHub Environment** (for example `repo:dertinfo/dertinfo-mono:environment:test`), not only a branch ref.
+GitHub Actions signs in to Azure with **OIDC federated credentials** (no client secret). The token **subject must match the job’s GitHub Environment** (for example `repo:dertinfo/dertinfo-mono:environment:development`), not only a branch ref.
 
 **New-stack Environments (`development` / `production`):** apply the checked-in JSON in [`infra/configuration/`](../../../infra/configuration/) via [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1) (or manually) as described in [GitHub Actions OIDC to Azure](../guides/github-azure-federated-credentials.md). Use a **separate** Entra app registration per Environment; set that Environment’s `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` to the matching client id.
 

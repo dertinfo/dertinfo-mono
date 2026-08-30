@@ -8,7 +8,7 @@ Deferred work after GitHub Actions CD is stable on the **`test`** environment.
 
 - **Passing:** `dertinfo-api.utests` (17), `dertinfo-services.utests` (19), `dertinfo-repository.utests` (2) — repository fixture updated to use a valid `Group` entity for EF Core in-memory nullability.
 
-Unit tests run in a separate **`unit-test`** job in [`api-ci.yml`](../../.github/workflows/api-ci.yml) and [`api-cd.yml`](../../.github/workflows/api-cd.yml). CI passes build artefacts (`bin`/`obj`) from the **build** job for `--no-build` test runs. CD unit tests build test projects in parallel with the Windows publish job.
+Unit tests run in a separate **`unit-test`** job in [`api-src-ci.yml`](../../.github/workflows/api-src-ci.yml) and [`api-src-cd.yml`](../../.github/workflows/api-src-cd.yml). CI passes build artefacts (`bin`/`obj`) from the **build** job for `--no-build` test runs. CD unit tests build test projects in parallel with the Windows publish job.
 
 Fix the repository fixture, then gate deploy on `unit-test` if desired.
 
@@ -20,7 +20,7 @@ Fix the repository fixture, then gate deploy on `unit-test` if desired.
 ### When complete
 
 - Enable `integration-test` jobs and add SQL Server to CI.
-- Optionally require `unit-test` (and later `integration-test`) before `deploy-test` in `api-cd.yml`.
+- Optionally require `unit-test` (and later `integration-test`) before `deploy-test` in `api-src-cd.yml`.
 
 ## 1. Upgrade dert-app to Angular 14
 
@@ -78,11 +78,24 @@ The current SWA + Oryx build path remains until this review completes.
 
 ## 5. Production CD on GitHub Actions
 
-- Wire `prod` environment jobs in each `*-cd.yml` (or separate promotion workflow)
+- Wire `prod` environment jobs in each `*-src-cd.yml` (or separate promotion workflow)
 - Add GitHub Environment protection rules (required reviewers, wait timers)
 - Map `*_PRD` variables/secrets and prod subscription OIDC variables on GitHub environment `prod`
 
-## 6. ADO decommission
+## 6. API App Service: Windows x86 → Linux
+
+New-stack API infra is **Windows** + `win-x86` publish so it matches today’s API src CD ([`infra/bicep/api/`](../../../infra/bicep/api/), [`api-src-cd.yml`](../../../.github/workflows/api-src-cd.yml)).
+
+Later, move to **Linux** App Service for cost and interoperability (portable RID, simpler containers, Linux SKU options):
+
+- Publish as `linux-x64` (or framework-dependent Linux); drop `win-x86` and the 32-bit worker setting
+- Change API Bicep to a Linux plan (`reserved: true` / Linux `kind`)
+- Run API CD publish on `ubuntu-latest` instead of `windows-latest`
+- EF migrate-on-start stays valid; no database engine change
+
+Do not mix this with the first new-stack deploy.
+
+## 7. ADO decommission
 
 After one full release cycle on GitHub Actions:
 

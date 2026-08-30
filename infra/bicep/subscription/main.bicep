@@ -40,6 +40,7 @@ param workloadParts array = [
   'web'
   'app'
   'api'
+  'monitoring'
 ]
 
 @description('Entra object id of the GitHub Actions infra deploy identity. Leave empty to skip role assignments.')
@@ -48,28 +49,8 @@ param pipelinePrincipalId string = ''
 @description('Role definition id or name for the pipeline identity on each RG (Contributor by default).')
 param pipelineRoleDefinitionIdOrName string = 'Contributor'
 
-@description('Resource types allowed by Azure Policy (Deny).')
-param allowedResourceTypes array = [
-  'Microsoft.Web/staticSites'
-  'Microsoft.Web/serverfarms'
-  'Microsoft.Web/sites'
-  'Microsoft.Web/sites/config'
-  'Microsoft.Web/sites/basicPublishingCredentialsPolicies'
-  'Microsoft.Sql/servers'
-  'Microsoft.Sql/servers/databases'
-  'Microsoft.Sql/servers/firewallRules'
-  'Microsoft.Storage/storageAccounts'
-  'Microsoft.Storage/storageAccounts/blobServices'
-  'Microsoft.Storage/storageAccounts/blobServices/containers'
-  'Microsoft.KeyVault/vaults'
-  'Microsoft.AppConfiguration/configurationStores'
-  'Microsoft.Insights/components'
-  'Microsoft.OperationalInsights/workspaces'
-  'Microsoft.Resources/deployments'
-  'Microsoft.Authorization/policyDefinitions'
-  'Microsoft.Authorization/policyAssignments'
-  'Microsoft.Authorization/roleAssignments'
-]
+@description('Resource types allowed by Azure Policy (Deny). Values come from main.shared.bicepparam.')
+param allowedResourceTypes array
 
 @description('App Service plan SKUs allowed by policy (Deny).')
 param allowedAppServicePlanSkus array = [
@@ -102,6 +83,9 @@ var regionTlaByLocation = {
 var regionTla = regionTlaByLocation[location]
 
 var resourceGroupNames = [for part in workloadParts: 'rg-${environmentTag}-${productSlug}-${part}-${regionTla}']
+
+// Lookup of the config part RG created in the resourceGroups loop. Not a name to deploy.
+var configResourceGroupLookup = 'rg-${environmentTag}-${productSlug}-config-${regionTla}'
 
 var resourceGroupTags = {
   environment: environmentTag
@@ -165,6 +149,39 @@ module pipelineRgRoleAssignments 'br/public:avm/res/authorization/role-assignmen
     }
   }
 ]
+
+// Storage infra CD reads SQL admin secrets from Key Vault in the config RG (lookup only).
+module pipelineConfigKvSecretsUser 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalId)) {
+  name: 'avm-rbac-config-kv-secrets-user'
+  scope: resourceGroup(configResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+  ]
+  params: {
+    principalId: pipelinePrincipalId
+    roleDefinitionIdOrName: 'Key Vault Secrets User'
+    principalType: 'ServicePrincipal'
+    description: 'GitHub Actions infra identity — read SQL admin secrets from config Key Vault'
+    enableTelemetry: enableTelemetry
+  }
+}
+
+module pipelineConfigUserAccessAdmin 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalId)) {
+  name: 'avm-rbac-config-uaa'
+  scope: resourceGroup(configResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+  ]
+  params: {
+    principalId: pipelinePrincipalId
+    roleDefinitionIdOrName: 'User Access Administrator'
+    principalType: 'ServicePrincipal'
+    description: 'GitHub Actions infra identity — grant API MI App Config / Key Vault data-plane roles'
+    enableTelemetry: enableTelemetry
+  }
+}
 
 // #####################################################
 // Outputs

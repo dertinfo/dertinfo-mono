@@ -147,8 +147,8 @@ Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE
 
 ## CI/CD
 
-- **CI:** GitHub Actions workflows (`*-ci.yml`) build and test on `main`, `develop`, and pull requests (path-filtered per app).
-- **CD:** GitHub Actions workflows (`*-cd.yml`) deploy to the `test` Azure environment and push Docker images to Docker Hub on pushes to `main` only.
+- **Src CI:** GitHub Actions workflows (`*-src-ci.yml`) build and test on pull requests into `main` (path-filtered per app).
+- **Src CD / infra CD:** `*-src-cd.yml` and `*-infra-cd.yml` deploy on pushes to `main` (GitHub Environments `development` then gated `production`).
 
 See [docs/technical/infra/cicd.md](docs/technical/infra/cicd.md) for workflow inventory, secrets setup, and ADO mapping.
 

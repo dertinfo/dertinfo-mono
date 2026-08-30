@@ -1,19 +1,13 @@
-name: Functions CI
+name: Functions src CI
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'apps/dert-functions/**'
-      - 'dertinfo.sln'
-      - 'Directory.Build.props'
-      - '.github/workflows/functions-ci.yml'
   pull_request:
+    branches: [main]
     paths:
       - 'apps/dert-functions/**'
       - 'dertinfo.sln'
       - 'Directory.Build.props'
-      - '.github/workflows/functions-ci.yml'
+      - '.github/workflows/functions-src-ci.yml'
 
 jobs:
   build:

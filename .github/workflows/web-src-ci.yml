@@ -1,24 +1,19 @@
-name: App CI
+name: Web src CI
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'apps/dert-app/**'
-      - 'package.json'
-      - '.github/workflows/app-ci.yml'
   pull_request:
+    branches: [main]
     paths:
-      - 'apps/dert-app/**'
+      - 'apps/dert-web/**'
       - 'package.json'
-      - '.github/workflows/app-ci.yml'
+      - '.github/workflows/web-src-ci.yml'
 
 jobs:
   build:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: apps/dert-app/src/client
+        working-directory: apps/dert-web/src/client
     steps:
       - uses: actions/checkout@v4
 
@@ -26,7 +21,7 @@ jobs:
         with:
           node-version: '16'
           cache: npm
-          cache-dependency-path: apps/dert-app/src/client/package.json
+          cache-dependency-path: apps/dert-web/src/client/package.json
 
       - name: Install
         run: npm install

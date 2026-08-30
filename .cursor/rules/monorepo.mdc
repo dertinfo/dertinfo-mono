@@ -18,7 +18,7 @@ alwaysApply: true
 1. Full-stack features: API first → shared contracts → frontend(s)
 2. Check cwd before running `dotnet` or `npm` commands
 3. Search for files before guessing paths; do not invent filenames
-4. Follow gitflow: branch + PR to `main`/`develop`; never push directly to protected branches
+4. Follow GitHub Flow: branch from `main`, PR into `main`; never push directly to `main`
 
 ## Boundaries
 - Web and app do not share UI; no shared Angular library unless explicitly requested
@@ -38,4 +38,4 @@ alwaysApply: true
 
 ## Change logs
 - See `docs/operations/changelogs/README.md` and `.cursor/rules/changelogs.mdc`
-- When a chat/workstream is completed: add an index row and a detail page under `docs/operations/changelogs/`
+- When a chat/workstream is completed: add an index row and a detail page `YYYY-MM-DD-NNN-short-slug.md` under `docs/operations/changelogs/`

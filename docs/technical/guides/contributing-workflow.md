@@ -2,39 +2,41 @@
 name: Contributing workflow
 type: guide
 status: active
-updated: 2026-07-26
+updated: 2026-08-30
 ---
 
 # Contributing workflow (branches and PRs)
 
 How contributors branch, raise PRs, and what happens after merge in the **monorepo**.
 
-Adapted from the legacy wiki: [Branching approach for DertInfo](https://github.com/dertinfo/dertinfo/wiki/Branching-approach-for-DertInfo). Prefer this page and [`.cursor/rules/gitflow.mdc`](../../../.cursor/rules/gitflow.mdc) over the wiki where they differ.
+This repo uses [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow): feature branches and PRs into **`main` only**. There is no `develop` integration branch. Cursor rule: [`.cursor/rules/github-flow.mdc`](../../../.cursor/rules/github-flow.mdc).
+
+The legacy wiki [Branching approach for DertInfo](https://github.com/dertinfo/dertinfo/wiki/Branching-approach-for-DertInfo) described gitflow (`develop` / release). Prefer this page where they differ.
 
 ## Branching
 
 - **main** is protected; change it only via pull request.
-- Prefer gitflow-style names: `feature/…`, `hotfix/…`, `release/…` (see gitflow rule). Issue numbers in the name help (`feature/123-short-description`).
-- Older wiki convention used dated prefixes (`feature/20240912-34-…`, `docs/…`, `upgrade/…`). That remains readable if you encounter old branches; new work should follow the monorepo gitflow rule.
+- Name branches `feature/…` or `hotfix/…`. Issue numbers in the name help (`feature/123-short-description`).
+- Older wiki convention used dated prefixes (`feature/20240912-34-…`, `docs/…`, `upgrade/…`). That remains readable if you encounter old branches.
 
 ### Typical flow
 
-1. Update your base branch (`main`, or `develop` when in use): `git pull`.
-2. Create a focused feature branch.
-3. Before opening a PR: merge or rebase the latest base into your branch so the PR is conflict-free.
-4. Open a PR; obtain at least one approving review. CI (build/test) and secret scanning must pass.
+1. Update `main`: `git pull`.
+2. Create a focused branch from `main`.
+3. Before opening a PR: merge or rebase the latest `main` into your branch so the PR is conflict-free.
+4. Open a PR **into `main`**. Path-filtered src CI (`*-src-ci.yml`) runs on the PR head. Required checks must pass before merge.
 
-## After merge (current monorepo)
+## After merge
 
-Delivery is **GitHub Actions**, not Azure DevOps. See [CI/CD](../infra/cicd.md).
+A merge to `main` is a **push**, which starts **CD**. See [CI/CD](../infra/cicd.md).
 
 | Concern | Today |
 |---------|--------|
-| CI | Path-filtered `*-ci.yml` on PRs / branches |
-| CD to test | `*-cd.yml` on `main` → Azure `test` environment + Docker Hub test tags |
-| Production | Deferred / gated — see [planned-fixes/cicd-future-phase](../../operations/planned-fixes/cicd-future-phase.md) |
+| Src CI | Path-filtered `*-src-ci.yml` on pull requests into `main` |
+| Src CD | `*-src-cd.yml` on push to `main` → Environment `development`, then gated `production` |
+| Infra CD | `*-infra-cd.yml` on push to `main` → same Environments |
 
-Hosted apps use Azure Static Web Apps (SPAs) and App Service / Function App (.NET), not containers in staging/production. Docker images support local/dev consumption.
+Hosted apps use Azure Static Web Apps (SPAs) and App Service / Function App (.NET), not containers in Azure. Docker images support local/dev consumption.
 
 ### Historical (wiki / pre-monorepo)
 

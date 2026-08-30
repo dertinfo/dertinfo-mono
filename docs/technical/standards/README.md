@@ -12,5 +12,6 @@ Technology-wide conventions (style, constructs, naming) that apply wherever that
 | Technology | Guide |
 |------------|--------|
 | [Angular](angular/) | Client structure and DertInfo feature pattern (conductor / tracker / repository / resolver) |
+| [Bicep](bicep/) | `infra/bicep` layout, AVM vs local modules, extendable params, `prerequisitesExist` |
 
 Create a new folder under `standards/` when documenting the first house standard for another stack (e.g. .NET).

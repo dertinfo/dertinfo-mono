@@ -15,7 +15,7 @@ on:
       environment:
         required: true
         type: string
-        description: 'test or prod — test tags use a -test suffix so they do not overwrite release tags'
+        description: 'development or production — development tags use a -dev suffix so they do not overwrite release tags'
     secrets:
       DOCKERHUB_TOKEN:
         required: true
@@ -35,15 +35,15 @@ jobs:
         id: tags
         shell: bash
         run: |
-          if [ "${{ inputs.environment }}" = "prod" ]; then
+          if [ "${{ inputs.environment }}" = "production" ]; then
             echo "tags<<EOF" >> "$GITHUB_OUTPUT"
             echo "${{ inputs.image_repository }}:latest" >> "$GITHUB_OUTPUT"
             echo "${{ inputs.image_repository }}:${{ github.run_id }}" >> "$GITHUB_OUTPUT"
             echo "EOF" >> "$GITHUB_OUTPUT"
           else
             echo "tags<<EOF" >> "$GITHUB_OUTPUT"
-            echo "${{ inputs.image_repository }}:latest-test" >> "$GITHUB_OUTPUT"
-            echo "${{ inputs.image_repository }}:${{ github.run_id }}-test" >> "$GITHUB_OUTPUT"
+            echo "${{ inputs.image_repository }}:latest-dev" >> "$GITHUB_OUTPUT"
+            echo "${{ inputs.image_repository }}:${{ github.run_id }}-dev" >> "$GITHUB_OUTPUT"
             echo "EOF" >> "$GITHUB_OUTPUT"
           fi
 
