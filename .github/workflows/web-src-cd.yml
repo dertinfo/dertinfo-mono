@@ -1,0 +1,62 @@
+name: Web Src CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/dert-web/**'
+      - 'package.json'
+      - '.github/workflows/web-src-cd.yml'
+      - '.github/workflows/reusable-src-build-push-docker.yml'
+      - '.github/workflows/reusable-src-deploy-static-web-app.yml'
+
+concurrency:
+  group: web-src-cd
+  cancel-in-progress: true
+
+jobs:
+  docker-dev:
+    uses: ./.github/workflows/reusable-src-build-push-docker.yml
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      environment: development
+      dockerfile: apps/dert-web/Dockerfile
+      context: apps/dert-web
+      image_repository: dertinfo/dertinfo-web
+
+  deploy-dev:
+    uses: ./.github/workflows/reusable-src-deploy-static-web-app.yml
+    secrets: inherit
+    with:
+      environment: development
+      workload: web
+      app_location: apps/dert-web/src/client
+      api_location: apps/dert-web/src/functions
+      output_location: dist
+      build_command: npm run ado-build-ui-test
+      submodules: true
+
+  docker-prod:
+    needs: deploy-dev
+    uses: ./.github/workflows/reusable-src-build-push-docker.yml
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      environment: production
+      dockerfile: apps/dert-web/Dockerfile
+      context: apps/dert-web
+      image_repository: dertinfo/dertinfo-web
+
+  deploy-prod:
+    needs: deploy-dev
+    uses: ./.github/workflows/reusable-src-deploy-static-web-app.yml
+    secrets: inherit
+    with:
+      environment: production
+      workload: web
+      app_location: apps/dert-web/src/client
+      api_location: apps/dert-web/src/functions
+      output_location: dist
+      build_command: npm run ado-build-ui-test
+      submodules: true

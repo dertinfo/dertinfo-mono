@@ -15,9 +15,9 @@ Reusable workflows live at the top level of `.github/workflows/`:
 
 | Workflow | Purpose |
 |----------|---------|
-| `reusable-build-push-docker.yml` | Docker Hub push (`latest-test` / `{run_id}-test` for test) |
-| `reusable-deploy-dotnet-appservice.yml` | OIDC + App Service / Function App zip deploy |
-| `reusable-deploy-static-web-app.yml` | SWA deploy with inherited secrets |
+| `reusable-src-build-push-docker.yml` | Docker Hub push (`latest-test` / `{run_id}-test` for test) |
+| `reusable-src-deploy-dotnet-appservice.yml` | OIDC + App Service / Function App zip deploy |
+| `reusable-src-deploy-static-web-app.yml` | SWA deploy with inherited secrets |
 
 Operational setup (variables, secrets, OIDC, naming) is documented in [`docs/technical/infra/cicd.md`](../../technical/infra/cicd.md). Agent GitHub access is documented in [`docs/technical/infra/github-mcp-setup.md`](../../technical/infra/github-mcp-setup.md). Deferred work remains in [`docs/operations/planned-fixes/cicd-future-phase.md`](../planned-fixes/cicd-future-phase.md).
 

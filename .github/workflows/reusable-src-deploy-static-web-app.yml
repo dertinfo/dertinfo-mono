@@ -42,7 +42,7 @@ jobs:
         if: inputs.api_location != ''
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ inputs.environment == 'prod' && (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_PRD || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_PRD) || (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_STG || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_STG) }}
+          azure_static_web_apps_api_token: ${{ inputs.environment == 'production' && (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_PRD || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_PRD) || (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_DEV) }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
           app_location: ${{ inputs.app_location }}
@@ -54,7 +54,7 @@ jobs:
         if: inputs.api_location == ''
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ inputs.environment == 'prod' && (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_PRD || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_PRD) || (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_STG || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_STG) }}
+          azure_static_web_apps_api_token: ${{ inputs.environment == 'production' && (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_PRD || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_PRD) || (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_DEV) }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
           app_location: ${{ inputs.app_location }}

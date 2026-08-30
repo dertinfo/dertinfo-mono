@@ -12,7 +12,12 @@ When a chat or workstream is **seen through to completion** (outcome delivered, 
 ## Layout
 
 - Index: [`docs/operations/changelogs/README.md`](../../docs/operations/changelogs/README.md)
-- Detail pages: `docs/operations/changelogs/YYYY-MM-DD-short-slug.md` (completion date)
+- Detail pages: `docs/operations/changelogs/YYYY-MM-DD-NNN-short-slug.md`
+  - `YYYY-MM-DD` is the **completion** date
+  - `NNN` is a three-digit sequence **for that date** (`001`, `002`, …) so the file list stays in order when several entries share a day
+  - The first entry on a day is always `001` — do not omit the number
+
+To pick `NNN`, list existing files for that date and use the next number after the highest. The index table is newest first (higher `NNN` above lower `NNN` on the same date).
 
 ## Steps
 
@@ -25,10 +30,11 @@ When a chat or workstream is **seen through to completion** (outcome delivered, 
 ## Detail page sections (required)
 
 1. **Summary of the work completed** — outcome and what changed
-2. **Date the work was started** — `YYYY-MM-DD`
-3. **Date the work was completed** — `YYYY-MM-DD`
-4. **Issues that were encountered on the way** — problems and resolutions
-5. **References to any best practices that we found** — with links
-6. **Any remaining issues that we may wish to address** — follow-ups
+2. **Why the work was completed** — rationale: what we were trying to achieve and why these changes (not a repeat of the summary)
+3. **Date the work was started** — `YYYY-MM-DD`
+4. **Date the work was completed** — `YYYY-MM-DD`
+5. **Issues that were encountered on the way** — problems and resolutions
+6. **References to any best practices that we found** — with links
+7. **Any remaining issues that we may wish to address** — follow-ups
 
 Do not invent dates or PR numbers; use git history and GitHub when unsure.

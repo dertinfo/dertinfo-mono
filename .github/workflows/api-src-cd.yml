@@ -1,4 +1,4 @@
-name: API CD
+name: API Src CD
 
 on:
   push:
@@ -8,12 +8,12 @@ on:
       - 'packages/**'
       - 'dertinfo.sln'
       - 'Directory.Build.props'
-      - '.github/workflows/api-cd.yml'
-      - '.github/workflows/reusable-build-push-docker.yml'
-      - '.github/workflows/reusable-deploy-dotnet-appservice.yml'
+      - '.github/workflows/api-src-cd.yml'
+      - '.github/workflows/reusable-src-build-push-docker.yml'
+      - '.github/workflows/reusable-src-deploy-dotnet-appservice.yml'
 
 concurrency:
-  group: api-cd-test
+  group: api-src-cd
   cancel-in-progress: true
 
 jobs:
@@ -87,25 +87,49 @@ jobs:
       - name: Run integration tests
         run: dotnet test apps/dert-api/src/dertinfo-api.itests/dertinfo-api.itests.csproj --no-build --configuration Release --verbosity normal
 
-  docker:
+  docker-dev:
     needs: build
-    uses: ./.github/workflows/reusable-build-push-docker.yml
+    uses: ./.github/workflows/reusable-src-build-push-docker.yml
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
-      environment: test
+      environment: development
       dockerfile: apps/dert-api/src/dertinfo-api/Dockerfile
       context: apps/dert-api/src
       image_repository: dertinfo/dertinfo-api
 
-  deploy-test:
-    needs: build
+  deploy-dev:
+    needs: [build, unit-test]
     permissions:
       id-token: write
       contents: read
-    uses: ./.github/workflows/reusable-deploy-dotnet-appservice.yml
+    uses: ./.github/workflows/reusable-src-deploy-dotnet-appservice.yml
     with:
-      environment: test
+      environment: development
+      target_app: api
+      package_path: .
+      artifact_name: drop
+      app_type: webApp
+
+  docker-prod:
+    needs: deploy-dev
+    uses: ./.github/workflows/reusable-src-build-push-docker.yml
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      environment: production
+      dockerfile: apps/dert-api/src/dertinfo-api/Dockerfile
+      context: apps/dert-api/src
+      image_repository: dertinfo/dertinfo-api
+
+  deploy-prod:
+    needs: [deploy-dev, build]
+    permissions:
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/reusable-src-deploy-dotnet-appservice.yml
+    with:
+      environment: production
       target_app: api
       package_path: .
       artifact_name: drop

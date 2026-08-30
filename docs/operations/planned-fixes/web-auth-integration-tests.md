@@ -6,7 +6,7 @@
 
 **Related:**
 
-- Changelog: [`docs/operations/changelogs/2026-07-26-web-auth-refresh-warmup.md`](../changelogs/2026-07-26-web-auth-refresh-warmup.md)
+- Changelog: [`docs/operations/changelogs/2026-07-26-001-web-auth-refresh-warmup.md`](../changelogs/2026-07-26-001-web-auth-refresh-warmup.md)
 - Historical silent-auth diagnosis: [`local-silent-auth-localhost.md`](../investigations/local-silent-auth-localhost.md)
 - Warmup race (often coupled to auth’d dashboard load): [`web-warmup-race-condition.md`](../investigations/web-warmup-race-condition.md)
 - Existing Playwright warmup scripts (may need updates): `tests/e2e/web/login/warmup/`

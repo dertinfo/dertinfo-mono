@@ -123,7 +123,7 @@ Enhancement suggestions are tracked as [GitHub issues](/issues).
 
 1. Follow **[First-time setup](README.md#first-time-setup-clone--running-locally)** in the root README (tools, `api.env`, empty SQL database, `npm run doctor` / `start`).
 2. Use the recommended [`infra/dev/runtime.example.json`](infra/dev/runtime.example.json) for website + API work (image resize on, PWA off). Modes and timings: [`infra/dev/README.md`](infra/dev/README.md).
-3. Branch from `develop` (or the current integration branch) per [gitflow](https://nvie.com/posts/a-successful-git-branching-model/); open a focused PR. Never push directly to `main` / `develop`.
+3. Branch from `main` per [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow); open a focused PR into `main`. Never push directly to `main`. CI on the PR must pass before merge.
 4. Run the checks that match your change (`dotnet test`, `npm run web:lint`, etc.) before requesting review.
 
 ### Local run modes (short)

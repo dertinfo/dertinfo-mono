@@ -1,7 +1,7 @@
 name: Deploy Bicep to Azure resource group
 
 # Restricted identity deploys at RG scope only.
-# Subscription foundation uses reusable-deploy-bicep-subscription.yml with a
+# Subscription foundation uses reusable-infra-deploy-bicep-subscription.yml with a
 # separate privileged SP — do not point this workflow at infra/bicep/subscription.
 #
 # Same process for development and production: main.bicep + leaf main.<env>.bicepparam
@@ -57,6 +57,9 @@ jobs:
           client-id: ${{ vars.AZURE_ENTRA_OIDC_CLIENTID }}
           tenant-id: ${{ vars.AZURE_ENTRA_OIDC_TENANTID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID }}
+
+      - name: Ensure Bicep CLI
+        run: az bicep install
 
       - name: Deploy Bicep (resource group)
         env:

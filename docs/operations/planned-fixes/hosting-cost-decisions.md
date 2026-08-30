@@ -87,6 +87,10 @@ Indicative idle Azure bill (both envs, order of magnitude): roughly **£25–40/
 
 ---
 
+## Remaining / follow-up
+
+- **API App Service Linux** — this stack ships Windows + `win-x86` to match current API CD. A later move to Linux (cost and interoperability) is recorded in [cicd-future-phase.md](cicd-future-phase.md). Do not treat year-round Windows as a long-term hosting decision.
+
 ## Out of scope for this planned fix
 
 - Creating RGs or Bicep

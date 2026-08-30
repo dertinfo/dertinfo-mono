@@ -34,7 +34,7 @@ GitHub Environment renames (`test` → `development`) and wider doc renames are 
 |---------|--------|---------|
 | `env` | `dev` \| `prd` | development / production |
 | `dertinfo` | fixed | product slug |
-| `part` | `config` \| `storage` \| `web` \| `app` \| `api` | workload unit (Functions aligned later) |
+| `part` | `config` \| `storage` \| `web` \| `app` \| `api` \| `monitoring` | workload unit (Functions aligned later) |
 | `rgn` | region **TLA** | Short code for Azure region |
 
 ### Region TLAs
@@ -56,16 +56,18 @@ This stack targets **UK South** → suffix **`uks`**, location **`uksouth`**.
 | web | `rg-dev-dertinfo-web-uks` | `rg-prd-dertinfo-web-uks` |
 | app | `rg-dev-dertinfo-app-uks` | `rg-prd-dertinfo-app-uks` |
 | api | `rg-dev-dertinfo-api-uks` | `rg-prd-dertinfo-api-uks` |
+| monitoring | `rg-dev-dertinfo-monitoring-uks` | `rg-prd-dertinfo-monitoring-uks` |
 
 **Intended contents per part** (provisioned later via Bicep — see related planned fix):
 
 | Part | Contents |
 |------|----------|
-| `config` | Key Vault + App Configuration (`apps/dertinfo-config/infra/bicep`) |
-| `storage` | Images Storage Account + Azure SQL (`apps/dertinfo-storage/infra/bicep`) |
-| `web` | Static Web App (`apps/dert-web/infra/bicep`) |
-| `app` | Static Web App (`apps/dert-app/infra/bicep`) |
-| `api` | App Service Plan + Web App (`apps/dert-api/infra/bicep`) |
+| `config` | Key Vault + App Configuration ([`infra/bicep/config/`](../../../infra/bicep/config/)) |
+| `storage` | Images Storage Account + Azure SQL ([`infra/bicep/storage/`](../../../infra/bicep/storage/)) |
+| `web` | Static Web App (Bicep later) |
+| `app` | Static Web App (Bicep later) |
+| `api` | App Service Plan + Web App ([`infra/bicep/api/`](../../../infra/bicep/api/)) |
+| `monitoring` | Log Analytics + Application Insights ([`infra/bicep/monitoring/`](../../../infra/bicep/monitoring/)) |
 
 Functions keep current Bicep/RG naming until a separate alignment pass.
 
@@ -94,7 +96,7 @@ When executing this work, create matching identities (e.g. Entra app / managed i
 
 ## Checklist (when ready to execute)
 
-- [ ] Create the ten resource groups (five parts × `dev` / `prd`) in the appropriate subscriptions, location `uksouth`
+- [ ] Create the twelve resource groups (six parts × `dev` / `prd`) in the appropriate subscriptions, location `uksouth`
 - [ ] Tag RGs consistently (`environment`: `dev` \| `prd`, product, part)
 - [ ] Define and assign **RG-scoped** identities for CI and for agentic infra work (per part or per env as decided during execution)
 - [ ] Document the live estate (names, subscriptions, identities) under `docs/technical/infra/` when done

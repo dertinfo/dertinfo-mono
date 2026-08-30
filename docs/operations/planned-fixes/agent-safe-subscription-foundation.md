@@ -18,7 +18,7 @@ updated: 2026-08-15
 - Empty Azure subscriptions are created by the **tenant administrator** (portal / billing) — Development and Production.
 - Subscription foundation Bicep is deployed via **GitHub Actions** at **subscription scope**, using a **privileged service principal per Environment** (OIDC) that may create RGs, policy, and role assignments.
 - **Isolation:** development and production use **separate** Entra apps/SPs; each has RBAC only on its own subscription (see [why](#identity-isolation)).
-- Subscription policy **denies** resource types and SKUs outside the DertInfo allow-list (SQL **Basic** only for now).
+- Subscription policy **denies** SKUs outside the DertInfo allow-list (SQL **Basic** and App Service F1/D1/B1).
 - Development resource groups exist with naming `rg-dev-dertinfo-<part>-uks`.
 - Workload infra uses a **separate, more restricted** identity at **resource group** scope (`az deployment group create`).
 - Agents do not hold subscription-scope deploy rights; they change infra only via PRs that run these pipelines.
@@ -32,7 +32,7 @@ updated: 2026-08-15
 4. Configure required reviewers on both Environments (see below).
 5. Optionally create a second SP for **RG-scoped** workload deploys; set `AZURE_ENTRA_OIDC_PRINCIPALID_RG` so subscription Bicep can grant it Contributor on each RG.
 6. Run [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) (push to `main` under `infra/bicep/subscription/**` or `workflow_dispatch` with target `full`) to deploy `main.dev.bicepparam` and, upon review approval, `main.prod.bicepparam` (or target `dev-only` to deploy only to development).
-7. Verify: policy deny (disallowed type/SKU); RG workflow can deploy allowed resources with the restricted identity.
+7. Verify: policy deny (disallowed SKU); RG workflow can deploy allowed resources with the restricted identity.
 8. Unpark estate / workload Bicep planned fixes only after verification.
 
 ---
@@ -71,7 +71,7 @@ Agents author Bicep via PRs; they do not authenticate as the subscription SP loc
 | Workflow | Role |
 |----------|------|
 | [`.github/workflows/subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml) | Caller: `push` to `main` (auto dev $\rightarrow$ gated prod) and `workflow_dispatch` (target `full` or `dev-only`) |
-| [`.github/workflows/reusable-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-deploy-bicep-subscription.yml) | Reusable: OIDC login + `az deployment sub create` |
+| [`.github/workflows/reusable-infra-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-infra-deploy-bicep-subscription.yml) | Reusable: OIDC login + `az deployment sub create` |
 
 ### Environment variables (per GitHub Environment)
 
@@ -95,7 +95,7 @@ Both GitHub Environments **`development`** and **`production`** require a review
 
 Configure under **Settings → Environments → [name] → Deployment protection rules → Required reviewers**.
 
-RG-scoped reusable workflow remains [reusable-deploy-bicep-resourcegroup.yml](../../../.github/workflows/reusable-deploy-bicep-resourcegroup.yml) with its own identity vars (`AZURE_ENTRA_OIDC_CLIENTID`, etc.).
+RG-scoped reusable workflow remains [reusable-infra-deploy-bicep-resourcegroup.yml](../../../.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml) with its own identity vars (`AZURE_ENTRA_OIDC_CLIENTID`, etc.).
 
 ---
 
@@ -110,18 +110,18 @@ RG-scoped reusable workflow remains [reusable-deploy-bicep-resourcegroup.yml](..
 
 ## Policy allow-lists (initial)
 
-**Types:** Static Web Apps, App Service plans/sites, SQL server/database, Storage accounts, Key Vault, App Configuration (plus minimal children required to deploy).
+**Types:** Static Web Apps, App Service plans/sites, SQL server/database, Storage accounts, Key Vault (including secrets), App Configuration, Application Insights, Log Analytics (plus children required to deploy).
 
-**SKUs:** SWA Free; App Service F1 / D1 / B1; SQL **Basic only**; Key Vault Standard; Storage Standard_LRS.
+**SKUs:** SWA Free; App Service F1 / D1 / B1; SQL **Basic only**; Key Vault Standard; Storage Standard_LRS; App Configuration Free.
 
 ---
 
 ## Repo paths
 
 - Subscription Bicep: [`infra/bicep/subscription/`](../../../infra/bicep/subscription/)
-- Subscription CD: [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) + [reusable-deploy-bicep-subscription.yml](../../../.github/workflows/reusable-deploy-bicep-subscription.yml)
+- Subscription CD: [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) + [reusable-infra-deploy-bicep-subscription.yml](../../../.github/workflows/reusable-infra-deploy-bicep-subscription.yml)
 - Operator scripts: [`infra/scripts/`](../../../infra/scripts/)
-- RG CD (workload): [reusable-deploy-bicep-resourcegroup.yml](../../../.github/workflows/reusable-deploy-bicep-resourcegroup.yml)
+- RG CD (workload): [reusable-infra-deploy-bicep-resourcegroup.yml](../../../.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml)
 
 ---
 

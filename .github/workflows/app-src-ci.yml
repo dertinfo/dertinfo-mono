@@ -1,17 +1,12 @@
-name: App CI
+name: App Src CI
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'apps/dert-app/**'
-      - 'package.json'
-      - '.github/workflows/app-ci.yml'
   pull_request:
+    branches: [main]
     paths:
       - 'apps/dert-app/**'
       - 'package.json'
-      - '.github/workflows/app-ci.yml'
+      - '.github/workflows/app-src-ci.yml'
 
 jobs:
   build:

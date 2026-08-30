@@ -25,7 +25,7 @@ on:
     paths:
       - 'infra/bicep/subscription/**'
       - '.github/workflows/subscription-infra-cd.yml'
-      - '.github/workflows/reusable-deploy-bicep-subscription.yml'
+      - '.github/workflows/reusable-infra-deploy-bicep-subscription.yml'
 
 jobs:
   deploy-dev:
@@ -33,7 +33,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: ./.github/workflows/reusable-deploy-bicep-subscription.yml
+    uses: ./.github/workflows/reusable-infra-deploy-bicep-subscription.yml
     with:
       environment: development
       parameters_path: infra/bicep/subscription/main.dev.bicepparam
@@ -47,7 +47,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: ./.github/workflows/reusable-deploy-bicep-subscription.yml
+    uses: ./.github/workflows/reusable-infra-deploy-bicep-subscription.yml
     with:
       environment: production
       parameters_path: infra/bicep/subscription/main.prod.bicepparam

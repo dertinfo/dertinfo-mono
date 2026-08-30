@@ -55,14 +55,17 @@ Examples:
 | Variable | `DOCKERHUB_USERNAME` |
 | Secret | `DOCKERHUB_TOKEN` |
 
-Store environment-specific Azure values on the matching GitHub Environment (`test` → `*_STG`, `prod` → `*_PRD`) even when the suffix repeats the environment name — it keeps names self-describing in workflow YAML and logs.
+Store environment-specific Azure values on the matching GitHub Environment (`development` → `*_DEV`, `production` → `*_PRD`). New-stack OIDC on those Environments uses `AZURE_ENTRA_OIDC_CLIENTID` (RG) and `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION` (subscription foundation).
 
 ## Layout
 
-- `*-ci.yml` — build/test on PR and `develop`/`main`
-- `*-cd.yml` — deploy to `test` on `main` only; merge Docker publish + Azure deploy per app
-- `reusable-*.yml` — shared deploy and Docker push templates at `.github/workflows/` top level; accept `environment` input (`test` \| `prod`)
-- Docker Hub tags for `test`: `latest-test` and `{run_id}-test` (never overwrite release `latest` / `{run_id}`)
+- `*-src-ci.yml` — build/test app source on pull requests **into `main`** (path-filtered)
+- `*-src-cd.yml` — app source deploy on push to `main`; Environments `development` then gated `production`
+- `*-infra-cd.yml` — Bicep at subscription or RG scope (`infra/bicep/<part>`)
+- `reusable-src-*.yml` — app source deploy and Docker push templates
+- `reusable-infra-*.yml` — Bicep deploy templates (subscription or resource group)
+- Reusable workflows live at `.github/workflows/` top level; accept `environment` input (`development` \| `production`)
+- Docker Hub tags for `development`: `latest-dev` and `{run_id}-dev` (never overwrite release `latest` / `{run_id}`)
 
 ## Agent access to GitHub
 

@@ -1,6 +1,6 @@
 # Investigation: Local silent auth fails on localhost after group create
 
-**Status:** Resolved (2026-07-26) — website migrated to `@auth0/auth0-angular` with refresh-token renewal (`getAccessTokenSilently`), replacing `auth0-js` silent iframe `/silent`. See changelog [`2026-07-26-web-auth-refresh-warmup.md`](../changelogs/2026-07-26-web-auth-refresh-warmup.md). This page remains as the historical diagnosis of `consent_required` on localhost silent auth.
+**Status:** Resolved (2026-07-26) — website migrated to `@auth0/auth0-angular` with refresh-token renewal (`getAccessTokenSilently`), replacing `auth0-js` silent iframe `/silent`. See changelog [`2026-07-26-001-web-auth-refresh-warmup.md`](../changelogs/2026-07-26-001-web-auth-refresh-warmup.md). This page remains as the historical diagnosis of `consent_required` on localhost silent auth.
 
 **Symptom:** After creating a group locally (`http://localhost:44200`), the create-group modal stays open, the dashboard group list does not refresh, and `GET /api/group` does not run after a successful `POST /api/group/minimal` (201). Production (`https://www.dertinfo.co.uk`) works for the same flow.
 

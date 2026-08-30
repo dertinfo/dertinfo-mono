@@ -143,7 +143,7 @@ When the API runs in **docker** and SQL is **native**, Compose sets `SqlConnecti
 
 Auth0 SPA callback URLs in `appsettings.json` use the fixed local ports (`http://localhost:44200`, `http://localhost:44300`). Register those callbacks in whichever Auth0 tenant you configure via `infra/secrets/api.env`.
 
-Orchestration scripts: [`infra/dev/`](../../../infra/dev/). Estate how-to: [Local development](../guides/local-development.md). Change logs: [`2026-07-25-local-native-dev`](../../operations/changelogs/2026-07-25-local-native-dev.md), [`2026-07-25-hybrid-native-docker-start`](../../operations/changelogs/2026-07-25-hybrid-native-docker-start.md).
+Orchestration scripts: [`infra/dev/`](../../../infra/dev/). Estate how-to: [Local development](../guides/local-development.md). Change logs: [`2026-07-25-local-native-dev`](../../operations/changelogs/2026-07-25-001-local-native-dev.md), [`2026-07-25-hybrid-native-docker-start`](../../operations/changelogs/2026-07-25-002-hybrid-native-docker-start.md).
 
 ## Configuration layers (API)
 

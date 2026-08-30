@@ -70,6 +70,9 @@ logs/
 infra/dev/.pids.json
 infra/dev/runtime.json
 
+# Compiled ARM from az bicep build (templates are the .bicep source)
+infra/bicep/**/*.json
+
 # Local import workspace (used during repo merges)
 _import/
 

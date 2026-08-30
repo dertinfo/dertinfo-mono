@@ -1,16 +1,16 @@
-name: Functions CD
+name: Functions Src CD
 
 on:
   push:
     branches: [main]
     paths:
       - 'apps/dert-functions/**'
-      - '.github/workflows/functions-cd.yml'
-      - '.github/workflows/reusable-build-push-docker.yml'
-      - '.github/workflows/reusable-deploy-dotnet-appservice.yml'
+      - '.github/workflows/functions-src-cd.yml'
+      - '.github/workflows/reusable-src-build-push-docker.yml'
+      - '.github/workflows/reusable-src-deploy-dotnet-appservice.yml'
 
 concurrency:
-  group: functions-cd-test
+  group: functions-src-cd
   cancel-in-progress: true
 
 jobs:
@@ -37,25 +37,49 @@ jobs:
           name: drop
           path: ${{ runner.temp }}/publish
 
-  docker:
+  docker-dev:
     needs: build
-    uses: ./.github/workflows/reusable-build-push-docker.yml
+    uses: ./.github/workflows/reusable-src-build-push-docker.yml
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
     with:
-      environment: test
+      environment: development
       dockerfile: apps/dert-functions/src/dertinfo-image-resize/Dockerfile
       context: apps/dert-functions/src/dertinfo-image-resize
       image_repository: dertinfo/dertinfo-imageresizev4
 
-  deploy-test:
+  deploy-dev:
     needs: build
     permissions:
       id-token: write
       contents: read
-    uses: ./.github/workflows/reusable-deploy-dotnet-appservice.yml
+    uses: ./.github/workflows/reusable-src-deploy-dotnet-appservice.yml
     with:
-      environment: test
+      environment: development
+      target_app: functions
+      package_path: .
+      artifact_name: drop
+      app_type: functionApp
+
+  docker-prod:
+    needs: deploy-dev
+    uses: ./.github/workflows/reusable-src-build-push-docker.yml
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    with:
+      environment: production
+      dockerfile: apps/dert-functions/src/dertinfo-image-resize/Dockerfile
+      context: apps/dert-functions/src/dertinfo-image-resize
+      image_repository: dertinfo/dertinfo-imageresizev4
+
+  deploy-prod:
+    needs: [deploy-dev, build]
+    permissions:
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/reusable-src-deploy-dotnet-appservice.yml
+    with:
+      environment: production
       target_app: functions
       package_path: .
       artifact_name: drop

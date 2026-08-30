@@ -1,17 +1,12 @@
-name: Web CI
+name: Web Src CI
 
 on:
-  push:
-    branches: [main, develop]
-    paths:
-      - 'apps/dert-web/**'
-      - 'package.json'
-      - '.github/workflows/web-ci.yml'
   pull_request:
+    branches: [main]
     paths:
       - 'apps/dert-web/**'
       - 'package.json'
-      - '.github/workflows/web-ci.yml'
+      - '.github/workflows/web-src-ci.yml'
 
 jobs:
   build:

@@ -1,0 +1,29 @@
+---
+description: GitHub Flow branching and PR workflow for DertInfo monorepo
+alwaysApply: true
+---
+
+# GitHub Flow
+
+Follow [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-flow) for all changes. There is no `develop` integration branch.
+
+## Branches
+- **main** — protected; the only long-lived branch; merge only via PR
+- **feature/** — new work (`feature/123-short-description`)
+- **hotfix/** — urgent fix branched from `main` (`hotfix/critical-bug`)
+
+## Rules
+1. Never commit directly to **main** — use a branch and PR
+2. Branch from **main**
+3. Keep PRs focused; one concern per branch where practical
+4. Use clear commit messages; PR title summarizes the change
+5. Do not push secrets; use user secrets, GitHub secrets, or env vars
+
+## CI / CD
+- **Src CI** (`*-src-ci.yml`) runs on pull requests **into `main`**, using the PR head (path-filtered). Required checks on `main` must pass before merge.
+- **Src CD** (`*-src-cd.yml`) and **infra CD** (`*-infra-cd.yml`) run on **push to `main`** after merge. App/infra CD uses GitHub Environments `development` then gated `production`.
+
+## Agent workflow
+- Before git work: confirm the branch is based on **main**
+- Create/switch to an appropriately named branch before edits
+- Summarize impacted apps in PR description (`apps/dert-api`, etc.)
