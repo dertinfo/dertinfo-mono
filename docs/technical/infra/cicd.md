@@ -67,17 +67,19 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 | `reusable-src-deploy-dotnet-appservice.yml` | OIDC login (`azure_oidc_workload` → `CLIENTID_WORKLOAD_*`) + zip/folder deploy to App Service |
 | `reusable-src-deploy-static-web-app.yml` | Deploy to Azure Static Web Apps |
 | `reusable-infra-deploy-bicep-resourcegroup.yml` | OIDC (`azure_oidc_workload` → `CLIENTID_WORKLOAD_*`) + `az deployment group create` (workload infra) |
-| `reusable-infra-deploy-bicep-subscription.yml` | OIDC (`CLIENTID_SUBSCRIPTION`) + `az deployment sub create` (subscription foundation) |
+| `reusable-infra-deploy-bicep-subscription.yml` | OIDC (`CLIENTID_SUBSCRIPTION`) + register resource providers + `az deployment sub create` (subscription foundation) |
 
 ### Infrastructure CD
 
 | Workflow | Scope | Notes |
 |----------|-------|-------|
-| `subscription-infra-cd.yml` | Subscription | Privileged SP **per Environment**; RGs + policy — [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) |
+| `subscription-infra-cd.yml` | Subscription | Privileged SP **per Environment**; **this pipeline registers resource providers on the subscription**, then deploys RGs + policy + RBAC — [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) |
 | `config-infra-cd.yml` | `rg-<env>-dertinfo-config-uks` | Key Vault + App Configuration |
 | `monitoring-infra-cd.yml` | `rg-<env>-dertinfo-monitoring-uks` | Log Analytics (1 GB/day) + Application Insights |
 | `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; SQL when `prerequisitesExist` is true in the param file (needs Reader + Key Vault Secrets User on the config RG) |
 | `api-infra-cd.yml` | `rg-<env>-dertinfo-api-uks` | Windows App Service when `prerequisitesExist` is true in the param file |
+
+**Resource providers:** [`subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml) (via [`reusable-infra-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-infra-deploy-bicep-subscription.yml)) is what applies them to the Azure subscription. After OIDC login it runs `az provider register` for each namespace in `resourceProvidersToRegister` ([`main.shared.bicepparam`](../../../infra/bicep/subscription/main.shared.bicepparam)), then deploys the subscription Bicep. Workload infra CD does not register providers (those identities are RG Contributor only). The Bicep template lists the namespaces; it does not register them (ARM has no PUT for that). Local / break-glass: [`Register-DertInfoResourceProviders.ps1`](../../../infra/scripts/Register-DertInfoResourceProviders.ps1). Keep the bash array in the reusable workflow and the script list in sync with that param.
 
 Bicep house rules: [Bicep standards](../standards/bicep/). Operator scripts: [`infra/scripts/`](../../../infra/scripts/).
 
