@@ -1,5 +1,7 @@
 /*
 Config workload: Key Vault + App Configuration (Free).
+Keys and Key Vault references are applied by operator scripts from
+infra/configuration/app-config.<environment>.json — not this template.
 Deploy: az deployment group create --resource-group rg-<env>-dertinfo-config-uks --template-file main.bicep --parameters main.<env>.bicepparam
 Requires Bicep CLI 0.44.1+.
 */

@@ -11,7 +11,10 @@ Operator scripts for Azure / Entra setup that are not Bicep and not local secret
 | [`Remove-DertInfoWorkloadOidcIdentity.ps1`](Remove-DertInfoWorkloadOidcIdentity.ps1) | Tear down **one** workload identity by app (client) id |
 | [`Register-DertInfoResourceProviders.ps1`](Register-DertInfoResourceProviders.ps1) | Register workload resource providers (local / break-glass; keep in sync with the subscription CD reusable workflow) |
 | [`New-DertInfoSqlEntraGroups.ps1`](New-DertInfoSqlEntraGroups.ps1) | **Before SQL:** create or reuse the two Entra groups; prints GitHub variable names |
-| [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (needs sqlcmd; you must be a SQL Entra admin) |
+| [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (ODBC sqlcmd `-G`; you must be a SQL Entra admin) |
+| [`New-DertInfoConfigKeyVaultSecrets.ps1`](New-DertInfoConfigKeyVaultSecrets.ps1) | **After config KV exists:** prompt for catalog secret names (skip existing unless `-Force`) |
+| [`Export-DertInfoAppConfiguration.ps1`](Export-DertInfoAppConfiguration.ps1) | Export non-secret App Configuration keys to a gitignored JSON dump (`--skip-keyvault`, `--auth-mode login`) |
+| [`Import-DertInfoAppConfiguration.ps1`](Import-DertInfoAppConfiguration.ps1) | Dry-run (or `-Force`) apply catalog `keyValues` (optional dump via `-Path`), then set Key Vault references (`--auth-mode login`) |
 
 ## Why two subscription apps (not one)
 
@@ -79,9 +82,38 @@ Run this **before** SQL exists. It only creates or reuses the two groups. Paste 
 
 ```powershell
 .\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development
+.\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development -UserName 'someone@contoso.com'
 ```
 
+Uses ODBC `sqlcmd -G` (SSMS Microsoft Entra MFA) against the user database, not master. `-UserName` defaults from `az account show`. Needs ODBC 17+ (`-G`); the ODBC 13 `sqlcmd` on PATH is not enough.
+
 Add operators and the App Service MI to the Entra groups later (portal or `az ad group member add`).
+
+## Hosted API Key Vault secrets and App Configuration
+
+Catalog JSON (store, vault, secret **names**, Key Vault references, optional non-secret `keyValues` — never secret values): [`infra/configuration/app-config.development.json`](../configuration/app-config.development.json) / [`app-config.production.json`](../configuration/app-config.production.json). Pass `-ConfigFile` to use another file; the scripts do not need editing per Environment.
+
+After config infra CD has created the vault, copy the example secrets file, fill empty values, then load them into Key Vault:
+
+```powershell
+Copy-Item ..\configuration\kv-secrets.development.json.example `
+  ..\configuration\kv-secrets.development.json
+# Edit the secrets JSON, then:
+.\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
+```
+
+The script reads values from `kv-secrets.<environment>.json` (gitignored) and skips names that already exist unless `-Force`. It does not prompt.
+
+Apply catalog `keyValues` into the store (dry-run until `-Force`), then write Key Vault references so URIs target this Environment’s vault:
+
+```powershell
+.\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development
+.\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development -Force
+```
+
+Uses `--auth-mode login` (Entra) on export and import. You need **App Configuration Data Owner** on the config RG; the CLI does not use store access keys. Key Vault secret load uses the same `az login` (vault RBAC).
+
+Optional: import a dump first with `-Path` (gitignored exports; do not commit account keys). Do not use `--resolve-keyvault`.
 
 Related artefacts:
 

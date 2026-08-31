@@ -18,5 +18,6 @@ Open in-repo notes for work still to do in the solution. **Not a ticket backlog*
 | Website auth integration / e2e tests | [web-auth-integration-tests.md](web-auth-integration-tests.md) |
 | CI/CD future phase | [cicd-future-phase.md](cicd-future-phase.md) |
 | GitHub issue / PR templates | [github-issue-pr-templates.md](github-issue-pr-templates.md) |
+| Storage Entra (managed identity) and App Configuration cleanup | [storage-managed-identity.md](storage-managed-identity.md) |
 
 Resolved deep-dives: [investigations/](../investigations/).

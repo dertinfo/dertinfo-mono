@@ -1,0 +1,102 @@
+{
+  "githubEnvironment": "production",
+  "appConfigurationName": "appcs-prd-dertinfo-config-uks",
+  "appConfigurationLabel": "Production",
+  "keyVaultName": "kv-prd-dertinfo-uks",
+  "secrets": [
+    {
+      "name": "auth0-managementclientsecret",
+      "prompt": "Auth0 Management Client secret"
+    },
+    {
+      "name": "auth0-managementclientid",
+      "prompt": "Auth0 Management Client ID"
+    },
+    {
+      "name": "webclient-auth0-clientid",
+      "prompt": "Web client Auth0 Client ID"
+    },
+    {
+      "name": "pwaclient-auth0-clientid",
+      "prompt": "PWA client Auth0 Client ID"
+    },
+    {
+      "name": "appinsights-telemetryid",
+      "prompt": "Application Insights instrumentation key (appi-prd-dertinfo-monitoring-uks)"
+    },
+    {
+      "name": "az-storage-images-accountkey",
+      "prompt": "Images storage account key (stprddertinfoimagesuks)"
+    },
+    {
+      "name": "az-storage-functions-accountkey",
+      "prompt": "Function app storage account key"
+    },
+    {
+      "name": "mailgun-apikey",
+      "prompt": "Mailgun API key"
+    },
+    {
+      "name": "sendgrid-apikey",
+      "prompt": "SendGrid API key"
+    },
+    {
+      "name": "sqlconnection-servername",
+      "prompt": "SQL server FQDN (sql-prd-dertinfo-storage-uks.database.windows.net)"
+    },
+    {
+      "name": "sqlconnection-databasename",
+      "prompt": "SQL database name (sqldb-prd-dertinfo-storage-uks)"
+    }
+  ],
+  "keyVaultReferences": [
+    {
+      "key": "Auth0:ManagementClientSecret",
+      "secretName": "auth0-managementclientsecret"
+    },
+    {
+      "key": "Auth0:ManagementClientId",
+      "secretName": "auth0-managementclientid"
+    },
+    {
+      "key": "WebClient:Auth0:ClientId",
+      "secretName": "webclient-auth0-clientid"
+    },
+    {
+      "key": "PwaClient:Auth0:ClientId",
+      "secretName": "pwaclient-auth0-clientid"
+    },
+    {
+      "key": "PwaClient:AppInsights:TelemetryId",
+      "secretName": "appinsights-telemetryid"
+    },
+    {
+      "key": "WebClient:AppInsights:TelemetryId",
+      "secretName": "appinsights-telemetryid"
+    },
+    {
+      "key": "StorageAccount:Images:Key",
+      "secretName": "az-storage-images-accountkey"
+    },
+    {
+      "key": "StorageAccount:Functions:Key",
+      "secretName": "az-storage-functions-accountkey"
+    },
+    {
+      "key": "Mailgun:ApiKey",
+      "secretName": "mailgun-apikey"
+    },
+    {
+      "key": "SendGrid:ApiKey",
+      "secretName": "sendgrid-apikey"
+    },
+    {
+      "key": "SqlConnection:ServerName",
+      "secretName": "sqlconnection-servername"
+    },
+    {
+      "key": "SqlConnection:DatabaseName",
+      "secretName": "sqlconnection-databasename"
+    }
+  ]
+}

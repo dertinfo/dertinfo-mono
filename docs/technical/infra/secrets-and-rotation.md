@@ -2,7 +2,7 @@
 name: Secrets and rotation
 type: infra
 status: active
-updated: 2026-07-26
+updated: 2026-08-31
 ---
 
 # Secrets inventory and rotation
@@ -19,11 +19,17 @@ Operational / management access to third-party dashboards is typically via the o
 
 | Secret | Purpose |
 |--------|---------|
-| Images storage account access key | API writes original images to blob storage |
+| Images storage account access key | API writes original images to blob storage (`az-storage-images-accountkey`) |
+| Function app storage account access key | Function App `AzureWebJobsStorage` account (`az-storage-functions-accountkey`) |
+| Application Insights instrumentation key | Web and PWA telemetry (`appinsights-telemetryid`; not a credential, stored in Key Vault for obfuscation) |
+| Auth0 Management Client ID | M2M client id (`auth0-managementclientid`; obfuscated in Key Vault) |
+| Web Auth0 Client ID | Website SPA client id (`webclient-auth0-clientid`; obfuscated in Key Vault) |
+| PWA Auth0 Client ID | PWA SPA client id (`pwaclient-auth0-clientid`; obfuscated in Key Vault) |
 | SQL username / password | **Local only** (`infra/secrets/api.env`). Hosted Azure SQL is Entra-only (App Service MI in the database access group) |
-| SQL server name / database name | Connection targeting (not always “secret”, but environment-specific) |
-| SendGrid API key | Transactional email |
-| Auth0 Management Client secret | API updates Auth0 user `app_metadata` |
+| SQL server name / database name | Hosted: Key Vault (`sqlconnection-servername`, `sqlconnection-databasename`) for obfuscation. Local: `infra/secrets/api.env` |
+| SendGrid API key | Transactional email (`sendgrid-apikey`) |
+| Mailgun API key | Transactional email (`mailgun-apikey`) |
+| Auth0 Management Client secret | API updates Auth0 user `app_metadata` (`auth0-managementclientsecret`) |
 
 Never commit these values. Hosted environments: Key Vault (often referenced from App Configuration). Local: `infra/secrets/api.env`.
 
@@ -31,15 +37,39 @@ Never commit these values. Hosted environments: Key Vault (often referenced from
 
 Restart the API after Key Vault / App Configuration updates unless a configuration refresh mechanism is enabled (it is not, by default).
 
+### Hosted Key Vault secrets (config vault)
+
+Do not put these values in Bicep. Config Bicep creates the vault and App Configuration store only. [`Import-DertInfoAppConfiguration.ps1`](../../../infra/scripts/Import-DertInfoAppConfiguration.ps1) writes Key Vault references (labels `Development` / `Production`). Copy [`kv-secrets.development.json.example`](../../../infra/configuration/kv-secrets.development.json.example) to `kv-secrets.development.json` (gitignored), fill the values, then:
+
+```powershell
+.\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
+```
+
+| Key Vault secret | App Configuration key |
+|------------------|------------------------|
+| `auth0-managementclientsecret` | `Auth0:ManagementClientSecret` |
+| `auth0-managementclientid` | `Auth0:ManagementClientId` |
+| `webclient-auth0-clientid` | `WebClient:Auth0:ClientId` |
+| `pwaclient-auth0-clientid` | `PwaClient:Auth0:ClientId` |
+| `appinsights-telemetryid` | `PwaClient:AppInsights:TelemetryId` and `WebClient:AppInsights:TelemetryId` |
+| `az-storage-images-accountkey` | `StorageAccount:Images:Key` |
+| `az-storage-functions-accountkey` | `StorageAccount:Functions:Key` |
+| `mailgun-apikey` | `Mailgun:ApiKey` |
+| `sendgrid-apikey` | `SendGrid:ApiKey` |
+| `sqlconnection-servername` | `SqlConnection:ServerName` |
+| `sqlconnection-databasename` | `SqlConnection:DatabaseName` |
+
+To rotate, re-run with `-Force` (overwrites) then restart the API. Store, vault, and secret **names** are in [`infra/configuration/app-config.development.json`](../../../infra/configuration/app-config.development.json) (and the production catalog). Pass `-ConfigFile` for another Environment file.
+
 ### Hosted Azure SQL (Entra-only)
 
 There is no SQL admin password and no Key Vault SQL login secrets. Access is:
 
 1. **Before SQL** — create groups with [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/New-DertInfoSqlEntraGroups.ps1). The server Entra admin is `dertinfo-sql-admins-<environment>`.
-2. **After SQL** — a SQL Entra admin runs [`New-DertInfoSqlDbAccessUser.ps1`](../../../infra/scripts/New-DertInfoSqlDbAccessUser.ps1) to bind `dertinfo-sql-db-access-<environment>` (`CREATE USER ... FROM EXTERNAL PROVIDER` plus `db_datareader` / `db_datawriter` / `db_ddladmin`).
+2. **After SQL** — a SQL Entra admin runs [`New-DertInfoSqlDbAccessUser.ps1`](../../../infra/scripts/New-DertInfoSqlDbAccessUser.ps1) (ODBC `sqlcmd -G`, Entra MFA) to bind `dertinfo-sql-db-access-<environment>` (`CREATE USER ... FROM EXTERNAL PROVIDER` plus `db_datareader` / `db_datawriter` / `db_ddladmin`).
 3. Add operators and the App Service MI to those Entra groups later (portal or `az ad group member add`). Do not add the MI to the admins group.
 
-Hosted App Configuration needs `SqlConnection:ServerName` and `SqlConnection:DatabaseName` only. The API uses `Authentication=Active Directory Default` when `AZURE_APP_CONFIG` is set.
+Hosted App Configuration points `SqlConnection:ServerName` and `SqlConnection:DatabaseName` at Key Vault (obfuscation). There is still no SQL admin password. The API uses `Authentication=Active Directory Default` when `AZURE_APP_CONFIG` is set.
 
 To revoke app access, remove the MI from the database access group (or remove the database user). To revoke operator access, remove the person from the admins group.
 
@@ -47,19 +77,21 @@ To revoke app access, remove the MI from the database access group (or remove th
 
 Rotate the login in `infra/secrets/api.env` (`SqlConnection__ServerAdminName` / `ServerAdminPassword`) on your machine. That path is not used in Azure.
 
-### Images storage account
+### Images and Functions storage account keys
 
-1. In Azure Portal, open the images storage account.
+1. In Azure Portal, open the images storage account (`stdevdertinfoimagesuks` / `stprddertinfoimagesuks`) or the Function App storage account.
 2. Rotate the primary (or secondary) access key.
-3. Update the corresponding Key Vault secret.
-4. Restart the API.
+3. Update the matching Key Vault secret (`az-storage-images-accountkey` or `az-storage-functions-accountkey`) in `kv-secrets.<environment>.json` and re-run [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1) `-Force`, or `az keyvault secret set`.
+4. Restart the API (images) or Function App (functions storage).
+
+Follow-up: Entra for storage and App Configuration cleanup — [Storage managed identity](../../operations/planned-fixes/storage-managed-identity.md).
 
 ### Auth0 Management Client secret
 
 1. Open the Auth0 tenant for the environment (dev / test / live).
 2. Applications → **DertInfo – \<env\> – API Client** (Management / M2M style client used by the API).
 3. Scroll to the danger zone → **Rotate Secret**.
-4. Copy the new secret into Key Vault.
+4. Copy the new secret into Key Vault (`auth0-managementclientsecret`), for example [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1) `-Force`.
 5. Restart the API.
 
 ![Auth0 applications list](https://github.com/user-attachments/assets/848852be-3858-4415-b1a3-c20c337b8dac)

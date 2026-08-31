@@ -133,27 +133,12 @@ module webApp 'br/public:avm/res/web/site:0.24.0' = {
   }
 }
 
-module appConfigDataReader 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = {
-  name: 'avm-rbac-appcs-reader'
+// One nested deployment on the config RG (needs deployments/write there — custom role, not Contributor).
+module siteMiConfigRoles './siteMiConfigRoles.bicep' = {
+  name: 'site-mi-config-roles'
   scope: resourceGroup(configResourceGroupLookup)
   params: {
     principalId: webApp.outputs.systemAssignedMIPrincipalId!
-    roleDefinitionIdOrName: '516239f1-63e1-4d78-a4de-a74fb236a071' // 'App Configuration Data Reader'
-    principalType: 'ServicePrincipal'
-    description: 'API web app reads Azure App Configuration'
-    enableTelemetry: enableTelemetry
-  }
-}
-
-module keyVaultSecretsUser 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = {
-  name: 'avm-rbac-kv-secrets-user'
-  scope: resourceGroup(configResourceGroupLookup)
-  params: {
-    principalId: webApp.outputs.systemAssignedMIPrincipalId!
-    roleDefinitionIdOrName: '4633458b-17de-408a-b874-0445c86b69e6' // 'Key Vault Secrets User'
-    principalType: 'ServicePrincipal'
-    description: 'API web app resolves App Configuration Key Vault references'
-    enableTelemetry: enableTelemetry
   }
 }
 

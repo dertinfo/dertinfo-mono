@@ -58,6 +58,10 @@ appsettings.*.json
 !appsettings.json
 !appsettings.Development.json.example
 secrets.json
+infra/configuration/kv-secrets.development.json
+infra/configuration/kv-secrets.production.json
+infra/configuration/kv-secrets.*.json
+!infra/configuration/kv-secrets.*.json.example
 
 # Local durable data (Azurite, etc.) — shared path for native and Docker
 infra/data/
