@@ -12,6 +12,7 @@ Operator scripts for Azure / Entra setup that are not Bicep and not local secret
 | [`Register-DertInfoResourceProviders.ps1`](Register-DertInfoResourceProviders.ps1) | Register workload resource providers (local / break-glass; keep in sync with the subscription CD reusable workflow) |
 | [`New-DertInfoSqlEntraGroups.ps1`](New-DertInfoSqlEntraGroups.ps1) | **Before SQL:** create or reuse the two Entra groups; prints GitHub variable names |
 | [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (needs sqlcmd; you must be a SQL Entra admin) |
+| [`New-DertInfoConfigKeyVaultSecrets.ps1`](New-DertInfoConfigKeyVaultSecrets.ps1) | **After config KV exists:** prompt once per Environment for the four hosted API secrets (skip existing unless `-Force`) |
 
 ## Why two subscription apps (not one)
 
@@ -82,6 +83,16 @@ Run this **before** SQL exists. It only creates or reuses the two groups. Paste 
 ```
 
 Add operators and the App Service MI to the Entra groups later (portal or `az ad group member add`).
+
+## Hosted API Key Vault secrets
+
+After config infra CD has created the vault, an administrator sets the four secret **values** once:
+
+```powershell
+.\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
+```
+
+The script prompts for each value (not echoed) and skips names that already exist unless `-Force`. Config Bicep deploys App Configuration Key Vault **references** to these names; it does not store the values.
 
 Related artefacts:
 

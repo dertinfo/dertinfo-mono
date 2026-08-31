@@ -29,6 +29,13 @@ param keyVaultName string
 @description('App Configuration store name.')
 param appConfigurationName string
 
+@description('App Configuration label matching ASPNETCORE_ENVIRONMENT.')
+@allowed([
+  'Development'
+  'Production'
+])
+param appConfigurationLabel string
+
 @description('Disable AVM telemetry.')
 param enableTelemetry bool = false
 
@@ -50,6 +57,28 @@ var resourceTags = {
   part: 'config'
   iac: 'infra-bicep-config'
 }
+
+var keyVaultReferenceContentType = 'application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8'
+
+// Portal / New-DertInfoConfigKeyVaultSecrets.ps1 must create these secret names. Values are not in Bicep.
+var hostedApiKeyVaultRefs = [
+  {
+    appConfigKey: 'Auth0:ManagementClientSecret'
+    secretName: 'auth0-managementclientsecret'
+  }
+  {
+    appConfigKey: 'StorageAccount:Images:Key'
+    secretName: 'az-storage-accountkey'
+  }
+  {
+    appConfigKey: 'Mailgun:ApiKey'
+    secretName: 'mailgun-apikey'
+  }
+  {
+    appConfigKey: 'SendGrid:ApiKey'
+    secretName: 'sendgrid-apikey'
+  }
+]
 
 // #####################################################
 // References
@@ -94,6 +123,25 @@ module appConfiguration 'br/public:avm/res/app-configuration/configuration-store
     enableTelemetry: enableTelemetry
   }
 }
+
+resource appConfigurationStore 'Microsoft.AppConfiguration/configurationStores@2023-03-01' existing = {
+  name: appConfigurationName
+}
+
+resource appConfigKeyVaultRefs 'Microsoft.AppConfiguration/configurationStores/keyValues@2023-03-01' = [
+  for item in hostedApiKeyVaultRefs: {
+    parent: appConfigurationStore
+    name: '${replace(item.appConfigKey, ':', '%3A')}$${appConfigurationLabel}'
+    dependsOn: [
+      appConfiguration
+      keyVault
+    ]
+    properties: {
+      contentType: keyVaultReferenceContentType
+      value: '{"uri":"https://${keyVaultName}.vault.azure.net/secrets/${item.secretName}"}'
+    }
+  }
+]
 
 // #####################################################
 // Outputs

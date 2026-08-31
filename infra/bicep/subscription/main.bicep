@@ -144,6 +144,8 @@ var appConfigurationDataReaderRoleId = '516239f1-63e1-4d78-a4de-a74fb236a071'
 var keyVaultSecretsUserRoleId = '4633458b-17de-408a-b874-0445c86b69e6'
 var apiConfigRoleAssignmentCondition = '((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/write\'})) OR (@Request[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${appConfigurationDataReaderRoleId}, ${keyVaultSecretsUserRoleId}})) AND ((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/delete\'})) OR (@Resource[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${appConfigurationDataReaderRoleId}, ${keyVaultSecretsUserRoleId}}))'
 
+var apiConfigNestedDeployRoleName = 'dertinfo-api-config-nested-deploy-${environmentTag}'
+
 // #####################################################
 // References
 // #####################################################
@@ -151,6 +153,31 @@ var apiConfigRoleAssignmentCondition = '((!(ActionMatches{\'Microsoft.Authorizat
 // #####################################################
 // Resources
 // #####################################################
+
+resource apiConfigNestedDeployRole 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' = {
+  name: guid(subscription().id, environmentTag, 'dertinfo-api-config-nested-deploy')
+  dependsOn: [
+    resourceGroups
+  ]
+  properties: {
+    roleName: apiConfigNestedDeployRoleName
+    description: 'Write nested ARM deployments on the config RG so API infra can assign site MI data-plane roles. Not Contributor.'
+    type: 'CustomRole'
+    assignableScopes: [
+      resourceId('Microsoft.Resources/resourceGroups', configResourceGroupLookup)
+    ]
+    permissions: [
+      {
+        actions: [
+          'Microsoft.Resources/deployments/read'
+          'Microsoft.Resources/deployments/write'
+          'Microsoft.Resources/deployments/operationStatuses/read'
+        ]
+        notActions: []
+      }
+    ]
+  }
+}
 
 // #####################################################
 // Modules
@@ -236,6 +263,22 @@ module pipelineApiConfigReader 'br/public:avm/res/authorization/role-assignment/
     roleDefinitionIdOrName: 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // 'Reader'
     principalType: 'ServicePrincipal'
     description: 'API workload identity — resolve existing Key Vault and App Configuration'
+    enableTelemetry: enableTelemetry
+  }
+}
+
+module pipelineApiConfigNestedDeploy 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdApi)) {
+  name: 'avm-rbac-api-config-nested-deploy'
+  scope: resourceGroup(configResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+  ]
+  params: {
+    principalId: pipelinePrincipalIdApi
+    roleDefinitionIdOrName: apiConfigNestedDeployRole.id
+    principalType: 'ServicePrincipal'
+    description: 'API workload identity — nested ARM deployments on the config RG (site MI roles)'
     enableTelemetry: enableTelemetry
   }
 }

@@ -74,10 +74,10 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 | Workflow | Scope | Notes |
 |----------|-------|-------|
 | `subscription-infra-cd.yml` | Subscription | Privileged SP **per Environment**; **this pipeline registers resource providers on the subscription**, then deploys RGs + policy + RBAC — [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) |
-| `config-infra-cd.yml` | `rg-<env>-dertinfo-config-uks` | Key Vault + App Configuration |
+| `config-infra-cd.yml` | `rg-<env>-dertinfo-config-uks` | Key Vault + App Configuration (including labelled Key Vault references for four API secrets) |
 | `monitoring-infra-cd.yml` | `rg-<env>-dertinfo-monitoring-uks` | Log Analytics (1 GB/day) + Application Insights |
 | `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; Entra-only SQL when `prerequisitesExist` is true (passes `AZURE_ENTRA_SQL_ADMIN_GROUP_*` and tenant id). After subscription CD, delete leftover storage-SP Reader and Key Vault Secrets User on the config RG (incremental ARM will not drop them). |
-| `api-infra-cd.yml` | `rg-<env>-dertinfo-api-uks` | Windows App Service when `prerequisitesExist` is true in the param file |
+| `api-infra-cd.yml` | `rg-<env>-dertinfo-api-uks` | Windows App Service when `prerequisitesExist` is true. Site MI roles on config are one nested deployment (`site-mi-config-roles`); the API SP needs the nested-deploy custom role on config (subscription CD). |
 
 **Resource providers:** [`subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml) (via [`reusable-infra-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-infra-deploy-bicep-subscription.yml)) is what applies them to the Azure subscription. After OIDC login it runs `az provider register` for each namespace in that workflow’s bash array, then deploys the subscription Bicep. The list is not in Bicep. Workload infra CD does not register providers (those identities are RG Contributor only). Local / break-glass: [`Register-DertInfoResourceProviders.ps1`](../../../infra/scripts/Register-DertInfoResourceProviders.ps1) (keep in sync with the reusable workflow).
 

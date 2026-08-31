@@ -164,6 +164,19 @@ Deployed hosts set `AZURE_APP_CONFIG` and load labelled configuration (Key Vault
 
 No custom secrets parsing in `Program.cs`.
 
+### Hosted App Configuration Key Vault references
+
+Config Bicep points these App Configuration keys (label `Development` or `Production`) at Key Vault. Set the secret values with [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1).
+
+| App Configuration key | Key Vault secret |
+|-----------------------|------------------|
+| `Auth0:ManagementClientSecret` | `auth0-managementclientsecret` |
+| `StorageAccount:Images:Key` | `az-storage-accountkey` |
+| `Mailgun:ApiKey` | `mailgun-apikey` |
+| `SendGrid:ApiKey` | `sendgrid-apikey` |
+
+The API resolves them at runtime (`ConfigureKeyVault`). It will not start if a referenced secret is missing.
+
 ### Hosted Azure SQL (Entra-only)
 
 When `AZURE_APP_CONFIG` is set, the API builds the SQL connection with `Authentication=Active Directory Default` (site managed identity). App Configuration needs only:
