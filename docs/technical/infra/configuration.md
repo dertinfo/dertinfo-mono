@@ -166,27 +166,30 @@ No custom secrets parsing in `Program.cs`.
 
 ### Hosted App Configuration Key Vault references
 
-Config Bicep points these App Configuration keys (label `Development` or `Production`) at Key Vault. Set the secret values with [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1).
+Config Bicep creates the store and vault only. [`Import-DertInfoAppConfiguration.ps1`](../../../infra/scripts/Import-DertInfoAppConfiguration.ps1) and [`Export-DertInfoAppConfiguration.ps1`](../../../infra/scripts/Export-DertInfoAppConfiguration.ps1) use `--auth-mode login` (App Configuration Data Owner). Set secret values with [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1) (`az login`, vault RBAC).
 
 | App Configuration key | Key Vault secret |
 |-----------------------|------------------|
 | `Auth0:ManagementClientSecret` | `auth0-managementclientsecret` |
-| `StorageAccount:Images:Key` | `az-storage-accountkey` |
+| `Auth0:ManagementClientId` | `auth0-managementclientid` |
+| `WebClient:Auth0:ClientId` | `webclient-auth0-clientid` |
+| `PwaClient:Auth0:ClientId` | `pwaclient-auth0-clientid` |
+| `PwaClient:AppInsights:TelemetryId` | `appinsights-telemetryid` |
+| `WebClient:AppInsights:TelemetryId` | `appinsights-telemetryid` |
+| `StorageAccount:Images:Key` | `az-storage-images-accountkey` |
+| `StorageAccount:Functions:Key` | `az-storage-functions-accountkey` |
 | `Mailgun:ApiKey` | `mailgun-apikey` |
 | `SendGrid:ApiKey` | `sendgrid-apikey` |
+| `SqlConnection:ServerName` | `sqlconnection-servername` |
+| `SqlConnection:DatabaseName` | `sqlconnection-databasename` |
 
-The API resolves them at runtime (`ConfigureKeyVault`). It will not start if a referenced secret is missing.
+The API resolves them at runtime (`ConfigureKeyVault`). It will not start if a referenced secret is missing. Names and targets live in [`infra/configuration/app-config.development.json`](../../../infra/configuration/app-config.development.json) (and the production catalog); values live in the gitignored `kv-secrets.<environment>.json` (copy from `kv-secrets.<environment>.json.example`). Operator scripts take `-GitHubEnvironment` or `-ConfigFile` / `-SecretsFile`.
+
+Non-secret keys for development live in the catalog `keyValues` and are applied with [`Import-DertInfoAppConfiguration.ps1`](../../../infra/scripts/Import-DertInfoAppConfiguration.ps1) (`-GitHubEnvironment development -Force`). Optional dump import via `-Path` (`--skip-keyvault`; gitignored). Do not use `--resolve-keyvault`.
 
 ### Hosted Azure SQL (Entra-only)
 
-When `AZURE_APP_CONFIG` is set, the API builds the SQL connection with `Authentication=Active Directory Default` (site managed identity). App Configuration needs only:
-
-| Key | Purpose |
-|-----|---------|
-| `SqlConnection:ServerName` | Azure SQL FQDN |
-| `SqlConnection:DatabaseName` | Database name |
-
-Do not put `SqlConnection:ServerAdminName` or `ServerAdminPassword` in hosted App Configuration. Local SQL Express still uses those keys in `infra/secrets/api.env`. Groups and operator scripts: [Secrets and rotation](secrets-and-rotation.md).
+When `AZURE_APP_CONFIG` is set, the API builds the SQL connection with `Authentication=Active Directory Default` (site managed identity). `SqlConnection:ServerName` and `SqlConnection:DatabaseName` are Key Vault references (obfuscation; not login credentials). Do not put `SqlConnection:ServerAdminName` or `ServerAdminPassword` in hosted App Configuration. Local SQL Express still uses those keys in `infra/secrets/api.env`. Groups and operator scripts: [Secrets and rotation](secrets-and-rotation.md).
 
 ### Auth0 (local)
 

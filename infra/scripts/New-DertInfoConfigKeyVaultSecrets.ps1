@@ -1,36 +1,45 @@
 <#
 .SYNOPSIS
-  Insert the four hosted API secrets into the config Key Vault (one Environment).
+  Insert hosted API secrets into the config Key Vault from the catalog JSON.
 
 .DESCRIPTION
-  Creates or updates:
-  - auth0-managementclientsecret
-  - az-storage-accountkey
-  - mailgun-apikey
-  - sendgrid-apikey
-
-  Prompts for each value (secure input). Does not print the values.
-  Skips a name that already exists unless -Force (rotation).
-  Run after config infra CD has created kv-<dev|prd>-dertinfo-uks.
-  App Configuration Key Vault references are deployed by config Bicep; this script only sets secret values.
+  Secret names and vault name come from
+  infra/configuration/app-config.<environment>.json (or -ConfigFile).
+  Values come from the gitignored
+  kv-secrets.<environment>.json (copy from kv-secrets.<environment>.json.example).
+  Values are not printed. Skips a name that already exists unless -Force.
+  Run after config infra CD has created the vault. Uses az login (Key Vault
+  RBAC: Key Vault Secrets Officer). Does not use access policies or keys.
 
 .PARAMETER GitHubEnvironment
-  GitHub Environment name: development or production.
+  Selects infra/configuration/app-config.<environment>.json and
+  kv-secrets.<environment>.json
+
+.PARAMETER ConfigFile
+  Catalog JSON path. Overrides GitHubEnvironment default path.
+
+.PARAMETER SecretsFile
+  Secrets JSON path. Default infra/configuration/kv-secrets.<environment>.json.
 
 .PARAMETER VaultName
-  Override the Key Vault name. Default kv-dev-dertinfo-uks or kv-prd-dertinfo-uks.
+  Override keyVaultName from the catalog.
 
 .PARAMETER Force
   Overwrite secrets that already exist.
 
 .EXAMPLE
+  Copy-Item infra/configuration/kv-secrets.development.json.example `
+    infra/configuration/kv-secrets.development.json
   .\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
 #>
 [CmdletBinding()]
 param(
-  [Parameter(Mandatory = $true)]
   [ValidateSet('development', 'production')]
-  [string] $GitHubEnvironment,
+  [string] $GitHubEnvironment = '',
+
+  [string] $ConfigFile = '',
+
+  [string] $SecretsFile = '',
 
   [string] $VaultName = '',
 
@@ -39,6 +48,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+. "$PSScriptRoot\DertInfoAppConfigCatalog.ps1"
+
 function Assert-AzCli {
   if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
     throw 'Azure CLI (az) is required on PATH.'
@@ -46,17 +57,6 @@ function Assert-AzCli {
   az account show 1>$null 2>$null
   if ($LASTEXITCODE -ne 0) {
     throw 'Not logged in to Azure CLI. Run: az login'
-  }
-}
-
-function ConvertFrom-SecureStringPlain {
-  param([Parameter(Mandatory = $true)][securestring] $Secure)
-  $bstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($Secure)
-  try {
-    return [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
-  }
-  finally {
-    [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
   }
 }
 
@@ -76,38 +76,52 @@ function Test-KeyVaultSecretExists {
   }
 }
 
-Assert-AzCli
+function Get-DertInfoSecretFileValue {
+  param(
+    $Secrets,
+    [string] $Name
+  )
 
-$envTag = if ($GitHubEnvironment -eq 'production') { 'prd' } else { 'dev' }
-if ([string]::IsNullOrWhiteSpace($VaultName)) {
-  $VaultName = "kv-$envTag-dertinfo-uks"
+  $prop = $Secrets.PSObject.Properties[$Name]
+  if ($null -eq $prop) {
+    throw "Secrets file is missing '$Name'."
+  }
+  $value = "$($prop.Value)"
+  if ([string]::IsNullOrWhiteSpace($value)) {
+    throw "Secrets file has an empty value for '$Name'. Fill it in and re-run."
+  }
+  return $value
 }
 
-$secrets = @(
-  @{ Name = 'auth0-managementclientsecret'; Prompt = 'Auth0 Management Client secret' }
-  @{ Name = 'az-storage-accountkey'; Prompt = 'Images storage account key' }
-  @{ Name = 'mailgun-apikey'; Prompt = 'Mailgun API key' }
-  @{ Name = 'sendgrid-apikey'; Prompt = 'SendGrid API key' }
-)
+Assert-AzCli
+$catalog = Get-DertInfoAppConfigCatalog -GitHubEnvironment $GitHubEnvironment -ConfigFile $ConfigFile
+$secretsEnvironment = $GitHubEnvironment
+if ([string]::IsNullOrWhiteSpace($secretsEnvironment)) {
+  $secretsEnvironment = "$($catalog.githubEnvironment)"
+}
+$secrets = Get-DertInfoAppConfigSecrets -GitHubEnvironment $secretsEnvironment -SecretsFile $SecretsFile
 
-Write-Host "Key Vault: $VaultName (Environment $GitHubEnvironment)"
-Write-Host 'Values are not echoed. Existing secrets are skipped unless -Force.'
+if ([string]::IsNullOrWhiteSpace($VaultName)) {
+  $VaultName = $catalog.keyVaultName
+}
+
+Write-Host "Key Vault: $VaultName"
+Write-Host 'Values are read from the secrets file and are not echoed. Existing secrets are skipped unless -Force.'
 Write-Host ''
 
-foreach ($item in $secrets) {
-  $name = $item.Name
+foreach ($item in $catalog.secrets) {
+  $name = $item.name
+  if ([string]::IsNullOrWhiteSpace($name)) {
+    throw 'Catalog secrets[] entry is missing name.'
+  }
+
   $exists = Test-KeyVaultSecretExists -Vault $VaultName -Name $name
   if ($exists -and -not $Force) {
     Write-Host "Skipping $name (already exists)."
     continue
   }
 
-  $secure = Read-Host -AsSecureString -Prompt $item.Prompt
-  $plain = ConvertFrom-SecureStringPlain -Secure $secure
-  if ([string]::IsNullOrWhiteSpace($plain)) {
-    throw "Empty value for $name. Aborting."
-  }
-
+  $plain = Get-DertInfoSecretFileValue -Secrets $secrets -Name $name
   Write-Host "Setting $name"
   az keyvault secret set --vault-name $VaultName --name $name --value $plain --only-show-errors -o none
   $plain = $null
@@ -117,4 +131,4 @@ foreach ($item in $secrets) {
 }
 
 Write-Host ''
-Write-Host 'Done. Config Bicep Key Vault references use these names. Restart the API after values change.'
+Write-Host 'Done. App Configuration Key Vault references use these names. Restart the API after values change.'

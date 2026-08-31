@@ -8,6 +8,8 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-08-31 | Azure SQL database access user script (ODBC Entra MFA) | [2026-08-31-003-sql-db-access-user-odbc-mfa.md](./2026-08-31-003-sql-db-access-user-odbc-mfa.md) |
+| 2026-08-31 | App Configuration catalog JSON, export, and import | [2026-08-31-002-appconfig-catalog-export-import.md](./2026-08-31-002-appconfig-catalog-export-import.md) |
 | 2026-08-31 | Config Key Vault secret names, App Config references, and API infra RBAC | [2026-08-31-001-config-kv-appconfig-api-rbac.md](./2026-08-31-001-config-kv-appconfig-api-rbac.md) |
 | 2026-08-30 | Entra-only Azure SQL with admins and database access groups | [2026-08-30-003-entra-only-sql-groups.md](./2026-08-30-003-entra-only-sql-groups.md) |
 | 2026-08-30 | Per-workload Entra OIDC identities and GitHub Environment variables | [2026-08-30-002-per-workload-oidc-identities.md](./2026-08-30-002-per-workload-oidc-identities.md) |
