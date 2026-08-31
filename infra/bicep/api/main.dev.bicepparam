@@ -16,3 +16,4 @@ param keyVaultName = 'kv-dev-dertinfo-uks'
 param appConfigurationName = 'appcs-dev-dertinfo-config-uks'
 param monitoringResourceGroupName = 'rg-dev-dertinfo-monitoring-uks'
 param applicationInsightsName = 'appi-dev-dertinfo-monitoring-uks'
+param prerequisitesExist = true
