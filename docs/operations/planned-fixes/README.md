@@ -19,5 +19,6 @@ Open in-repo notes for work still to do in the solution. **Not a ticket backlog*
 | CI/CD future phase | [cicd-future-phase.md](cicd-future-phase.md) |
 | GitHub issue / PR templates | [github-issue-pr-templates.md](github-issue-pr-templates.md) |
 | Storage Entra (managed identity) and App Configuration cleanup | [storage-managed-identity.md](storage-managed-identity.md) |
+| Remove temporary `workflow_dispatch` from src CI/CD | [remove-src-workflow-dispatch.md](remove-src-workflow-dispatch.md) |
 
 Resolved deep-dives: [investigations/](../investigations/).

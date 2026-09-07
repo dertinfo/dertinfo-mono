@@ -1,6 +1,7 @@
 name: Functions Src CI
 
 on:
+  workflow_dispatch:
   pull_request:
     branches: [main]
     paths:
