@@ -36,11 +36,9 @@ import { AppSharedModule } from './shared/app-shared.module';
 
 /**
  * APP_INITIALIZER — Auth flow step 1–2:
- *  1. Load local/staging/prod callback URL + API base (assets or environment.*).
+ *  1. Load API base + Auth0 callback from assets/app.config.json (local file or CD-injected).
  *  2. Fetch Auth0 domain/clientId/audience from GET {api}/clientconfiguration/web.
  *  3. AuthClientConfig.set — configure @auth0/auth0-angular with refresh tokens for ALL envs.
- *
- * Same path for local (localhost:44200), staging (staging.dertinfo.co.uk), and prod (www.dertinfo.co.uk).
  */
 export function initSettings(
   configurationService: ConfigurationService,

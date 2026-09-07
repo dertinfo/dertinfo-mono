@@ -25,6 +25,37 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.target == 'full' || inputs.target == 'dev-only'))
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/dert-web/src/client
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+          cache: npm
+          cache-dependency-path: apps/dert-web/src/client/package.json
+
+      - name: Install
+        run: npm install
+
+      - name: Build hosted SPA
+        run: npm run build:hosted
+
+      - name: Include SWA config in artefact
+        run: cp staticwebapp.config.json dist/staticwebapp.config.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-swa-dist
+          path: apps/dert-web/src/client/dist
+          if-no-files-found: error
+          retention-days: 7
+
   docker-dev:
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.target == 'full' || inputs.target == 'dev-only'))
     uses: ./.github/workflows/reusable-src-build-push-docker.yml
@@ -37,17 +68,14 @@ jobs:
       image_repository: dertinfo/dertinfo-web
 
   deploy-dev:
+    needs: build
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.target == 'full' || inputs.target == 'dev-only'))
     uses: ./.github/workflows/reusable-src-deploy-static-web-app.yml
     secrets: inherit
     with:
       environment: development
       workload: web
-      app_location: apps/dert-web/src/client
-      api_location: apps/dert-web/src/functions
-      output_location: dist
-      build_command: npm run ado-build-ui-test
-      submodules: true
+      artifact_name: web-swa-dist
 
   docker-prod:
     needs: deploy-dev
@@ -62,15 +90,11 @@ jobs:
       image_repository: dertinfo/dertinfo-web
 
   deploy-prod:
-    needs: deploy-dev
+    needs: [build, deploy-dev]
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'full')
     uses: ./.github/workflows/reusable-src-deploy-static-web-app.yml
     secrets: inherit
     with:
       environment: production
       workload: web
-      app_location: apps/dert-web/src/client
-      api_location: apps/dert-web/src/functions
-      output_location: dist
-      build_command: npm run ado-build-ui-test
-      submodules: true
+      artifact_name: web-swa-dist

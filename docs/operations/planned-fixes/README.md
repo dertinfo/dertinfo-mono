@@ -2,7 +2,7 @@
 name: Planned fixes
 type: index
 status: active
-updated: 2026-08-15
+updated: 2026-09-07
 ---
 
 # Planned fixes
@@ -11,6 +11,7 @@ Open in-repo notes for work still to do in the solution. **Not a ticket backlog*
 
 | Topic | File |
 |-------|------|
+| Continue `npm run start` when a service is already up / port in use | [start-skip-running-services.md](start-skip-running-services.md) |
 | Agent-safe Azure subscription foundation (subscription CD + policy + RG Actions) | [agent-safe-subscription-foundation.md](agent-safe-subscription-foundation.md) |
 | Azure estate layout (dev/prd RGs, deploy scope, permission boundaries) — **parked** | [azure-estate-dev-prd.md](azure-estate-dev-prd.md) |
 | Bicep (AVM) and infrastructure pipelines — **parked** | [bicep-avm-infra-pipelines.md](bicep-avm-infra-pipelines.md) |

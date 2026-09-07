@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
 
 export class EnvironmentConfig {
     apiUrl: string;
@@ -16,9 +15,9 @@ export class EnvironmentConfig {
 /**
  * Loads environment-specific settings used by Auth0 and the API.
  *
- * Local: assets/app.config.json (callback http://localhost:44200).
- * Staging/prod builds: environment.test.ts / environment.prod.ts (production flag true).
- * Auth0 client id / domain / audience: always from GET {apiUrl}/clientconfiguration/web.
+ * API base, Auth0 callback, and allowed domains: always assets/app.config.json
+ * (checked-in local values, or overwritten in dist by CD per GitHub Environment).
+ * Auth0 client id / domain / audience: GET {apiUrl}/clientconfiguration/web.
  *
  * AuthClientConfig.set in app.module APP_INITIALIZER consumes these values after loadConfig resolves.
  *
@@ -32,7 +31,6 @@ export class ConfigurationService {
     private readonly rawHttp: HttpClient;
 
     private config: EnvironmentConfig = {
-        // All values are replaced at runtime
         apiUrl: '',
         auth0CallbackUrl: '',
         auth0ClientId: '',
@@ -82,42 +80,15 @@ export class ConfigurationService {
 
         console.log('Loading configuration...');
 
-        const localConfigLoaded$ = new Observable<EnvironmentConfig>(observer => {
-
-            if (environment.production) {
-
-                // Staging (environment.test) and production (environment.prod) — build-time file replacements.
-                console.log('Applying production/staging configuration');
-                this.config.apiUrl = environment.apiUrl;
-                this.config.auth0CallbackUrl = environment.auth0CallbackUrl;
-                this.config.allowedDomains = environment.allowedDomains;
-                observer.next(this.config);
-                observer.complete();
-
-            } else {
-
-                // Local / Codespaces — runtime JSON (callback ports fixed for Auth0 Allowed Callback URLs).
-                console.log('Loading Local/Codespaces configuration');
-                this.getLocalConfiguration().subscribe({
-                    next: (localData) => {
-                        console.log('Applying Local/Codespaces Configuration');
-                        this.config.apiUrl = localData.apiUrl;
-                        this.config.auth0CallbackUrl = localData.auth0CallbackUrl;
-                        this.config.allowedDomains = localData.allowedDomains;
-                        observer.next(this.config);
-                        observer.complete();
-                    },
-                    error: (err) => observer.error(err),
-                });
-            }
-        });
-
         return new Promise((resolve, reject) => {
 
-            localConfigLoaded$.subscribe({
-                next: () => {
+            this.getRuntimeConfiguration().subscribe({
+                next: (runtimeData) => {
+                    console.log('Applying runtime configuration from assets/app.config.json');
+                    this.config.apiUrl = runtimeData.apiUrl;
+                    this.config.auth0CallbackUrl = runtimeData.auth0CallbackUrl;
+                    this.config.allowedDomains = runtimeData.allowedDomains;
 
-                    // Remote Auth0 ids — same endpoint for all environments; values differ by API App Config / secrets.
                     console.log('Loading Remote Configuration');
                     const subs = this.getRemoteConfiguration().subscribe({
                         next: (remoteData) => {
@@ -141,7 +112,7 @@ export class ConfigurationService {
         });
     }
 
-    public getLocalConfiguration(): Observable<any> {
+    public getRuntimeConfiguration(): Observable<any> {
         return this.rawHttp.get('assets/app.config.json');
     }
 
