@@ -33,4 +33,4 @@ The operator script has to work for anyone setting up an environment, not as a o
 
 - Production still needs the same script (`-GitHubEnvironment production`) after that SQL server exists.
 - Operators need ODBC sqlcmd 17+ and membership of `dertinfo-sql-admins-<environment>` (group **member**, not only owner), plus a SQL firewall rule for their client IP.
-- The hosted API still uses `Authentication=Active Directory Default` (managed identity). That is separate from this operator MFA script.
+- The hosted API uses `Authentication=Active Directory Default` (managed identity). It needs its **own** contained user (`New-DertInfoSqlAppServiceUser.ps1`), not membership of `dertinfo-sql-db-access-<environment>`. See [2026-09-07-002](./2026-09-07-002-dev-api-sql-contained-user.md).

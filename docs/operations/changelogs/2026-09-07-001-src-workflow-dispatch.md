@@ -29,3 +29,4 @@ New-stack Azure settings (App Service names, OIDC, App Configuration) needed a r
 ## Any remaining issues that we may wish to address
 
 - Remove src `workflow_dispatch` and the job `if:` conditions once hosted settings are confirmed ([planned-fix](../planned-fixes/remove-src-workflow-dispatch.md)). Keep infra CD dispatch for Bicep re-runs without template diffs.
+- First development API src deploy and the App Service SQL contained user: [2026-09-07-002](./2026-09-07-002-dev-api-sql-contained-user.md).

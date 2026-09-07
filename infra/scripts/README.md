@@ -11,7 +11,8 @@ Operator scripts for Azure / Entra setup that are not Bicep and not local secret
 | [`Remove-DertInfoWorkloadOidcIdentity.ps1`](Remove-DertInfoWorkloadOidcIdentity.ps1) | Tear down **one** workload identity by app (client) id |
 | [`Register-DertInfoResourceProviders.ps1`](Register-DertInfoResourceProviders.ps1) | Register workload resource providers (local / break-glass; keep in sync with the subscription CD reusable workflow) |
 | [`New-DertInfoSqlEntraGroups.ps1`](New-DertInfoSqlEntraGroups.ps1) | **Before SQL:** create or reuse the two Entra groups; prints GitHub variable names |
-| [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (ODBC sqlcmd `-G`; you must be a SQL Entra admin) |
+| [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (operators / people; ODBC sqlcmd `-G`) |
+| [`New-DertInfoSqlAppServiceUser.ps1`](New-DertInfoSqlAppServiceUser.ps1) | **After API App Service exists:** bind the site system-assigned MI as its own database user (required for hosted API SQL) |
 | [`New-DertInfoConfigKeyVaultSecrets.ps1`](New-DertInfoConfigKeyVaultSecrets.ps1) | **After config KV exists:** prompt for catalog secret names (skip existing unless `-Force`) |
 | [`Export-DertInfoAppConfiguration.ps1`](Export-DertInfoAppConfiguration.ps1) | Export non-secret App Configuration keys to a gitignored JSON dump (`--skip-keyvault`, `--auth-mode login`) |
 | [`Import-DertInfoAppConfiguration.ps1`](Import-DertInfoAppConfiguration.ps1) | Dry-run (or `-Force`) apply catalog `keyValues` (optional dump via `-Path`), then set Key Vault references (`--auth-mode login`) |
@@ -87,7 +88,15 @@ Run this **before** SQL exists. It only creates or reuses the two groups. Paste 
 
 Uses ODBC `sqlcmd -G` (SSMS Microsoft Entra MFA) against the user database, not master. `-UserName` defaults from `az account show`. Needs ODBC 17+ (`-G`); the ODBC 13 `sqlcmd` on PATH is not enough.
 
-Add operators and the App Service MI to the Entra groups later (portal or `az ad group member add`).
+Add **operators** to `dertinfo-sql-db-access-<environment>` (portal or `az ad group member add`) when they need SQL. Do **not** add the App Service MI to that group expecting a login — Azure SQL does not treat managed identities as group members for authentication.
+
+After **API infra CD** has created the site, bind the system-assigned identity as its own contained user (name = App Service name):
+
+```powershell
+.\New-DertInfoSqlAppServiceUser.ps1 -GitHubEnvironment development
+```
+
+Then restart the App Service. `Login failed for user '<token-identified principal>'` means this user is missing (the Entra token is valid; SQL has no principal for that object ID). Repeat for production after that App Service exists (`-GitHubEnvironment production`).
 
 ## Hosted API Key Vault secrets and App Configuration
 

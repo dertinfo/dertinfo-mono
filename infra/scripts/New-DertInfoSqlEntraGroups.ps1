@@ -5,11 +5,13 @@
 .DESCRIPTION
   Run this before storage CD creates the SQL server. Groups:
   - dertinfo-sql-admins-<environment>     server Entra admin (operators only)
-  - dertinfo-sql-db-access-<environment>  database principal for the API (and later Functions)
+  - dertinfo-sql-db-access-<environment>  database principal for operators (people)
 
   Safe to re-run. Reuses a group when the display name already exists (throws if more than one).
   Prints tenant id and both group object ids for GitHub Environment / CLI placeholders.
-  Does not add members, assign Azure RBAC, or run T-SQL. After SQL exists, run New-DertInfoSqlDbAccessUser.ps1.
+  Does not add members, assign Azure RBAC, or run T-SQL. After SQL exists, run
+  New-DertInfoSqlDbAccessUser.ps1 (operators). After the App Service exists, run
+  New-DertInfoSqlAppServiceUser.ps1 (site MI).
 
   See: docs/technical/standards/bicep/README.md
 

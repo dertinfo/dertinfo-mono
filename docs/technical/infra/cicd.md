@@ -94,6 +94,8 @@ Bicep house rules: [Bicep standards](../standards/bicep/). Operator scripts: [`i
 
 Docker images are for **local development** (root `docker-compose.yml`, Codespaces). Hosted Azure deployments use native App Service / SWA deploy, not containers.
 
+After API infra exists, create the site’s SQL contained user **before** expecting Swagger to work ([Secrets and rotation — hosted Azure SQL](secrets-and-rotation.md#hosted-azure-sql-entra-only)). Development Swagger: `https://app-dev-dertinfo-api-uks.azurewebsites.net/swagger/index.html`.
+
 ## GitHub setup checklist
 
 Complete these steps in the GitHub repository **before the first CD run**.

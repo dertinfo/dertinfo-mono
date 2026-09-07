@@ -189,7 +189,9 @@ Non-secret keys for development live in the catalog `keyValues` and are applied 
 
 ### Hosted Azure SQL (Entra-only)
 
-When `AZURE_APP_CONFIG` is set, the API builds the SQL connection with `Authentication=Active Directory Default` (site managed identity). `SqlConnection:ServerName` and `SqlConnection:DatabaseName` are Key Vault references (obfuscation; not login credentials). Do not put `SqlConnection:ServerAdminName` or `ServerAdminPassword` in hosted App Configuration. Local SQL Express still uses those keys in `infra/secrets/api.env`. Groups and operator scripts: [Secrets and rotation](secrets-and-rotation.md).
+When `AZURE_APP_CONFIG` is set, the API builds the SQL connection with `Authentication=Active Directory Default` (site managed identity). `SqlConnection:ServerName` and `SqlConnection:DatabaseName` are Key Vault references (obfuscation; not login credentials). Do not put `SqlConnection:ServerAdminName` or `ServerAdminPassword` in hosted App Configuration. Local SQL Express still uses those keys in `infra/secrets/api.env`.
+
+The site needs a **contained database user named after the App Service** (`CREATE USER [app-<dev|prd>-dertinfo-api-uks] FROM EXTERNAL PROVIDER`). Putting the MI in `dertinfo-sql-db-access-<environment>` does not grant that login. Operator scripts: [Secrets and rotation](secrets-and-rotation.md).
 
 ### Auth0 (local)
 
