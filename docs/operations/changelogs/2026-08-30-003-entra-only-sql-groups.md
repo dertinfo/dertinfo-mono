@@ -30,7 +30,7 @@ A shared SQL admin password in Key Vault would have been the app’s (and Bicep�
 
 ## Any remaining issues that we may wish to address
 
-- Operator must run `New-DertInfoSqlEntraGroups.ps1`, paste admin group vars, flip `prerequisitesExist`, deploy storage, then run `New-DertInfoSqlDbAccessUser.ps1`. Add operators and the App Service MI to the Entra groups later.
+- Operator must run `New-DertInfoSqlEntraGroups.ps1`, paste admin group vars, flip `prerequisitesExist`, deploy storage, then run `New-DertInfoSqlDbAccessUser.ps1`. After the App Service exists, run `New-DertInfoSqlAppServiceUser.ps1` — group membership does not grant the site MI a SQL login. See [2026-09-07-002](./2026-09-07-002-dev-api-sql-contained-user.md).
 - Delete leftover storage SP Reader and Key Vault Secrets User on `rg-<env>-dertinfo-config-uks` in Azure.
 - If `sql-dertinfo-storage-administrator-login` / `-password` were seeded, delete those two secrets only.
 - Hosted App Configuration must have `SqlConnection:ServerName` and `SqlConnection:DatabaseName` (no password).

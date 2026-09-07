@@ -1,22 +1,27 @@
 <#
 .SYNOPSIS
-  Bind the database access Entra group as a user in the Azure SQL database.
+  Bind the API App Service system-assigned identity as a user in the Azure SQL database.
 
 .DESCRIPTION
-  Run this after storage CD has created the SQL server. Creates the
-  dertinfo-sql-db-access-<environment> group as a database user and grants
-  db_datareader, db_datawriter, db_ddladmin. That user is for people in the
-  group (operators). Azure SQL does not let a managed identity log in via
-  Entra group membership. After the App Service exists, run
-  New-DertInfoSqlAppServiceUser.ps1 for the site identity.
+  Run this after API infra CD has created the App Service (system-assigned MI exists).
+  Creates a contained database user named after the site (default
+  app-<dev|prd>-dertinfo-api-uks) and grants db_datareader, db_datawriter,
+  db_ddladmin so EF Migrate() can run.
+
+  Azure SQL does not treat a managed identity as a member of an Entra group for
+  login. Adding the MI to dertinfo-sql-db-access-<environment> does not grant
+  SQL access. This script is required. The group user (New-DertInfoSqlDbAccessUser.ps1)
+  is for people.
 
   You must already be able to connect as a SQL Entra admin (member of
-  dertinfo-sql-admins-<environment>). Uses ODBC sqlcmd -G (SSMS Microsoft Entra MFA)
-  against the user database, not master. Does not add Entra group members.
-  The GitHub storage pipeline cannot do this.
+  dertinfo-sql-admins-<environment>). Uses ODBC sqlcmd -G against the user
+  database, not master. Restart the App Service after a successful run.
 
 .PARAMETER GitHubEnvironment
-  development or production (selects default server/database names and group display name).
+  development or production (selects default server, database, and web app names).
+
+.PARAMETER WebAppName
+  Override the App Service name (SQL user name). Default app-<dev|prd>-dertinfo-api-uks.
 
 .PARAMETER SqlServerFqdn
   Override the logical server FQDN. Default sql-<dev|prd>-dertinfo-storage-uks.database.windows.net
@@ -28,10 +33,10 @@
   Entra login for sqlcmd -U. Default: az account show user.name (the account you use in SSMS).
 
 .EXAMPLE
-  .\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development
+  .\New-DertInfoSqlAppServiceUser.ps1 -GitHubEnvironment development
 
 .EXAMPLE
-  .\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development -UserName 'someone@contoso.com'
+  .\New-DertInfoSqlAppServiceUser.ps1 -GitHubEnvironment production -UserName 'someone@contoso.com'
 #>
 [CmdletBinding()]
 param(
@@ -39,6 +44,7 @@ param(
   [ValidateSet('development', 'production')]
   [string] $GitHubEnvironment,
 
+  [string] $WebAppName = '',
   [string] $SqlServerFqdn = '',
   [string] $DatabaseName = '',
   [string] $UserName = ''
@@ -93,8 +99,10 @@ if ([string]::IsNullOrWhiteSpace($UserName)) {
 }
 
 $envTag = if ($GitHubEnvironment -eq 'production') { 'prd' } else { 'dev' }
-$groupName = "dertinfo-sql-db-access-$GitHubEnvironment"
 
+if ([string]::IsNullOrWhiteSpace($WebAppName)) {
+  $WebAppName = "app-$envTag-dertinfo-api-uks"
+}
 if ([string]::IsNullOrWhiteSpace($SqlServerFqdn)) {
   $SqlServerFqdn = "sql-$envTag-dertinfo-storage-uks.database.windows.net"
 }
@@ -103,19 +111,19 @@ if ([string]::IsNullOrWhiteSpace($DatabaseName)) {
 }
 
 $sql = @"
-IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'$groupName')
+IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'$WebAppName')
 BEGIN
-  CREATE USER [$groupName] FROM EXTERNAL PROVIDER;
+  CREATE USER [$WebAppName] FROM EXTERNAL PROVIDER;
 END
-ALTER ROLE db_datareader ADD MEMBER [$groupName];
-ALTER ROLE db_datawriter ADD MEMBER [$groupName];
-ALTER ROLE db_ddladmin ADD MEMBER [$groupName];
+ALTER ROLE db_datareader ADD MEMBER [$WebAppName];
+ALTER ROLE db_datawriter ADD MEMBER [$WebAppName];
+ALTER ROLE db_ddladmin ADD MEMBER [$WebAppName];
 "@
 
 $sqlcmd = Get-OdbcSqlCmdWithAzureAd
 
 Write-Host "Connecting to $SqlServerFqdn / $DatabaseName as $UserName"
-Write-Host "Creating or updating database user [$groupName]"
+Write-Host "Creating or updating database user [$WebAppName] (App Service system-assigned MI)"
 Write-Host "Using $sqlcmd -G (ODBC Microsoft Entra MFA). A browser prompt may appear."
 
 $argList = @(
@@ -128,8 +136,8 @@ $argList = @(
 )
 & $sqlcmd @argList
 if ($LASTEXITCODE -ne 0) {
-  throw "sqlcmd failed with exit code $LASTEXITCODE. Connect to the user database (not master) as a member of dertinfo-sql-admins-$GitHubEnvironment."
+  throw "sqlcmd failed with exit code $LASTEXITCODE. Connect to the user database (not master) as a member of dertinfo-sql-admins-$GitHubEnvironment. The App Service $WebAppName must already exist with a system-assigned identity."
 }
 
-Write-Host 'Database access group is bound. Add operators to that Entra group when they need SQL (portal or az ad group member add).'
-Write-Host 'After API infra exists, run New-DertInfoSqlAppServiceUser.ps1 for the App Service MI. Group membership does not grant the site a SQL login.'
+Write-Host "Database user [$WebAppName] is bound. Restart the App Service so pooled connections pick up the new principal."
+Write-Host 'Do not expect SQL login via Entra group membership for this managed identity.'

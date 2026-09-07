@@ -2,7 +2,7 @@
 name: Secrets and rotation
 type: infra
 status: active
-updated: 2026-08-31
+updated: 2026-09-07
 ---
 
 # Secrets inventory and rotation
@@ -25,7 +25,7 @@ Operational / management access to third-party dashboards is typically via the o
 | Auth0 Management Client ID | M2M client id (`auth0-managementclientid`; obfuscated in Key Vault) |
 | Web Auth0 Client ID | Website SPA client id (`webclient-auth0-clientid`; obfuscated in Key Vault) |
 | PWA Auth0 Client ID | PWA SPA client id (`pwaclient-auth0-clientid`; obfuscated in Key Vault) |
-| SQL username / password | **Local only** (`infra/secrets/api.env`). Hosted Azure SQL is Entra-only (App Service MI in the database access group) |
+| SQL username / password | **Local only** (`infra/secrets/api.env`). Hosted Azure SQL is Entra-only (contained user for the App Service MI; operators use the database access group) |
 | SQL server name / database name | Hosted: Key Vault (`sqlconnection-servername`, `sqlconnection-databasename`) for obfuscation. Local: `infra/secrets/api.env` |
 | SendGrid API key | Transactional email (`sendgrid-apikey`) |
 | Mailgun API key | Transactional email (`mailgun-apikey`) |
@@ -66,12 +66,13 @@ To rotate, re-run with `-Force` (overwrites) then restart the API. Store, vault,
 There is no SQL admin password and no Key Vault SQL login secrets. Access is:
 
 1. **Before SQL** — create groups with [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/New-DertInfoSqlEntraGroups.ps1). The server Entra admin is `dertinfo-sql-admins-<environment>`.
-2. **After SQL** — a SQL Entra admin runs [`New-DertInfoSqlDbAccessUser.ps1`](../../../infra/scripts/New-DertInfoSqlDbAccessUser.ps1) (ODBC `sqlcmd -G`, Entra MFA) to bind `dertinfo-sql-db-access-<environment>` (`CREATE USER ... FROM EXTERNAL PROVIDER` plus `db_datareader` / `db_datawriter` / `db_ddladmin`).
-3. Add operators and the App Service MI to those Entra groups later (portal or `az ad group member add`). Do not add the MI to the admins group.
+2. **After SQL** — a SQL Entra admin runs [`New-DertInfoSqlDbAccessUser.ps1`](../../../infra/scripts/New-DertInfoSqlDbAccessUser.ps1) (ODBC `sqlcmd -G`, Entra MFA) to bind `dertinfo-sql-db-access-<environment>` (`CREATE USER ... FROM EXTERNAL PROVIDER` plus `db_datareader` / `db_datawriter` / `db_ddladmin`). That database user is for **people** in the group.
+3. Add **operators** to the Entra groups (portal or `az ad group member add`). Do not add the App Service MI to the admins group. Do not expect the MI to log in via the access group — Azure SQL does not authorize managed identities through Entra group membership.
+4. **After API infra CD** (site exists with system-assigned identity) — run [`New-DertInfoSqlAppServiceUser.ps1`](../../../infra/scripts/New-DertInfoSqlAppServiceUser.ps1) to `CREATE USER` for the App Service name (`app-<dev|prd>-dertinfo-api-uks`) with the same roles. Then **restart** the App Service. Do this **before** (or immediately after) API Src CD; skipping it yields `Login failed for user '<token-identified principal>'` on `Migrate()` at startup.
 
 Hosted App Configuration points `SqlConnection:ServerName` and `SqlConnection:DatabaseName` at Key Vault (obfuscation). There is still no SQL admin password. The API uses `Authentication=Active Directory Default` when `AZURE_APP_CONFIG` is set.
 
-To revoke app access, remove the MI from the database access group (or remove the database user). To revoke operator access, remove the person from the admins group.
+To revoke app access, drop or disable the App Service database user (or disable the site MI). To revoke operator access, remove the person from the admins or access group.
 
 ### Local SQL Express
 
