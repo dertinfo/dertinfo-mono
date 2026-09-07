@@ -78,6 +78,8 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 | `monitoring-infra-cd.yml` | `rg-<env>-dertinfo-monitoring-uks` | Log Analytics (1 GB/day) + Application Insights |
 | `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; Entra-only SQL when `prerequisitesExist` is true (passes `AZURE_ENTRA_SQL_ADMIN_GROUP_*` and tenant id). After subscription CD, delete leftover storage-SP Reader and Key Vault Secrets User on the config RG (incremental ARM will not drop them). |
 | `api-infra-cd.yml` | `rg-<env>-dertinfo-api-uks` | Windows App Service when `prerequisitesExist` is true. Site MI roles on config are one nested deployment (`site-mi-config-roles`); the API SP needs the nested-deploy custom role on config (subscription CD). |
+| `web-infra-cd.yml` | `rg-<env>-dertinfo-web-uks` | Free Static Web App when `prerequisitesExist` is true (hosted API `app-<env>-dertinfo-api-uks` must exist). First deploy leaves `customDomainReady` false. OIDC `WEB`. |
+| `app-infra-cd.yml` | `rg-<env>-dertinfo-app-uks` | Same pattern as web. Names `swa-<env>-dertinfo-app-uks`. OIDC `APP`. |
 
 **Resource providers:** [`subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml) (via [`reusable-infra-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-infra-deploy-bicep-subscription.yml)) is what applies them to the Azure subscription. After OIDC login it runs `az provider register` for each namespace in that workflow’s bash array, then deploys the subscription Bicep. The list is not in Bicep. Workload infra CD does not register providers (those identities are RG Contributor only). Local / break-glass: [`Register-DertInfoResourceProviders.ps1`](../../../infra/scripts/Register-DertInfoResourceProviders.ps1) (keep in sync with the reusable workflow).
 
@@ -128,8 +130,22 @@ Branching rule: [`.cursor/rules/github-flow.mdc`](../../../.cursor/rules/github-
 - Set per-workload `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` and `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_<PART>` (paste from [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1))
 - After [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/New-DertInfoSqlEntraGroups.ps1): `AZURE_ENTRA_SQL_ADMIN_GROUP_NAME` and `AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID` (storage infra CD). Keep `AZURE_ENTRA_SQL_DBACCESS_GROUP_*` for operator scripts; do not commit object ids.
 - Set `AZURE_WEBAPP_API_RESOURCENAME` = `app-<env>-dertinfo-api-uks` after API infra exists (SPA CD derives `https://<name>.azurewebsites.net/api`)
-- Set `AZURE_STATICWEBAPP_WEB_CALLBACKURL` and `AZURE_STATICWEBAPP_APP_CALLBACKURL` (Auth0 callback base, no trailing slash — e.g. `https://<swa>.azurestaticapps.net` or the custom domain)
-- SWA tokens: `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV` / `_PRD` (and the `APP` equivalents) when those sites exist
+- After web/app SWAs exist and custom hosts resolve: `AZURE_STATICWEBAPP_WEB_CALLBACKURL` = `https://dev.dertinfo.co.uk` and `AZURE_STATICWEBAPP_APP_CALLBACKURL` = `https://app-dev.dertinfo.co.uk` on Environment `development` (no trailing slash). Do not use the default `*.azurestaticapps.net` hostname once those custom domains are bound.
+- SWA tokens: `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV` / `_PRD` (and the `APP` equivalents) from each site’s **apiKey** (never stored in Bicep or App Configuration)
+
+### First development SWA deploy (operator)
+
+Do **web and app in parallel**. Production custom domains and production src deploy stay a later pass (`dev-only` only). Confirm `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_WEB` and `…_APP` on Environment `development`. If OIDC fails, re-run subscription CD with `pipelinePrincipalIdWeb` / `pipelinePrincipalIdApp`.
+
+1. Confirm the hosted API is up (`https://app-dev-dertinfo-api-uks.azurewebsites.net`). DEV leaves already set `prerequisitesExist = true`.
+2. Run **Web infra CD** and **App infra CD** with target **`dev-only`**.
+3. From each deployment output (or the portal), copy **defaultHostname** (for DNS) and the SWA **apiKey** into secrets `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV` and `AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_DEV`.
+4. Create DNS: `dev.dertinfo.co.uk` and `app-dev.dertinfo.co.uk` CNAME (and any TXT Azure shows) to those default hostnames. Set `customDomainReady = true` in both `main.dev.bicepparam` files and re-run both infra CD (or bind in the portal). Wait until SWA-managed TLS shows the custom domain ready. If policy denies the child type, add `Microsoft.Web/staticSites/customDomains` (already in the subscription allow-list) and re-run subscription CD.
+5. GitHub Environment **`development` variables:** `AZURE_STATICWEBAPP_WEB_CALLBACKURL` = `https://dev.dertinfo.co.uk`, `AZURE_STATICWEBAPP_APP_CALLBACKURL` = `https://app-dev.dertinfo.co.uk`, `AZURE_WEBAPP_API_RESOURCENAME` = `app-dev-dertinfo-api-uks`.
+6. Auth0 tenant **`dertinfotest.eu.auth0.com`**: website and PWA applications — Allowed Callbacks, Logout URLs, and Web Origins for those two HTTPS origins. PWA also `https://app-dev.dertinfo.co.uk/auth/callback`. Catalog already lists `Cors:AllowedOrigins`, `WebClient:Auth0:CallbackUrl`, and `PwaClient:Auth0:CallbackUrl` for the custom hosts; import with [`Import-DertInfoAppConfiguration.ps1`](../../../infra/scripts/Import-DertInfoAppConfiguration.ps1) `-Force` and restart the API.
+7. Run **Web Src CD** and **App Src CD** with target **`dev-only`**. Do not src-deploy until DNS resolves and TLS is ready.
+
+Auth0 tenant names vs GitHub Environments: [Authentication](../subsystems/authentication.md). Tenant rename is a [planned-fix](../../operations/planned-fixes/auth0-tenant-rename-local-dev.md), not this deploy.
 
 ### 2. Azure OIDC (recommended)
 

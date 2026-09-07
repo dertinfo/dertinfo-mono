@@ -20,6 +20,8 @@ param workloadParts = [
 param pipelineRoleDefinitionIdOrName = 'b24988ac-6180-42a0-ab88-20f7382dd24c' // 'Contributor'
 param allowedResourceTypes = [
   'Microsoft.Web/staticSites'
+  'Microsoft.Web/staticSites/customDomains'
+  'Microsoft.Web/staticSites/config'
   'Microsoft.Web/serverfarms'
   'Microsoft.Web/sites'
   'Microsoft.Web/sites/config'

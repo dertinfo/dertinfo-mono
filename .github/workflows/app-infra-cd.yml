@@ -1,0 +1,56 @@
+name: App infra CD
+
+# Deploys infra/bicep/app at RG scope (Free Static Web App when prerequisitesExist
+# is true in the Bicep param file). Custom domain bind is a second pass
+# (customDomainReady) after DNS exists.
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Deployment target'
+        required: true
+        type: choice
+        default: full
+        options:
+          - full
+          - dev-only
+  push:
+    branches:
+      - main
+    paths:
+      - 'infra/bicep/app/**'
+      - '.github/workflows/app-infra-cd.yml'
+      - '.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml'
+
+jobs:
+  deploy-dev:
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.target == 'full' || inputs.target == 'dev-only'))
+    permissions:
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml
+    with:
+      environment: development
+      resource_group: rg-dev-dertinfo-app-uks
+      template_path: infra/bicep/app/main.bicep
+      parameters_path: infra/bicep/app/main.dev.bicepparam
+      location: uksouth
+      azure_oidc_workload: APP
+    secrets: inherit
+
+  deploy-prod:
+    needs: deploy-dev
+    if: (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'full')) && needs.deploy-dev.result == 'success'
+    permissions:
+      id-token: write
+      contents: read
+    uses: ./.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml
+    with:
+      environment: production
+      resource_group: rg-prd-dertinfo-app-uks
+      template_path: infra/bicep/app/main.bicep
+      parameters_path: infra/bicep/app/main.prod.bicepparam
+      location: uksouth
+      azure_oidc_workload: APP
+    secrets: inherit

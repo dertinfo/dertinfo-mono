@@ -111,12 +111,12 @@
     "Constants:Defaults:EventImageName": "eventdefaultimage",
     "Constants:Defaults:GroupImageName": "groupdefaultimage",
     "Constants:ObfuscationIdLength": "6",
-    "Cors:AllowedOrigins": "https://staging.dertinfo.co.uk, https://staging-app.dertinfo.co.uk",
+    "Cors:AllowedOrigins": "https://dev.dertinfo.co.uk, https://app-dev.dertinfo.co.uk, https://staging.dertinfo.co.uk, https://staging-app.dertinfo.co.uk",
     "DatabaseCache:Disabled": "false",
     "MailGun:Enabled": "false",
     "PwaClient:Api:Uri": "https://app-dev-dertinfo-api-uks.azurewebsites.net/api",
     "PwaClient:Auth0:Audience": "api.test.dertinfo.co.uk",
-    "PwaClient:Auth0:CallbackUrl": "https://staging-app.dertinfo.co.uk",
+    "PwaClient:Auth0:CallbackUrl": "https://app-dev.dertinfo.co.uk",
     "PwaClient:Auth0:Domain": "dertinfotest.eu.auth0.com",
     "SendGrid:Enabled": "false",
     "StorageAccount:Images:BlobEndpoint": "https://stdevdertinfoimagesuks.blob.core.windows.net",
@@ -126,7 +126,7 @@
     "StorageAccount:Images:TableEndpoint": "https://stdevdertinfoimagesuks.table.core.windows.net",
     "WebClient:Api:Uri": "https://app-dev-dertinfo-api-uks.azurewebsites.net/api",
     "WebClient:Auth0:Audience": "api.test.dertinfo.co.uk",
-    "WebClient:Auth0:CallbackUrl": "https://staging.dertinfo.co.uk",
+    "WebClient:Auth0:CallbackUrl": "https://dev.dertinfo.co.uk",
     "WebClient:Auth0:Domain": "dertinfotest.eu.auth0.com"
   }
 }

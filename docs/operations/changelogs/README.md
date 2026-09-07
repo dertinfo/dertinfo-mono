@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-09-07 | Web and App Static Web App Bicep and infra CD | [2026-09-07-006-web-app-swa-bicep.md](./2026-09-07-006-web-app-swa-bicep.md) |
 | 2026-09-07 | Pin SPA Docker images to Node 16 and drop dummy file: dependency | [2026-09-07-005-docker-spa-node16-file-dep.md](./2026-09-07-005-docker-spa-node16-file-dep.md) |
 | 2026-09-07 | SWA CD caller `actions: read` for nested artefact download | [2026-09-07-004-swa-cd-caller-actions-read.md](./2026-09-07-004-swa-cd-caller-actions-read.md) |
 | 2026-09-07 | SPA runtime `app.config.json` (build once, inject per environment) | [2026-09-07-003-spa-runtime-app-config.md](./2026-09-07-003-spa-runtime-app-config.md) |

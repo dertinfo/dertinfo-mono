@@ -215,6 +215,18 @@ When `AZURE_APP_CONFIG` is set, the API builds the SQL connection with `Authenti
 
 The site needs a **contained database user named after the App Service** (`CREATE USER [app-<dev|prd>-dertinfo-api-uks] FROM EXTERNAL PROVIDER`). Putting the MI in `dertinfo-sql-db-access-<environment>` does not grant that login. Operator scripts: [Secrets and rotation](secrets-and-rotation.md).
 
+### Auth0 tenants (local vs hosted)
+
+Do **not** treat GitHub Environment names as Auth0 tenant names. Today:
+
+| Runtime | GitHub / Azure | Auth0 tenant today |
+|---------|----------------|--------------------|
+| Local native / Docker | none | **`dertinfodev.eu.auth0.com`** (`infra/secrets/api.env`) |
+| New-stack Azure **development** | Environment `development` | **`dertinfotest.eu.auth0.com`** ([`app-config.development.json`](../../../infra/configuration/app-config.development.json)) |
+| Live / old production | separate estate | `dertinfo.eu.auth0.com` |
+
+Development SPA login on Azure uses **dertinfotest**. Hosted callbacks in the catalog are `https://dev.dertinfo.co.uk` (website) and `https://app-dev.dertinfo.co.uk` (PWA). A later rebuild will rename tenants to match environments — [planned-fix](../../operations/planned-fixes/auth0-tenant-rename-local-dev.md). See [Authentication](../subsystems/authentication.md).
+
 ### Auth0 (local)
 
 
