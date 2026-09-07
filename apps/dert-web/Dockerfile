@@ -15,7 +15,9 @@
 ##################################################################
 
 # Base Stage
-FROM node:lts AS base
+# Pin Node 16 — matches SPA CI and Angular 14. node:lts (24) / npm 11 fails
+# npm install when a file: workspace target is missing from this build context.
+FROM node:16-bookworm AS base
 
 # Install global dependencies and clean npm cache in a single RUN command
 RUN npm install -g @azure/static-web-apps-cli
