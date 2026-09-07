@@ -39,7 +39,7 @@ Naming follows `[SERVICEPROVIDER]_[SERVICETYPE]_[WORKLOADNAME]_[DESCRIPTION]_[TA
 | Functions App | `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_STG` (variable) | `DertInfoImageResizeV4_VariablesGroup.FunctionAppName_Stg` |
 | Web SWA deploy token | `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_STG` (secret) | `staging_deployment_token` |
 | App SWA deploy token | `AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_STG` (secret) | `staging_deployment_token` |
-| Angular build | `npm run ado-build-ui-test` | unchanged |
+| Angular build | `npm run build:hosted` + runtime `app.config.json` | GitHub CD injects API/callback per Environment |
 | Hosted URLs | `staging.dertinfo.co.uk`, etc. | unchanged |
 
 ### `prod` placeholders (not wired yet)
@@ -65,7 +65,7 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 |----------|---------|
 | `reusable-src-build-push-docker.yml` | Build and push to Docker Hub (`latest-dev` / `{run_id}-dev` for `development`; `latest` / `{run_id}` for `production`) |
 | `reusable-src-deploy-dotnet-appservice.yml` | OIDC login (`azure_oidc_workload` → `CLIENTID_WORKLOAD_*`) + zip/folder deploy to App Service |
-| `reusable-src-deploy-static-web-app.yml` | Deploy to Azure Static Web Apps |
+| `reusable-src-deploy-static-web-app.yml` | Download prebuilt SPA artefact, write `assets/app.config.json` from Environment variables, deploy to Azure Static Web Apps (`skip_app_build`) |
 | `reusable-infra-deploy-bicep-resourcegroup.yml` | OIDC (`azure_oidc_workload` → `CLIENTID_WORKLOAD_*`) + `az deployment group create` (workload infra) |
 | `reusable-infra-deploy-bicep-subscription.yml` | OIDC (`CLIENTID_SUBSCRIPTION`) + register resource providers + `az deployment sub create` (subscription foundation) |
 
@@ -88,13 +88,26 @@ Bicep house rules: [Bicep standards](../standards/bicep/). Operator scripts: [`i
 | Workflow | Build | Docker image | Deploy target |
 |----------|-------|--------------|---------------|
 | `api-src-cd.yml` | .NET `win-x86` publish; unit tests **gate** deploy | `dertinfo/dertinfo-api` | New-stack API App Service (`development` then gated `production`) |
-| `web-src-cd.yml` | SWA Oryx build | `dertinfo/dertinfo-web` | Static Web App (`development` / `production`) — needs SWA tokens |
-| `app-src-cd.yml` | SWA Oryx build | `dertinfo/dertinfo-app` | Static Web App (`development` / `production`) — needs SWA tokens |
+| `web-src-cd.yml` | One `npm run build:hosted`; CD writes `app.config.json` per Environment | `dertinfo/dertinfo-web` | Static Web App (`development` / `production`) — needs SWA tokens and callback URL var |
+| `app-src-cd.yml` | One `npm run build:hosted`; CD writes `app.config.json` per Environment | `dertinfo/dertinfo-app` | Static Web App (`development` / `production`) — needs SWA tokens and callback URL var |
 | `functions-src-cd.yml` | .NET publish | `dertinfo/dertinfo-imageresizev4` | Function App (`development` / `production`) — needs Function resource |
 
 Docker images are for **local development** (root `docker-compose.yml`, Codespaces). Hosted Azure deployments use native App Service / SWA deploy, not containers.
 
 After API infra exists, create the site’s SQL contained user **before** expecting Swagger to work ([Secrets and rotation — hosted Azure SQL](secrets-and-rotation.md#hosted-azure-sql-entra-only)). Development Swagger: `https://app-dev-dertinfo-api-uks.azurewebsites.net/swagger/index.html`.
+
+### SPA runtime config (web / app)
+
+`web-src-cd.yml` and `app-src-cd.yml` run **one** `npm run build:hosted` (`ng build --configuration production`) and upload the `dist` artefact. Each Environment deploy overwrites `assets/app.config.json` then publishes with `skip_app_build`:
+
+| Field | Source |
+|-------|--------|
+| `apiUrl` | `https://<AZURE_WEBAPP_API_RESOURCENAME>.azurewebsites.net/api` |
+| `allowedDomains` | `<AZURE_WEBAPP_API_RESOURCENAME>.azurewebsites.net` |
+| `auth0CallbackUrl` | `AZURE_STATICWEBAPP_WEB_CALLBACKURL` or `AZURE_STATICWEBAPP_APP_CALLBACKURL` (no trailing slash) |
+
+Local `ng serve` keeps the checked-in `src/assets/app.config.json`. Docker still patches the same file at container start (`docker-launch.sh`).
+
 
 ## GitHub setup checklist
 
@@ -114,7 +127,8 @@ Branching rule: [`.cursor/rules/github-flow.mdc`](../../../.cursor/rules/github-
 - Set Environment-scoped `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION`, `AZURE_ENTRA_OIDC_TENANTID`, `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID`
 - Set per-workload `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` and `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_<PART>` (paste from [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1))
 - After [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/New-DertInfoSqlEntraGroups.ps1): `AZURE_ENTRA_SQL_ADMIN_GROUP_NAME` and `AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID` (storage infra CD). Keep `AZURE_ENTRA_SQL_DBACCESS_GROUP_*` for operator scripts; do not commit object ids.
-- Set `AZURE_WEBAPP_API_RESOURCENAME` = `app-<env>-dertinfo-api-uks` after API infra exists
+- Set `AZURE_WEBAPP_API_RESOURCENAME` = `app-<env>-dertinfo-api-uks` after API infra exists (SPA CD derives `https://<name>.azurewebsites.net/api`)
+- Set `AZURE_STATICWEBAPP_WEB_CALLBACKURL` and `AZURE_STATICWEBAPP_APP_CALLBACKURL` (Auth0 callback base, no trailing slash — e.g. `https://<swa>.azurestaticapps.net` or the custom domain)
 - SWA tokens: `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV` / `_PRD` (and the `APP` equivalents) when those sites exist
 
 ### 2. Azure OIDC (recommended)

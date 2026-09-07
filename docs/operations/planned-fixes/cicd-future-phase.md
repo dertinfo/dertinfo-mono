@@ -34,15 +34,14 @@ Scope when undertaken:
 
 ## 2. Rename test → development
 
-Align GitHub, frontend, and Azure naming when the test environment is retired in favour of a single non-prod **development** environment:
+Align remaining GitHub / Azure naming when the legacy ADO `test` environment is fully retired. Frontend API URLs no longer use `environment.test.ts`; hosted SPAs load `assets/app.config.json` written by GitHub CD ([CI/CD](../../technical/infra/cicd.md)).
 
-- GitHub Environments: `test` → `development`
-- Variable/secret names: adopt `[PROVIDER]_[TYPE]_[WORKLOAD]_[DESCRIPTION]_[ENV]` with `DEV` target suffix (see [docs/technical/infra/cicd.md](../../technical/infra/cicd.md#naming-convention))
-- Angular: `ado-build-ui-test` / `test` build configuration → `development`
-- `environment.test.ts` → `environment.development.ts` (or equivalent)
-- Azure resource tags and URLs where applicable
+Still deferred:
 
-Keep **`prod`** for production.
+- Variable/secret names on leftover `test` / `prod` Environments
+- Azure resource tags and custom URLs where applicable
+
+Keep **`prd`** / **`PRD`** for production (not `PROD`).
 
 ## 3. Infrastructure as code
 

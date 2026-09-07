@@ -1,4 +1,8 @@
 
+# Legacy Azure DevOps SWA pipeline (reference only).
+# Canonical deploy is GitHub Actions (`app-src-cd.yml`): one `npm run build:hosted`
+# artefact, then `app.config.json` written per environment.
+
 trigger:
   branches:
     include:
@@ -31,7 +35,7 @@ stages:
             - task: AzureStaticWebApp@0
               inputs:
                 app_location: 'src/client'
-                app_build_command: "npm run ado-build-ui-test"
+                app_build_command: "npm run build:hosted"
                 output_location: 'dist'
               env:
                 azure_static_web_apps_api_token: $(staging_deployment_token)
@@ -50,7 +54,7 @@ stages:
             - task: AzureStaticWebApp@0
               inputs:
                 app_location: 'src/client'
-                app_build_command: "npm run ado-build-ui-prod"
+                app_build_command: "npm run build:hosted"
                 output_location: 'dist'
               env:
                 azure_static_web_apps_api_token: $(live_deployment_token)

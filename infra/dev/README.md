@@ -131,6 +131,8 @@ For normal feature work on the **website** and **API**, use native processes wit
 
 **Workflow:** bring the estate up once with `npm run start`, then keep coding. Re-run start only if something died — healthy api/web/azurite/imageResize should skip. Set `rebuild: true` on a single service only when you need a clean restart of that process.
 
+Enabling a service that was `off` and running start again is the intended way to add it. Today a **port in use but not healthy** probe still **aborts the whole start** ([planned-fix](../../docs/operations/planned-fixes/start-skip-running-services.md)).
+
 ### Timing expectations
 
 Figures from one Windows machine (2026-07-25); treat as order-of-magnitude, not a guarantee.

@@ -1,14 +1,7 @@
-// Note that the settings here are used when the application deploys via
-// The Azure pipelines to the live envionment. 
-// This deployment does not use docker containers and teh deployment builds the application
-// using the Angular CLI.
+// Hosted build only (ng build --configuration production). Enables Angular
+// production mode. Do not put API or Auth0 URLs here — those are runtime
+// assets/app.config.json (local file or CD-injected per environment).
 
 export const environment = {
-  production: true,
-  apiUrl: 'https://dertinfo-live-api-wa.azurewebsites.net/api',
-  // Auth0 Allowed Callback base (production). Same Auth0 Angular SDK path as local/staging.
-  auth0CallbackUrl: "https://www.dertinfo.co.uk",
-  allowedDomains: [
-    "dertinfo-live-api-wa.azurewebsites.net"
-  ]
+  production: true
 };

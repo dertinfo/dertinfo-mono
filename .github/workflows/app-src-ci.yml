@@ -35,5 +35,5 @@ jobs:
         run: npm run test -- --watch=false --browsers=ChromeHeadless
         continue-on-error: true
 
-      - name: Build
-        run: npm run build
+      - name: Build (hosted)
+        run: npm run build:hosted

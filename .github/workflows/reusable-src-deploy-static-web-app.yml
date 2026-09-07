@@ -9,23 +9,9 @@ on:
       workload:
         required: true
         type: string
-      app_location:
+      artifact_name:
         required: true
         type: string
-      output_location:
-        required: true
-        type: string
-      build_command:
-        required: true
-        type: string
-      api_location:
-        required: false
-        type: string
-        default: ''
-      submodules:
-        required: false
-        type: boolean
-        default: false
 
 jobs:
   deploy:
@@ -33,30 +19,66 @@ jobs:
     environment: ${{ inputs.environment }}
     permissions:
       contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: ${{ inputs.submodules }}
 
-      - name: Deploy to Azure Static Web Apps (with API)
-        if: inputs.api_location != ''
+      - name: Download prebuilt SPA
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: swa-output
+
+      - name: Write runtime app.config.json
+        env:
+          API_APP: ${{ vars.AZURE_WEBAPP_API_RESOURCENAME }}
+          WEB_CALLBACK: ${{ vars.AZURE_STATICWEBAPP_WEB_CALLBACKURL }}
+          APP_CALLBACK: ${{ vars.AZURE_STATICWEBAPP_APP_CALLBACKURL }}
+          WORKLOAD: ${{ inputs.workload }}
+        run: |
+          set -euo pipefail
+          if [ "$WORKLOAD" = "web" ]; then
+            CALLBACK="${WEB_CALLBACK}"
+            CALLBACK_VAR="AZURE_STATICWEBAPP_WEB_CALLBACKURL"
+          elif [ "$WORKLOAD" = "app" ]; then
+            CALLBACK="${APP_CALLBACK}"
+            CALLBACK_VAR="AZURE_STATICWEBAPP_APP_CALLBACKURL"
+          else
+            echo "Unknown workload: $WORKLOAD"
+            exit 1
+          fi
+          if [ -z "$API_APP" ]; then
+            echo "Set AZURE_WEBAPP_API_RESOURCENAME on GitHub Environment ${{ inputs.environment }}."
+            exit 1
+          fi
+          if [ -z "$CALLBACK" ]; then
+            echo "Set $CALLBACK_VAR on GitHub Environment ${{ inputs.environment }} (Auth0 callback base, no trailing slash)."
+            exit 1
+          fi
+          CALLBACK="${CALLBACK%/}"
+          API_HOST="${API_APP}.azurewebsites.net"
+          if [ ! -f swa-output/staticwebapp.config.json ]; then
+            echo "staticwebapp.config.json missing from artefact $WORKLOAD"
+            exit 1
+          fi
+          mkdir -p swa-output/assets
+          jq -n \
+            --arg cb "$CALLBACK" \
+            --arg host "$API_HOST" \
+            '{
+              auth0CallbackUrl: $cb,
+              apiUrl: ("https://" + $host + "/api"),
+              allowedDomains: [$host]
+            }' > swa-output/assets/app.config.json
+          echo "Wrote swa-output/assets/app.config.json"
+          cat swa-output/assets/app.config.json
+
+      - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ inputs.environment == 'production' && (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_PRD || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_PRD) || (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_DEV) }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
-          app_location: ${{ inputs.app_location }}
-          api_location: ${{ inputs.api_location }}
-          output_location: ${{ inputs.output_location }}
-          app_build_command: ${{ inputs.build_command }}
-
-      - name: Deploy to Azure Static Web Apps (app only)
-        if: inputs.api_location == ''
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ inputs.environment == 'production' && (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_PRD || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_PRD) || (inputs.workload == 'web' && secrets.AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV || secrets.AZURE_STATICWEBAPP_APP_DEPLOYTOKEN_DEV) }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: upload
-          app_location: ${{ inputs.app_location }}
-          output_location: ${{ inputs.output_location }}
-          app_build_command: ${{ inputs.build_command }}
+          app_location: swa-output
+          skip_app_build: true
+          skip_api_build: true

@@ -1,15 +1,7 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-// The list of file replacements can be found in `angular.json`.
+// Default (ng serve / ng build). Hosted CD uses --configuration production,
+// which file-replaces this with environment.prod.ts so enableProdMode() runs.
+// API URL, Auth0 callback, and allowed domains come from assets/app.config.json.
 
 export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:44100/api',
-  // Auth0 Allowed Callback base (local). SDK uses `${auth0CallbackUrl}/callback`.
-  auth0CallbackUrl: "http://localhost:44200",
-  allowedDomains: [
-    "localhost:44100"
-  ]
+  production: false
 };
