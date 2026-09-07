@@ -10,8 +10,8 @@ targetScope = 'resourceGroup'
 // Parameters
 // #####################################################
 
-@description('Azure region.')
-param location string = 'uksouth'
+@description('Azure region for the Static Web App. Microsoft.Web/staticSites is not available in uksouth; westeurope is the nearest supported region. Resource groups stay uksouth.')
+param location string = 'westeurope'
 
 @description('Environment tag (dev or prd).')
 @allowed([
@@ -47,6 +47,7 @@ param enableTelemetry bool = false
 
 var regionTlaByLocation = {
   uksouth: 'uks'
+  westeurope: 'weu'
   eastus: 'eus'
   northeurope: 'neu'
 }
