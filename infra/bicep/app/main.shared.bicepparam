@@ -7,7 +7,8 @@ Do not put secrets or identifiable estate ids here.
 
 using none
 
-param location = 'uksouth'
+// SWA resource location (not the RG). Microsoft.Web/staticSites is not available in uksouth.
+param location = 'westeurope'
 param productSlug = 'dertinfo'
 param enableTelemetry = false
 // Default false. Set true only after the hosted API App Service exists (see comment on this param in main.bicep).
