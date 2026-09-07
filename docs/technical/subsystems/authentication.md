@@ -156,9 +156,19 @@ Implementation: [`Auth0V2ManagementApiClient`](../../../apps/dert-api/src/dertin
 
 ## Auth0 tenants
 
-Use a **separate Auth0 tenant per environment** (development, staging/test, production) so entity IDs and admins cannot cross environments (e.g. `groupadmin` for group `4` in dev must not unlock group `4` in production).
+Use a **separate Auth0 tenant per environment** so entity IDs and admins cannot cross environments (e.g. `groupadmin` for group `4` in one tenant must not unlock group `4` in another).
 
-Local monorepo work typically uses the shared **dev** tenant — see [Configuration](../infra/configuration.md).
+Do **not** treat GitHub Environment names (`development` / `production`) as Auth0 tenant names. Today’s mapping:
+
+| Runtime | GitHub / Azure | Auth0 tenant today |
+|---------|----------------|--------------------|
+| Local native / Docker | none | **`dertinfodev.eu.auth0.com`** (`infra/secrets/api.env`) |
+| New-stack Azure **development** | Environment `development` | **`dertinfotest.eu.auth0.com`** ([`app-config.development.json`](../../../infra/configuration/app-config.development.json) `Auth0:Domain`, `WebClient:Auth0:Domain`, `PwaClient:Auth0:Domain`) |
+| Live / old production | separate estate | `dertinfo.eu.auth0.com` |
+
+Development SPA login on Azure uses **dertinfotest**, not dertinfodev. Hosted website and PWA callbacks for that tenant are `https://dev.dertinfo.co.uk` and `https://app-dev.dertinfo.co.uk` (PWA also `https://app-dev.dertinfo.co.uk/auth/callback`). See [Configuration](../infra/configuration.md) and [CI/CD](../infra/cicd.md).
+
+A later rebuild will rename tenants so names match environments (`dertinfolocal` / `dertinfodev`) — [planned-fix](../../operations/planned-fixes/auth0-tenant-rename-local-dev.md).
 
 ## Related
 

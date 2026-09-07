@@ -26,8 +26,8 @@ Conventions for Bicep (naming inside resources, parameter style, secrets handlin
 | monitoring | [`infra/bicep/monitoring/`](../../../infra/bicep/monitoring/) | Log Analytics (1 GB/day cap), Application Insights |
 | storage | [`infra/bicep/storage/`](../../../infra/bicep/storage/) | Images Storage Account, Azure SQL (gated) |
 | api | [`infra/bicep/api/`](../../../infra/bicep/api/) | App Service Plan + Web App (Windows / `win-x86` CD) |
-| web | (later) | Static Web App |
-| app | (later) | Static Web App |
+| web | [`infra/bicep/web/`](../../../infra/bicep/web/) | Free Static Web App (gated on hosted API) |
+| app | [`infra/bicep/app/`](../../../infra/bicep/app/) | Free Static Web App (gated on hosted API) |
 
 Target RGs: `rg-<env>-dertinfo-<part>-uks` — see [azure-estate-dev-prd.md](azure-estate-dev-prd.md).
 

@@ -21,5 +21,6 @@ Open in-repo notes for work still to do in the solution. **Not a ticket backlog*
 | GitHub issue / PR templates | [github-issue-pr-templates.md](github-issue-pr-templates.md) |
 | Storage Entra (managed identity) and App Configuration cleanup | [storage-managed-identity.md](storage-managed-identity.md) |
 | Remove temporary `workflow_dispatch` from src CI/CD | [remove-src-workflow-dispatch.md](remove-src-workflow-dispatch.md) |
+| Rebuild Auth0 tenants as `dertinfolocal` (local) and `dertinfodev` (Azure development) | [auth0-tenant-rename-local-dev.md](auth0-tenant-rename-local-dev.md) |
 
 Resolved deep-dives: [investigations/](../investigations/).

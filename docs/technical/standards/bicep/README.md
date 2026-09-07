@@ -9,7 +9,7 @@ updated: 2026-08-30
 
 House conventions for Azure Bicep in this monorepo. Follow these wherever you add or change templates under [`infra/bicep/`](../../../../infra/bicep/).
 
-**Primary reference:** subscription policy composition [`infra/bicep/subscription/policy/main.bicep`](../../../../infra/bicep/subscription/policy/main.bicep) and the workload folders beside it (`config`, `monitoring`, `storage`, `api`). Cursor rule: [`.cursor/rules/bicep.mdc`](../../../../.cursor/rules/bicep.mdc).
+**Primary reference:** subscription policy composition [`infra/bicep/subscription/policy/main.bicep`](../../../../infra/bicep/subscription/policy/main.bicep) and the workload folders beside it (`config`, `monitoring`, `storage`, `api`, `web`, `app`). Cursor rule: [`.cursor/rules/bicep.mdc`](../../../../.cursor/rules/bicep.mdc).
 
 Requires **Bicep CLI 0.44.1+** (extendable parameter files).
 
@@ -78,6 +78,8 @@ Workloads that **read or assign into another part** take `param prerequisitesExi
 | config, monitoring | All resources | n/a |
 | storage | Images Storage Account | SQL server and database |
 | api | Nothing (empty success) | Plan, site, MI role assignments, App Config / Insights settings |
+| web | Nothing (empty success) | Free Static Web App `swa-<env>-dertinfo-web-uks`. Requires hosted API `app-<env>-dertinfo-api-uks`. Custom domain bind is a second flag (`customDomainReady`) after DNS exists. |
+| app | Nothing (empty success) | Free Static Web App `swa-<env>-dertinfo-app-uks`. Same API prerequisite. Same `customDomainReady` pattern. |
 
 Put `existing` Key Vault / App Configuration / Application Insights and `getSecret()` **inside a local module** that is itself `if (prerequisitesExist)`. An unconditional `existing` in `main.bicep` makes ARM resolve the resource even when unused, and the deploy fails.
 
@@ -97,6 +99,7 @@ Pattern for most resources: `<type>-<env>-dertinfo-<part>-<rgn>` with `env` = `d
 | SQL server | 1–63, globally unique | `sql-<env>-dertinfo-storage-uks` |
 | SQL database | | `sqldb-<env>-dertinfo-storage-uks` |
 | App Service plan / site | | `plan-<env>-dertinfo-api-uks` / `app-<env>-dertinfo-api-uks` |
+| Static Web App | | `swa-<env>-dertinfo-web-uks` / `swa-<env>-dertinfo-app-uks` |
 
 Do not use `prod` in names.
 
@@ -127,6 +130,7 @@ Current pins (this workstream):
 | `avm/res/sql/server` | 0.22.0 |
 | `avm/res/web/serverfarm` | 0.7.0 |
 | `avm/res/web/site` | 0.24.0 |
+| `avm/res/web/static-site` | 0.9.0 |
 | `avm/res/authorization/role-assignment/rg-scope` | 0.1.1 |
 | `avm/res/resources/resource-group` | 0.4.4 |
 
