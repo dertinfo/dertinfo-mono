@@ -70,6 +70,9 @@ jobs:
   deploy-dev:
     needs: build
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.target == 'full' || inputs.target == 'dev-only'))
+    permissions:
+      contents: read
+      actions: read
     uses: ./.github/workflows/reusable-src-deploy-static-web-app.yml
     secrets: inherit
     with:
@@ -92,6 +95,9 @@ jobs:
   deploy-prod:
     needs: [build, deploy-dev]
     if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'full')
+    permissions:
+      contents: read
+      actions: read
     uses: ./.github/workflows/reusable-src-deploy-static-web-app.yml
     secrets: inherit
     with:

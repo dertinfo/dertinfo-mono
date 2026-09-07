@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-09-07 | SWA CD caller `actions: read` for nested artefact download | [2026-09-07-004-swa-cd-caller-actions-read.md](./2026-09-07-004-swa-cd-caller-actions-read.md) |
 | 2026-09-07 | SPA runtime `app.config.json` (build once, inject per environment) | [2026-09-07-003-spa-runtime-app-config.md](./2026-09-07-003-spa-runtime-app-config.md) |
 | 2026-09-07 | Development API src deploy and App Service SQL contained user | [2026-09-07-002-dev-api-sql-contained-user.md](./2026-09-07-002-dev-api-sql-contained-user.md) |
 | 2026-09-07 | Temporary `workflow_dispatch` on src CI/CD | [2026-09-07-001-src-workflow-dispatch.md](./2026-09-07-001-src-workflow-dispatch.md) |

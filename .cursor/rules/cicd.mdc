@@ -19,6 +19,7 @@ Reusable workflows:
 
 - Pass non-secrets via `workflow_call` **inputs** or read **`vars`** in the called workflow (e.g. `vars.DOCKERHUB_USERNAME` at repo level; environment-scoped vars on jobs with `environment: test`).
 - Pass credentials via `workflow_call` **secrets** or `secrets: inherit` — repository secrets are **not** available in a called workflow unless inherited or passed explicitly. Never put secrets in `with:` inputs.
+- Caller jobs that `uses:` a reusable workflow must grant every permission the nested job requests (intersection). SWA deploy downloads a build artefact, so the caller needs `actions: read` as well as `contents: read`.
 
 ## Naming convention
 
