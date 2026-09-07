@@ -32,9 +32,9 @@ A merge to `main` is a **push**, which starts **CD**. See [CI/CD](../infra/cicd.
 
 | Concern | Today |
 |---------|--------|
-| Src CI | Path-filtered `*-src-ci.yml` on pull requests into `main` |
-| Src CD | `*-src-cd.yml` on push to `main` → Environment `development`, then gated `production` |
-| Infra CD | `*-infra-cd.yml` on push to `main` → same Environments |
+| Src CI | Path-filtered `*-src-ci.yml` on pull requests into `main`. Temporary: `workflow_dispatch` ([remove later](../../operations/planned-fixes/remove-src-workflow-dispatch.md)). |
+| Src CD | `*-src-cd.yml` on push to `main` → Environment `development`, then gated `production`. Temporary: `workflow_dispatch` (`dev-only` / `full`). |
+| Infra CD | `*-infra-cd.yml` on push to `main` or `workflow_dispatch` → same Environments |
 
 Hosted apps use Azure Static Web Apps (SPAs) and App Service / Function App (.NET), not containers in Azure. Docker images support local/dev consumption.
 

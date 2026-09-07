@@ -8,9 +8,9 @@ Completed CD migration work is recorded in the [change log](changelogs/README.md
 
 | Concern | Workflows | Trigger |
 |---------|-----------|---------|
-| **CI** (build, test, lint) | `*-src-ci.yml` | Pull requests **into `main`** (path-filtered). GitHub Flow — no `develop` branch. |
-| **Src CD** (app deploy + Docker Hub) | `*-src-cd.yml` | Push to **`main`** after merge (path-filtered) |
-| **Infra CD** (Bicep) | `*-infra-cd.yml` | Push to **`main`** after merge (path-filtered) |
+| **CI** (build, test, lint) | `*-src-ci.yml` | Pull requests **into `main`** (path-filtered). GitHub Flow — no `develop` branch. Temporary: `workflow_dispatch` ([remove later](../../operations/planned-fixes/remove-src-workflow-dispatch.md)). |
+| **Src CD** (app deploy + Docker Hub) | `*-src-cd.yml` | Push to **`main`** after merge (path-filtered). Temporary: `workflow_dispatch` with `target` `full` or `dev-only` (default **`dev-only`**) so we can deploy while testing Azure settings ([remove later](../../operations/planned-fixes/remove-src-workflow-dispatch.md)). |
+| **Infra CD** (Bicep) | `*-infra-cd.yml`, `subscription-infra-cd.yml` | Push to **`main`** after merge (path-filtered), plus `workflow_dispatch` (`full` / `dev-only`, default **`full`**) for Bicep re-runs without template diffs. |
 
 Src CD workflows replace the per-app Azure DevOps pipelines under `apps/*/pipelines/`. Each `*-src-cd.yml` merges the former **source deploy** and **Docker Hub** pipelines into one workflow.
 

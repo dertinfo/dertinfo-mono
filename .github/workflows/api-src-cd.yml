@@ -1,6 +1,16 @@
 name: API Src CD
 
 on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Deployment target'
+        required: true
+        type: choice
+        default: dev-only
+        options:
+          - full
+          - dev-only
   push:
     branches: [main]
     paths:
@@ -89,6 +99,7 @@ jobs:
 
   docker-dev:
     needs: build
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.target == 'full' || inputs.target == 'dev-only'))
     uses: ./.github/workflows/reusable-src-build-push-docker.yml
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -100,6 +111,7 @@ jobs:
 
   deploy-dev:
     needs: [build, unit-test]
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && (inputs.target == 'full' || inputs.target == 'dev-only'))
     permissions:
       id-token: write
       contents: read
@@ -114,6 +126,7 @@ jobs:
 
   docker-prod:
     needs: deploy-dev
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'full')
     uses: ./.github/workflows/reusable-src-build-push-docker.yml
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -125,6 +138,7 @@ jobs:
 
   deploy-prod:
     needs: [deploy-dev, build]
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.target == 'full')
     permissions:
       id-token: write
       contents: read
