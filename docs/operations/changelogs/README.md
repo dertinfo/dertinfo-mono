@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-09-07 | Temporary `workflow_dispatch` on src CI/CD | [2026-09-07-001-src-workflow-dispatch.md](./2026-09-07-001-src-workflow-dispatch.md) |
 | 2026-08-31 | Azure SQL database access user script (ODBC Entra MFA) | [2026-08-31-003-sql-db-access-user-odbc-mfa.md](./2026-08-31-003-sql-db-access-user-odbc-mfa.md) |
 | 2026-08-31 | App Configuration catalog JSON, export, and import | [2026-08-31-002-appconfig-catalog-export-import.md](./2026-08-31-002-appconfig-catalog-export-import.md) |
 | 2026-08-31 | Config Key Vault secret names, App Config references, and API infra RBAC | [2026-08-31-001-config-kv-appconfig-api-rbac.md](./2026-08-31-001-config-kv-appconfig-api-rbac.md) |
