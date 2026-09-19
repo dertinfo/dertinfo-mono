@@ -225,7 +225,7 @@ Do **not** treat GitHub Environment names as Auth0 tenant names. Today:
 | New-stack Azure **development** | Environment `development` | **`dertinfotest.eu.auth0.com`** ([`app-config.development.json`](../../../infra/configuration/app-config.development.json)) |
 | Live / old production | separate estate | `dertinfo.eu.auth0.com` |
 
-Development SPA login on Azure uses **dertinfotest**. Hosted callbacks in the catalog are `https://dev.dertinfo.co.uk` (website) and `https://app-dev.dertinfo.co.uk` (PWA). A later rebuild will rename tenants to match environments — [planned-fix](../../operations/planned-fixes/auth0-tenant-rename-local-dev.md). See [Authentication](../subsystems/authentication.md).
+Development SPA login on Azure uses **dertinfotest**. Hosted catalog callbacks are `https://dev.dertinfo.co.uk` (website) and `https://app-dev.dertinfo.co.uk` (PWA). Auth0 application lists need the extra paths (`/callback`, `/auth/callback`) — [Authentication](../subsystems/authentication.md#hosted-development-auth0-application-urls). A later rebuild will rename tenants to match environments — [planned-fix](../../operations/planned-fixes/auth0-tenant-rename-local-dev.md).
 
 ### Auth0 (local)
 

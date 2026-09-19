@@ -30,4 +30,6 @@ Development web/app infra CD failed when `customDomainReady` was true. Custom-do
 
 ## Any remaining issues that we may wish to address
 
-- After merge: run **subscription infra CD** `dev-only`, then re-run **Web** and **App** infra CD `dev-only` so the custom-domain bind can finish.
+- Merge this PR so `main` keeps the subscription role (already applied from the hotfix branch).
+- Run **Web Src CD** and **App Src CD** `dev-only`, then sign in on `https://dev.dertinfo.co.uk` and `https://app-dev.dertinfo.co.uk`.
+- Development infra, custom-domain bind, Auth0 `dertinfotest` application URLs, App Configuration callbacks/CORS, and API restart are done (2026-09-19). Operator detail: [CI/CD](../../technical/infra/cicd.md#first-development-swa-deploy-operator).
