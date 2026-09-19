@@ -166,7 +166,33 @@ Do **not** treat GitHub Environment names (`development` / `production`) as Auth
 | New-stack Azure **development** | Environment `development` | **`dertinfotest.eu.auth0.com`** ([`app-config.development.json`](../../../infra/configuration/app-config.development.json) `Auth0:Domain`, `WebClient:Auth0:Domain`, `PwaClient:Auth0:Domain`) |
 | Live / old production | separate estate | `dertinfo.eu.auth0.com` |
 
-Development SPA login on Azure uses **dertinfotest**, not dertinfodev. Hosted website and PWA callbacks for that tenant are `https://dev.dertinfo.co.uk` and `https://app-dev.dertinfo.co.uk` (PWA also `https://app-dev.dertinfo.co.uk/auth/callback`). See [Configuration](../infra/configuration.md) and [CI/CD](../infra/cicd.md).
+Development SPA login on Azure uses **dertinfotest**, not dertinfodev. See [Configuration](../infra/configuration.md) and [CI/CD](../infra/cicd.md).
+
+### Hosted development Auth0 application URLs
+
+Configure the **website** and **PWA** applications on `dertinfotest` separately (different client ids). Paths must match the SPA SDKs.
+
+**Website** (`WebClient:Auth0:ClientId`):
+
+| Field | Value |
+|-------|--------|
+| Allowed Callback URLs | `https://dev.dertinfo.co.uk/callback` |
+| Allowed Logout URLs | `https://dev.dertinfo.co.uk` |
+| Allowed Web Origins | `https://dev.dertinfo.co.uk` |
+| Allowed Origins (CORS) | `https://dev.dertinfo.co.uk` |
+
+**PWA** (`PwaClient:Auth0:ClientId`):
+
+| Field | Value |
+|-------|--------|
+| Allowed Callback URLs | `https://app-dev.dertinfo.co.uk/auth/callback` |
+| Allowed Logout URLs | `https://app-dev.dertinfo.co.uk/home` |
+| Allowed Web Origins | `https://app-dev.dertinfo.co.uk` |
+| Allowed Origins (CORS) | `https://app-dev.dertinfo.co.uk` |
+
+Do not put website hosts on the PWA application or the reverse. Optional PWA extras if silent renew still runs: `https://app-dev.dertinfo.co.uk/auth/silent`.
+
+App Configuration (API) uses the **origins only** (`WebClient:Auth0:CallbackUrl` / `PwaClient:Auth0:CallbackUrl` / `Cors:AllowedOrigins`). The `/callback` and `/auth/callback` suffixes are Auth0 application settings, not catalog keys.
 
 A later rebuild will rename tenants so names match environments (`dertinfolocal` / `dertinfodev`) — [planned-fix](../../operations/planned-fixes/auth0-tenant-rename-local-dev.md).
 
