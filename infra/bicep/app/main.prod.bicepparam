@@ -12,4 +12,4 @@ param environmentTag = 'prd'
 param staticWebAppName = 'swa-prd-dertinfo-app-uks'
 param prerequisitesExist = false
 param customDomainReady = false
-param customDomainName = ''
+param customDomainName = 'app.dertinfo.co.uk'
