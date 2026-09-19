@@ -145,6 +145,7 @@ var keyVaultSecretsUserRoleId = '4633458b-17de-408a-b874-0445c86b69e6'
 var apiConfigRoleAssignmentCondition = '((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/write\'})) OR (@Request[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${appConfigurationDataReaderRoleId}, ${keyVaultSecretsUserRoleId}})) AND ((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/delete\'})) OR (@Resource[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${appConfigurationDataReaderRoleId}, ${keyVaultSecretsUserRoleId}}))'
 
 var apiConfigNestedDeployRoleName = 'dertinfo-api-config-nested-deploy-${environmentTag}'
+var swaOperationStatusRoleName = 'dertinfo-swa-operation-status-read-${environmentTag}'
 
 // #####################################################
 // References
@@ -176,6 +177,48 @@ resource apiConfigNestedDeployRole 'Microsoft.Authorization/roleDefinitions@2018
         notActions: []
       }
     ]
+  }
+}
+
+// SWA custom-domain bind is async. ARM polls Microsoft.Web/locations/staticSitesOperationStatuses
+// at subscription/location scope; RG Contributor cannot cover that.
+resource swaOperationStatusRole 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' = {
+  name: guid(subscription().id, environmentTag, 'dertinfo-swa-operation-status-read')
+  properties: {
+    roleName: swaOperationStatusRoleName
+    description: 'Poll Static Web App async operation status (custom-domain bind). Not Contributor.'
+    type: 'CustomRole'
+    assignableScopes: [
+      subscription().id
+    ]
+    permissions: [
+      {
+        actions: [
+          'Microsoft.Web/locations/staticSitesOperationStatuses/read'
+        ]
+        notActions: []
+      }
+    ]
+  }
+}
+
+resource swaOperationStatusWeb 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(pipelinePrincipalIdWeb)) {
+  name: guid(subscription().id, pipelinePrincipalIdWeb, swaOperationStatusRole.id)
+  properties: {
+    roleDefinitionId: swaOperationStatusRole.id
+    principalId: pipelinePrincipalIdWeb
+    principalType: 'ServicePrincipal'
+    description: 'Web workload identity — poll SWA operation status at subscription/location scope'
+  }
+}
+
+resource swaOperationStatusApp 'Microsoft.Authorization/roleAssignments@2022-04-01' = if (!empty(pipelinePrincipalIdApp)) {
+  name: guid(subscription().id, pipelinePrincipalIdApp, swaOperationStatusRole.id)
+  properties: {
+    roleDefinitionId: swaOperationStatusRole.id
+    principalId: pipelinePrincipalIdApp
+    principalType: 'ServicePrincipal'
+    description: 'App workload identity — poll SWA operation status at subscription/location scope'
   }
 }
 
