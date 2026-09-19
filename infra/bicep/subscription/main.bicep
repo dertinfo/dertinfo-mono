@@ -180,8 +180,10 @@ resource apiConfigNestedDeployRole 'Microsoft.Authorization/roleDefinitions@2018
   }
 }
 
-// SWA custom-domain bind is async. ARM polls Microsoft.Web/locations/staticSitesOperationStatuses
-// at subscription/location scope; RG Contributor cannot cover that.
+// SWA custom-domain bind is async. ARM polls at subscription/location scope
+// (errors may name staticSitesOperationStatuses). That string is not in the
+// Microsoft.Web provider operations catalog, so a custom role must use the
+// published locations read actions instead. RG Contributor cannot cover this.
 resource swaOperationStatusRole 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' = {
   name: guid(subscription().id, environmentTag, 'dertinfo-swa-operation-status-read')
   properties: {
@@ -194,7 +196,8 @@ resource swaOperationStatusRole 'Microsoft.Authorization/roleDefinitions@2018-01
     permissions: [
       {
         actions: [
-          'Microsoft.Web/locations/staticSitesOperationStatuses/read'
+          'Microsoft.Web/locations/operationResults/read'
+          'Microsoft.Web/locations/*/read'
         ]
         notActions: []
       }
