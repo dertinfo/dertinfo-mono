@@ -168,6 +168,11 @@ module imagesStorage 'br/public:avm/res/storage/storage-account:0.33.0' = {
     kind: 'StorageV2'
     allowBlobPublicAccess: true
     publicNetworkAccess: 'Enabled'
+    // AVM 0.33.0 defaults networkAcls.defaultAction to Deny even when publicNetworkAccess is Enabled.
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Allow'
+    }
     minimumTlsVersion: 'TLS1_2'
     blobServices: {
       containers: [for name in imageContainers: {

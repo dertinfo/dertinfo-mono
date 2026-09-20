@@ -186,6 +186,14 @@ module hostStorage 'br/public:avm/res/storage/storage-account:0.33.0' = {
     kind: 'StorageV2'
     allowBlobPublicAccess: false
     publicNetworkAccess: 'Enabled'
+    allowSharedKeyAccess: false
+    defaultToOAuthAuthentication: true
+    // AVM 0.33.0 defaults networkAcls.defaultAction to Deny (empty allow-list). Flex One Deploy
+    // uploads the zip as the Function App site MI; that path is not AzureServices bypass.
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Allow'
+    }
     minimumTlsVersion: 'TLS1_2'
     blobServices: {
       containers: [

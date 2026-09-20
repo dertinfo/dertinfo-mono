@@ -2,7 +2,7 @@
 name: System architecture overview
 type: architecture
 status: active
-updated: 2026-07-26
+updated: 2026-09-20
 ---
 
 # System architecture overview
@@ -72,6 +72,6 @@ Orchestration: `npm run doctor` / `start` / `stop` / `status` — see [Local dev
 ## Related technical topics
 
 - [Authentication (Auth0)](../subsystems/authentication.md)
-- [Security (CORS)](../subsystems/security.md)
+- [Security](../subsystems/security.md) (CORS, storage firewall, Flex One Deploy identity)
 - [CI/CD](../infra/cicd.md)
 - [Secrets inventory and rotation](../infra/secrets-and-rotation.md)

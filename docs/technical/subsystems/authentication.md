@@ -2,7 +2,7 @@
 name: Authentication
 type: subsystem
 status: active
-updated: 2026-07-26
+updated: 2026-09-20
 ---
 
 # Subsystem: Authentication (Auth0)
@@ -198,7 +198,7 @@ A later rebuild will rename tenants so names match environments (`dertinfolocal`
 
 ## Related
 
-- [Security (CORS)](security.md)
+- [Security](security.md)
 - [Capability roles](../../capabilities/roles/)
 - [Configuration](../infra/configuration.md)
 - API policies: `apps/dert-api/src/dertinfo-api/Start/Authorisations.cs`
