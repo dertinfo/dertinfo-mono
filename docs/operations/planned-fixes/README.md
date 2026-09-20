@@ -2,7 +2,7 @@
 name: Planned fixes
 type: index
 status: active
-updated: 2026-09-07
+updated: 2026-09-20
 ---
 
 # Planned fixes
@@ -22,5 +22,6 @@ Open in-repo notes for work still to do in the solution. **Not a ticket backlog*
 | Storage Entra (managed identity) and App Configuration cleanup | [storage-managed-identity.md](storage-managed-identity.md) |
 | Remove temporary `workflow_dispatch` from src CI/CD | [remove-src-workflow-dispatch.md](remove-src-workflow-dispatch.md) |
 | Rebuild Auth0 tenants as `dertinfolocal` (local) and `dertinfodev` (Azure development) | [auth0-tenant-rename-local-dev.md](auth0-tenant-rename-local-dev.md) |
+| Azure SQL firewall: App Service outbound IPs plus administrator IP (drop Allow Azure services) | [sql-firewall-app-service-and-admin.md](sql-firewall-app-service-and-admin.md) |
 
 Resolved deep-dives: [investigations/](../investigations/).
