@@ -16,4 +16,4 @@ param flagSqlServerIsReady = true
 // Flip after Function App exists; pipeline injects the site MI principal id.
 param flagImagesFunctionAppReady = true
 // Flip after Functions Src CD (webhook handshake). Do not couple to SQL.
-param flagImagesEventGridReady = false
+param flagImagesEventGridReady = true
