@@ -158,8 +158,8 @@ var storageFunctionsListKeysRoleName = 'dertinfo-storage-functions-listkeys-${en
 var functionAppStopRoleName = 'dertinfo-functionapp-stop-${environmentTag}'
 
 // Roles the FUNCTIONS workload SP may assign on the functions RG (site MI host storage + Logic App stop).
-var storageBlobDataOwnerRoleId = 'b7e6ba4c-320b-476a-8d46-e3a97e8c5b32'
-var storageQueueDataContributorRoleId = '974c5e8b-45b9-4653-ba55-5f573ca84842'
+var storageBlobDataOwnerRoleId = 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'
+var storageQueueDataContributorRoleId = '974c5e8b-45b9-4653-ba55-5f855dd0fb88'
 var storageTableDataContributorRoleId = '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
 var functionAppStopRoleDefinitionGuid = guid(subscription().id, environmentTag, 'dertinfo-functionapp-stop')
 var functionsRgRoleAssignmentCondition = '((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/write\'})) OR (@Request[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${storageBlobDataOwnerRoleId}, ${storageQueueDataContributorRoleId}, ${storageTableDataContributorRoleId}, ${functionAppStopRoleDefinitionGuid}})) AND ((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/delete\'})) OR (@Resource[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${storageBlobDataOwnerRoleId}, ${storageQueueDataContributorRoleId}, ${storageTableDataContributorRoleId}, ${functionAppStopRoleDefinitionGuid}}))'
