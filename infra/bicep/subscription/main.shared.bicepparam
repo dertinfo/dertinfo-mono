@@ -16,6 +16,7 @@ param workloadParts = [
   'app'
   'api'
   'monitoring'
+  'functions'
 ]
 param pipelineRoleDefinitionIdOrName = 'b24988ac-6180-42a0-ab88-20f7382dd24c' // 'Contributor'
 param allowedResourceTypes = [
@@ -49,6 +50,12 @@ param allowedResourceTypes = [
   'Microsoft.Insights/components'
   'Microsoft.Insights/dataCollectionRules'
   'Microsoft.Insights/dataCollectionEndpoints'
+  'Microsoft.Insights/metricAlerts'
+  'Microsoft.Insights/actionGroups'
+  'Microsoft.EventGrid/systemTopics'
+  'Microsoft.EventGrid/systemTopics/eventSubscriptions'
+  'Microsoft.Logic/workflows'
+  'Microsoft.Web/connections'
   'Microsoft.OperationalInsights/workspaces'
   'Microsoft.OperationalInsights/workspaces/tables'
   'Microsoft.Resources/deployments'
@@ -60,6 +67,7 @@ param allowedAppServicePlanSkus = [
   'F1'
   'D1'
   'B1'
+  'FC1'
   'Free'
   'Shared'
   'Basic'

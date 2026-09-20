@@ -1,5 +1,5 @@
 /*
-SQL server + Basic database. Only invoked when prerequisitesExist is true
+SQL server + Basic database. Only invoked when flagSqlServerIsReady is true
 so Entra admin placeholders are never resolved as empty SIDs.
 Entra-only: no SQL administrator login or password.
 */

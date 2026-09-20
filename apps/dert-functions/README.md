@@ -81,30 +81,11 @@ Once you have the solution running:
 
 ## Infrastucture
 
-This project has a folder of /infra at the root of the repository that contains bicep files that will allow this project to be deployed to a resource group within an Azure subscription. 
+Hosted Function App is [`infra/bicep/functions/`](../../infra/bicep/functions/) (Linux Flex Consumption, managed identity). Images Blob Data Contributor and Event Grid live in [`infra/bicep/storage/`](../../infra/bicep/storage/). GitHub Actions: [`functions-infra-cd.yml`](../../.github/workflows/functions-infra-cd.yml), [`storage-infra-cd.yml`](../../.github/workflows/storage-infra-cd.yml), and [`functions-src-cd.yml`](../../.github/workflows/functions-src-cd.yml). Operator sequence: [CI/CD — First development Functions deploy](../../docs/technical/infra/cicd.md#first-development-functions-deploy-operator).
 
-### Deployments To the hosted site
-There are Azure DevOps pipelines that watch the main branch of this repository and run on commits to code into either the /src or /infra folders
+Azure DevOps [`pipelines/azure-pipelines-infra.yml`](pipelines/azure-pipelines-infra.yml) is retired. Src ADO YAML can remain until production traffic leaves the old Function App.
 
-### Deploying to your own subscription
-Use the following commands to setup the infrastucture for this project: 
-
-- env - values of stg,prod
-- tenantId - the id of the Azure tenant used to host the application
-- subsriptionId - the id of the Azure subscription that contains the resources.
-
-```
-az login --tenant [TenantId]
-az account set --subscription [SubscriptionId]
-az group create --name di-rg-imageresizev4-[env] --location uksouth
-az deployment group create --resource-group di-rg-imageresizev4-[env] --template-file deploy.bicep --parameters @deploy-params-[env].json
-```
-
-There are 2 bicep files that can be manually deployed and need to be deployed in this order:
-
-- deploy.bicep - the main function app and service plan, alerting and other items
-- You must then deploy the code so that the endpoints for event grid are available. 
-- comms.bicep - this is the setup of event grid against a storage account that contains the images.
+Local / Docker: `infra/docker/docker-compose.yml` at repo root (Azurite + this worker). Do not deploy the removed `apps/dert-functions/infra/bicep/` templates.
 
 ## Running The Project
 

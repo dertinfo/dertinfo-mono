@@ -12,4 +12,8 @@ param imagesStorageAccountName = 'stdevdertinfoimagesuks'
 param sqlServerName = 'sql-dev-dertinfo-storage-uks'
 param sqlDatabaseName = 'sqldb-dev-dertinfo-storage-uks'
 param sqlBackupShortTermRetentionDays = 1
-param prerequisitesExist = true
+param flagSqlServerIsReady = true
+// Flip after Function App exists; pipeline injects the site MI principal id.
+param flagImagesFunctionAppReady = false
+// Flip after Functions Src CD (webhook handshake). Do not couple to SQL.
+param flagImagesEventGridReady = false

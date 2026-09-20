@@ -80,7 +80,7 @@ Tear down one workload app:
 .\New-DertInfoSqlEntraGroups.ps1 -GitHubEnvironment development
 ```
 
-Run this **before** SQL exists. It only creates or reuses the two groups. Paste `AZURE_ENTRA_SQL_ADMIN_GROUP_NAME` and `AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID` onto that GitHub Environment. Flip storage `prerequisitesExist`, re-run storage infra CD, then bind the access group to the database:
+Run this **before** SQL exists. It only creates or reuses the two groups. Paste `AZURE_ENTRA_SQL_ADMIN_GROUP_NAME` and `AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID` onto that GitHub Environment. Flip storage `flagSqlServerIsReady`, re-run storage infra CD, then bind the access group to the database:
 
 ```powershell
 .\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development

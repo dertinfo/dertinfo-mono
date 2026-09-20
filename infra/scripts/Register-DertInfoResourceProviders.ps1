@@ -33,8 +33,10 @@ Assert-AzCli
 $namespaces = @(
   'Microsoft.AppConfiguration'
   'Microsoft.Authorization'
+  'Microsoft.EventGrid'
   'Microsoft.Insights'
   'Microsoft.KeyVault'
+  'Microsoft.Logic'
   'Microsoft.ManagedIdentity'
   'Microsoft.OperationalInsights'
   'Microsoft.Security'

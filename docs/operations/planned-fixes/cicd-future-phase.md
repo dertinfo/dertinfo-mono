@@ -47,14 +47,12 @@ Keep **`prd`** / **`PRD`** for production (not `PROD`).
 
 Migrate deployment of Azure resources from ADO to GitHub Actions.
 
-### Functions (existing Bicep)
+### Functions (new-stack GitHub)
 
-- Source: [`apps/dert-functions/pipelines/azure-pipelines-infra.yml`](../../apps/dert-functions/pipelines/azure-pipelines-infra.yml)
-- Bicep: [`apps/dert-functions/infra/bicep/`](../../apps/dert-functions/infra/bicep/)
-- Capture test/prod parameters as GitHub environment variables from:
-  - `DertInfoImageResizeV4_Infrastucture_Staging_VariablesGroup` (test)
-  - `DertInfoImageResizeV4_Infrastucture_Production_VariablesGroup` (prod)
-- Add a reusable `deploy-bicep.yml` workflow; wire `functions-infra-cd.yml` on `main` when `infra/bicep/**` changes
+- Templates: [`infra/bicep/functions/`](../../../infra/bicep/functions/)
+- Infra CD: [`functions-infra-cd.yml`](../../../.github/workflows/functions-infra-cd.yml)
+- ADO [`azure-pipelines-infra.yml`](../../../apps/dert-functions/pipelines/azure-pipelines-infra.yml) is retired (trigger disabled)
+- ADO **src** YAML can remain until production traffic leaves the old Function App
 
 ### API, Web, App
 

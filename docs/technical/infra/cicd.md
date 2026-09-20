@@ -64,7 +64,9 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 | Workflow | Purpose |
 |----------|---------|
 | `reusable-src-build-push-docker.yml` | Build and push to Docker Hub (`latest-dev` / `{run_id}-dev` for `development`; `latest` / `{run_id}` for `production`) |
-| `reusable-src-deploy-dotnet-appservice.yml` | OIDC login (`azure_oidc_workload` → `CLIENTID_WORKLOAD_*`) + zip/folder deploy to App Service |
+| `reusable-src-deploy-dotnet-appservice.yml` | OIDC login (`azure_oidc_workload` → `CLIENTID_WORKLOAD_*`) + zip/folder deploy to **API** App Service (`azure/webapps-deploy`) |
+| `reusable-src-deploy-functionapp.yml` | OIDC login + **One Deploy** to Flex Consumption Function Apps (`Azure/functions-action@v1`). Do not use `webapps-deploy` for Functions. |
+| `reusable-src-deploy-static-web-app.yml` | Download prebuilt SPA artefact, write `assets/app.config.json` from Environment variables, deploy to Azure Static Web Apps (`skip_app_build`) |
 | `reusable-src-deploy-static-web-app.yml` | Download prebuilt SPA artefact, write `assets/app.config.json` from Environment variables, deploy to Azure Static Web Apps (`skip_app_build`) |
 | `reusable-infra-deploy-bicep-resourcegroup.yml` | OIDC (`azure_oidc_workload` → `CLIENTID_WORKLOAD_*`) + `az deployment group create` (workload infra) |
 | `reusable-infra-deploy-bicep-subscription.yml` | OIDC (`CLIENTID_SUBSCRIPTION`) + register resource providers + `az deployment sub create` (subscription foundation) |
@@ -76,10 +78,11 @@ GitHub requires reusable workflows at the **top level** of `.github/workflows/` 
 | `subscription-infra-cd.yml` | Subscription | Privileged SP **per Environment**; **this pipeline registers resource providers on the subscription**, then deploys RGs + policy + RBAC — [agent-safe subscription foundation](../../operations/planned-fixes/agent-safe-subscription-foundation.md) |
 | `config-infra-cd.yml` | `rg-<env>-dertinfo-config-uks` | Key Vault + App Configuration (including labelled Key Vault references for four API secrets) |
 | `monitoring-infra-cd.yml` | `rg-<env>-dertinfo-monitoring-uks` | Log Analytics (1 GB/day) + Application Insights |
-| `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; Entra-only SQL when `prerequisitesExist` is true (passes `AZURE_ENTRA_SQL_ADMIN_GROUP_*` and tenant id). After subscription CD, delete leftover storage-SP Reader and Key Vault Secrets User on the config RG (incremental ARM will not drop them). |
+| `storage-infra-cd.yml` | `rg-<env>-dertinfo-storage-uks` | Images SA always; Entra-only SQL when `flagSqlServerIsReady` is true (passes `AZURE_ENTRA_SQL_ADMIN_GROUP_*` and tenant id). Images Blob Data Contributor when `flagImagesFunctionAppReady` (pipeline looks up the Function App site MI from `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME`). Event Grid system topic + blob webhooks when `flagImagesEventGridReady` after Src CD. After subscription CD, delete leftover storage-SP Reader and Key Vault Secrets User on the config RG, and leftover FUNCTIONS Reader / EventGrid Contributor / nested-deploy / UAA on the storage RG (incremental ARM will not drop them). |
 | `api-infra-cd.yml` | `rg-<env>-dertinfo-api-uks` | Windows App Service when `prerequisitesExist` is true. Site MI roles on config are one nested deployment (`site-mi-config-roles`); the API SP needs the nested-deploy custom role on config (subscription CD). |
 | `web-infra-cd.yml` | `rg-<env>-dertinfo-web-uks` | Free Static Web App in **westeurope** (not uksouth — `Microsoft.Web/staticSites` is not available there). RG stays uksouth. Created when `prerequisitesExist` is true (hosted API `app-<env>-dertinfo-api-uks` must exist). Custom-domain bind needs the subscription custom role `dertinfo-swa-operation-status-read-<env>` (OIDC `WEB`). |
 | `app-infra-cd.yml` | `rg-<env>-dertinfo-app-uks` | Same pattern as web. Names `swa-<env>-dertinfo-app-uks`. OIDC `APP`. Same SWA operation-status role. |
+| `functions-infra-cd.yml` | `rg-<env>-dertinfo-functions-uks` | Linux **Flex Consumption (FC1)** Function App when `prerequisitesExist` is true. Host storage + host-storage site MI roles + excess-use alerts. Notify email from Environment variable `AZURE_MONITOR_FUNCTIONS_EXCESSIVEUSE_EMAIL` (fail if empty). Images Blob Data Contributor and Event Grid are **storage** infra CD (`flagImagesFunctionAppReady` / `flagImagesEventGridReady`). |
 
 **Resource providers:** [`subscription-infra-cd.yml`](../../../.github/workflows/subscription-infra-cd.yml) (via [`reusable-infra-deploy-bicep-subscription.yml`](../../../.github/workflows/reusable-infra-deploy-bicep-subscription.yml)) is what applies them to the Azure subscription. After OIDC login it runs `az provider register` for each namespace in that workflow’s bash array, then deploys the subscription Bicep. The list is not in Bicep. Workload infra CD does not register providers (those identities are RG Contributor only). Local / break-glass: [`Register-DertInfoResourceProviders.ps1`](../../../infra/scripts/Register-DertInfoResourceProviders.ps1) (keep in sync with the reusable workflow).
 
@@ -92,7 +95,7 @@ Bicep house rules: [Bicep standards](../standards/bicep/). Operator scripts: [`i
 | `api-src-cd.yml` | .NET `win-x86` publish; unit tests **gate** deploy | `dertinfo/dertinfo-api` | New-stack API App Service (`development` then gated `production`) |
 | `web-src-cd.yml` | One `npm run build:hosted`; CD writes `app.config.json` per Environment | `dertinfo/dertinfo-web` | Static Web App (`development` / `production`) — needs SWA tokens and callback URL var |
 | `app-src-cd.yml` | One `npm run build:hosted`; CD writes `app.config.json` per Environment | `dertinfo/dertinfo-app` | Static Web App (`development` / `production`) — needs SWA tokens and callback URL var |
-| `functions-src-cd.yml` | .NET publish | `dertinfo/dertinfo-imageresizev4` | Function App (`development` / `production`) — needs Function resource |
+| `functions-src-cd.yml` | .NET publish | `dertinfo/dertinfo-imageresizev4` | Flex Function App via One Deploy (`development` / `production`) — needs `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME` |
 
 Docker images are for **local development** (root `docker-compose.yml`, Codespaces). Hosted Azure deployments use native App Service / SWA deploy, not containers.
 
@@ -130,6 +133,9 @@ Branching rule: [`.cursor/rules/github-flow.mdc`](../../../.cursor/rules/github-
 - Set per-workload `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` and `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_<PART>` (paste from [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1))
 - After [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/New-DertInfoSqlEntraGroups.ps1): `AZURE_ENTRA_SQL_ADMIN_GROUP_NAME` and `AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID` (storage infra CD). Keep `AZURE_ENTRA_SQL_DBACCESS_GROUP_*` for operator scripts; do not commit object ids.
 - Set `AZURE_WEBAPP_API_RESOURCENAME` = `app-<env>-dertinfo-api-uks` after API infra exists (SPA CD derives `https://<name>.azurewebsites.net/api`)
+- After Functions infra exists: `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME` = `func-<env>-dertinfo-functions-uks` (no `_DEV` suffix)
+- Before Functions infra CD: Environment **variable** `AZURE_MONITOR_FUNCTIONS_EXCESSIVEUSE_EMAIL` (one address, or comma-separated). Not a secret; not Key Vault / App Configuration.
+- `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_FUNCTIONS` is already set on Environment `development`. Confirm `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_FUNCTIONS` as well (subscription CD uses the principal id). Repeat client id, principal id, notify email, and resource name on `production` before PRD.
 - After web/app SWAs exist and custom hosts resolve: `AZURE_STATICWEBAPP_WEB_CALLBACKURL` = `https://dev.dertinfo.co.uk` and `AZURE_STATICWEBAPP_APP_CALLBACKURL` = `https://app-dev.dertinfo.co.uk` on Environment `development` (no trailing slash). Do not use the default `*.azurestaticapps.net` hostname once those custom domains are bound.
 - SWA tokens: `AZURE_STATICWEBAPP_WEB_DEPLOYTOKEN_DEV` / `_PRD` (and the `APP` equivalents) from each site’s **apiKey** (never stored in Bicep or App Configuration)
 
@@ -148,6 +154,56 @@ Do **web and app in parallel**. Production custom domains and production src dep
 **Development first-pass status (2026-09-19):** steps 1–7 are **done**. Website (`https://dev.dertinfo.co.uk`) and PWA (`https://app-dev.dertinfo.co.uk`) serve from Src CD; login, page refresh, and sign-out work on both. Changelog: [2026-09-19-002](../../operations/changelogs/2026-09-19-002-dev-swa-first-pass.md). Custom-domain bind needed the subscription role in [2026-09-19-001](../../operations/changelogs/2026-09-19-001-swa-operation-status-rbac.md).
 
 Auth0 tenant names vs GitHub Environments: [Authentication](../subsystems/authentication.md). Tenant rename is a [planned-fix](../../operations/planned-fixes/auth0-tenant-rename-local-dev.md), not this deploy.
+
+### First development Functions deploy (operator)
+
+Templates and workflows are in the repo. You run Azure and GitHub. Do this in order after merge to `main`.
+
+**Before the first DEV deploy**
+
+1. Confirm GitHub Environment `development` has `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_FUNCTIONS` (`AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_FUNCTIONS` is already set).
+2. Set Environment **variable** `AZURE_MONITOR_FUNCTIONS_EXCESSIVEUSE_EMAIL` on `development`.
+3. Confirm Flex Consumption exists in **uksouth**: `az functionapp list-flexconsumption-locations`.
+4. Confirm `stdevdertinfoimagesuks` and `appi-dev-dertinfo-monitoring-uks` still exist.
+
+**DEV**
+
+5. Run **Subscription infra CD** `dev-only` and approve. Wait until `rg-dev-dertinfo-functions-uks` exists and the FUNCTIONS SP is Contributor plus the extras in [Bicep standards](../standards/bicep/README.md) (monitoring Reader; functions-RG conditioned UAA). Storage SP gets conditioned UAA on the storage RG and listKeys on the functions RG.
+6. Run **Functions infra CD** `dev-only`. Approve.
+7. Set `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME` = `func-dev-dertinfo-functions-uks`.
+8. Set `flagImagesFunctionAppReady = true` in [`infra/bicep/storage/main.dev.bicepparam`](../../../infra/bicep/storage/main.dev.bicepparam), merge, run **Storage infra CD** `dev-only` (assigns Blob Data Contributor on the images account to the Function App site MI).
+9. Run **Functions Src CD** `dev-only`. Approve.
+10. Set `flagImagesEventGridReady = true` in [`infra/bicep/storage/main.dev.bicepparam`](../../../infra/bicep/storage/main.dev.bicepparam), merge, run **Storage infra CD** `dev-only` again (Event Grid webhook handshake needs a **running** host).
+11. Upload one blob to `stdevdertinfoimagesuks` / `groupimages/originals` and confirm `100x100` and `480x360`. Confirm the notify action group shows the email.
+12. If a cost-stop fires in testing, **start the Function App again** in the portal. It stays stopped until an operator starts it.
+
+**PRD (only after DEV smoke test works)**
+
+13. Repeat vars on GitHub Environment `production`: FUNCTIONS client id, principal id, `AZURE_MONITOR_FUNCTIONS_EXCESSIVEUSE_EMAIL`, then after infra `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME` = `func-prd-dertinfo-functions-uks`.
+14. Confirm `stprddertinfoimagesuks` exists. Set `prerequisitesExist = true` on [`infra/bicep/functions/main.prod.bicepparam`](../../../infra/bicep/functions/main.prod.bicepparam) when ready.
+15. Run subscription / storage / functions infra / src CD with `target: full` (gated `production`).
+16. Enable Event Grid (`flagImagesEventGridReady=true` on the **storage** leaf; webhook handshake needs a **running** host), **stop** the PRD Function App, AzCopy all prefixes (`originals`, `100x100`, `480x360`) onto `stprddertinfoimagesuks`, **delete and recreate** the four Event Grid subscriptions (delete then re-run **Storage infra CD** — incremental ARM will not drop a retry backlog if the subscriptions are unchanged), then **start** the app. Do not start without resetting subscriptions. Event Grid retries failed deliveries for up to 24 hours.
+17. Switch production API/traffic later. Leave old Functions on the old image account until then.
+
+Cleanup of leftover App Configuration / Key Vault / GitHub items is a **next** step: [storage managed identity](../../operations/planned-fixes/storage-managed-identity.md#c-cleanup-inventory-next-step).
+
+## Functions infrastructure reference (`test`)
+
+Legacy ADO variable group `DertInfoImageResizeV4_Infrastucture_Staging_VariablesGroup` (old Windows Y1 app on `dertinfotestimagessa`). **New-stack** Functions infra is [`functions-infra-cd.yml`](../../../.github/workflows/functions-infra-cd.yml) against `stdevdertinfoimagesuks` / `stprddertinfoimagesuks`. Do not Event-Grid the old test/live image accounts.
+
+| Variable | Value |
+|----------|-------|
+| `resourceGroupName` | `di-rg-imageresizev4-stg` |
+| `location` | `uksouth` |
+| `ownerInitials` | `di` |
+| `workloadName` | `imageresizev4` |
+| `environmentTag` | `stg` |
+| `imagesStorageAccountName` | `dertinfotestimagessa` |
+| `imagesStorageAccountResourceGroupName` | `dertinfo-test-rg` |
+| `applicationInsightsName` | `dertinfo-test-ais` |
+| `applicationInsightsResourceGroupName` | `di-rg-monitoring-stg` |
+| `excessiveUseActionGroupName` | `di-agrp-excessiveuse-stg` |
+| `excessiveUseActionGroupResourceGroupName` | `di-rg-monitoring-stg` |
 
 ### 2. Azure OIDC (recommended)
 
@@ -227,7 +283,7 @@ After secrets are configured:
 
 ## Functions infrastructure reference (`test`)
 
-From ADO variable group `DertInfoImageResizeV4_Infrastucture_Staging_VariablesGroup` (used by the Bicep infra pipeline — **not migrated to GitHub Actions in this phase**):
+Legacy ADO variable group `DertInfoImageResizeV4_Infrastucture_Staging_VariablesGroup` (old Windows Y1 app on `dertinfotestimagessa`). **New-stack** Functions infra is [`functions-infra-cd.yml`](../../../.github/workflows/functions-infra-cd.yml) against `stdevdertinfoimagesuks` / `stprddertinfoimagesuks`. Do not Event-Grid the old test/live image accounts.
 
 | Variable | Value |
 |----------|-------|
@@ -243,8 +299,6 @@ From ADO variable group `DertInfoImageResizeV4_Infrastucture_Staging_VariablesGr
 | `excessiveUseActionGroupName` | `di-agrp-excessiveuse-stg` |
 | `excessiveUseActionGroupResourceGroupName` | `di-rg-monitoring-stg` |
 
-See [planned-fixes/cicd-future-phase.md](../../operations/planned-fixes/cicd-future-phase.md) for IaC migration.
-
 ## ADO pipeline inventory (legacy)
 
 | App | Source deploy | Docker |
@@ -253,4 +307,4 @@ See [planned-fixes/cicd-future-phase.md](../../operations/planned-fixes/cicd-fut
 | Web | `apps/dert-web/pipelines/azure-pipelines-swa-cicd.yml` | `azure-pipelines-docker.yml` |
 | App | `apps/dert-app/pipelines/ado-application-pipeline-cicd.yml` | `azure-pipelines-docker.yml` |
 | Functions | `apps/dert-functions/pipelines/azure-pipelines-functions-cicd.yml` | `azure-pipelines-docker.yml` |
-| Functions IaC | `apps/dert-functions/pipelines/azure-pipelines-infra.yml` | — |
+| Functions IaC (retired) | `apps/dert-functions/pipelines/azure-pipelines-infra.yml` — trigger disabled; use `functions-infra-cd.yml` | — |

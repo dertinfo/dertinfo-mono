@@ -1,0 +1,45 @@
+name: Deploy .NET isolated worker to Azure Functions (One Deploy)
+
+# Flex Consumption requires Azure/functions-action (One Deploy), not
+# azure/webapps-deploy. Keep reusable-src-deploy-dotnet-appservice.yml for the API.
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      package_path:
+        required: true
+        type: string
+      artifact_name:
+        required: true
+        type: string
+      azure_oidc_workload:
+        description: 'Workload suffix: FUNCTIONS (AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_*)'
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact_name }}
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars[format('AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_{0}', inputs.azure_oidc_workload)] }}
+          tenant-id: ${{ vars.AZURE_ENTRA_OIDC_TENANTID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID }}
+
+      - uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ vars.AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME }}
+          package: ${{ inputs.package_path }}
+          remote-build: false

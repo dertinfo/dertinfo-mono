@@ -45,7 +45,7 @@ Scale-to-zero platforms are a **poor fit** for a year-round browsable archive (w
 | App Service (API) | Test **F1**; prod **D1** most of year; **Basic (B1)** for competition weekend | Same seasonal pattern: F1 `dev`, D1 `prd` off-season, B1 for event |
 | Azure SQL | Logical server free; database **Basic** (test + prod); Basic **just manages** the event day | Keep **Basic**; optional short **S0** for event if DTU pressure |
 | Key Vault | **Standard** | Standard |
-| Functions | Consumption **Y1** | Keep Y1 |
+| Functions | Consumption **Y1** (old stack) | Linux **Flex Consumption (FC1)** — scale to zero; blob triggers Event Grid only |
 | Image storage | Existing blob accounts | Standard_LRS (or equivalent) in `storage` part |
 
 Indicative idle Azure bill (both envs, order of magnitude): roughly **£25–40/mo** before Auth0/SendGrid; event weekend is a small pro-rata bump (B1 days ± optional SQL S0), not a second full-price tier all year.
@@ -60,7 +60,7 @@ Indicative idle Azure bill (both envs, order of magnitude): roughly **£25–40/
 | Keep **App Service** (not ACI / Container Apps / Functions-as-API) | Long-lived ASP.NET + EF migrate-on-start; F1/D1 already cheapest sensible path; always-on ACI ≥ B1 cost |
 | Seasonal **D1 → B1** for prod API | Removes slow warmup and absorbs event traffic only when needed |
 | Stay on **Azure SQL Basic** | Engine migration (Postgres/MySQL/Cosmos) does not pay back; Basic fits idle months |
-| Keep **Functions Consumption** | Bursty image resize; near-zero off-season |
+| Keep **Functions Flex Consumption (FC1)** | Bursty image resize; near-zero off-season; Linux-only Flex is the current serverless plan. Classic Windows/Linux Y1 is not used on the new stack. |
 | New stack RGs per part | Cost-neutral; enables RG-scoped permissions (see estate planned fix) |
 
 ---
