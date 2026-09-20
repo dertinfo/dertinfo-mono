@@ -2,7 +2,7 @@
 name: Secrets and rotation
 type: infra
 status: active
-updated: 2026-09-07
+updated: 2026-09-20
 ---
 
 # Secrets inventory and rotation
@@ -20,7 +20,7 @@ Operational / management access to third-party dashboards is typically via the o
 | Secret | Purpose |
 |--------|---------|
 | Images storage account access key | API writes original images to blob storage (`az-storage-images-accountkey`) |
-| Function app storage account access key | Function App `AzureWebJobsStorage` account (`az-storage-functions-accountkey`) |
+| Function app storage account access key | **Leftover catalog** (`az-storage-functions-accountkey` / `StorageAccount:Functions:Key`). New-stack Flex host storage is identity-only (`allowSharedKeyAccess: false`); the API does not read this key. Remove with [storage managed identity](../../operations/planned-fixes/storage-managed-identity.md) cleanup. |
 | Application Insights instrumentation key | Web and PWA telemetry (`appinsights-telemetryid`; not a credential, stored in Key Vault for obfuscation) |
 | Auth0 Management Client ID | M2M client id (`auth0-managementclientid`; obfuscated in Key Vault) |
 | Web Auth0 Client ID | Website SPA client id (`webclient-auth0-clientid`; obfuscated in Key Vault) |
@@ -78,14 +78,16 @@ To revoke app access, drop or disable the App Service database user (or disable 
 
 Rotate the login in `infra/secrets/api.env` (`SqlConnection__ServerAdminName` / `ServerAdminPassword`) on your machine. That path is not used in Azure.
 
-### Images and Functions storage account keys
+### Images storage account keys
 
-1. In Azure Portal, open the images storage account (`stdevdertinfoimagesuks` / `stprddertinfoimagesuks`) or the Function App storage account.
+New-stack Functions **host** storage (`st<env>dertinfofuncuks`) has shared keys **disabled**. Do not rotate or store keys for that account.
+
+1. In Azure Portal, open the images storage account (`stdevdertinfoimagesuks` / `stprddertinfoimagesuks`).
 2. Rotate the primary (or secondary) access key.
-3. Update the matching Key Vault secret (`az-storage-images-accountkey` or `az-storage-functions-accountkey`) in `kv-secrets.<environment>.json` and re-run [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1) `-Force`, or `az keyvault secret set`.
-4. Restart the API (images) or Function App (functions storage).
+3. Update `az-storage-images-accountkey` in `kv-secrets.<environment>.json` and re-run [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1) `-Force`, or `az keyvault secret set`.
+4. Restart the API.
 
-Follow-up: Entra for storage and App Configuration cleanup — [Storage managed identity](../../operations/planned-fixes/storage-managed-identity.md).
+Follow-up: Entra for images and App Configuration cleanup — [Storage managed identity](../../operations/planned-fixes/storage-managed-identity.md).
 
 ### Auth0 Management Client secret
 

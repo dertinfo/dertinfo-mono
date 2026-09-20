@@ -33,8 +33,8 @@ Hosted images connection is built from `Name` + `Protocol` + `Key`. Blob/queue/t
 
 1. **Images account (API)** — grant the App Service MI a data-plane role (typically Storage Blob Data Contributor) on `st<env>dertinfoimagesuks`. Change `StorageAccountConnection` to use `DefaultAzureCredential` (or Azure.Storage.Blobs with a token credential) instead of `AccountKey`. Drop `StorageAccount:Images:Key` / `az-storage-images-accountkey`.
 2. **Images account (Functions)** — **done on the new stack, assigned by storage Bicep.** Identity-based `StorageConnection__Images__accountName` + `managedidentity` (Linux Flex; `__` maps to the `StorageConnection:Images` trigger connection). BlobWriter uses `DefaultAzureCredential` when the connection string is absent. Storage infra CD grants Blob Data Contributor when `flagImagesFunctionAppReady` is true (pipeline looks up the Function App principal id). The same principal-id list can later take the API site MI (B.1).
-3. **Function App host storage** — **done on the new stack.** Identity-based `AzureWebJobsStorage__accountName`.
-4. **Harden** — consider `allowSharedKeyAccess: false` on the accounts once no client uses keys (Azurite/local remains key-based). Do **not** disable shared-key on the images account until API identity (B.1) is done.
+3. **Function App host storage** — **done on the new stack.** Identity-based `AzureWebJobsStorage__accountName`. Host-storage firewall `Allow`, Flex One Deploy as the site MI (not the pipeline SP), and `allowSharedKeyAccess: false`: [Security](../../technical/subsystems/security.md).
+4. **Harden images** — set `allowSharedKeyAccess: false` on the **images** account only after no client uses keys (Azurite/local remains key-based). Do **not** disable shared-key on images until API identity (B.1) is done.
 
 ## C. Cleanup inventory (next step)
 
