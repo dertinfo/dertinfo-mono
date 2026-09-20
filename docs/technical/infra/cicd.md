@@ -95,7 +95,7 @@ Bicep house rules: [Bicep standards](../standards/bicep/). Operator scripts: [`i
 | `api-src-cd.yml` | .NET `win-x86` publish; unit tests **gate** deploy | `dertinfo/dertinfo-api` | New-stack API App Service (`development` then gated `production`) |
 | `web-src-cd.yml` | One `npm run build:hosted`; CD writes `app.config.json` per Environment | `dertinfo/dertinfo-web` | Static Web App (`development` / `production`) — needs SWA tokens and callback URL var |
 | `app-src-cd.yml` | One `npm run build:hosted`; CD writes `app.config.json` per Environment | `dertinfo/dertinfo-app` | Static Web App (`development` / `production`) — needs SWA tokens and callback URL var |
-| `functions-src-cd.yml` | .NET publish | `dertinfo/dertinfo-imageresizev4` | Flex Function App via One Deploy (`development` / `production`) — needs `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME`. Upload identity is the site MI ([Security](../subsystems/security.md)). |
+| `functions-src-cd.yml` | .NET publish | `dertinfo/dertinfo-imageresizev4` | Flex Function App via One Deploy (`development` / `production`) — needs `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME`. Upload identity is the site MI ([Security](../subsystems/security.md)). The build artefact must include hidden files (`include-hidden-files: true`) so `.azurefunctions` survives `upload-artifact@v4`; Flex rejects the zip without it. |
 
 Docker images are for **local development** (root `docker-compose.yml`, Codespaces). Hosted Azure deployments use native App Service / SWA deploy, not containers.
 
@@ -172,7 +172,7 @@ Templates and workflows are in the repo. You run Azure and GitHub. Do this in or
 6. Run **Functions infra CD** `dev-only`. Approve.
 7. Set `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME` = `func-dev-dertinfo-functions-uks`.
 8. Set `flagImagesFunctionAppReady = true` in [`infra/bicep/storage/main.dev.bicepparam`](../../../infra/bicep/storage/main.dev.bicepparam), merge, run **Storage infra CD** `dev-only` (assigns Blob Data Contributor on the images account to the Function App site MI).
-9. Run **Functions Src CD** `dev-only`. Approve. If you get `InaccessibleStorageException` / blob 403, see [Security](../subsystems/security.md#flex-one-deploy-identity).
+9. Run **Functions Src CD** `dev-only`. Approve. If you get `InaccessibleStorageException` / blob 403, see [Security](../subsystems/security.md#flex-one-deploy-identity). If One Deploy reports a missing `.azurefunctions` directory, the artefact dropped hidden files — `functions-src-cd.yml` must set `include-hidden-files: true` on `upload-artifact@v4`.
 10. Set `flagImagesEventGridReady = true` in [`infra/bicep/storage/main.dev.bicepparam`](../../../infra/bicep/storage/main.dev.bicepparam), merge, run **Storage infra CD** `dev-only` again (Event Grid webhook handshake needs a **running** host).
 11. Upload one blob to `stdevdertinfoimagesuks` / `groupimages/originals` and confirm `100x100` and `480x360`. Confirm the notify action group shows the email.
 12. If a cost-stop fires in testing, **start the Function App again** in the portal. It stays stopped until an operator starts it.

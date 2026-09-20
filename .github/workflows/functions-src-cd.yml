@@ -42,10 +42,20 @@ jobs:
       - name: Publish
         run: dotnet publish apps/dert-functions/src/dertinfo-image-resize/DertInfoImageResizeV4.csproj --no-build --configuration Release --output "${{ runner.temp }}/publish"
 
+      - name: Confirm Flex package layout
+        run: |
+          if [ ! -d "${{ runner.temp }}/publish/.azurefunctions" ]; then
+            echo "Publish output is missing .azurefunctions (required for Flex One Deploy)." >&2
+            ls -la "${{ runner.temp }}/publish"
+            exit 1
+          fi
+
       - uses: actions/upload-artifact@v4
         with:
           name: drop
           path: ${{ runner.temp }}/publish
+          include-hidden-files: true
+          if-no-files-found: error
 
   docker-dev:
     needs: build
