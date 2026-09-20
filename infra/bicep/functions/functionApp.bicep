@@ -121,8 +121,8 @@ resource functionAppSettings 'Microsoft.Web/sites/config@2024-04-01' = {
   properties: {
     AzureWebJobsStorage__accountName: hostStorageAccountName
     AzureWebJobsStorage__credential: 'managedidentity'
-    'StorageConnection:Images__accountName': imagesStorageAccountName
-    'StorageConnection:Images__credential': 'managedidentity'
+    StorageConnection__Images__accountName: imagesStorageAccountName
+    StorageConnection__Images__credential: 'managedidentity'
     APPLICATIONINSIGHTS_CONNECTION_STRING: applicationInsights.properties.ConnectionString
     'AzureWebJobs.ResizeDefaultImagesPolling.Disabled': 'true'
     'AzureWebJobs.ResizeGroupImagesPolling.Disabled': 'true'
