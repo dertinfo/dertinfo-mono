@@ -1,8 +1,10 @@
-name: Storage infra CD
+name: Functions infra CD
 
-# Deploys infra/bicep/storage at RG scope (images Storage Account always; Entra-only
-# SQL when flagSqlServerIsReady is true). Images Blob Data Contributor and Event Grid
-# are separate flags (flagImagesFunctionAppReady / flagImagesEventGridReady) in the Bicep param file.
+# Deploys infra/bicep/functions at RG scope (Linux Flex Consumption when
+# prerequisitesExist is true in the Bicep param file). Host storage roles stay
+# here. Images Blob Data Contributor and Event Grid are storage infra CD.
+# Notify email comes from GitHub Environment variable
+# AZURE_MONITOR_FUNCTIONS_EXCESSIVEUSE_EMAIL (wired in the reusable resource-group deploy).
 
 on:
   workflow_dispatch:
@@ -19,8 +21,8 @@ on:
     branches:
       - main
     paths:
-      - 'infra/bicep/storage/**'
-      - '.github/workflows/storage-infra-cd.yml'
+      - 'infra/bicep/functions/**'
+      - '.github/workflows/functions-infra-cd.yml'
       - '.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml'
 
 jobs:
@@ -32,11 +34,11 @@ jobs:
     uses: ./.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml
     with:
       environment: development
-      resource_group: rg-dev-dertinfo-storage-uks
-      template_path: infra/bicep/storage/main.bicep
-      parameters_path: infra/bicep/storage/main.dev.bicepparam
+      resource_group: rg-dev-dertinfo-functions-uks
+      template_path: infra/bicep/functions/main.bicep
+      parameters_path: infra/bicep/functions/main.dev.bicepparam
       location: uksouth
-      azure_oidc_workload: STORAGE
+      azure_oidc_workload: FUNCTIONS
     secrets: inherit
 
   deploy-prod:
@@ -48,9 +50,9 @@ jobs:
     uses: ./.github/workflows/reusable-infra-deploy-bicep-resourcegroup.yml
     with:
       environment: production
-      resource_group: rg-prd-dertinfo-storage-uks
-      template_path: infra/bicep/storage/main.bicep
-      parameters_path: infra/bicep/storage/main.prod.bicepparam
+      resource_group: rg-prd-dertinfo-functions-uks
+      template_path: infra/bicep/functions/main.bicep
+      parameters_path: infra/bicep/functions/main.prod.bicepparam
       location: uksouth
-      azure_oidc_workload: STORAGE
+      azure_oidc_workload: FUNCTIONS
     secrets: inherit

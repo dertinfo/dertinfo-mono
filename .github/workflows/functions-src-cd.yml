@@ -17,7 +17,7 @@ on:
       - 'apps/dert-functions/**'
       - '.github/workflows/functions-src-cd.yml'
       - '.github/workflows/reusable-src-build-push-docker.yml'
-      - '.github/workflows/reusable-src-deploy-dotnet-appservice.yml'
+      - '.github/workflows/reusable-src-deploy-functionapp.yml'
 
 concurrency:
   group: functions-src-cd
@@ -65,13 +65,11 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: ./.github/workflows/reusable-src-deploy-dotnet-appservice.yml
+    uses: ./.github/workflows/reusable-src-deploy-functionapp.yml
     with:
       environment: development
-      target_app: functions
       package_path: .
       artifact_name: drop
-      app_type: functionApp
       azure_oidc_workload: FUNCTIONS
 
   docker-prod:
@@ -92,11 +90,9 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    uses: ./.github/workflows/reusable-src-deploy-dotnet-appservice.yml
+    uses: ./.github/workflows/reusable-src-deploy-functionapp.yml
     with:
       environment: production
-      target_app: functions
       package_path: .
       artifact_name: drop
-      app_type: functionApp
       azure_oidc_workload: FUNCTIONS

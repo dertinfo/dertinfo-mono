@@ -119,4 +119,4 @@ Write-Host "AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID=$($admins.id)"
 Write-Host "AZURE_ENTRA_SQL_DBACCESS_GROUP_NAME=$accessName"
 Write-Host "AZURE_ENTRA_SQL_DBACCESS_GROUP_OBJECTID=$($access.id)"
 Write-Host ''
-Write-Host 'Do not commit these object ids. Flip storage prerequisitesExist after the admin group id is set, then run storage infra CD.'
+Write-Host 'Do not commit these object ids. Flip storage flagSqlServerIsReady after the admin group id is set, then run storage infra CD.'

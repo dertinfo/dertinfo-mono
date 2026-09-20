@@ -46,7 +46,7 @@ resource appServiceSkuPolicy 'Microsoft.Authorization/policyDefinitions@2021-06-
   name: appServiceSkuPolicyName
   properties: {
     displayName: 'DertInfo allowed App Service plan SKUs (${assignmentSuffix})'
-    description: 'Only F1/D1/B1 (and Free/Shared/Basic tier names) may be used for App Service plans.'
+    description: 'Only F1/D1/B1/FC1 (and Free/Shared/Basic tier names) may be used for App Service plans.'
     mode: 'Indexed'
     policyRule: {
       if: {

@@ -2,7 +2,7 @@
 
 **Status:** Parked — blocked on subscription foundation ([agent-safe-subscription-foundation.md](agent-safe-subscription-foundation.md)). **Needs further refinement** before implementation. Execute separately from estate RG creation and from app source CD.
 
-**Related:** [Azure estate (dev/prd)](azure-estate-dev-prd.md), [Hosting and cost decisions](hosting-cost-decisions.md), existing Functions reference [`apps/dert-functions/infra/bicep/main.bicep`](../../../apps/dert-functions/infra/bicep/main.bicep)
+**Related:** [Azure estate (dev/prd)](azure-estate-dev-prd.md), [Hosting and cost decisions](hosting-cost-decisions.md), Functions [`infra/bicep/functions/`](../../../infra/bicep/functions/)
 
 ---
 
@@ -14,7 +14,7 @@
 
 Conventions for Bicep (naming inside resources, parameter style, secrets handling, pipeline triggers) will be **refined in this workstream** and then expanded into durable technical docs.
 
-**Functions:** leave existing Bicep alone; align naming/`dev`/`prd` in a later pass.
+**Functions:** new-stack templates live in [`infra/bicep/functions/`](../../../infra/bicep/functions/) (Linux Flex Consumption, GitHub `functions-infra-cd.yml`). Old app-folder Bicep was removed.
 
 ---
 
@@ -28,10 +28,11 @@ Conventions for Bicep (naming inside resources, parameter style, secrets handlin
 | api | [`infra/bicep/api/`](../../../infra/bicep/api/) | App Service Plan + Web App (Windows / `win-x86` CD) |
 | web | [`infra/bicep/web/`](../../../infra/bicep/web/) | Free Static Web App (gated on hosted API) |
 | app | [`infra/bicep/app/`](../../../infra/bicep/app/) | Free Static Web App (gated on hosted API) |
+| functions | [`infra/bicep/functions/`](../../../infra/bicep/functions/) | Linux Flex Consumption Function App (gated), host storage, excess-use alerts |
 
 Target RGs: `rg-<env>-dertinfo-<part>-uks` — see [azure-estate-dev-prd.md](azure-estate-dev-prd.md).
 
-Suggested deploy order: **config + monitoring → storage → api → web / app**. Storage and API keep `prerequisitesExist` false until you flip it in the param file after those parts exist.
+Suggested deploy order: **config + monitoring → storage → api → web / app → functions**. API, web/app, and functions keep `prerequisitesExist` false until you flip it in the param file after those parts exist. Storage uses named flags: `flagSqlServerIsReady` after Entra SQL groups exist, `flagImagesFunctionAppReady` after the Function App exists, and `flagImagesEventGridReady` after Src CD.
 
 ---
 
@@ -184,7 +185,7 @@ Align with [hosting-cost-decisions.md](hosting-cost-decisions.md):
 | App Service plan | F1 | D1 |
 | Azure SQL database | Basic | Basic |
 | Key Vault | Standard | Standard |
-| Functions (existing) | Y1 | Y1 |
+| Functions | FC1 (Linux Flex Consumption) | FC1 (Linux Flex Consumption) |
 
 Put shared SKU allow-lists in `main.shared.bicepparam`; put env-specific App Service SKUs (F1 vs D1) in the leaf files. Competition-weekend **B1** (API) and optional SQL **S0** remain **operational** SKU changes via pipeline/CLI override (or temporary policy expansion), not a third committed param file.
 

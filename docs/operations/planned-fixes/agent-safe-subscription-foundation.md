@@ -18,7 +18,7 @@ updated: 2026-08-15
 - Empty Azure subscriptions are created by the **tenant administrator** (portal / billing) — Development and Production.
 - Subscription foundation Bicep is deployed via **GitHub Actions** at **subscription scope**, using a **privileged service principal per Environment** (OIDC) that may create RGs, policy, and role assignments, and that registers the resource providers workload CD needs (RG-scoped identities cannot).
 - **Isolation:** development and production use **separate** Entra apps/SPs; each has RBAC only on its own subscription (see [why](#identity-isolation)).
-- Subscription policy **denies** SKUs outside the DertInfo allow-list (SQL **Basic** and App Service F1/D1/B1).
+- Subscription policy **denies** SKUs outside the DertInfo allow-list (SQL **Basic** and App Service F1/D1/B1/FC1).
 - Development resource groups exist with naming `rg-dev-dertinfo-<part>-uks`.
 - Workload infra uses a **separate, more restricted** identity at **resource group** scope (`az deployment group create`).
 - Agents do not hold subscription-scope deploy rights; they change infra only via PRs that run these pipelines.
@@ -60,7 +60,7 @@ Threat model detail: [github-workflows-security-review.md](../security/github-wo
 |---------|-----|-------|-----|
 | Create empty subscription | Tenant administrator | Billing / portal | Manual — not automated in this repo |
 | Subscription foundation | Privileged **per-Environment** subscription SP (OIDC) | That Environment’s subscription | GitHub Actions → register resource providers (pipeline list, not Bicep) then `az deployment sub create` |
-| Workload infra / Src CD | Per-workload SP (OIDC) | That part’s resource group (Contributor). API also gets **Reader** on config and monitoring, plus **conditioned** UAA on the config RG only (may assign App Configuration Data Reader and Key Vault Secrets User only), plus a **custom role** for nested ARM deployments on config (`deployments/write` only). Storage has no extra roles on config. | GitHub Actions → `az deployment group create` or zip deploy; identity is `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` |
+| Workload infra / Src CD | Per-workload SP (OIDC) | That part’s resource group (Contributor). API also gets **Reader** on config and monitoring, plus **conditioned** UAA on the config RG only (may assign App Configuration Data Reader and Key Vault Secrets User only), plus a **custom role** for nested ARM deployments on config (`deployments/write` only). Storage has no extra roles on config; it gets **conditioned UAA** on the storage RG (Storage Blob Data Contributor only) and a **custom role** on functions (`dertinfo-storage-functions-listkeys-<env>`, sites/read + host/listkeys). FUNCTIONS gets **Reader** on monitoring and **conditioned UAA** on the functions RG (host-storage data-plane roles + function-stop custom role). No EventGrid Contributor or UAA on storage. | GitHub Actions → `az deployment group create` or zip/One Deploy; identity is `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_<PART>` |
 
 Agents author Bicep via PRs; they do not authenticate as the subscription SP locally for day-to-day work.
 

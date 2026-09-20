@@ -23,5 +23,6 @@ Open in-repo notes for work still to do in the solution. **Not a ticket backlog*
 | Remove temporary `workflow_dispatch` from src CI/CD | [remove-src-workflow-dispatch.md](remove-src-workflow-dispatch.md) |
 | Rebuild Auth0 tenants as `dertinfolocal` (local) and `dertinfodev` (Azure development) | [auth0-tenant-rename-local-dev.md](auth0-tenant-rename-local-dev.md) |
 | Azure SQL firewall: App Service outbound IPs plus administrator IP (drop Allow Azure services) | [sql-firewall-app-service-and-admin.md](sql-firewall-app-service-and-admin.md) |
+| Rename Bicep production leaf params `main.prod.bicepparam` → `main.prd.bicepparam` | [rename-bicepparam-prod-to-prd.md](rename-bicepparam-prod-to-prd.md) |
 
 Resolved deep-dives: [investigations/](../investigations/).

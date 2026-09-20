@@ -41,6 +41,7 @@ param workloadParts array = [
   'app'
   'api'
   'monitoring'
+  'functions'
 ]
 
 @description('Entra object id of the config workload SP. Leave empty to skip that RG role assignment.')
@@ -61,7 +62,7 @@ param pipelinePrincipalIdWeb string = ''
 @description('Entra object id of the app workload SP.')
 param pipelinePrincipalIdApp string = ''
 
-@description('Entra object id of the functions workload SP. No functions RG yet; reserved for later.')
+@description('Entra object id of the functions workload SP. Leave empty to skip that RG role assignment.')
 param pipelinePrincipalIdFunctions string = ''
 
 @description('Role definition id or name for the pipeline identity on each RG (Contributor by default).')
@@ -75,6 +76,7 @@ param allowedAppServicePlanSkus array = [
   'F1'
   'D1'
   'B1'
+  'FC1'
   'Free'
   'Shared'
   'Basic'
@@ -105,6 +107,8 @@ var resourceGroupNames = [for part in workloadParts: 'rg-${environmentTag}-${pro
 // Lookups of part RGs created in the resourceGroups loop. Not names to deploy.
 var configResourceGroupLookup = 'rg-${environmentTag}-${productSlug}-config-${regionTla}'
 var monitoringResourceGroupLookup = 'rg-${environmentTag}-${productSlug}-monitoring-${regionTla}'
+var storageResourceGroupLookup = 'rg-${environmentTag}-${productSlug}-storage-${regionTla}'
+var functionsResourceGroupLookup = 'rg-${environmentTag}-${productSlug}-functions-${regionTla}'
 
 var workloadDeployPrincipals = [
   {
@@ -131,6 +135,10 @@ var workloadDeployPrincipals = [
     part: 'app'
     principalId: pipelinePrincipalIdApp
   }
+  {
+    part: 'functions'
+    principalId: pipelinePrincipalIdFunctions
+  }
 ]
 
 var resourceGroupTags = {
@@ -146,6 +154,19 @@ var apiConfigRoleAssignmentCondition = '((!(ActionMatches{\'Microsoft.Authorizat
 
 var apiConfigNestedDeployRoleName = 'dertinfo-api-config-nested-deploy-${environmentTag}'
 var swaOperationStatusRoleName = 'dertinfo-swa-operation-status-read-${environmentTag}'
+var storageFunctionsListKeysRoleName = 'dertinfo-storage-functions-listkeys-${environmentTag}'
+var functionAppStopRoleName = 'dertinfo-functionapp-stop-${environmentTag}'
+
+// Roles the FUNCTIONS workload SP may assign on the functions RG (site MI host storage + Logic App stop).
+var storageBlobDataOwnerRoleId = 'b7e6ba4c-320b-476a-8d46-e3a97e8c5b32'
+var storageQueueDataContributorRoleId = '974c5e8b-45b9-4653-ba55-5f573ca84842'
+var storageTableDataContributorRoleId = '0a9a7e1f-b9d0-4cc4-a60d-0319b160aaa3'
+var functionAppStopRoleDefinitionGuid = guid(subscription().id, environmentTag, 'dertinfo-functionapp-stop')
+var functionsRgRoleAssignmentCondition = '((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/write\'})) OR (@Request[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${storageBlobDataOwnerRoleId}, ${storageQueueDataContributorRoleId}, ${storageTableDataContributorRoleId}, ${functionAppStopRoleDefinitionGuid}})) AND ((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/delete\'})) OR (@Resource[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${storageBlobDataOwnerRoleId}, ${storageQueueDataContributorRoleId}, ${storageTableDataContributorRoleId}, ${functionAppStopRoleDefinitionGuid}}))'
+
+// Roles the STORAGE workload SP may assign on the storage RG (images Blob Data Contributor for named site MIs).
+var storageBlobDataContributorRoleId = 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+var storageRgRoleAssignmentCondition = '((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/write\'})) OR (@Request[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${storageBlobDataContributorRoleId}})) AND ((!(ActionMatches{\'Microsoft.Authorization/roleAssignments/delete\'})) OR (@Resource[Microsoft.Authorization/roleAssignments:RoleDefinitionId] ForAnyOfAnyValues:GuidEquals {${storageBlobDataContributorRoleId}}))'
 
 // #####################################################
 // References
@@ -225,6 +246,53 @@ resource swaOperationStatusApp 'Microsoft.Authorization/roleAssignments@2022-04-
   }
 }
 
+resource storageFunctionsListKeysRole 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' = {
+  name: guid(subscription().id, environmentTag, 'dertinfo-storage-functions-listkeys')
+  dependsOn: [
+    resourceGroups
+  ]
+  properties: {
+    roleName: storageFunctionsListKeysRoleName
+    description: 'Read the Function App and list host keys so storage Event Grid can form blobs_extension webhook URLs. Not Contributor.'
+    type: 'CustomRole'
+    assignableScopes: [
+      resourceId('Microsoft.Resources/resourceGroups', functionsResourceGroupLookup)
+    ]
+    permissions: [
+      {
+        actions: [
+          'Microsoft.Web/sites/read'
+          'Microsoft.Web/sites/host/listkeys/action'
+        ]
+        notActions: []
+      }
+    ]
+  }
+}
+
+resource functionAppStopRole 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' = {
+  name: functionAppStopRoleDefinitionGuid
+  dependsOn: [
+    resourceGroups
+  ]
+  properties: {
+    roleName: functionAppStopRoleName
+    description: 'Stop a Function App in the functions RG (excess-use Logic App). Not Contributor.'
+    type: 'CustomRole'
+    assignableScopes: [
+      resourceId('Microsoft.Resources/resourceGroups', functionsResourceGroupLookup)
+    ]
+    permissions: [
+      {
+        actions: [
+          'Microsoft.Web/sites/stop/action'
+        ]
+        notActions: []
+      }
+    ]
+  }
+}
+
 // #####################################################
 // Modules
 // #####################################################
@@ -276,6 +344,8 @@ module pipelineRgRoleAssignments 'br/public:avm/res/authorization/role-assignmen
 
 // Storage workload has Contributor on the storage RG only (no Reader / Key Vault Secrets User on config).
 // Incremental ARM does not delete leftover storage-on-config assignments — remove those in Azure.
+// Images data-plane and Event Grid moved to storage Bicep: leftover FUNCTIONS Reader /
+// EventGrid Contributor / nested-deploy / UAA on the storage RG must be deleted in Azure.
 
 // Special case: API infra CD assigns two data-plane roles to the site MI on the config RG.
 // UAA is not a default workload role. Condition limits write/delete to those two role definition ids.
@@ -341,6 +411,75 @@ module pipelineApiMonitoringReader 'br/public:avm/res/authorization/role-assignm
     roleDefinitionIdOrName: 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // 'Reader'
     principalType: 'ServicePrincipal'
     description: 'API workload identity — resolve existing Application Insights'
+    enableTelemetry: enableTelemetry
+  }
+}
+
+module pipelineFunctionsMonitoringReader 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdFunctions)) {
+  name: 'avm-rbac-functions-monitoring-reader'
+  scope: resourceGroup(monitoringResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+  ]
+  params: {
+    principalId: pipelinePrincipalIdFunctions
+    roleDefinitionIdOrName: 'acdd72a7-3385-48ef-bd42-f606fba81ae7' // 'Reader'
+    principalType: 'ServicePrincipal'
+    description: 'Functions workload identity — resolve existing Application Insights'
+    enableTelemetry: enableTelemetry
+  }
+}
+
+module pipelineFunctionsRgUserAccessAdmin 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdFunctions)) {
+  name: 'avm-rbac-functions-rg-uaa'
+  scope: resourceGroup(functionsResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+    functionAppStopRole
+  ]
+  params: {
+    principalId: pipelinePrincipalIdFunctions
+    roleDefinitionIdOrName: '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9' // 'User Access Administrator'
+    principalType: 'ServicePrincipal'
+    condition: functionsRgRoleAssignmentCondition
+    conditionVersion: '2.0'
+    description: 'Functions workload identity — assign only host-storage data-plane roles and the function-stop custom role on the functions RG'
+    enableTelemetry: enableTelemetry
+  }
+}
+
+module pipelineStorageRgUserAccessAdmin 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdStorage)) {
+  name: 'avm-rbac-storage-rg-uaa'
+  scope: resourceGroup(storageResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+  ]
+  params: {
+    principalId: pipelinePrincipalIdStorage
+    roleDefinitionIdOrName: '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9' // 'User Access Administrator'
+    principalType: 'ServicePrincipal'
+    condition: storageRgRoleAssignmentCondition
+    conditionVersion: '2.0'
+    description: 'Storage workload identity — assign only Storage Blob Data Contributor on the storage RG'
+    enableTelemetry: enableTelemetry
+  }
+}
+
+module pipelineStorageFunctionsListKeys 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.1' = if (!empty(pipelinePrincipalIdStorage)) {
+  name: 'avm-rbac-storage-functions-listkeys'
+  scope: resourceGroup(functionsResourceGroupLookup)
+  dependsOn: [
+    resourceGroups
+    pipelineRgRoleAssignments
+  ]
+  params: {
+    principalId: pipelinePrincipalIdStorage
+    roleDefinitionIdOrName: storageFunctionsListKeysRole.id
+    principalType: 'ServicePrincipal'
+    description: 'Storage workload identity — list Function App host keys for Event Grid blob webhooks'
     enableTelemetry: enableTelemetry
   }
 }

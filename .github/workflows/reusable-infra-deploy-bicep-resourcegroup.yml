@@ -75,6 +75,8 @@ jobs:
           SQL_ADMIN_GROUP_NAME: ${{ vars.AZURE_ENTRA_SQL_ADMIN_GROUP_NAME }}
           SQL_ADMIN_GROUP_OBJECTID: ${{ vars.AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID }}
           ENTRA_TENANT_ID: ${{ vars.AZURE_ENTRA_OIDC_TENANTID }}
+          FUNCTIONAPP_FUNCTIONS_RESOURCENAME: ${{ vars.AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME }}
+          FUNCTIONS_NOTIFY_EMAIL: ${{ vars.AZURE_MONITOR_FUNCTIONS_EXCESSIVEUSE_EMAIL }}
         run: |
           set -euo pipefail
           ARGS=(
@@ -97,6 +99,28 @@ jobs:
             if [ -n "${ENTRA_TENANT_ID}" ]; then
               ARGS+=(--parameters "entraTenantId=${ENTRA_TENANT_ID}")
             fi
+            # Principal ids stay out of bicepparam. Lookup is best-effort so SQL still
+            # deploys if the Function App or listKeys role is not there yet. Bicep
+            # fail()s when flagImagesFunctionAppReady is true and this array is empty.
+            if [ -n "${FUNCTIONAPP_FUNCTIONS_RESOURCENAME}" ]; then
+              FUNCTIONS_RG="$(az functionapp list --query "[?name=='${FUNCTIONAPP_FUNCTIONS_RESOURCENAME}'].resourceGroup | [0]" -o tsv 2>/dev/null || true)"
+              FUNC_PID=""
+              if [ -n "${FUNCTIONS_RG}" ]; then
+                FUNC_PID="$(az functionapp identity show --name "${FUNCTIONAPP_FUNCTIONS_RESOURCENAME}" --resource-group "${FUNCTIONS_RG}" --query principalId -o tsv 2>/dev/null || true)"
+              fi
+              if [ -n "${FUNC_PID}" ]; then
+                ARGS+=(--parameters "imagesDataPlanePrincipalIds=['${FUNC_PID}']")
+              else
+                echo "Could not read site MI for ${FUNCTIONAPP_FUNCTIONS_RESOURCENAME}${FUNCTIONS_RG:+ in ${FUNCTIONS_RG}}. Passing empty imagesDataPlanePrincipalIds." >&2
+              fi
+            fi
+          fi
+          if [ "${OIDC_WORKLOAD}" = "FUNCTIONS" ]; then
+            if [ -z "${FUNCTIONS_NOTIFY_EMAIL}" ]; then
+              echo "AZURE_MONITOR_FUNCTIONS_EXCESSIVEUSE_EMAIL is empty on this GitHub Environment. Set the variable (not a secret) before Functions infra CD." >&2
+              exit 1
+            fi
+            ARGS+=(--parameters "excessiveUseNotifyEmail=${FUNCTIONS_NOTIFY_EMAIL}")
           fi
           if [ -n "${EXTRA_SECURE_PARAMETERS}" ]; then
             # shellcheck disable=SC2206

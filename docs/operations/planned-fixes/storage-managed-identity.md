@@ -1,8 +1,8 @@
 # Planned: Storage Entra / managed identity and App Configuration cleanup
 
-**Status:** Not started — after hosted SQL is Entra-only; storage still uses account **keys**.
+**Status:** In progress — hosted SQL is Entra-only; **new-stack Functions** use site managed identity on host storage and the images account. The API still uses images **account keys**.
 
-**Related:** [Secrets and rotation](../../technical/infra/secrets-and-rotation.md), [Configuration](../../technical/infra/configuration.md), images account `stdevdertinfoimagesuks` / `stprddertinfoimagesuks` ([`infra/bicep/storage/`](../../../infra/bicep/storage/)). Catalog: [`infra/configuration/app-config.development.json`](../../../infra/configuration/app-config.development.json).
+**Related:** [Secrets and rotation](../../technical/infra/secrets-and-rotation.md), [Configuration](../../technical/infra/configuration.md), images account `stdevdertinfoimagesuks` / `stprddertinfoimagesuks` ([`infra/bicep/storage/`](../../../infra/bicep/storage/)), Functions [`infra/bicep/functions/`](../../../infra/bicep/functions/). Catalog: [`infra/configuration/app-config.development.json`](../../../infra/configuration/app-config.development.json).
 
 ---
 
@@ -20,7 +20,7 @@ Account keys are long-lived and leak in App Configuration dumps. Several catalog
 
 ### A. App Configuration cleanup (can run before full storage MI)
 
-The API does **not** read `StorageAccount:Functions:Key`. Functions still get `AzureWebJobsStorage` / `StorageConnection:Images` from Function App settings (`listKeys()` in Functions Bicep), not this store.
+The API does **not** read `StorageAccount:Functions:Key`. New-stack Functions use identity-based `AzureWebJobsStorage` / `StorageConnection:Images` app settings, not this store.
 
 Hosted images connection is built from `Name` + `Protocol` + `Key`. Blob/queue/table endpoints are only appended when non-empty; for public Azure they match the default `*.core.windows.net` URLs.
 
@@ -32,11 +32,23 @@ Hosted images connection is built from `Name` + `Protocol` + `Key`. Blob/queue/t
 ### B. Storage access with managed identity
 
 1. **Images account (API)** — grant the App Service MI a data-plane role (typically Storage Blob Data Contributor) on `st<env>dertinfoimagesuks`. Change `StorageAccountConnection` to use `DefaultAzureCredential` (or Azure.Storage.Blobs with a token credential) instead of `AccountKey`. Drop `StorageAccount:Images:Key` / `az-storage-images-accountkey`.
-2. **Images account (Functions)** — blob trigger `StorageConnection:Images` is a connection string. Switch to identity-based (`StorageConnection:Images__accountName` + credential) per [Azure Functions identity-based connections](https://learn.microsoft.com/en-us/azure/azure-functions/functions-reference?tabs=blob#connecting-to-host-storage-with-an-identity).
-3. **Function App host storage** — `AzureWebJobsStorage` is a second account. Move to identity-based host storage (`AzureWebJobsStorage__accountName`).
-4. **Harden** — consider `allowSharedKeyAccess: false` on the accounts once no client uses keys (Azurite/local remains key-based).
+2. **Images account (Functions)** — **done on the new stack, assigned by storage Bicep.** Identity-based `StorageConnection:Images__accountName` + `managedidentity`. BlobWriter uses `DefaultAzureCredential` when the connection string is absent. Storage infra CD grants Blob Data Contributor when `flagImagesFunctionAppReady` is true (pipeline looks up the Function App principal id). The same principal-id list can later take the API site MI (B.1).
+3. **Function App host storage** — **done on the new stack.** Identity-based `AzureWebJobsStorage__accountName`.
+4. **Harden** — consider `allowSharedKeyAccess: false` on the accounts once no client uses keys (Azurite/local remains key-based). Do **not** disable shared-key on the images account until API identity (B.1) is done.
+
+## C. Cleanup inventory (next step)
+
+Do **not** execute this in the Functions Flex CD work. After DEV Functions are proven, remove leftovers from stores. Confirm against the live development catalog/vault before deleting.
+
+| Item | Action |
+|------|--------|
+| Key Vault / App Configuration `az-storage-functions-accountkey` / `StorageAccount:Functions:Key` | API does not read it; new Functions use the site MI. Safe to remove from `kv-secrets.*.json.example`, catalogs, vault, and the live store once DEV Functions are proven. |
+| `az-storage-images-accountkey` / `StorageAccount:Images:Key` | **Keep** — API still uses keys. |
+| App Configuration `StorageAccount:Images:BlobEndpoint` / `QueueEndpoint` / `TableEndpoint` | Already listed in section A if still present. |
+| GitHub leftover `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME_STG` (and similar `test`/`prod` vars) | Drop after new-stack `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME` is in use. |
+| ADO Functions infra YAML | Trigger already retired. Delete the file after nobody relies on the ADO definition. |
+| Old image-resize RG / Y1 app / Event Grid on the live images account | **After** production switchover only. |
 
 ## Out of scope
 
 - Local native / Azurite (keep the well-known emulator key in `infra/secrets/api.env`).
-- Aligning Functions onto new-stack RG naming (separate from this identity work).
