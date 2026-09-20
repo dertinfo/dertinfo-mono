@@ -13,6 +13,7 @@ Operator scripts for Azure / Entra setup that are not Bicep and not local secret
 | [`New-DertInfoSqlEntraGroups.ps1`](New-DertInfoSqlEntraGroups.ps1) | **Before SQL:** create or reuse the two Entra groups; prints GitHub variable names |
 | [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (operators / people; ODBC sqlcmd `-G`) |
 | [`New-DertInfoSqlAppServiceUser.ps1`](New-DertInfoSqlAppServiceUser.ps1) | **After API App Service exists:** bind the site system-assigned MI as its own database user (required for hosted API SQL) |
+| [`Copy-DertInfoSqlToDevelopment.ps1`](Copy-DertInfoSqlToDevelopment.ps1) | **Operator refresh:** ARM-copy production SQL onto the development server, swap to the Bicep database name, bind DEV Entra users, then Continue or Revert |
 | [`New-DertInfoConfigKeyVaultSecrets.ps1`](New-DertInfoConfigKeyVaultSecrets.ps1) | **After config KV exists:** prompt for catalog secret names (skip existing unless `-Force`) |
 | [`Export-DertInfoAppConfiguration.ps1`](Export-DertInfoAppConfiguration.ps1) | Export non-secret App Configuration keys to a gitignored JSON dump (`--skip-keyvault`, `--auth-mode login`) |
 | [`Import-DertInfoAppConfiguration.ps1`](Import-DertInfoAppConfiguration.ps1) | Dry-run (or `-Force`) apply catalog `keyValues` (optional dump via `-Path`), then set Key Vault references (`--auth-mode login`) |
@@ -97,6 +98,33 @@ After **API infra CD** has created the site, bind the system-assigned identity a
 ```
 
 Then restart the App Service. `Login failed for user '<token-identified principal>'` means this user is missing (the Entra token is valid; SQL has no principal for that object ID). Repeat for production after that App Service exists (`-GitHubEnvironment production`).
+
+## Copy production SQL onto development
+
+Refreshes `sqldb-dev-dertinfo-storage-uks` from production data. Dest names match storage Bicep. Subscriptions are resolved by looking up those resource groups under `az login` (ids are not in the script). ARM copy; not a bacpac. Cross-subscription is expected (live/PRD in one subscription, development in another). The current `az account set` default does not matter; both subscriptions must appear in `az account list`.
+
+You need: `az login` with visibility of the source and development storage RGs; rights to copy/rename/delete databases on the DEV SQL server and stop/start `app-dev-dertinfo-api-uks`; membership of `dertinfo-sql-admins-development` (group **member**, not only owner); a SQL firewall rule for your client IP (user bind uses ODBC `sqlcmd -G`). Do not run this from GitHub OIDC.
+
+```powershell
+.\Copy-DertInfoSqlToDevelopment.ps1 -Source production
+```
+
+`-Source production` is new-stack PRD (`rg-prd-dertinfo-storage-uks` / `sql-prd-dertinfo-storage-uks` / `sqldb-prd-dertinfo-storage-uks`). Until that database exists, copy from old-stack live:
+
+```powershell
+.\Copy-DertInfoSqlToDevelopment.ps1 -Source live `
+  -SourceResourceGroup 'dertinfo-live-rg' `
+  -SourceServer 'dertinfo-live-sqlsvr' `
+  -SourceDatabase 'dertinfo-live-sqldb'
+```
+
+`-SourceServer` is the logical name. A FQDN (`….database.windows.net`) is accepted and stripped. Put the backtick at the **end** of a line to continue; do not write it immediately before `-SourceDatabase` (PowerShell then treats `-SourceDatabase` as the database name).
+
+The script copies to `sqldb-dev-dertinfo-storage-uks-copy`, stops the DEV API, renames the current database to `…-old`, promotes the copy to `sqldb-dev-dertinfo-storage-uks`, then runs [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) and [`New-DertInfoSqlAppServiceUser.ps1`](New-DertInfoSqlAppServiceUser.ps1) for **development**. Each bind uses `sqlcmd -G` (Entra MFA), not `az login`. A browser or Windows sign-in window **will appear** (often **behind** Cursor). Complete MFA for each of the two scripts; do not Ctrl+C while waiting. After bind it starts the API.
+
+Smoke-test Swagger (`https://app-dev-dertinfo-api-uks.azurewebsites.net/swagger/index.html`), then type **Continue** (delete `…-old`) or **Revert** (swap back and delete the copy). There is no default. Copied live Auth0 user ids will not match the development tenant (`dertinfotest`); treat this as a data/schema check.
+
+Copy does not need Allow Azure services. User bind comes from your machine, so keep an administrator firewall rule. Future network lock-down: [SQL firewall — App Service IPs and admin IP](../../docs/operations/planned-fixes/sql-firewall-app-service-and-admin.md).
 
 ## Hosted API Key Vault secrets and App Configuration
 
