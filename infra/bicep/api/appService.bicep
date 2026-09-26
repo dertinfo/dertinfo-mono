@@ -20,8 +20,11 @@ param webAppName string
 @description('App Service plan SKU (F1 or D1).')
 param appServiceSku string
 
-@description('ASPNETCORE_ENVIRONMENT / App Configuration label.')
+@description('ASPNETCORE_ENVIRONMENT. Production on hosted dev and production so IsDevelopment() is false.')
 param aspNetCoreEnvironment string
+
+@description('App Configuration label (AZURE_APP_CONFIG_LABEL). Independent of ASPNETCORE_ENVIRONMENT.')
+param appConfigurationLabel string
 
 @description('Lookup of the existing config part RG (Key Vault / App Configuration). Not a name to deploy.')
 param configResourceGroupLookup string
@@ -107,6 +110,10 @@ module webApp 'br/public:avm/res/web/site:0.24.0' = {
         {
           name: 'ASPNETCORE_ENVIRONMENT'
           value: aspNetCoreEnvironment
+        }
+        {
+          name: 'AZURE_APP_CONFIG_LABEL'
+          value: appConfigurationLabel
         }
         {
           name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'

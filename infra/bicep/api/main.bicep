@@ -32,8 +32,11 @@ param webAppName string
 @description('App Service plan SKU (F1 dev, D1 prd).')
 param appServiceSku string = 'F1'
 
-@description('ASPNETCORE_ENVIRONMENT / App Configuration label.')
-param aspNetCoreEnvironment string = 'Development'
+@description('ASPNETCORE_ENVIRONMENT on the App Service. Hosted dev and production are Production so image URLs use the cloud storage account. Local Docker and dotnet run stay Development.')
+param aspNetCoreEnvironment string = 'Production'
+
+@description('App Configuration key label. Empty uses aspNetCoreEnvironment. Development store keeps label Development while the site runtime is Production.')
+param appConfigurationLabel string = ''
 
 @description('Key Vault name in the config resource group (short: kv-<env>-dertinfo-uks).')
 param keyVaultName string
@@ -69,6 +72,8 @@ var regionTlaByLocation = {
 
 var regionTla = regionTlaByLocation[location]
 
+var resolvedAppConfigurationLabel = appConfigurationLabel != '' ? appConfigurationLabel : aspNetCoreEnvironment
+
 // Lookup of the existing config part RG (Key Vault / App Configuration). Not a name to deploy.
 var configResourceGroupLookup = 'rg-${environmentTag}-${productSlug}-config-${regionTla}'
 
@@ -100,6 +105,7 @@ module appService './appService.bicep' = if (prerequisitesExist) {
     webAppName: webAppName
     appServiceSku: appServiceSku
     aspNetCoreEnvironment: aspNetCoreEnvironment
+    appConfigurationLabel: resolvedAppConfigurationLabel
     configResourceGroupLookup: configResourceGroupLookup
     keyVaultName: keyVaultName
     appConfigurationName: appConfigurationName
