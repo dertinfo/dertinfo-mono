@@ -6,6 +6,8 @@ The website no longer stays on “Warming up” when the Auth0 browser cache loo
 
 One Playwright script plants that cache against the local site and the hosted `dertinfodev` tenant. On the code before this change it stayed on `/session/warmup`. After the change the same script reaches the Auth0 sign-in page with the planted cache gone. It does not type a password.
 
+- [Pull request 49](https://github.com/dertinfo/dertinfo-mono/pull/49) — website Warmup token check, `stale-session.mjs`, and the C4 note.
+
 ## Why the work was completed
 
 People with a stale Auth0 session could not get past `/session/warmup`. Home, then dashboard, repeated the same screen. The only recovery was clearing local storage, cookies, and session storage by hand. `GET /api/status` does not prove the session is alive, and that call also goes through the Auth0 HTTP interceptor, so a rejected refresh token fails the kick and leaves the Warming up screen in place.
