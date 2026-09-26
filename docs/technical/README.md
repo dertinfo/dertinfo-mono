@@ -14,7 +14,7 @@ updated: 2026-09-26
 | [architecture/](architecture/) | Estate structure and subsystem responsibilities |
 | [subsystems/](subsystems/) | Deep dives (Auth0, security, …) |
 | [standards/](standards/) | Technology conventions (Angular, Bicep, PowerShell, …) |
-| [guides/](guides/) | Cross-cutting how-tos (local estate, contributing, GitHub Azure OIDC) |
+| [guides/](guides/) | Cross-cutting how-tos (local estate, contributing, GitHub Azure OIDC, production setup) |
 | [infra/](infra/) | Configuration, CI/CD, secrets rotation, agent GitHub MCP |
 
 API endpoints and schemas: OpenAPI / Swagger via [`packages/shared-contracts/`](../../packages/shared-contracts/) — not duplicated here.

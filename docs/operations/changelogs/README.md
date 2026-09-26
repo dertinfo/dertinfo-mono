@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-09-26 | Production environment setup guide | [2026-09-26-005-production-environment-setup-guide.md](./2026-09-26-005-production-environment-setup-guide.md) |
 | 2026-09-26 | Operator scripts grouped by resource | [2026-09-26-004-script-folder-categories.md](./2026-09-26-004-script-folder-categories.md) |
 | 2026-09-26 | Estate control plane menu | [2026-09-26-003-estate-control-plane-menu.md](./2026-09-26-003-estate-control-plane-menu.md) |
 | 2026-09-26 | Dead Auth0 session leaves Warmup for sign-in | [2026-09-26-002-warmup-stale-session.md](./2026-09-26-002-warmup-stale-session.md) |

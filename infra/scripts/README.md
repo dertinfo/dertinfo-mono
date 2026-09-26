@@ -32,8 +32,17 @@ Azure SQL.
 | Script | Purpose |
 |--------|---------|
 | [`Copy-DertInfoSqlToDevelopment.ps1`](Database/Copy-DertInfoSqlToDevelopment.ps1) | **Operator refresh:** ARM-copy production SQL onto the development server, swap to the Bicep database name, bind DEV Entra users, then Continue or Revert |
+| [`Copy-DertInfoSqlToProduction.ps1`](Database/Copy-DertInfoSqlToProduction.ps1) | **Production load:** ARM-copy live SQL onto the production server, swap to the Bicep database name, bind PRD Entra users, then Continue or Revert. Does not touch development |
 | [`New-DertInfoSqlAppServiceUser.ps1`](Database/New-DertInfoSqlAppServiceUser.ps1) | **After API App Service exists:** bind the site system-assigned MI as its own database user (required for hosted API SQL) |
 | [`New-DertInfoSqlDbAccessUser.ps1`](Database/New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (operators / people; ODBC sqlcmd `-G`) |
+
+### Storage
+
+Blob containers on the production images account.
+
+| Script | Purpose |
+|--------|---------|
+| [`Copy-DertInfoImagesToProduction.ps1`](Storage/Copy-DertInfoImagesToProduction.ps1) | **After the Function App exists:** stop it, AzCopy the four image containers from each named source account onto `stprddertinfoimagesuks`, then start it. Does not enable Event Grid |
 
 ### Entra
 
@@ -163,6 +172,24 @@ The script copies to `sqldb-dev-dertinfo-storage-uks-copy`, stops the DEV API, r
 Smoke-test Swagger (`https://app-dev-dertinfo-api-uks.azurewebsites.net/swagger/index.html`), then type **Continue** (delete `…-old`) or **Revert** (swap back and delete the copy). There is no default. Copied live Auth0 user ids will not match the development tenant (`dertinfotest`); treat this as a data/schema check.
 
 Copy does not need Allow Azure services. User bind comes from your machine, so keep an administrator firewall rule. Future network lock-down: [SQL firewall — App Service IPs and admin IP](../../docs/operations/planned-fixes/sql-firewall-app-service-and-admin.md).
+
+## Copy live SQL onto production
+
+Loads `sqldb-prd-dertinfo-storage-uks` from the old live database. Dest names match storage Bicep. The development server is not read or written. The script refuses a source whose `database_size` is over the Basic 2 GB cap. Default source is `dertinfo-live-rg` / `dertinfo-live-sqlsvr` / `dertinfo-live-sqldb`.
+
+```powershell
+.\Database\Copy-DertInfoSqlToProduction.ps1
+```
+
+When `app-prd-dertinfo-api-uks` exists, the script stops it for the rename, binds the production access user and the App Service user, and starts it again. Type **Continue** to delete the previous production database, or **Revert** to put it back. Guide: [Production environment setup](../../docs/technical/guides/production-environment-setup.md).
+
+## Copy images onto production
+
+Stops `func-prd-dertinfo-functions-uks`, copies `groupimages`, `eventimages`, `sheetimages`, and `defaultimages` from each source account onto `stprddertinfoimagesuks`, then starts the Function App. Run `azcopy login` first. Pass every original account name, including a separate Eventbrite account when that store is not one of the others. The script does not set `flagImagesEventGridReady`.
+
+```powershell
+.\Storage\Copy-DertInfoImagesToProduction.ps1 -SourceStorageAccount 'myimagesaccount','myeventbriteaccount'
+```
 
 ## Hosted API Key Vault secrets and App Configuration
 

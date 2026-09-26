@@ -181,11 +181,7 @@ Templates and workflows are in the repo. You run Azure and GitHub. Do this in or
 
 **PRD (only after DEV smoke test works)**
 
-13. Repeat vars on GitHub Environment `production`: FUNCTIONS client id, principal id, `AZURE_MONITOR_FUNCTIONS_EXCESSIVEUSE_EMAIL`, then after infra `AZURE_FUNCTIONAPP_FUNCTIONS_RESOURCENAME` = `func-prd-dertinfo-functions-uks`.
-14. Confirm `stprddertinfoimagesuks` exists. Set `prerequisitesExist = true` on [`infra/bicep/functions/main.prod.bicepparam`](../../../infra/bicep/functions/main.prod.bicepparam) when ready.
-15. Run subscription / storage / functions infra / src CD with `target: full` (gated `production`).
-16. Enable Event Grid (`flagImagesEventGridReady=true` on the **storage** leaf; webhook handshake needs a **running** host), **stop** the PRD Function App, AzCopy all prefixes (`originals`, `100x100`, `480x360`) onto `stprddertinfoimagesuks`, **delete and recreate** the four Event Grid subscriptions (delete then re-run **Storage infra CD** — incremental ARM will not drop a retry backlog if the subscriptions are unchanged), then **start** the app. Do not start without resetting subscriptions. Event Grid retries failed deliveries for up to 24 hours.
-17. Switch production API/traffic later. Leave old Functions on the old image account until then.
+Production order — identities, pipelines, configuration, SQL and image data, the Azure-hostname test, then DNS — is [Set up the production environment](../guides/production-environment-setup.md). Follow that guide rather than a shorter list here.
 
 Cleanup of leftover App Configuration / Key Vault / GitHub items is a **next** step: [storage managed identity](../../operations/planned-fixes/storage-managed-identity.md#c-cleanup-inventory-next-step).
 
