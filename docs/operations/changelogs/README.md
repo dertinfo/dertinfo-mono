@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-09-26 | Image URLs use cloud storage; screens use resized copies | [2026-09-26-001-image-urls-and-resize.md](./2026-09-26-001-image-urls-and-resize.md) |
 | 2026-09-20 | New-stack Functions Flex Consumption CD | [2026-09-20-002-functions-flex-consumption-cd.md](./2026-09-20-002-functions-flex-consumption-cd.md) |
 | 2026-09-20 | Operator script to copy production SQL onto development | [2026-09-20-001-copy-sql-to-development.md](./2026-09-20-001-copy-sql-to-development.md) |
 | 2026-09-19 | Development website and PWA first hosted deploy | [2026-09-19-002-dev-swa-first-pass.md](./2026-09-19-002-dev-swa-first-pass.md) |
