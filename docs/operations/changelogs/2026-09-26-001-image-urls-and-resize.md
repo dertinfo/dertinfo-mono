@@ -36,4 +36,4 @@ Development gallery images were broken. The hosted API was running as `Developme
 ## Any remaining issues that we may wish to address
 
 - Blobs resized before pull request 47 keep their previous content type until they are uploaded again.
-- A stale Auth0 session can still stick on Warmup. Tracked as scenario C4 in [website auth integration tests](../planned-fixes/web-auth-integration-tests.md). Not part of this image work.
+- A stale Auth0 session could still stick on Warmup when this image work landed. That is addressed in [2026-09-26-002](./2026-09-26-002-warmup-stale-session.md).

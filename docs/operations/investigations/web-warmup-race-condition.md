@@ -2,7 +2,7 @@
 
 **Status:** Resolved (2026-07-26) — `WarmupGuard` owns cold→warmup redirect (no navigate-from-resolver); `WarmupComponent` recovers if already warm / kicks on init; `RepositoryBase.processApiError` fixed. See changelog [`2026-07-26-001-web-auth-refresh-warmup.md`](../changelogs/2026-07-26-001-web-auth-refresh-warmup.md). This page remains as the historical investigation.
 
-**Follow-up (2026-09-26):** A stale Auth0 session on `dev.dertinfo.co.uk` can still stick on `/session/warmup`. Home then dashboard does not recover; clearing site data does. Tracked as scenario C4 on [`web-auth-integration-tests.md`](../planned-fixes/web-auth-integration-tests.md). Not scheduled yet.
+**Follow-up (2026-09-26):** A dead Auth0 cache no longer stays on `/session/warmup`. Warmup asks for an access token before it continues, and clears the saved session and redirects to sign-in when renewal fails or times out. [Changelog](../changelogs/2026-09-26-002-warmup-stale-session.md). Scenario C4 on [`web-auth-integration-tests.md`](../planned-fixes/web-auth-integration-tests.md).
 
 **App:** `apps/dert-web/src/client/`  
 **Symptom:** User lands on `/session/warmup` (“Warming up”) and never reaches `/dashboard`, even when `/api/status` returns 200 in the network tab.

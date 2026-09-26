@@ -12,7 +12,8 @@
     "test:login:warmup:url-history": "node web/login/warmup/url-history.mjs",
     "test:login:warmup:mid-race": "node web/login/warmup/mid-warmup-race.mjs",
     "test:login:warmup:delay-control": "node web/login/warmup/delay-success-control.mjs",
-    "test:login:warmup:hang-vs-auth": "node web/login/warmup/resolver-hang-vs-auth.mjs"
+    "test:login:warmup:hang-vs-auth": "node web/login/warmup/resolver-hang-vs-auth.mjs",
+    "test:login:warmup:stale-session": "node web/login/warmup/stale-session.mjs"
   },
   "dependencies": {
     "playwright": "^1.49.0"

@@ -90,6 +90,23 @@ export class AuthService {
   }
 
   /**
+   * Drop a browser session that can no longer mint an access token, then send the user to sign-in.
+   * openUrl: false clears the Auth0 SPA cache in memory and localStorage without visiting /v2/logout.
+   */
+  public abandonStaleSessionAndLogin(): void {
+    localStorage.removeItem(this.userDataStorageKey);
+    localStorage.removeItem('dertinfo_access_token');
+    this.auth0.logout({ openUrl: false }).pipe(take(1)).subscribe({
+      next: () => this.login(),
+      error: (err) => {
+        console.error('Auth0 local logout failed', err);
+        this.clearAuth0BrowserCache();
+        this.login();
+      },
+    });
+  }
+
+  /**
    * Step 4 — called from /callback after Auth0 redirects back with ?code=&state=.
    * The SDK exchanges the code for tokens automatically on app bootstrap; we wait until
    * authenticated, ensure UserData is populated, then navigate to the intended route.
@@ -227,6 +244,12 @@ export class AuthService {
   /**
    * Map Auth0 id-token claims (including https://dertinfo.co.uk/* custom claims) into UserData.
    */
+  private clearAuth0BrowserCache(): void {
+    Object.keys(localStorage)
+      .filter((key) => key.indexOf('@@auth0spajs@@') === 0)
+      .forEach((key) => localStorage.removeItem(key));
+  }
+
   private applyClaimsToUserData(claims: Record<string, unknown>): void {
     const user_data: UserData = {
       email: (claims['email'] as string) || '',
