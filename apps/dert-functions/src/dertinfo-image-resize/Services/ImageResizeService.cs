@@ -37,11 +37,11 @@ namespace DertInfo.ImageResize.Services
 
             // Identify the file type - default to jpeg
             SixLabors.ImageSharp.Formats.IImageFormat imageFormat = SixLabors.ImageSharp.Formats.Jpeg.JpegFormat.Instance;
-            switch (System.IO.Path.GetExtension(filename))
+            switch (Path.GetExtension(filename).ToLowerInvariant())
             {
-                case "png": imageFormat = SixLabors.ImageSharp.Formats.Png.PngFormat.Instance; break;
-                case "bmp": imageFormat = SixLabors.ImageSharp.Formats.Bmp.BmpFormat.Instance; break;
-                case "gif": imageFormat = SixLabors.ImageSharp.Formats.Gif.GifFormat.Instance; break;
+                case ".png": imageFormat = SixLabors.ImageSharp.Formats.Png.PngFormat.Instance; break;
+                case ".bmp": imageFormat = SixLabors.ImageSharp.Formats.Bmp.BmpFormat.Instance; break;
+                case ".gif": imageFormat = SixLabors.ImageSharp.Formats.Gif.GifFormat.Instance; break;
                 default: break;
             }
 

@@ -1,5 +1,6 @@
 ﻿using Azure.Identity;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace DertInfo.ImageResize.Services
@@ -27,7 +28,24 @@ namespace DertInfo.ImageResize.Services
             var blobClient = containerClient.GetBlobClient(blobPathAndName);
 
             inputStream.Position = 0;
-            await blobClient.UploadAsync(inputStream, overwrite: true);
+            await blobClient.UploadAsync(inputStream, new BlobUploadOptions
+            {
+                HttpHeaders = new BlobHttpHeaders
+                {
+                    ContentType = ContentTypeFor(blobPathAndName)
+                }
+            });
+        }
+
+        private static string ContentTypeFor(string blobPathAndName)
+        {
+            switch (Path.GetExtension(blobPathAndName).ToLowerInvariant())
+            {
+                case ".png": return "image/png";
+                case ".gif": return "image/gif";
+                case ".bmp": return "image/bmp";
+                default: return "image/jpeg";
+            }
         }
 
         private BlobServiceClient CreateBlobServiceClient()
