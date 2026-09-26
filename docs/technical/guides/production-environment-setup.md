@@ -2,7 +2,7 @@
 name: Production environment setup
 type: guide
 status: active
-updated: 2026-09-26
+updated: 2026-09-27
 ---
 
 # Set up the production environment
@@ -15,7 +15,7 @@ Workflow names: [CI/CD](../infra/cicd.md). Scripts: [`infra/scripts/README.md`](
 
 - Development already deploys. GitHub Environment `production` exists, has required reviewers, and already has `AZURE_ENTRA_OIDC_CLIENTID_SUBSCRIPTION`, `AZURE_ENTRA_OIDC_TENANTID`, and `AZURE_SUBSCRIPTION_DEPLOY_SUBSCRIPTIONID`.
 - You will use the live Auth0 tenant `dertinfo.eu.auth0.com` and audience `api.dertinfo.co.uk`. You have the live management client id and secret, both SPA client ids, and the live Mailgun and SendGrid keys. Do not point production at `dertinfotest`.
-- `az login` can see the production subscription and the live SQL subscription. Commands run in PowerShell from `infra\scripts` after `az account set --subscription <production-subscription-id>`. ODBC Driver 17 or newer provides `sqlcmd -G`. AzCopy v10 is on PATH for milestone 8 (`azcopy login` once before that milestone).
+- `az login` can see the production subscription and the live SQL subscription. Commands run in PowerShell from `infra\scripts` after `az account set --subscription <production-subscription-id>`. ODBC Driver 17 or newer provides `sqlcmd -G`. AzCopy v10 is on PATH for milestone 8. A personal Microsoft account passes `--tenant-id` on `azcopy login`. See the milestone 8 note.
 - Repository secret `DOCKERHUB_TOKEN` and variable `DOCKERHUB_USERNAME` are set.
 
 ## How to run a pipeline
@@ -132,12 +132,16 @@ az webapp restart --resource-group rg-prd-dertinfo-api-uks --name app-prd-dertin
 
 **Done when:** App Configuration label `Production` has domain `dertinfo.eu.auth0.com`, the Azure callback origins, and CORS with no spaces, and the two GitHub callback variables match the hostnames from milestone 4.
 
+**Note from the first production run.** The empty database from milestone 3 can take the production database users, then **API Src CD**, **Web Src CD**, and **App Src CD**, before the copy. That proves Swagger and the Azure hostnames in production before the copy puts live data on the database and starts the usage clock. The copy replaces the database, so those user binds have to be run again afterwards. The order below copies first, and Swagger cannot be checked until API Src CD has run, which is what made this part hard to follow.
+
 ## Milestone 6 — Production data is on the new database and the API serves it
 
 1. **Machine.** Run `.\Database\Copy-DertInfoSqlToProduction.ps1`, because that script copies the live database onto `sql-prd-dertinfo-storage-uks`, binds the production users, and refuses a source over the Basic 2 GB cap. At the prompt, type **Continue** to delete the previous empty database. The development database is not changed. Swagger is the check after API Src CD, not during that prompt.
 2. **GitHub.** Dispatch **API Src CD** from current `main`, because that publish runs `Migrate()` on the copied database.
 
 **Done when:** `https://app-prd-dertinfo-api-uks.azurewebsites.net/swagger/index.html` loads and shows live data, not an empty database.
+
+**Note from the first production run.** [`Copy-DertInfoSqlToProduction.ps1`](../../../infra/scripts/Database/Copy-DertInfoSqlToProduction.ps1) does check the copy and then asks for Continue or Revert. It does not number the stages the way the other operator scripts do, and that cleanup step is harder to follow than a numbered flow.
 
 ## Milestone 7 — Website and PWA run on the Azure hostnames
 
@@ -149,6 +153,24 @@ az webapp restart --resource-group rg-prd-dertinfo-api-uks --name app-prd-dertin
 ## Milestone 8 — Images are on the new account
 
 1. **Machine.** Run `azcopy login`, then `.\Storage\Copy-DertInfoImagesToProduction.ps1 -SourceStorageAccount '<account>','<eventbrite-account-if-separate>'`, because the old estate used more than one account and this repo does not name them. The script stops the Function App, copies the four image containers, and starts the app. It does not enable Event Grid.
+
+**Note from the first production run.** A personal Microsoft account, such as hotmail.com, must pass the Entra tenant id to AzCopy. `az login` does not sign AzCopy in.
+
+```powershell
+azcopy login --tenant-id="2ab71d57-dc91-4de1-8b66-8d449cf20439"
+```
+
+The same user needs **Storage Blob Data Contributor** on `stprddertinfoimagesuks`. Owner or Contributor on the subscription does not grant blob writes, and the Function App identity's role does not apply to this login. Pass the resource group. A CLI default group may be an old test group and will not find this account.
+
+```powershell
+az account show --query "{name:name, user:user.name}" -o json
+azcopy login status
+$me = az ad signed-in-user show --query id -o tsv
+$scope = az storage account show --name stprddertinfoimagesuks --resource-group rg-prd-dertinfo-storage-uks --query id -o tsv
+az role assignment create --assignee-object-id $me --assignee-principal-type User --role "Storage Blob Data Contributor" --scope $scope
+```
+
+`azcopy login status` must be that same user.
 2. **GitHub.** Merge `flagImagesEventGridReady = true` in the storage production leaf and dispatch **Storage infra CD**, because Flex resizes new blobs only after Event Grid is on, and the webhook handshake needs the running host.
 
 **Done when:** a known live image opens from `https://stprddertinfoimagesuks.blob.core.windows.net`, and a new upload is resized into `100x100` and `480x360`.
