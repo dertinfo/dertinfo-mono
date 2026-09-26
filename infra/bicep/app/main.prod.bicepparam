@@ -11,5 +11,5 @@ extends './main.shared.bicepparam'
 param environmentTag = 'prd'
 param staticWebAppName = 'swa-prd-dertinfo-app-uks'
 param prerequisitesExist = true
-param customDomainReady = false
+param customDomainReady = true
 param customDomainName = 'app.dertinfo.co.uk'
