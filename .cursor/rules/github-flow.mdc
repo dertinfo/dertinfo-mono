@@ -27,3 +27,4 @@ Follow [GitHub Flow](https://docs.github.com/en/get-started/using-github/github-
 - Before git work: confirm the branch is based on **main**
 - Create/switch to an appropriately named branch before edits
 - Summarize impacted apps in PR description (`apps/dert-api`, etc.)
+- Include a change log in the PR in nearly all cases. If unsure whether to leave it off, ask first. See [change logs](changelogs.mdc).

@@ -7,7 +7,9 @@ alwaysApply: true
 
 # Change logs
 
-When a chat or workstream is **seen through to completion** (outcome delivered, PRs merged, or the user confirms the work is done), add a change log entry.
+When opening a pull request, include a change log for that work **in the same PR** in nearly all cases. If there is any doubt about leaving it off, **ask** before opening the PR without one.
+
+If a PR already merged with no entry, open a small docs PR straight away. Also add an entry when a chat finishes without a PR and the user confirms the work is done.
 
 ## Layout
 
@@ -25,7 +27,7 @@ To pick `NNN`, list existing files for that date and use the next number after t
 2. Add a row at the **top** of the index table in `docs/operations/changelogs/README.md` (newest first).
 3. Link to wider docs (`docs/technical/infra/cicd.md`, `docs/technical/infra/configuration.md`, `docs/operations/planned-fixes/…`) instead of copying them.
 4. List merged PR URLs and important Actions run links where useful.
-5. Include the change log files in the same PR as the work when practical; otherwise open a small docs PR immediately after.
+5. Put the detail page and index row in the same PR as the work. A later docs PR is only for an entry missed after merge.
 
 ## Detail page sections (required)
 

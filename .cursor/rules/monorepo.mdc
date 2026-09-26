@@ -38,4 +38,4 @@ alwaysApply: true
 
 ## Change logs
 - See `docs/operations/changelogs/README.md` and `.cursor/rules/changelogs.mdc`
-- When a chat/workstream is completed: add an index row and a detail page `YYYY-MM-DD-NNN-short-slug.md` under `docs/operations/changelogs/`
+- When opening a PR, include a change log in that PR in nearly all cases. If unsure whether to leave it off, ask first. Detail pages are `YYYY-MM-DD-NNN-short-slug.md` under `docs/operations/changelogs/`
