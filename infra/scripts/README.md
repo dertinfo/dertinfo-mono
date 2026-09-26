@@ -2,6 +2,16 @@
 
 Operator scripts for Azure / Entra setup that are not Bicep and not local secrets.
 
+## Start here
+
+From this folder:
+
+```powershell
+.\Start-DertInfoControlPlane.ps1
+```
+
+The menu lists each script in this folder that has comment-based help, shows what it does, collects parameters, and runs the one you confirm. Quit leaves the console as it is. You can still run any script directly.
+
 | Script | Purpose |
 |--------|---------|
 | [`New-DertInfoSubscriptionOidcIdentities.ps1`](New-DertInfoSubscriptionOidcIdentities.ps1) | Create **isolated** Entra apps + service principals for subscription-scope GitHub Actions OIDC (`development` and `production`), apply federated credentials from [`infra/configuration/`](../configuration/), and grant Contributor + User Access Administrator on each subscription |
@@ -17,6 +27,7 @@ Operator scripts for Azure / Entra setup that are not Bicep and not local secret
 | [`New-DertInfoConfigKeyVaultSecrets.ps1`](New-DertInfoConfigKeyVaultSecrets.ps1) | **After config KV exists:** prompt for catalog secret names (skip existing unless `-Force`) |
 | [`Export-DertInfoAppConfiguration.ps1`](Export-DertInfoAppConfiguration.ps1) | Export non-secret App Configuration keys to a gitignored JSON dump (`--skip-keyvault`, `--auth-mode login`) |
 | [`Import-DertInfoAppConfiguration.ps1`](Import-DertInfoAppConfiguration.ps1) | Dry-run (or `-Force`) apply catalog `keyValues` (optional dump via `-Path`), then set Key Vault references (`--auth-mode login`) |
+| [`DertInfoAppConfigCatalog.ps1`](DertInfoAppConfigCatalog.ps1) | Shared helpers for the App Configuration catalog and gitignored secrets JSON. Dot-sourced by the import, export, and Key Vault secret scripts. Not an Azure operation |
 
 ## Why two subscription apps (not one)
 

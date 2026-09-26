@@ -1,5 +1,23 @@
-# Dot-source from the same folder: . "$PSScriptRoot\DertInfoAppConfigCatalog.ps1"
-# $PSScriptRoot here is this file's directory (infra/scripts) at dot-source time.
+<#
+.SYNOPSIS
+  Shared catalog and secrets-file helpers for the App Configuration scripts.
+
+.DESCRIPTION
+  Dot-sourced by Import-DertInfoAppConfiguration.ps1, Export-DertInfoAppConfiguration.ps1,
+  and New-DertInfoConfigKeyVaultSecrets.ps1. It does not call Azure.
+
+  Resolves infra/configuration/app-config.<environment>.json and
+  kv-secrets.<environment>.json, or an explicit path. Loads the catalog and
+  requires appConfigurationName, appConfigurationLabel, keyVaultName, secrets,
+  and keyVaultReferences. Loads the gitignored secrets JSON, or throws with
+  the .example copy hint.
+
+  At dot-source time, $PSScriptRoot is infra/scripts. Running this file defines
+  the helpers for that invocation only.
+
+.EXAMPLE
+  . "$PSScriptRoot\DertInfoAppConfigCatalog.ps1"
+#>
 
 $script:DertInfoScriptsDir = $PSScriptRoot
 
