@@ -13,6 +13,6 @@ param imagesStorageAccountName = 'stprddertinfoimagesuks'
 param sqlServerName = 'sql-prd-dertinfo-storage-uks'
 param sqlDatabaseName = 'sqldb-prd-dertinfo-storage-uks'
 param sqlBackupShortTermRetentionDays = 7
-param flagSqlServerIsReady = false
+param flagSqlServerIsReady = true
 param flagImagesFunctionAppReady = false
 param flagImagesEventGridReady = false
