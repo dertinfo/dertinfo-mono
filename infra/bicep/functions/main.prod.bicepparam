@@ -15,3 +15,4 @@ param hostStorageAccountName = 'stprddertinfofuncuks'
 param imagesStorageAccountName = 'stprddertinfoimagesuks'
 param monitoringResourceGroupName = 'rg-prd-dertinfo-monitoring-uks'
 param applicationInsightsName = 'appi-prd-dertinfo-monitoring-uks'
+param prerequisitesExist = true
