@@ -20,7 +20,7 @@ Source material includes the legacy [dertinfo wiki Home](https://github.com/dert
 | API | [`apps/dert-api/`](../../../apps/dert-api/) | Core business logic, HTTP API, EF Core / SQL Server, Auth0 JWT validation, persistence and storage connections |
 | Website | [`apps/dert-web/`](../../../apps/dert-web/) | Primary website; most organiser / management functionality (Angular SPA via Static Web Apps / SWA CLI locally) |
 | App (PWA) | [`apps/dert-app/`](../../../apps/dert-app/) | Mobile-oriented PWA: collect scores during competition; teams view score sheets and published results |
-| Image resize | [`apps/dert-functions/`](../../../apps/dert-functions/) | Azure Functions worker: process uploaded images to usable sizes for the web |
+| Image resize | [`apps/dert-functions/`](../../../apps/dert-functions/) | Azure Functions worker: process uploaded images to usable sizes for the web. URL layout: [Images](../subsystems/images.md) |
 | Shared contracts | [`packages/shared-contracts/`](../../../packages/shared-contracts/) | OpenAPI / Swagger contract and generated TypeScript clients |
 
 Supporting local infrastructure (not product features): SQL Server, Azurite (blob/queue/table), and optional Docker Compose services. See [Local development](../guides/local-development.md) and [Configuration](../infra/configuration.md).

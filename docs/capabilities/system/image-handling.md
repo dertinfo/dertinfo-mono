@@ -2,7 +2,7 @@
 name: Image handling
 type: system
 status: active
-updated: 2026-07-26
+updated: 2026-09-26
 id: system.image-handling
 roles: []
 ---
@@ -26,4 +26,4 @@ None at the capability layer (technical implementation may use background proces
 
 - Exact sizes and formats are technical configuration, not product vocabulary here.
 
-See group image management under [Create and manage group](../features/groups-manage.md).
+See group image management under [Create and manage group](../features/groups-manage.md). Storage paths and which screen requests which size: [Images](../../technical/subsystems/images.md).
