@@ -22,6 +22,7 @@ Platform documentation for humans and AI agents. Organised in three tracks:
 | PowerShell standards | [technical/standards/powershell/](technical/standards/powershell/) |
 | Local development (estate) | [technical/guides/local-development.md](technical/guides/local-development.md) |
 | GitHub Azure OIDC (federated credentials) | [technical/guides/github-azure-federated-credentials.md](technical/guides/github-azure-federated-credentials.md) |
+| Production environment setup | [technical/guides/production-environment-setup.md](technical/guides/production-environment-setup.md) |
 | Configuration | [technical/infra/configuration.md](technical/infra/configuration.md) |
 | Secrets & rotation | [technical/infra/secrets-and-rotation.md](technical/infra/secrets-and-rotation.md) |
 | CI/CD | [technical/infra/cicd.md](technical/infra/cicd.md) |
