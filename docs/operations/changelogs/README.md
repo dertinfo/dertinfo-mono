@@ -8,6 +8,8 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-09-27 | Change logs belong on the pull request | [2026-09-27-003-pr-changelog-required.md](./2026-09-27-003-pr-changelog-required.md) |
+| 2026-09-27 | Hide the register sticker and punctuate the app welcome | [2026-09-27-002-homepage-register-sticker.md](./2026-09-27-002-homepage-register-sticker.md) |
 | 2026-09-27 | Production deployment complete | [2026-09-27-001-production-deployment-complete.md](./2026-09-27-001-production-deployment-complete.md) |
 | 2026-09-26 | Production environment setup guide | [2026-09-26-005-production-environment-setup-guide.md](./2026-09-26-005-production-environment-setup-guide.md) |
 | 2026-09-26 | Operator scripts grouped by resource | [2026-09-26-004-script-folder-categories.md](./2026-09-26-004-script-folder-categories.md) |
@@ -40,7 +42,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 ## How entries are added
 
-When a chat or workstream is **seen through to completion**, add:
+When opening a pull request, add a change log for that work in the same PR in nearly all cases. If there is any doubt about leaving it off, ask before opening the PR without one. If a PR already merged with no entry, add it in a follow-up PR straight away.
 
 1. A new detail page: `docs/operations/changelogs/YYYY-MM-DD-NNN-short-slug.md`.
    - `YYYY-MM-DD` is the completion date.

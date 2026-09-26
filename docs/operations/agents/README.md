@@ -2,7 +2,7 @@
 name: Agent documentation guidance
 type: agents
 status: active
-updated: 2026-07-26
+updated: 2026-09-27
 ---
 
 # Agents
@@ -26,7 +26,7 @@ Guidance for AI agents working in this monorepo’s documentation library.
 | GitHub Issues / Projects | Tickets, prioritisation, assignment |
 | `operations/planned-fixes/` | Working notes while implementing in this repo |
 | `operations/investigations/` | Finished deep-dives and historical write-ups |
-| `operations/changelogs/` | Completed workstreams (required when a stream finishes) |
+| `operations/changelogs/` | Completed workstreams (include one in the pull request in nearly all cases; ask first if unsure about leaving it off) |
 
 ## Cursor-specific behaviour
 
