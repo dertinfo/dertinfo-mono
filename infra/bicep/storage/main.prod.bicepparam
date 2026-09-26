@@ -14,5 +14,5 @@ param sqlServerName = 'sql-prd-dertinfo-storage-uks'
 param sqlDatabaseName = 'sqldb-prd-dertinfo-storage-uks'
 param sqlBackupShortTermRetentionDays = 7
 param flagSqlServerIsReady = true
-param flagImagesFunctionAppReady = false
+param flagImagesFunctionAppReady = true
 param flagImagesEventGridReady = false
