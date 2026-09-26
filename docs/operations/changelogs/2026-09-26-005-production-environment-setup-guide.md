@@ -30,5 +30,5 @@ Production deploy was a short Functions list inside the CI/CD page, and the scri
 
 ## Any remaining issues that we may wish to address
 
-- The guide has not been executed against the live estate.
+- The guide was followed through public DNS on 2026-09-27. See [2026-09-27-001](./2026-09-27-001-production-deployment-complete.md).
 - Source storage account names, including a separate Eventbrite account if one exists, are still parameters the operator supplies. The repo does not list them.

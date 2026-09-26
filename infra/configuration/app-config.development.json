@@ -103,7 +103,7 @@
     "ApiInfo:ContactEmail": "dertinfo@gmail.com",
     "ApiInfo:ContactName": "David Hall",
     "ApiInfo:Description": "API for the DertInfo suite of products",
-    "ApiInfo:TermsOfUse": "http://www.dertinfo.co.uk/terms",
+    "ApiInfo:TermsOfUse": "https://www.dertinfo.co.uk/terms",
     "ApiInfo:Title": "DertInfo API",
     "ApiInfo:Version": "v1",
     "Auth0:Audience": "api.test.dertinfo.co.uk",

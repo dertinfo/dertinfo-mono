@@ -2,7 +2,7 @@
 name: Planned fixes
 type: index
 status: active
-updated: 2026-09-26
+updated: 2026-09-27
 ---
 
 # Planned fixes
@@ -24,5 +24,6 @@ Open in-repo notes for work still to do in the solution. **Not a ticket backlog*
 | Rebuild Auth0 tenants as `dertinfolocal` (local) and `dertinfodev` (Azure development) | [auth0-tenant-rename-local-dev.md](auth0-tenant-rename-local-dev.md) |
 | Azure SQL firewall: App Service outbound IPs plus administrator IP (drop Allow Azure services) | [sql-firewall-app-service-and-admin.md](sql-firewall-app-service-and-admin.md) |
 | Rename Bicep production leaf params `main.prod.bicepparam` → `main.prd.bicepparam` | [rename-bicepparam-prod-to-prd.md](rename-bicepparam-prod-to-prd.md) |
+| Retire the old live and test Azure estates and their subscriptions | [retire-old-azure-estate.md](retire-old-azure-estate.md) |
 
 Resolved deep-dives: [investigations/](../investigations/).

@@ -98,5 +98,35 @@
       "key": "SqlConnection:DatabaseName",
       "secretName": "sqlconnection-databasename"
     }
-  ]
+  ],
+  "keyValues": {
+    "ApiInfo:ContactEmail": "dertinfo@gmail.com",
+    "ApiInfo:ContactName": "David Hall",
+    "ApiInfo:Description": "API for the DertInfo suite of products",
+    "ApiInfo:TermsOfUse": "https://www.dertinfo.co.uk/terms",
+    "ApiInfo:Title": "DertInfo API",
+    "ApiInfo:Version": "v1",
+    "Auth0:Audience": "api.dertinfo.co.uk",
+    "Auth0:Domain": "dertinfo.eu.auth0.com",
+    "Constants:Defaults:EventImageName": "eventdefaultimage",
+    "Constants:Defaults:GroupImageName": "groupdefaultimage",
+    "Constants:ObfuscationIdLength": "6",
+    "Cors:AllowedOrigins": "https://www.dertinfo.co.uk,https://app.dertinfo.co.uk",
+    "DatabaseCache:Disabled": "false",
+    "MailGun:Enabled": "true",
+    "PwaClient:Api:Uri": "https://app-prd-dertinfo-api-uks.azurewebsites.net/api",
+    "PwaClient:Auth0:Audience": "api.dertinfo.co.uk",
+    "PwaClient:Auth0:CallbackUrl": "https://app.dertinfo.co.uk",
+    "PwaClient:Auth0:Domain": "dertinfo.eu.auth0.com",
+    "SendGrid:Enabled": "false",
+    "StorageAccount:Images:BlobEndpoint": "https://stprddertinfoimagesuks.blob.core.windows.net",
+    "StorageAccount:Images:Name": "stprddertinfoimagesuks",
+    "StorageAccount:Images:Protocol": "https",
+    "StorageAccount:Images:QueueEndpoint": "https://stprddertinfoimagesuks.queue.core.windows.net",
+    "StorageAccount:Images:TableEndpoint": "https://stprddertinfoimagesuks.table.core.windows.net",
+    "WebClient:Api:Uri": "https://app-prd-dertinfo-api-uks.azurewebsites.net/api",
+    "WebClient:Auth0:Audience": "api.dertinfo.co.uk",
+    "WebClient:Auth0:CallbackUrl": "https://www.dertinfo.co.uk",
+    "WebClient:Auth0:Domain": "dertinfo.eu.auth0.com"
+  }
 }
