@@ -10,6 +10,8 @@
   All az appconfig calls use --auth-mode login (Entra). You need App Configuration Data Owner
   (or equivalent) on the store; access keys are not used.
 
+  As an operator I run this script to apply catalog keys and Key Vault references because I want the store to match this environment.
+
 .PARAMETER GitHubEnvironment
   Selects infra/configuration/app-config.<environment>.json (destination store).
 
@@ -25,8 +27,8 @@
   --dry-run and catalog keyValues are listed only).
 
 .EXAMPLE
-  .\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development
-  .\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development -Force
+  .\Configuration\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development
+  .\Configuration\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development -Force
 #>
 [CmdletBinding()]
 param(
@@ -42,7 +44,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-. "$PSScriptRoot\DertInfoAppConfigCatalog.ps1"
+. "$PSScriptRoot\Shared-DertInfoAppConfigCatalog.ps1"
 
 function Assert-AzCli {
   if (-not (Get-Command az -ErrorAction SilentlyContinue)) {

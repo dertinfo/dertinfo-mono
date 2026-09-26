@@ -16,6 +16,8 @@
   from this machine (administrator IP). Each bind opens an Entra MFA browser or Windows
   prompt (often behind the terminal). Do not use T-SQL CREATE DATABASE AS COPY OF.
 
+  As an operator I run this script to copy production SQL onto development because I want the development database refreshed and the previous copy still reversible.
+
 .PARAMETER Source
   production = new-stack PRD SQL. live = old-stack production (requires source names).
 
@@ -33,10 +35,10 @@
   Entra login passed to the user-bind scripts. Default: az account show user.name.
 
 .EXAMPLE
-  .\Copy-DertInfoSqlToDevelopment.ps1 -Source production
+  .\Database\Copy-DertInfoSqlToDevelopment.ps1 -Source production
 
 .EXAMPLE
-  .\Copy-DertInfoSqlToDevelopment.ps1 -Source live `
+  .\Database\Copy-DertInfoSqlToDevelopment.ps1 -Source live `
     -SourceResourceGroup 'my-live-sql-rg' `
     -SourceServer 'my-live-sql-server' `
     -SourceDatabase 'my-live-database'

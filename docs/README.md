@@ -19,6 +19,7 @@ Platform documentation for humans and AI agents. Organised in three tracks:
 | Images | [technical/subsystems/images.md](technical/subsystems/images.md) |
 | Security | [technical/subsystems/security.md](technical/subsystems/security.md) |
 | Angular standards | [technical/standards/angular/](technical/standards/angular/) |
+| PowerShell standards | [technical/standards/powershell/](technical/standards/powershell/) |
 | Local development (estate) | [technical/guides/local-development.md](technical/guides/local-development.md) |
 | GitHub Azure OIDC (federated credentials) | [technical/guides/github-azure-federated-credentials.md](technical/guides/github-azure-federated-credentials.md) |
 | Configuration | [technical/infra/configuration.md](technical/infra/configuration.md) |

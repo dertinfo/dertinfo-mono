@@ -194,7 +194,7 @@ Ship the API build that reads `AZURE_APP_CONFIG_LABEL` before API infra CD chang
 
 ### Hosted App Configuration Key Vault references
 
-Config Bicep creates the store and vault only. `[Import-DertInfoAppConfiguration.ps1](../../../infra/scripts/Import-DertInfoAppConfiguration.ps1)` and `[Export-DertInfoAppConfiguration.ps1](../../../infra/scripts/Export-DertInfoAppConfiguration.ps1)` use `--auth-mode login` (App Configuration Data Owner). Set secret values with `[New-DertInfoConfigKeyVaultSecrets.ps1](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1)` (`az login`, vault RBAC).
+Config Bicep creates the store and vault only. `[Import-DertInfoAppConfiguration.ps1](../../../infra/scripts/Configuration/Import-DertInfoAppConfiguration.ps1)` and `[Export-DertInfoAppConfiguration.ps1](../../../infra/scripts/Configuration/Export-DertInfoAppConfiguration.ps1)` use `--auth-mode login` (App Configuration Data Owner). Set secret values with `[New-DertInfoConfigKeyVaultSecrets.ps1](../../../infra/scripts/Configuration/New-DertInfoConfigKeyVaultSecrets.ps1)` (`az login`, vault RBAC).
 
 
 | App Configuration key               | Key Vault secret                  |
@@ -215,7 +215,7 @@ Config Bicep creates the store and vault only. `[Import-DertInfoAppConfiguration
 
 The API resolves them at runtime (`ConfigureKeyVault`). It will not start if a referenced secret is missing. Names and targets live in `[infra/configuration/app-config.development.json](../../../infra/configuration/app-config.development.json)` (and the production catalog); values live in the gitignored `kv-secrets.<environment>.json` (copy from `kv-secrets.<environment>.json.example`). Operator scripts take `-GitHubEnvironment` or `-ConfigFile` / `-SecretsFile`.
 
-Non-secret keys for development live in the catalog `keyValues` and are applied with `[Import-DertInfoAppConfiguration.ps1](../../../infra/scripts/Import-DertInfoAppConfiguration.ps1)` (`-GitHubEnvironment development -Force`). Optional dump import via `-Path` (`--skip-keyvault`; gitignored). Do not use `--resolve-keyvault`.
+Non-secret keys for development live in the catalog `keyValues` and are applied with `[Import-DertInfoAppConfiguration.ps1](../../../infra/scripts/Configuration/Import-DertInfoAppConfiguration.ps1)` (`-GitHubEnvironment development -Force`). Optional dump import via `-Path` (`--skip-keyvault`; gitignored). Do not use `--resolve-keyvault`.
 
 ### Hosted Azure SQL (Entra-only)
 

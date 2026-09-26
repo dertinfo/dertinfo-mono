@@ -10,24 +10,51 @@ From this folder:
 .\Start-DertInfoControlPlane.ps1
 ```
 
-The menu lists each script in this folder that has comment-based help, shows what it does, collects parameters, and runs the one you confirm. Quit leaves the console as it is. You can still run any script directly.
+The menu lists each script in a category folder that has comment-based help, shows what it does, collects parameters, and runs the one you confirm. Each option is labelled `Category > Script.ps1`. Files whose names start with `Shared-` are helpers and are not listed. Quit leaves the console as it is. You can still run any script directly.
+
+Scripts are grouped by the resource they change. [`Start-DertInfoControlPlane.ps1`](Start-DertInfoControlPlane.ps1) stays in this folder. House style: [PowerShell standards](../../docs/technical/standards/powershell/).
+
+### Configuration
+
+App Configuration and Key Vault.
 
 | Script | Purpose |
 |--------|---------|
-| [`New-DertInfoSubscriptionOidcIdentities.ps1`](New-DertInfoSubscriptionOidcIdentities.ps1) | Create **isolated** Entra apps + service principals for subscription-scope GitHub Actions OIDC (`development` and `production`), apply federated credentials from [`infra/configuration/`](../configuration/), and grant Contributor + User Access Administrator on each subscription |
-| [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](Remove-DertInfoSubscriptionOidcIdentity.ps1) | Tear down **one** subscription-scope identity by app (client) id |
-| [`New-DertInfoWorkloadOidcIdentity.ps1`](New-DertInfoWorkloadOidcIdentity.ps1) | Create **one** workload identity (one Environment + one part). No subscription RBAC |
-| [`New-DertInfoWorkloadOidcIdentities.ps1`](New-DertInfoWorkloadOidcIdentities.ps1) | Master: create all workload identities for **one** Environment / subscription; prints copy-paste GitHub variables |
-| [`Remove-DertInfoWorkloadOidcIdentity.ps1`](Remove-DertInfoWorkloadOidcIdentity.ps1) | Tear down **one** workload identity by app (client) id |
-| [`Register-DertInfoResourceProviders.ps1`](Register-DertInfoResourceProviders.ps1) | Register workload resource providers (local / break-glass; keep in sync with the subscription CD reusable workflow) |
-| [`New-DertInfoSqlEntraGroups.ps1`](New-DertInfoSqlEntraGroups.ps1) | **Before SQL:** create or reuse the two Entra groups; prints GitHub variable names |
-| [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (operators / people; ODBC sqlcmd `-G`) |
-| [`New-DertInfoSqlAppServiceUser.ps1`](New-DertInfoSqlAppServiceUser.ps1) | **After API App Service exists:** bind the site system-assigned MI as its own database user (required for hosted API SQL) |
-| [`Copy-DertInfoSqlToDevelopment.ps1`](Copy-DertInfoSqlToDevelopment.ps1) | **Operator refresh:** ARM-copy production SQL onto the development server, swap to the Bicep database name, bind DEV Entra users, then Continue or Revert |
-| [`New-DertInfoConfigKeyVaultSecrets.ps1`](New-DertInfoConfigKeyVaultSecrets.ps1) | **After config KV exists:** prompt for catalog secret names (skip existing unless `-Force`) |
-| [`Export-DertInfoAppConfiguration.ps1`](Export-DertInfoAppConfiguration.ps1) | Export non-secret App Configuration keys to a gitignored JSON dump (`--skip-keyvault`, `--auth-mode login`) |
-| [`Import-DertInfoAppConfiguration.ps1`](Import-DertInfoAppConfiguration.ps1) | Dry-run (or `-Force`) apply catalog `keyValues` (optional dump via `-Path`), then set Key Vault references (`--auth-mode login`) |
-| [`DertInfoAppConfigCatalog.ps1`](DertInfoAppConfigCatalog.ps1) | Shared helpers for the App Configuration catalog and gitignored secrets JSON. Dot-sourced by the import, export, and Key Vault secret scripts. Not an Azure operation |
+| [`Export-DertInfoAppConfiguration.ps1`](Configuration/Export-DertInfoAppConfiguration.ps1) | Export non-secret App Configuration keys to a gitignored JSON dump (`--skip-keyvault`, `--auth-mode login`) |
+| [`Import-DertInfoAppConfiguration.ps1`](Configuration/Import-DertInfoAppConfiguration.ps1) | Dry-run (or `-Force`) apply catalog `keyValues` (optional dump via `-Path`), then set Key Vault references (`--auth-mode login`) |
+| [`New-DertInfoConfigKeyVaultSecrets.ps1`](Configuration/New-DertInfoConfigKeyVaultSecrets.ps1) | **After config KV exists:** load catalog secret values from the gitignored secrets JSON (skip existing unless `-Force`) |
+| [`Shared-DertInfoAppConfigCatalog.ps1`](Configuration/Shared-DertInfoAppConfigCatalog.ps1) | Shared helpers for the App Configuration catalog and gitignored secrets JSON. Dot-sourced by the import, export, and Key Vault secret scripts. Not run on its own |
+
+### Database
+
+Azure SQL.
+
+| Script | Purpose |
+|--------|---------|
+| [`Copy-DertInfoSqlToDevelopment.ps1`](Database/Copy-DertInfoSqlToDevelopment.ps1) | **Operator refresh:** ARM-copy production SQL onto the development server, swap to the Bicep database name, bind DEV Entra users, then Continue or Revert |
+| [`New-DertInfoSqlAppServiceUser.ps1`](Database/New-DertInfoSqlAppServiceUser.ps1) | **After API App Service exists:** bind the site system-assigned MI as its own database user (required for hosted API SQL) |
+| [`New-DertInfoSqlDbAccessUser.ps1`](Database/New-DertInfoSqlDbAccessUser.ps1) | **After SQL:** bind the database access group as a database user (operators / people; ODBC sqlcmd `-G`) |
+
+### Entra
+
+App registrations and groups.
+
+| Script | Purpose |
+|--------|---------|
+| [`New-DertInfoSqlEntraGroups.ps1`](Entra/New-DertInfoSqlEntraGroups.ps1) | **Before SQL:** create or reuse the two Entra groups; prints GitHub variable names |
+| [`New-DertInfoSubscriptionOidcIdentities.ps1`](Entra/New-DertInfoSubscriptionOidcIdentities.ps1) | Create **isolated** Entra apps + service principals for subscription-scope GitHub Actions OIDC (`development` and `production`), apply federated credentials from [`infra/configuration/`](../configuration/), and grant Contributor + User Access Administrator on each subscription |
+| [`New-DertInfoWorkloadOidcIdentities.ps1`](Entra/New-DertInfoWorkloadOidcIdentities.ps1) | Master: create all workload identities for **one** Environment / subscription; prints copy-paste GitHub variables |
+| [`New-DertInfoWorkloadOidcIdentity.ps1`](Entra/New-DertInfoWorkloadOidcIdentity.ps1) | Create **one** workload identity (one Environment + one part). No subscription RBAC |
+| [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](Entra/Remove-DertInfoSubscriptionOidcIdentity.ps1) | Tear down **one** subscription-scope identity by app (client) id |
+| [`Remove-DertInfoWorkloadOidcIdentity.ps1`](Entra/Remove-DertInfoWorkloadOidcIdentity.ps1) | Tear down **one** workload identity by app (client) id |
+
+### Subscription
+
+Azure subscription resource providers.
+
+| Script | Purpose |
+|--------|---------|
+| [`Register-DertInfoResourceProviders.ps1`](Subscription/Register-DertInfoResourceProviders.ps1) | Register workload resource providers (local / break-glass; keep in sync with the subscription CD reusable workflow) |
 
 ## Why two subscription apps (not one)
 
@@ -48,15 +75,15 @@ Full context: [GitHub Actions OIDC to Azure (federated credentials)](../../docs/
 ```powershell
 cd C:\Projects\Cursor\DertInfo\infra\scripts
 
-.\New-DertInfoSubscriptionOidcIdentities.ps1 `
+.\Entra\New-DertInfoSubscriptionOidcIdentities.ps1 `
   -DevSubscriptionId '<development-subscription-guid>' `
   -PrdSubscriptionId '<production-subscription-guid>'
 ```
 
-The script prints the GitHub Environment **variables** to set on **`development`** and **`production`**. It does **not** remove older shared app registrations — use [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](Remove-DertInfoSubscriptionOidcIdentity.ps1) after Environments point at the new client ids:
+The script prints the GitHub Environment **variables** to set on **`development`** and **`production`**. It does **not** remove older shared app registrations — use [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](Entra/Remove-DertInfoSubscriptionOidcIdentity.ps1) after Environments point at the new client ids:
 
 ```powershell
-.\Remove-DertInfoSubscriptionOidcIdentity.ps1 `
+.\Entra\Remove-DertInfoSubscriptionOidcIdentity.ps1 `
   -ClientId '<app-registration-client-id>'
 ```
 
@@ -64,14 +91,14 @@ The remove script prints display name, federated credential names, and each role
 
 ## Workload OIDC identities
 
-Run the **master** script once per Environment. It calls [`New-DertInfoWorkloadOidcIdentity.ps1`](New-DertInfoWorkloadOidcIdentity.ps1) for `config`, `monitoring`, `storage`, `api`, `web`, `app`, and `functions`.
+Run the **master** script once per Environment. It calls [`New-DertInfoWorkloadOidcIdentity.ps1`](Entra/New-DertInfoWorkloadOidcIdentity.ps1) for `config`, `monitoring`, `storage`, `api`, `web`, `app`, and `functions`.
 
 ```powershell
-.\New-DertInfoWorkloadOidcIdentities.ps1 `
+.\Entra\New-DertInfoWorkloadOidcIdentities.ps1 `
   -GitHubEnvironment development `
   -SubscriptionId '<development-subscription-guid>'
 
-.\New-DertInfoWorkloadOidcIdentities.ps1 `
+.\Entra\New-DertInfoWorkloadOidcIdentities.ps1 `
   -GitHubEnvironment production `
   -SubscriptionId '<production-subscription-guid>'
 ```
@@ -81,21 +108,21 @@ Copy the printed `AZURE_ENTRA_OIDC_*` names and values onto that GitHub Environm
 Tear down one workload app:
 
 ```powershell
-.\Remove-DertInfoWorkloadOidcIdentity.ps1 `
+.\Entra\Remove-DertInfoWorkloadOidcIdentity.ps1 `
   -ClientId '<app-registration-client-id>'
 ```
 
 ## Entra-only Azure SQL groups
 
 ```powershell
-.\New-DertInfoSqlEntraGroups.ps1 -GitHubEnvironment development
+.\Entra\New-DertInfoSqlEntraGroups.ps1 -GitHubEnvironment development
 ```
 
 Run this **before** SQL exists. It only creates or reuses the two groups. Paste `AZURE_ENTRA_SQL_ADMIN_GROUP_NAME` and `AZURE_ENTRA_SQL_ADMIN_GROUP_OBJECTID` onto that GitHub Environment. Flip storage `flagSqlServerIsReady`, re-run storage infra CD, then bind the access group to the database:
 
 ```powershell
-.\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development
-.\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development -UserName 'someone@contoso.com'
+.\Database\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development
+.\Database\New-DertInfoSqlDbAccessUser.ps1 -GitHubEnvironment development -UserName 'someone@contoso.com'
 ```
 
 Uses ODBC `sqlcmd -G` (SSMS Microsoft Entra MFA) against the user database, not master. `-UserName` defaults from `az account show`. Needs ODBC 17+ (`-G`); the ODBC 13 `sqlcmd` on PATH is not enough.
@@ -105,7 +132,7 @@ Add **operators** to `dertinfo-sql-db-access-<environment>` (portal or `az ad gr
 After **API infra CD** has created the site, bind the system-assigned identity as its own contained user (name = App Service name):
 
 ```powershell
-.\New-DertInfoSqlAppServiceUser.ps1 -GitHubEnvironment development
+.\Database\New-DertInfoSqlAppServiceUser.ps1 -GitHubEnvironment development
 ```
 
 Then restart the App Service. `Login failed for user '<token-identified principal>'` means this user is missing (the Entra token is valid; SQL has no principal for that object ID). Repeat for production after that App Service exists (`-GitHubEnvironment production`).
@@ -117,13 +144,13 @@ Refreshes `sqldb-dev-dertinfo-storage-uks` from production data. Dest names matc
 You need: `az login` with visibility of the source and development storage RGs; rights to copy/rename/delete databases on the DEV SQL server and stop/start `app-dev-dertinfo-api-uks`; membership of `dertinfo-sql-admins-development` (group **member**, not only owner); a SQL firewall rule for your client IP (user bind uses ODBC `sqlcmd -G`). Do not run this from GitHub OIDC.
 
 ```powershell
-.\Copy-DertInfoSqlToDevelopment.ps1 -Source production
+.\Database\Copy-DertInfoSqlToDevelopment.ps1 -Source production
 ```
 
 `-Source production` is new-stack PRD (`rg-prd-dertinfo-storage-uks` / `sql-prd-dertinfo-storage-uks` / `sqldb-prd-dertinfo-storage-uks`). Until that database exists, copy from old-stack live:
 
 ```powershell
-.\Copy-DertInfoSqlToDevelopment.ps1 -Source live `
+.\Database\Copy-DertInfoSqlToDevelopment.ps1 -Source live `
   -SourceResourceGroup 'dertinfo-live-rg' `
   -SourceServer 'dertinfo-live-sqlsvr' `
   -SourceDatabase 'dertinfo-live-sqldb'
@@ -131,7 +158,7 @@ You need: `az login` with visibility of the source and development storage RGs; 
 
 `-SourceServer` is the logical name. A FQDN (`….database.windows.net`) is accepted and stripped. Put the backtick at the **end** of a line to continue; do not write it immediately before `-SourceDatabase` (PowerShell then treats `-SourceDatabase` as the database name).
 
-The script copies to `sqldb-dev-dertinfo-storage-uks-copy`, stops the DEV API, renames the current database to `…-old`, promotes the copy to `sqldb-dev-dertinfo-storage-uks`, then runs [`New-DertInfoSqlDbAccessUser.ps1`](New-DertInfoSqlDbAccessUser.ps1) and [`New-DertInfoSqlAppServiceUser.ps1`](New-DertInfoSqlAppServiceUser.ps1) for **development**. Each bind uses `sqlcmd -G` (Entra MFA), not `az login`. A browser or Windows sign-in window **will appear** (often **behind** Cursor). Complete MFA for each of the two scripts; do not Ctrl+C while waiting. After bind it starts the API.
+The script copies to `sqldb-dev-dertinfo-storage-uks-copy`, stops the DEV API, renames the current database to `…-old`, promotes the copy to `sqldb-dev-dertinfo-storage-uks`, then runs [`New-DertInfoSqlDbAccessUser.ps1`](Database/New-DertInfoSqlDbAccessUser.ps1) and [`New-DertInfoSqlAppServiceUser.ps1`](Database/New-DertInfoSqlAppServiceUser.ps1) for **development**. Each bind uses `sqlcmd -G` (Entra MFA), not `az login`. A browser or Windows sign-in window **will appear** (often **behind** Cursor). Complete MFA for each of the two scripts; do not Ctrl+C while waiting. After bind it starts the API.
 
 Smoke-test Swagger (`https://app-dev-dertinfo-api-uks.azurewebsites.net/swagger/index.html`), then type **Continue** (delete `…-old`) or **Revert** (swap back and delete the copy). There is no default. Copied live Auth0 user ids will not match the development tenant (`dertinfotest`); treat this as a data/schema check.
 
@@ -147,7 +174,7 @@ After config infra CD has created the vault, copy the example secrets file, fill
 Copy-Item ..\configuration\kv-secrets.development.json.example `
   ..\configuration\kv-secrets.development.json
 # Edit the secrets JSON, then:
-.\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
+.\Configuration\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
 ```
 
 The script reads values from `kv-secrets.<environment>.json` (gitignored) and skips names that already exist unless `-Force`. It does not prompt.
@@ -155,8 +182,8 @@ The script reads values from `kv-secrets.<environment>.json` (gitignored) and sk
 Apply catalog `keyValues` into the store (dry-run until `-Force`), then write Key Vault references so URIs target this Environment’s vault:
 
 ```powershell
-.\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development
-.\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development -Force
+.\Configuration\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development
+.\Configuration\Import-DertInfoAppConfiguration.ps1 -GitHubEnvironment development -Force
 ```
 
 Uses `--auth-mode login` (Entra) on export and import. You need **App Configuration Data Owner** on the config RG; the CLI does not use store access keys. Key Vault secret load uses the same `az login` (vault RBAC).

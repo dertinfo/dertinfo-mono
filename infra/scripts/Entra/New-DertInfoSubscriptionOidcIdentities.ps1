@@ -13,6 +13,8 @@
 
   See: docs/technical/guides/github-azure-federated-credentials.md
 
+  As an operator I run this script to create the two subscription OIDC identities because I want development and production pipelines to use separate privileged apps.
+
 .PARAMETER DevSubscriptionId
   Azure subscription id for DertInfo Development (GitHub Environment "development").
 
@@ -20,10 +22,10 @@
   Azure subscription id for DertInfo Production (GitHub Environment "production").
 
 .PARAMETER RepoRoot
-  Monorepo root containing infra/configuration. Defaults to two levels above this script.
+  Monorepo root containing infra/configuration. Defaults to three levels above this script.
 
 .EXAMPLE
-  .\New-DertInfoSubscriptionOidcIdentities.ps1 `
+  .\Entra\New-DertInfoSubscriptionOidcIdentities.ps1 `
     -DevSubscriptionId '00000000-0000-0000-0000-000000000000' `
     -PrdSubscriptionId '11111111-1111-1111-1111-111111111111'
 #>
@@ -174,7 +176,7 @@ function New-SubscriptionOidcIdentity {
 Assert-AzCli
 
 if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
-  $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+  $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
 }
 else {
   $RepoRoot = (Resolve-Path -LiteralPath $RepoRoot).Path

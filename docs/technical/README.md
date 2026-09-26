@@ -2,7 +2,7 @@
 name: Technical documentation
 type: index
 status: active
-updated: 2026-08-15
+updated: 2026-09-26
 ---
 
 # Technical documentation
@@ -13,7 +13,7 @@ updated: 2026-08-15
 |------|---------|
 | [architecture/](architecture/) | Estate structure and subsystem responsibilities |
 | [subsystems/](subsystems/) | Deep dives (Auth0, security, …) |
-| [standards/](standards/) | Technology conventions (Angular, Bicep, …) |
+| [standards/](standards/) | Technology conventions (Angular, Bicep, PowerShell, …) |
 | [guides/](guides/) | Cross-cutting how-tos (local estate, contributing, GitHub Azure OIDC) |
 | [infra/](infra/) | Configuration, CI/CD, secrets rotation, agent GitHub MCP |
 
