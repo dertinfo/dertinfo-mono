@@ -62,6 +62,20 @@ Not run as a formal suite yet; recommended when building the harness. Relies on 
 | C1 | Cold open `/dashboard` while logged in | Warmup + auth; must not stick on `/session/warmup` |
 | C2 | Deep link (e.g. dert-of-derts) while logged in | Same guard / warmup path as applicable |
 | C3 | Staging / prod smoke | Same M1–M5 against non-localhost origins (consent skip rules differ from localhost) |
+| C4 | **Stale authenticated session** | Restored Auth0 cache that can no longer call the API must not leave the user on `/session/warmup`. Recovery is sign-in again, without clearing site data by hand |
+
+---
+
+## Open defect: stale session stuck on Warmup (2026-09-26)
+
+Observed on `https://dev.dertinfo.co.uk`. Not covered by the July 2026 race fix ([investigation](../investigations/web-warmup-race-condition.md), [changelog](../changelogs/2026-07-26-001-web-auth-refresh-warmup.md)).
+
+- Sign in, or restore a session, when the Auth0 browser cache is stale.
+- The client stops on `/session/warmup` (“Warming up”).
+- Home, then dashboard, stays on Warmup.
+- Clearing local storage, cookies, and session storage, then signing in again, gets past it.
+
+`WarmupService` treats unauthenticated `GET /api/status` 200 as success and then navigates into the authenticated dashboard. A stale Auth0 cache (`localStorage`, plus `sessionwarm` / `user_data`) can fail that second step and leave Warmup as the only screen. Address with C4 when this test work is picked up.
 
 ---
 

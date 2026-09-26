@@ -40,10 +40,19 @@ namespace DertInfo.Api
                 var credential = new DefaultAzureCredential(new DefaultAzureCredentialOptions { ExcludeSharedTokenCacheCredential = true });
                 // note - In package version 1.3 of the Azure.Identity there is a bug with the Shared Token Cache Credential and therefore we omit it.
 
+                // Hosted App Service uses ASPNETCORE_ENVIRONMENT=Production (cloud image URLs, no Azurite).
+                // App Configuration labels stay Development / Production per store. AZURE_APP_CONFIG_LABEL
+                // selects that label; fall back to ASPNETCORE_ENVIRONMENT for hosts that have not set it yet.
+                var appConfigurationLabel = Environment.GetEnvironmentVariable("AZURE_APP_CONFIG_LABEL");
+                if (string.IsNullOrWhiteSpace(appConfigurationLabel))
+                {
+                    appConfigurationLabel = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                }
+
                 config.AddAzureAppConfiguration(options =>
                 {
                     options.Connect(new Uri(appConfigurationUri), credential)
-                    .Select(KeyFilter.Any, Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
+                    .Select(KeyFilter.Any, appConfigurationLabel)
                     .ConfigureKeyVault(kv =>
                     {
                         kv.SetCredential(credential);

@@ -101,6 +101,8 @@ Docker images are for **local development** (root `docker-compose.yml`, Codespac
 
 After API infra exists, create the site’s SQL contained user **before** expecting Swagger to work ([Secrets and rotation — hosted Azure SQL](secrets-and-rotation.md#hosted-azure-sql-entra-only)). Development Swagger: `https://app-dev-dertinfo-api-uks.azurewebsites.net/swagger/index.html`.
 
+Hosted API sites use `ASPNETCORE_ENVIRONMENT=Production`. The development store’s App Configuration label stays `Development` via `AZURE_APP_CONFIG_LABEL`. Deploy **API src CD before API infra CD** when that split changes: an older API build treats `ASPNETCORE_ENVIRONMENT` as the label and will miss the development keys if infra flips the runtime first. See [Configuration](configuration.md#hosted-api-runtime-and-app-configuration-label).
+
 ### SPA runtime config (web / app)
 
 `web-src-cd.yml` and `app-src-cd.yml` run **one** `npm run build:hosted` (`ng build --configuration production`) and upload the `dist` artefact. Each Environment deploy overwrites `assets/app.config.json` then publishes with `skip_app_build`:

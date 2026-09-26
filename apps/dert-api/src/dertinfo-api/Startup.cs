@@ -26,6 +26,8 @@ namespace DertInfo.Api
             Configuration = configuration;
             Environment = env;
 
+            // Development is local Azurite only. Hosted dev and production App Services run as Production
+            // so public image URLs use https://{StorageAccount:Images:Name}.blob.core.windows.net.
             var imagesStorageAccount = $"https://{Configuration["StorageAccount:Images:Name"]}.blob.core.windows.net";
             if (env.IsDevelopment())
             {

@@ -184,6 +184,14 @@ Deployed hosts set `AZURE_APP_CONFIG` and load labelled configuration (Key Vault
 
 No custom secrets parsing in `Program.cs`.
 
+### Hosted API runtime and App Configuration label
+
+Hosted development and production App Services set `ASPNETCORE_ENVIRONMENT=Production`. `IsDevelopment()` is then false, so the API publishes image URLs as `https://{StorageAccount:Images:Name}.blob.core.windows.net` (development account `stdevdertinfoimagesuks`). Local `dotnet run` and Docker keep `ASPNETCORE_ENVIRONMENT=Development`, which rewrites those URLs to Azurite at `http://127.0.0.1:10000/{name}`.
+
+App Configuration labels stay `Development` and `Production` in each store (`appConfigurationLabel` in the catalog). The site setting `AZURE_APP_CONFIG_LABEL` selects that label. On the development App Service the runtime is `Production` and the label is still `Development`.
+
+Ship the API build that reads `AZURE_APP_CONFIG_LABEL` before API infra CD changes `ASPNETCORE_ENVIRONMENT`. The previous build uses `ASPNETCORE_ENVIRONMENT` as the label filter. If infra lands first, the development API looks for label `Production` in the development store and does not load its settings.
+
 ### Hosted App Configuration Key Vault references
 
 Config Bicep creates the store and vault only. `[Import-DertInfoAppConfiguration.ps1](../../../infra/scripts/Import-DertInfoAppConfiguration.ps1)` and `[Export-DertInfoAppConfiguration.ps1](../../../infra/scripts/Export-DertInfoAppConfiguration.ps1)` use `--auth-mode login` (App Configuration Data Owner). Set secret values with `[New-DertInfoConfigKeyVaultSecrets.ps1](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1)` (`az login`, vault RBAC).
