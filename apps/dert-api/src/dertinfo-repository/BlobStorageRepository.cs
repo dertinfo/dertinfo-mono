@@ -45,7 +45,9 @@ namespace DertInfo.Repository
             var lookup = blobPath.Length > 0 ? $"{blobPath}/{fileName}" : fileName;
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(lookup);
 
-            // Create or overwrite the blob with the contents of a local file
+            // Create or overwrite the blob with the contents of a local file.
+            // Default content type is application/octet-stream, which the gallery treats as a broken image.
+            blockBlob.Properties.ContentType = ContentTypeFor(fileName);
             using (MemoryStream memoryStream = new MemoryStream(bytes))
             {
                 await blockBlob.UploadFromStreamAsync(memoryStream);
@@ -112,6 +114,17 @@ namespace DertInfo.Repository
             CloudBlockBlob blockBlob = container.GetBlockBlobReference(lookup);
 
             return await blockBlob.ExistsAsync();
+        }
+
+        private static string ContentTypeFor(string fileName)
+        {
+            switch (Path.GetExtension(fileName).ToLowerInvariant())
+            {
+                case ".png": return "image/png";
+                case ".gif": return "image/gif";
+                case ".bmp": return "image/bmp";
+                default: return "image/jpeg";
+            }
         }
     }
 }

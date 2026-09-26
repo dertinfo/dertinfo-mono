@@ -16,7 +16,7 @@ namespace DertInfo.Api.Core
             if (myEventImages != null)
             {
                 var primary = myEventImages.FirstOrDefault(ei => ei.IsPrimary);
-                return primary != null ? $"{imagesStorageAccountUri}/{primary.Image.Container}/{primary.Image.BlobName}" : string.Empty;
+                return primary != null ? BuildImageResourceUri(imagesStorageAccountUri, primary.Image.Container, primary.Image.BlobPath, primary.Image.BlobName) : string.Empty;
             }
             else
             {
@@ -29,7 +29,7 @@ namespace DertInfo.Api.Core
             if (myGroupImages != null)
             {
                 var primary = myGroupImages.FirstOrDefault(ei => ei.IsPrimary);
-                return primary != null ? $"{imagesStorageAccountUri}/{primary.Image.Container}/{primary.Image.BlobName}" : string.Empty;
+                return primary != null ? BuildImageResourceUri(imagesStorageAccountUri, primary.Image.Container, primary.Image.BlobPath, primary.Image.BlobName) : string.Empty;
             }
             else
             {
@@ -42,12 +42,32 @@ namespace DertInfo.Api.Core
             if (myTeam != null && myTeam.TeamImages != null)
             {
                 var primary = myTeam.TeamImages.FirstOrDefault(ei => ei.IsPrimary);
-                return primary != null ? $"{imagesStorageAccountUri}/{primary.Image.Container}/{primary.Image.BlobName}" : string.Empty;
+                return primary != null ? BuildImageResourceUri(imagesStorageAccountUri, primary.Image.Container, primary.Image.BlobPath, primary.Image.BlobName) : string.Empty;
             }
             else
             {
                 return string.Empty;
             }
+        }
+
+        /// <summary>
+        /// Public blob URL. Originals live at {container}/{blobPath}/{blobName}
+        /// (blobPath is "originals"). Older rows with no blob path stay at {container}/{blobName}.
+        /// The website size pipe swaps originals for 480x360 or 100x100.
+        /// </summary>
+        private static string BuildImageResourceUri(string imagesStorageAccountUri, string container, string blobPath, string blobName)
+        {
+            if (string.IsNullOrWhiteSpace(container) || string.IsNullOrWhiteSpace(blobName))
+            {
+                return string.Empty;
+            }
+
+            if (string.IsNullOrWhiteSpace(blobPath))
+            {
+                return $"{imagesStorageAccountUri}/{container}/{blobName}";
+            }
+
+            return $"{imagesStorageAccountUri}/{container}/{blobPath}/{blobName}";
         }
 
         public AutoMapperProfileConfiguration(string imagesStorageAccountUri)
@@ -275,7 +295,7 @@ namespace DertInfo.Api.Core
             CreateMap<Models.Database.EventImage, Models.DataTransferObject.EventImageDto>()
                 .ForMember(dest => dest.EventImageId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.ImageId, opt => opt.MapFrom(src => src.Image.Id))
-                .ForMember(dest => dest.ImageResourceUri, opt => opt.MapFrom(src => $"{imagesStorageAccountUri}/{src.Image.Container}/{src.Image.BlobName}"));
+                .ForMember(dest => dest.ImageResourceUri, opt => opt.MapFrom(src => BuildImageResourceUri(imagesStorageAccountUri, src.Image.Container, src.Image.BlobPath, src.Image.BlobName)));
 
             CreateMap<Models.Database.Group, Models.DataTransferObject.GroupDto>()
                 .ForMember(dest => dest.GroupPictureUrl, opt => opt.MapFrom(src => DetermineGroupImagePrimary(imagesStorageAccountUri, src.GroupImages)));
@@ -295,7 +315,7 @@ namespace DertInfo.Api.Core
             CreateMap<Models.Database.GroupImage, Models.DataTransferObject.GroupImageDto>()
                 .ForMember(dest => dest.GroupImageId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.ImageId, opt => opt.MapFrom(src => src.Image.Id))
-                .ForMember(dest => dest.ImageResourceUri, opt => opt.MapFrom(src => $"{imagesStorageAccountUri}/{src.Image.Container}/{src.Image.BlobName}"));
+                .ForMember(dest => dest.ImageResourceUri, opt => opt.MapFrom(src => BuildImageResourceUri(imagesStorageAccountUri, src.Image.Container, src.Image.BlobPath, src.Image.BlobName)));
 
             CreateMap<Models.Database.GroupMember, Models.DataTransferObject.GroupMemberDto>()
                 .ForMember(dest => dest.GroupMemberId, opt => opt.MapFrom(src => src.Id))
@@ -324,7 +344,7 @@ namespace DertInfo.Api.Core
 
             CreateMap<Models.Database.MarkingSheetImage, Models.DataTransferObject.DanceMarkingSheetDto>()
                 .ForMember(dest => dest.MarkingSheetId, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.ImageResourceUri, opt => opt.MapFrom(src => $"{imagesStorageAccountUri}/{src.Image.Container}/{src.Image.BlobName}"));
+                .ForMember(dest => dest.ImageResourceUri, opt => opt.MapFrom(src => BuildImageResourceUri(imagesStorageAccountUri, src.Image.Container, src.Image.BlobPath, src.Image.BlobName)));
 
             CreateMap<Models.Database.MemberAttendance, Models.DataTransferObject.MemberAttendanceDto>()
                 .ForMember(dest => dest.AttendanceClassificationName, opt => opt.MapFrom(src => src.MemberActivities.Count() > 0 ? src.MemberActivities.First().Activity.Title : "None"))
@@ -417,7 +437,7 @@ namespace DertInfo.Api.Core
             CreateMap<Models.Database.TeamImage, Models.DataTransferObject.TeamImageDto>()
                 .ForMember(dest => dest.TeamImageId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.ImageId, opt => opt.MapFrom(src => src.Image.Id))
-                .ForMember(dest => dest.ImageResourceUri, opt => opt.MapFrom(src => $"{imagesStorageAccountUri}/{src.Image.Container}/{src.Image.BlobName}"));
+                .ForMember(dest => dest.ImageResourceUri, opt => opt.MapFrom(src => BuildImageResourceUri(imagesStorageAccountUri, src.Image.Container, src.Image.BlobPath, src.Image.BlobName)));
 
 
             CreateMap<Models.Database.SystemSetting, Models.DataTransferObject.SystemSettingDto>();
