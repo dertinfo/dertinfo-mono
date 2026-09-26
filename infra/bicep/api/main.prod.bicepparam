@@ -18,3 +18,4 @@ param keyVaultName = 'kv-prd-dertinfo-uks'
 param appConfigurationName = 'appcs-prd-dertinfo-config-uks'
 param monitoringResourceGroupName = 'rg-prd-dertinfo-monitoring-uks'
 param applicationInsightsName = 'appi-prd-dertinfo-monitoring-uks'
+param prerequisitesExist = true
