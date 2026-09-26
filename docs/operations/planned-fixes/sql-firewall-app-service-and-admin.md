@@ -2,7 +2,7 @@
 
 **Status:** Not started — Entra-only is already in place; SQL still allows all Azure public IPs.
 
-**Related:** [`infra/bicep/storage/sql.bicep`](../../../infra/bicep/storage/sql.bicep), [Secrets and rotation — hosted Azure SQL](../../technical/infra/secrets-and-rotation.md#hosted-azure-sql-entra-only), operator copy script [`Copy-DertInfoSqlToDevelopment.ps1`](../../../infra/scripts/Copy-DertInfoSqlToDevelopment.ps1), [Hosting and cost decisions](hosting-cost-decisions.md).
+**Related:** [`infra/bicep/storage/sql.bicep`](../../../infra/bicep/storage/sql.bicep), [Secrets and rotation — hosted Azure SQL](../../technical/infra/secrets-and-rotation.md#hosted-azure-sql-entra-only), operator copy script [`Copy-DertInfoSqlToDevelopment.ps1`](../../../infra/scripts/Database/Copy-DertInfoSqlToDevelopment.ps1), [Hosting and cost decisions](hosting-cost-decisions.md).
 
 ---
 

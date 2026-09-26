@@ -12,6 +12,8 @@
 
   See: docs/technical/guides/github-azure-federated-credentials.md
 
+  As an operator I run this script to create every workload OIDC identity for one environment because I want the GitHub variables for that environment in one pass.
+
 .PARAMETER GitHubEnvironment
   GitHub Environment name: development or production.
 
@@ -19,10 +21,10 @@
   Azure subscription id for that Environment.
 
 .PARAMETER RepoRoot
-  Monorepo root. Defaults to two levels above this script.
+  Monorepo root. Defaults to three levels above this script.
 
 .EXAMPLE
-  .\New-DertInfoWorkloadOidcIdentities.ps1 `
+  .\Entra\New-DertInfoWorkloadOidcIdentities.ps1 `
     -GitHubEnvironment development `
     -SubscriptionId '00000000-0000-0000-0000-000000000000'
 #>
@@ -54,7 +56,7 @@ $script:WorkloadParts = @(
 )
 
 if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
-  $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+  $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
 }
 else {
   $RepoRoot = (Resolve-Path -LiteralPath $RepoRoot).Path

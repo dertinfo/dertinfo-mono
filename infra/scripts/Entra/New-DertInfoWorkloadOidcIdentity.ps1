@@ -15,6 +15,8 @@
 
   See: docs/technical/guides/github-azure-federated-credentials.md
 
+  As an operator I run this script to create one workload OIDC identity because I want a single part on one environment to deploy as itself.
+
 .PARAMETER GitHubEnvironment
   GitHub Environment name: development or production.
 
@@ -25,10 +27,10 @@
   Workload part token: config, monitoring, storage, api, web, app, or functions.
 
 .PARAMETER RepoRoot
-  Monorepo root containing infra/configuration. Defaults to two levels above this script.
+  Monorepo root containing infra/configuration. Defaults to three levels above this script.
 
 .EXAMPLE
-  .\New-DertInfoWorkloadOidcIdentity.ps1 `
+  .\Entra\New-DertInfoWorkloadOidcIdentity.ps1 `
     -GitHubEnvironment development `
     -SubscriptionId '00000000-0000-0000-0000-000000000000' `
     -Workload api
@@ -86,7 +88,7 @@ function Invoke-Az {
 Assert-AzCli
 
 if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
-  $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..')).Path
+  $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..\..\..')).Path
 }
 else {
   $RepoRoot = (Resolve-Path -LiteralPath $RepoRoot).Path

@@ -15,11 +15,13 @@
 
   See: docs/technical/standards/bicep/README.md
 
+  As an operator I run this script to create the SQL Entra groups because I want those groups to exist before the SQL server does.
+
 .PARAMETER GitHubEnvironment
   GitHub Environment name: development or production.
 
 .EXAMPLE
-  .\New-DertInfoSqlEntraGroups.ps1 -GitHubEnvironment development
+  .\Entra\New-DertInfoSqlEntraGroups.ps1 -GitHubEnvironment development
 #>
 [CmdletBinding()]
 param(

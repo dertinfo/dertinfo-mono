@@ -24,7 +24,7 @@ updated: 2026-08-15
 | GitHub Environment variables | Non-secret OIDC client id, tenant id, subscription id (visible to users with appropriate GitHub access; client id is not a password). |
 | Entra app registrations | Application (client) ids for subscription deploy SPs; federated credentials trust GitHub OIDC subjects `repo:dertinfo/dertinfo-mono:environment:development` and `…:environment:production`. |
 | Azure RBAC | Each SP has Contributor + User Access Administrator on **one** subscription only (development vs production isolation). |
-| Operator scripts | [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1) / [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](../../../infra/scripts/Remove-DertInfoSubscriptionOidcIdentity.ps1) — powerful if run by a human with Entra + subscription admin rights (local workstation / Cloud Shell), not invoked by Actions. |
+| Operator scripts | [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/Entra/New-DertInfoSubscriptionOidcIdentities.ps1) / [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](../../../infra/scripts/Entra/Remove-DertInfoSubscriptionOidcIdentity.ps1) — powerful if run by a human with Entra + subscription admin rights (local workstation / Cloud Shell), not invoked by Actions. |
 
 Out of scope for this review: Auth0, app CD Environments `test` / `prod`, and future RG-scoped workload identities (except that they must not reuse the subscription SP).
 

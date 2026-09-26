@@ -3,9 +3,13 @@
   Menu for the DertInfo estate control-plane scripts.
 
 .DESCRIPTION
-  Lists each script in this folder whose comment-based help has a .SYNOPSIS.
-  Shows that help, collects parameters from the script param() block, and runs
-  the script only after you confirm. Optional parameters left blank are omitted.
+  Lists each script in a category folder under this directory whose comment-based
+  help has a .SYNOPSIS. Skips files whose names start with Shared-. Shows that
+  help, collects parameters from the script param() block, and runs the script
+  only after you confirm. Optional parameters left blank are omitted. Each option
+  is labelled Category > Script.ps1.
+
+  As an operator I run this script to choose and start an estate script from its category because I want one place that shows what is available.
 
 .EXAMPLE
   .\Start-DertInfoControlPlane.ps1
@@ -89,46 +93,50 @@ function Get-DertInfoControlPlaneParameters {
 
 function Get-DertInfoControlPlaneMenuItems {
   $items = New-Object System.Collections.Generic.List[object]
-  $files = @(Get-ChildItem -LiteralPath $script:ControlPlaneScriptDir -Filter '*.ps1' -File | Sort-Object Name)
+  $categories = @(Get-ChildItem -LiteralPath $script:ControlPlaneScriptDir -Directory | Sort-Object Name)
 
-  foreach ($file in $files) {
-    if ([string]::Equals($file.FullName, $script:ControlPlaneScriptPath, [System.StringComparison]::OrdinalIgnoreCase)) {
-      continue
-    }
+  foreach ($category in $categories) {
+    $files = @(Get-ChildItem -LiteralPath $category.FullName -Filter '*.ps1' -File | Sort-Object Name)
 
-    $tokens = $null
-    $errors = $null
-    $ast = [System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$errors)
-    $help = $ast.GetHelpContent()
-    if ($null -eq $help -or [string]::IsNullOrWhiteSpace($help.Synopsis)) {
-      continue
-    }
+    foreach ($file in $files) {
+      if ($file.Name.StartsWith('Shared-', [System.StringComparison]::OrdinalIgnoreCase)) {
+        continue
+      }
 
-    $examples = @()
-    if ($null -ne $help.Examples) {
-      foreach ($example in @($help.Examples)) {
-        $text = ([string]$example).Trim()
-        if (-not [string]::IsNullOrWhiteSpace($text)) {
-          $examples += $text
+      $tokens = $null
+      $errors = $null
+      $ast = [System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$errors)
+      $help = $ast.GetHelpContent()
+      if ($null -eq $help -or [string]::IsNullOrWhiteSpace($help.Synopsis)) {
+        continue
+      }
+
+      $examples = @()
+      if ($null -ne $help.Examples) {
+        foreach ($example in @($help.Examples)) {
+          $text = ([string]$example).Trim()
+          if (-not [string]::IsNullOrWhiteSpace($text)) {
+            $examples += $text
+          }
         }
       }
+
+      $description = ''
+      if ($help.Description) {
+        $description = ([string]$help.Description).Trim()
+      }
+
+      $parameters = @(Get-DertInfoControlPlaneParameters -Ast $ast -Help $help)
+
+      $items.Add([pscustomobject]@{
+        Name        = ('{0} > {1}' -f $category.Name, $file.Name)
+        Path        = $file.FullName
+        Synopsis    = ([string]$help.Synopsis).Trim()
+        Description = $description
+        Examples    = $examples
+        Parameters  = $parameters
+      })
     }
-
-    $description = ''
-    if ($help.Description) {
-      $description = ([string]$help.Description).Trim()
-    }
-
-    $parameters = @(Get-DertInfoControlPlaneParameters -Ast $ast -Help $help)
-
-    $items.Add([pscustomobject]@{
-      Name        = $file.Name
-      Path        = $file.FullName
-      Synopsis    = ([string]$help.Synopsis).Trim()
-      Description = $description
-      Examples    = $examples
-      Parameters  = $parameters
-    })
   }
 
   foreach ($item in $items) {

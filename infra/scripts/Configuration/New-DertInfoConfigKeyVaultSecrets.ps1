@@ -11,6 +11,8 @@
   Run after config infra CD has created the vault. Uses az login (Key Vault
   RBAC: Key Vault Secrets Officer). Does not use access policies or keys.
 
+  As an operator I run this script to put catalog secret values into Key Vault because I want the hosted API secrets set without committing them.
+
 .PARAMETER GitHubEnvironment
   Selects infra/configuration/app-config.<environment>.json and
   kv-secrets.<environment>.json
@@ -28,9 +30,9 @@
   Overwrite secrets that already exist.
 
 .EXAMPLE
-  Copy-Item infra/configuration/kv-secrets.development.json.example `
-    infra/configuration/kv-secrets.development.json
-  .\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
+  Copy-Item ..\configuration\kv-secrets.development.json.example `
+    ..\configuration\kv-secrets.development.json
+  .\Configuration\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
 #>
 [CmdletBinding()]
 param(
@@ -48,7 +50,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-. "$PSScriptRoot\DertInfoAppConfigCatalog.ps1"
+. "$PSScriptRoot\Shared-DertInfoAppConfigCatalog.ps1"
 
 function Assert-AzCli {
   if (-not (Get-Command az -ErrorAction SilentlyContinue)) {

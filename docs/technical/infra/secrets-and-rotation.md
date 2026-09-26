@@ -39,10 +39,10 @@ Restart the API after Key Vault / App Configuration updates unless a configurati
 
 ### Hosted Key Vault secrets (config vault)
 
-Do not put these values in Bicep. Config Bicep creates the vault and App Configuration store only. [`Import-DertInfoAppConfiguration.ps1`](../../../infra/scripts/Import-DertInfoAppConfiguration.ps1) writes Key Vault references (labels `Development` / `Production`). Copy [`kv-secrets.development.json.example`](../../../infra/configuration/kv-secrets.development.json.example) to `kv-secrets.development.json` (gitignored), fill the values, then:
+Do not put these values in Bicep. Config Bicep creates the vault and App Configuration store only. [`Import-DertInfoAppConfiguration.ps1`](../../../infra/scripts/Configuration/Import-DertInfoAppConfiguration.ps1) writes Key Vault references (labels `Development` / `Production`). Copy [`kv-secrets.development.json.example`](../../../infra/configuration/kv-secrets.development.json.example) to `kv-secrets.development.json` (gitignored), fill the values, then:
 
 ```powershell
-.\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
+.\Configuration\New-DertInfoConfigKeyVaultSecrets.ps1 -GitHubEnvironment development
 ```
 
 | Key Vault secret | App Configuration key |
@@ -65,10 +65,10 @@ To rotate, re-run with `-Force` (overwrites) then restart the API. Store, vault,
 
 There is no SQL admin password and no Key Vault SQL login secrets. Access is:
 
-1. **Before SQL** — create groups with [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/New-DertInfoSqlEntraGroups.ps1). The server Entra admin is `dertinfo-sql-admins-<environment>`.
-2. **After SQL** — a SQL Entra admin runs [`New-DertInfoSqlDbAccessUser.ps1`](../../../infra/scripts/New-DertInfoSqlDbAccessUser.ps1) (ODBC `sqlcmd -G`, Entra MFA) to bind `dertinfo-sql-db-access-<environment>` (`CREATE USER ... FROM EXTERNAL PROVIDER` plus `db_datareader` / `db_datawriter` / `db_ddladmin`). That database user is for **people** in the group.
+1. **Before SQL** — create groups with [`New-DertInfoSqlEntraGroups.ps1`](../../../infra/scripts/Entra/New-DertInfoSqlEntraGroups.ps1). The server Entra admin is `dertinfo-sql-admins-<environment>`.
+2. **After SQL** — a SQL Entra admin runs [`New-DertInfoSqlDbAccessUser.ps1`](../../../infra/scripts/Database/New-DertInfoSqlDbAccessUser.ps1) (ODBC `sqlcmd -G`, Entra MFA) to bind `dertinfo-sql-db-access-<environment>` (`CREATE USER ... FROM EXTERNAL PROVIDER` plus `db_datareader` / `db_datawriter` / `db_ddladmin`). That database user is for **people** in the group.
 3. Add **operators** to the Entra groups (portal or `az ad group member add`). Do not add the App Service MI to the admins group. Do not expect the MI to log in via the access group — Azure SQL does not authorize managed identities through Entra group membership.
-4. **After API infra CD** (site exists with system-assigned identity) — run [`New-DertInfoSqlAppServiceUser.ps1`](../../../infra/scripts/New-DertInfoSqlAppServiceUser.ps1) to `CREATE USER` for the App Service name (`app-<dev|prd>-dertinfo-api-uks`) with the same roles. Then **restart** the App Service. Do this **before** (or immediately after) API Src CD; skipping it yields `Login failed for user '<token-identified principal>'` on `Migrate()` at startup.
+4. **After API infra CD** (site exists with system-assigned identity) — run [`New-DertInfoSqlAppServiceUser.ps1`](../../../infra/scripts/Database/New-DertInfoSqlAppServiceUser.ps1) to `CREATE USER` for the App Service name (`app-<dev|prd>-dertinfo-api-uks`) with the same roles. Then **restart** the App Service. Do this **before** (or immediately after) API Src CD; skipping it yields `Login failed for user '<token-identified principal>'` on `Migrate()` at startup.
 
 Hosted App Configuration points `SqlConnection:ServerName` and `SqlConnection:DatabaseName` at Key Vault (obfuscation). There is still no SQL admin password. The API uses `Authentication=Active Directory Default` when `AZURE_APP_CONFIG` is set.
 
@@ -84,7 +84,7 @@ New-stack Functions **host** storage (`st<env>dertinfofuncuks`) has shared keys 
 
 1. In Azure Portal, open the images storage account (`stdevdertinfoimagesuks` / `stprddertinfoimagesuks`).
 2. Rotate the primary (or secondary) access key.
-3. Update `az-storage-images-accountkey` in `kv-secrets.<environment>.json` and re-run [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1) `-Force`, or `az keyvault secret set`.
+3. Update `az-storage-images-accountkey` in `kv-secrets.<environment>.json` and re-run [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/Configuration/New-DertInfoConfigKeyVaultSecrets.ps1) `-Force`, or `az keyvault secret set`.
 4. Restart the API.
 
 Follow-up: Entra for images and App Configuration cleanup — [Storage managed identity](../../operations/planned-fixes/storage-managed-identity.md).
@@ -94,7 +94,7 @@ Follow-up: Entra for images and App Configuration cleanup — [Storage managed i
 1. Open the Auth0 tenant for the environment (dev / test / live).
 2. Applications → **DertInfo – \<env\> – API Client** (Management / M2M style client used by the API).
 3. Scroll to the danger zone → **Rotate Secret**.
-4. Copy the new secret into Key Vault (`auth0-managementclientsecret`), for example [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/New-DertInfoConfigKeyVaultSecrets.ps1) `-Force`.
+4. Copy the new secret into Key Vault (`auth0-managementclientsecret`), for example [`New-DertInfoConfigKeyVaultSecrets.ps1`](../../../infra/scripts/Configuration/New-DertInfoConfigKeyVaultSecrets.ps1) `-Force`.
 5. Restart the API.
 
 ![Auth0 applications list](https://github.com/user-attachments/assets/848852be-3858-4415-b1a3-c20c337b8dac)

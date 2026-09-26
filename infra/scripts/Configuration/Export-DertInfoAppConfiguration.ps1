@@ -7,6 +7,8 @@
   --auth-mode login (Entra). Does not resolve Key Vault references (no secret
   values on disk). Store name and optional label come from the catalog JSON.
 
+  As an operator I run this script to export non-secret App Configuration keys because I want a local dump without secret values.
+
 .PARAMETER GitHubEnvironment
   Selects infra/configuration/app-config.<environment>.json
 
@@ -23,7 +25,7 @@
   Export every label. Default uses appConfigurationLabel from the catalog.
 
 .EXAMPLE
-  .\Export-DertInfoAppConfiguration.ps1 -GitHubEnvironment development
+  .\Configuration\Export-DertInfoAppConfiguration.ps1 -GitHubEnvironment development
 #>
 [CmdletBinding()]
 param(
@@ -41,7 +43,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-. "$PSScriptRoot\DertInfoAppConfigCatalog.ps1"
+. "$PSScriptRoot\Shared-DertInfoAppConfigCatalog.ps1"
 
 function Assert-AzCli {
   if (-not (Get-Command az -ErrorAction SilentlyContinue)) {
@@ -69,7 +71,7 @@ if ([string]::IsNullOrWhiteSpace($Path)) {
   if ([string]::IsNullOrWhiteSpace($envSlug)) {
     $envSlug = 'export'
   }
-  $secretsDir = Join-Path (Split-Path -Parent $script:DertInfoScriptsDir) 'secrets'
+  $secretsDir = Join-Path (Split-Path -Parent (Split-Path -Parent $script:DertInfoScriptsDir)) 'secrets'
   $Path = Join-Path $secretsDir "appconfig-export.$envSlug.json"
 }
 

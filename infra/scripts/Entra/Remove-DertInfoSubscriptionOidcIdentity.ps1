@@ -14,6 +14,8 @@
 
   See: docs/technical/guides/github-azure-federated-credentials.md
 
+  As an operator I run this script to delete one subscription OIDC app because I want that privileged identity gone.
+
 .PARAMETER ClientId
   App registration application (client) id.
 
@@ -21,10 +23,10 @@
   Do not prompt for confirmation.
 
 .EXAMPLE
-  .\Remove-DertInfoSubscriptionOidcIdentity.ps1 -ClientId '11111111-2222-3333-4444-555555555555'
+  .\Entra\Remove-DertInfoSubscriptionOidcIdentity.ps1 -ClientId '11111111-2222-3333-4444-555555555555'
 
 .EXAMPLE
-  .\Remove-DertInfoSubscriptionOidcIdentity.ps1 -ClientId '11111111-2222-3333-4444-555555555555' -Force
+  .\Entra\Remove-DertInfoSubscriptionOidcIdentity.ps1 -ClientId '11111111-2222-3333-4444-555555555555' -Force
 #>
 [CmdletBinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
 param(

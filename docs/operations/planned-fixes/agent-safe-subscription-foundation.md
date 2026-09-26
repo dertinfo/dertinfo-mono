@@ -27,10 +27,10 @@ updated: 2026-08-15
 ## Steps (admin + repo)
 
 1. Tenant admin creates empty Azure subscription(s) (portal / billing).
-2. Create **two** Entra apps / service principals for **subscription infra CD** (development and production) via [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoSubscriptionOidcIdentities.ps1); each gets Contributor + User Access Administrator on **its** subscription only.
+2. Create **two** Entra apps / service principals for **subscription infra CD** (development and production) via [`New-DertInfoSubscriptionOidcIdentities.ps1`](../../../infra/scripts/Entra/New-DertInfoSubscriptionOidcIdentities.ps1); each gets Contributor + User Access Administrator on **its** subscription only.
 3. Apply federated credentials (script uses [`infra/configuration/`](../../../infra/configuration/)); set GitHub Environment variables (see below).
 4. Configure required reviewers on both Environments (see below).
-5. Create **per-workload** Entra apps via [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1) (one Environment at a time). Paste `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_*` and `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_*` onto that GitHub Environment. Do **not** use the subscription SP for workload deploys.
+5. Create **per-workload** Entra apps via [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/Entra/New-DertInfoWorkloadOidcIdentities.ps1) (one Environment at a time). Paste `AZURE_ENTRA_OIDC_CLIENTID_WORKLOAD_*` and `AZURE_ENTRA_OIDC_PRINCIPALID_WORKLOAD_*` onto that GitHub Environment. Do **not** use the subscription SP for workload deploys.
 6. Run [subscription-infra-cd.yml](../../../.github/workflows/subscription-infra-cd.yml) (push to `main` under `infra/bicep/subscription/**` or `workflow_dispatch` with target `full`). That pipeline **registers resource providers on the subscription** (list in the reusable workflow, not in Bicep), then deploys `main.dev.bicepparam` and, upon review approval, `main.prod.bicepparam` (or target `dev-only` to deploy only to development). See [CI/CD](../../technical/infra/cicd.md).
 7. Verify: policy deny (disallowed SKU); RG workflow can deploy allowed resources with the restricted identity.
 8. Unpark estate / workload Bicep planned fixes only after verification.
@@ -48,7 +48,7 @@ A **shared** app registration for both Environments would typically need RBAC on
 | `development` | `dertinfo-github-subscription-development` | DertInfo Development subscription only |
 | `production` | `dertinfo-github-subscription-production` | DertInfo Production subscription only |
 
-Create with the operator script; remove a retired client id with [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](../../../infra/scripts/Remove-DertInfoSubscriptionOidcIdentity.ps1). Do **not** attach both federated JSON files to one privileged SP for this foundation.
+Create with the operator script; remove a retired client id with [`Remove-DertInfoSubscriptionOidcIdentity.ps1`](../../../infra/scripts/Entra/Remove-DertInfoSubscriptionOidcIdentity.ps1). Do **not** attach both federated JSON files to one privileged SP for this foundation.
 
 Threat model detail: [github-workflows-security-review.md](../security/github-workflows-security-review.md).
 

@@ -13,8 +13,10 @@
   cannot live as a Bicep resource. Workload SPs have RG Contributor only and
   cannot register providers themselves.
 
+  As an operator I run this script to register workload resource providers because I want a local or break-glass subscription deploy to succeed.
+
 .EXAMPLE
-  .\Register-DertInfoResourceProviders.ps1
+  .\Subscription\Register-DertInfoResourceProviders.ps1
 #>
 [CmdletBinding()]
 param()

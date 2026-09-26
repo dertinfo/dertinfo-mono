@@ -46,7 +46,7 @@ That is what allows Actions to **deploy** (subscription Bicep, workload RG Bicep
 
 ```powershell
 cd infra\scripts
-.\New-DertInfoSubscriptionOidcIdentities.ps1 `
+.\Entra\New-DertInfoSubscriptionOidcIdentities.ps1 `
   -DevSubscriptionId '<development-subscription-guid>' `
   -PrdSubscriptionId '<production-subscription-guid>'
 ```
@@ -87,12 +87,12 @@ Grant Azure RBAC on the **service principal** (not only the app registration): s
 
 ```powershell
 cd infra\scripts
-.\New-DertInfoWorkloadOidcIdentities.ps1 `
+.\Entra\New-DertInfoWorkloadOidcIdentities.ps1 `
   -GitHubEnvironment development `
   -SubscriptionId '<development-subscription-guid>'
 ```
 
-That master script calls [`New-DertInfoWorkloadOidcIdentity.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentity.ps1) for `config`, `monitoring`, `storage`, `api`, `web`, `app`, and `functions`. Display names are `dertinfo-github-workload-<part>-development` or `dertinfo-github-workload-<part>-production`. It does **not** assign Azure roles. Tear down one app with [`Remove-DertInfoWorkloadOidcIdentity.ps1`](../../../infra/scripts/Remove-DertInfoWorkloadOidcIdentity.ps1).
+That master script calls [`New-DertInfoWorkloadOidcIdentity.ps1`](../../../infra/scripts/Entra/New-DertInfoWorkloadOidcIdentity.ps1) for `config`, `monitoring`, `storage`, `api`, `web`, `app`, and `functions`. Display names are `dertinfo-github-workload-<part>-development` or `dertinfo-github-workload-<part>-production`. It does **not** assign Azure roles. Tear down one app with [`Remove-DertInfoWorkloadOidcIdentity.ps1`](../../../infra/scripts/Entra/Remove-DertInfoWorkloadOidcIdentity.ps1).
 
 Confirm:
 
@@ -142,7 +142,7 @@ MSYS_NO_PATHCONV=1 az role assignment create \
 
 ## Related
 
-- Operator scripts: [`infra/scripts/README.md`](../../../infra/scripts/README.md) — subscription pair plus [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/New-DertInfoWorkloadOidcIdentities.ps1) / [`Remove-DertInfoWorkloadOidcIdentity.ps1`](../../../infra/scripts/Remove-DertInfoWorkloadOidcIdentity.ps1)
+- Operator scripts: [`infra/scripts/README.md`](../../../infra/scripts/README.md) — subscription pair plus [`New-DertInfoWorkloadOidcIdentities.ps1`](../../../infra/scripts/Entra/New-DertInfoWorkloadOidcIdentities.ps1) / [`Remove-DertInfoWorkloadOidcIdentity.ps1`](../../../infra/scripts/Entra/Remove-DertInfoWorkloadOidcIdentity.ps1)
 - Security review: [GitHub workflows — subscription OIDC](../../operations/security/github-workflows-security-review.md)
 - Folder README: [`infra/configuration/README.md`](../../../infra/configuration/README.md)
 - [CI/CD](../infra/cicd.md) — workflow inventory and existing `test` / `prod` app CD OIDC
