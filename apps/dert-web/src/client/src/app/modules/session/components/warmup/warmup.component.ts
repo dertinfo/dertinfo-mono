@@ -20,7 +20,7 @@ export class WarmupComponent implements OnInit {
   ngOnInit() {
     if (this.warmupService.isApiWarm()) {
       console.log('WarmupComponent — already warm, continuing to pending URL');
-      this.warmupService.continueTo();
+      this.warmupService.continueWhenSessionValid();
       return;
     }
 

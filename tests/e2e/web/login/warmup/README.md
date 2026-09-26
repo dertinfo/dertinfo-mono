@@ -14,6 +14,7 @@ Scripts that reproduce the **“Warming up”** screen stuck on `/session/warmup
 | [`mid-warmup-race.mjs`](mid-warmup-race.mjs) | `test:login:warmup:mid-race` | **Key repro:** delayed `/api/status` + 401 → stuck |
 | [`delay-success-control.mjs`](delay-success-control.mjs) | `test:login:warmup:delay-control` | Control case: same delay + mocked 200s → dashboard |
 | [`resolver-hang-vs-auth.mjs`](resolver-hang-vs-auth.mjs) | `test:login:warmup:hang-vs-auth` | Auth failure vs hung resolver scenarios |
+| [`stale-session.mjs`](stale-session.mjs) | `test:login:warmup:stale-session` | Dead Auth0 cache must leave Warmup for sign-in |
 
 Run everything:
 
