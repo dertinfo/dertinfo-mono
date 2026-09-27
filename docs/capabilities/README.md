@@ -2,7 +2,7 @@
 name: Platform capability catalogue
 type: index
 status: active
-updated: 2026-07-26
+updated: 2026-09-27
 ---
 
 # Platform capability catalogue
@@ -15,6 +15,7 @@ Start with the [Domain glossary](system/domain-glossary.md).
 
 - [Roles](roles/) — who can act
 - [Features](features/) — user-facing capabilities
+- [Entities](#entities) — objects in the platform, and how features change them
 - [System](system/) — cross-cutting behaviour and glossary
 - Inventory: [`capabilities.yaml`](capabilities.yaml)
 
@@ -29,6 +30,18 @@ Start with the [Domain glossary](system/domain-glossary.md).
 | Account & consent | [User account and GDPR consent](features/account-gdpr-consent.md) |
 | Messaging | [Send email](features/send-email.md), [In-app notifications](features/in-app-notifications.md) (rarely used) |
 | Auth | [Log in](features/auth-login.md), [Log out](features/auth-logout.md), [Stay signed in](features/auth-session-continuity.md) |
+
+## Entities
+
+Objects in the platform. Each page says what the object is, what can be done to it, and which states it can be in. Short definitions stay in the [Domain glossary](system/domain-glossary.md).
+
+| Area | Entities |
+|------|----------|
+| Groups | [Group](entities/group.md), [Group member](entities/group-member.md), [Team](entities/team.md) |
+| Events and registration | [Event](entities/event.md), [Activity](entities/activity.md), [Registration](entities/registration.md), [Invoice](entities/invoice.md), [Email](entities/email.md), [Email template](entities/email-template.md) |
+| Competition day | [Competition](entities/competition.md), [Venue](entities/venue.md), [Dance](entities/dance.md), [Judge](entities/judge.md), [Score](entities/score.md), [Score category](entities/score-category.md), [Score set](entities/score-set.md), [Marking sheet](entities/marking-sheet.md) |
+| Shared | [Image](entities/image.md) |
+| Dert of Derts | [Submission](entities/dod-submission.md), [Result](entities/dod-result.md) |
 
 ## System
 
@@ -48,7 +61,7 @@ Roles may combine on one account. Auth0 claim mapping: [Authentication](../techn
 
 ## How to update
 
-1. Edit markdown (role / feature / system).
+1. Edit markdown (role / feature / entity / system).
 2. Update `capabilities.yaml` with the same `id`.
 3. Do not regenerate markdown from YAML.
 4. Keep descriptions implementation-free.

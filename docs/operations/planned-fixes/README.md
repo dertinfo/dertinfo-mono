@@ -25,5 +25,6 @@ Open in-repo notes for work still to do in the solution. **Not a ticket backlog*
 | Azure SQL firewall: App Service outbound IPs plus administrator IP (drop Allow Azure services) | [sql-firewall-app-service-and-admin.md](sql-firewall-app-service-and-admin.md) |
 | Rename Bicep production leaf params `main.prod.bicepparam` → `main.prd.bicepparam` | [rename-bicepparam-prod-to-prd.md](rename-bicepparam-prod-to-prd.md) |
 | Retire the old live and test Azure estates and their subscriptions | [retire-old-azure-estate.md](retire-old-azure-estate.md) |
+| Website smoke walkthrough: product notes still to do | [smoke-walkthrough-future-work.md](smoke-walkthrough-future-work.md) |
 
 Resolved deep-dives: [investigations/](../investigations/).

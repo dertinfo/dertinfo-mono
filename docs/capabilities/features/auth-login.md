@@ -2,9 +2,9 @@
 name: Log in
 type: feature
 status: active
-updated: 2026-07-26
+updated: 2026-09-27
 id: auth.login
-roles: [public-user, member]
+roles: [public-user, member, group-admin, event-admin]
 ---
 
 # Feature: Log in
@@ -17,6 +17,8 @@ A visitor can authenticate and become a signed-in user of the platform.
 
 - **public-user** — can start sign-in
 - **member** — result of a successful sign-in (and higher roles inherit signed-in behaviour)
+- **group-admin** — signs in with the group administrator account
+- **event-admin** — signs in with the event administrator account
 
 ## Behaviour
 
@@ -28,3 +30,36 @@ A visitor can authenticate and become a signed-in user of the platform.
 - Unauthenticated users cannot access member-only or administrator capabilities.
 
 > Starter stub — implementation-free; expand during reverse-engineering.
+
+## Scenarios
+
+```gherkin
+Feature: Log in
+  As an event administrator
+  I want to log into my account
+  So that I can access my dashboard
+
+  Scenario: Event administrator signs in
+    Given the event administrator is on the login page
+    When the event administrator enters valid credentials
+    Then the event administrator should see the dashboard
+
+  Scenario: Group administrator signs in
+    Given the group administrator is on the login page
+    When the group administrator enters valid credentials
+    Then the group administrator should see the dashboard
+```
+
+```yaml
+scenarios:
+  - id: auth.login.event-admin
+    persona: event-admin
+    sequence: 10
+    provides:
+      - session:event-admin
+  - id: auth.login.group-admin
+    persona: group-admin
+    sequence: 30
+    provides:
+      - session:group-admin
+```

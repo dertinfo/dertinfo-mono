@@ -2,7 +2,7 @@
 name: Confirm registrations
 type: feature
 status: active
-updated: 2026-07-26
+updated: 2026-09-27
 id: registration.confirm
 roles: [event-admin]
 ---
@@ -30,3 +30,28 @@ Event administrators inspect submitted registrations during the registration per
 - Payment collection is outside automated card capture in this overview; marking paid is separate — see [Invoicing](invoicing.md).
 
 See [Domain glossary](../system/domain-glossary.md).
+
+## Scenarios
+
+```gherkin
+Feature: Confirm registrations
+  As an event administrator
+  I want to confirm a submitted registration
+  So that the group is accepted and can no longer edit it
+
+  Scenario: Event administrator confirms a registration
+    Given a registration is Submitted
+    And the group administrator has amended it since submit
+    When the event administrator confirms it
+    Then the registration is confirmed
+    And the group administrator can no longer edit it
+```
+
+```yaml
+scenarios:
+  - id: registration.confirm.event-admin-confirms
+    persona: event-admin
+    sequence: 58
+    requires:
+      - registration.submit.group-admin-amends-submitted
+```

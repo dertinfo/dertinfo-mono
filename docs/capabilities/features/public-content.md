@@ -2,7 +2,7 @@
 name: Public content
 type: feature
 status: active
-updated: 2026-07-26
+updated: 2026-09-27
 id: public.content
 roles: [public-user]
 ---
@@ -31,3 +31,24 @@ Visitors can view public website content: limited competition results, links to 
 - Score sheets and detailed individual scores are not public.
 - Own-team detailed scores/sheets (after publish) are for authorised group/team viewers in the app — see [Publish competition results](results-publish.md).
 - Signed-in management features require authentication and the appropriate roles.
+
+## Scenarios
+
+```gherkin
+Feature: Public content
+  As a public user
+  I want to browse the public pages
+  So that I can see what the platform offers without signing in
+
+  Scenario: Visitor browses public pages
+    Given the visitor is not signed in
+    When the visitor opens the public pages
+    Then each public page shows its content
+```
+
+```yaml
+scenarios:
+  - id: public.content.visitor-browses
+    persona: public-user
+    sequence: 70
+```

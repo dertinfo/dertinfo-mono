@@ -2,7 +2,7 @@
 name: In-app notifications
 type: feature
 status: active
-updated: 2026-07-26
+updated: 2026-09-27
 id: messaging.in-app-notifications
 roles: [member, group-admin, event-admin]
 ---
@@ -20,10 +20,33 @@ The platform can show **in-app notifications** to signed-in users (for example i
 
 ## Behaviour
 
-- Notification UI and APIs exist for in-app messaging.
+- A signed-in user selects the notifications icon and a side page of their notifications becomes visible.
 - Not a primary day-to-day workflow for most organisers or groups.
 
 ## Limitations
 
 - Rarely used — do not assume organisers rely on it.
 - Outbound email remains the main automated communication path — see [Send email](send-email.md) and [Registration email templates](registration-email-templates.md).
+
+## Scenarios
+
+```gherkin
+Feature: In-app notifications
+  As a signed-in user
+  I want to open my notifications
+  So that I can see them
+
+  Scenario: User opens notifications
+    Given the user is signed in
+    When the user selects the notifications icon
+    Then a side page of their notifications is visible
+```
+
+```yaml
+scenarios:
+  - id: messaging.in-app-notifications.group-admin-opens
+    persona: group-admin
+    sequence: 99
+    requires:
+      - auth.login.group-admin
+```

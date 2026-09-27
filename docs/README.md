@@ -4,7 +4,7 @@ Platform documentation for humans and AI agents. Organised in three tracks:
 
 | Track | Purpose |
 |-------|---------|
-| [Capabilities](capabilities/) | **WHAT** the platform does (roles, features, system behaviour) — implementation-free |
+| [Capabilities](capabilities/) | **WHAT** the platform does (roles, features, entities, system behaviour) — implementation-free |
 | [Technical](technical/) | **HOW** the platform is built and run (architecture, guides, infra) |
 | [Operations](operations/) | Working notes, investigations, changelogs — not a ticket system |
 
@@ -28,6 +28,7 @@ Platform documentation for humans and AI agents. Organised in three tracks:
 | CI/CD | [technical/infra/cicd.md](technical/infra/cicd.md) |
 | Contributing workflow | [technical/guides/contributing-workflow.md](technical/guides/contributing-workflow.md) |
 | Capability catalogue | [capabilities/README.md](capabilities/README.md) |
+| Entities | [capabilities/README.md](capabilities/README.md#entities) |
 | Domain glossary | [capabilities/system/domain-glossary.md](capabilities/system/domain-glossary.md) |
 | Change logs | [operations/changelogs/](operations/changelogs/) |
 | Planned fixes | [operations/planned-fixes/](operations/planned-fixes/) |

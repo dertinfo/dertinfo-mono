@@ -45,6 +45,7 @@ desktop.ini
 
 # Environment and secrets
 .env
+tests/e2e/web/smoke/state/
 .env.*
 !.env.example
 .cursor/mcp.json
