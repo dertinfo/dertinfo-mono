@@ -3,7 +3,7 @@
  * Start the local estate per infra/dev/runtime.json (native | docker | off).
  * Phases: loadConfig → guards/doctor → planActions → applyActions.
  */
-import { spawn, spawnSync } from 'node:child_process';
+import crossSpawn from 'cross-spawn';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -39,6 +39,9 @@ import {
   composeUp,
   dockerBridgeEnv,
 } from './docker.mjs';
+
+const spawn = crossSpawn;
+const spawnSync = crossSpawn.sync;
 
 /** Start order: deps first, then apps, then frontends. */
 const START_ORDER = ['azurite', 'sql', 'api', 'imageResize', 'web', 'app'];
@@ -140,7 +143,6 @@ function spawnManaged(name, command, args, cwd, env = {}) {
     env: nativeEnv(env),
     detached: true,
     stdio: ['ignore', outFd, errFd],
-    shell: process.platform === 'win32',
     windowsHide: true,
   });
   child.on('error', (e) => {
@@ -198,7 +200,6 @@ function runGuards(runtime) {
   if (runtime.web.mode === 'native' || runtime.app.mode === 'native') {
     const r = spawnSync(process.platform === 'win32' ? 'where' : 'which', ['swa'], {
       encoding: 'utf8',
-      shell: process.platform === 'win32',
     });
     if (r.status !== 0) {
       throw new Error('swa required for native web/app — npm install -g @azure/static-web-apps-cli');
@@ -331,7 +332,6 @@ async function startNativeApi(state, cfg, secretEnv) {
       cwd: PATHS.apiCwd,
       env: nativeEnv(secretEnv),
       stdio: 'inherit',
-      shell: process.platform === 'win32',
     });
     if (build.status !== 0) throw new Error('api: dotnet build failed');
   }
@@ -403,7 +403,6 @@ async function startNativeFrontend(kind, state, cfg) {
       cwd: clientDir,
       env: nativeEnv(),
       stdio: 'inherit',
-      shell: process.platform === 'win32',
     });
     if (build.status !== 0) throw new Error(`${kind}: ng build failed`);
     const dist = path.join(clientDir, 'dist');
@@ -430,7 +429,6 @@ async function startNativeImageResize(state, cfg) {
         cwd: PATHS.functionsDir,
         env: nativeEnv(),
         stdio: 'inherit',
-        shell: process.platform === 'win32',
       },
     );
     if (build.status !== 0) throw new Error('imageResize: dotnet build failed');
