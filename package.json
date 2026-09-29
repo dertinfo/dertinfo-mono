@@ -17,5 +17,8 @@
   },
   "engines": {
     "node": ">=16.10.0"
+  },
+  "devDependencies": {
+    "cross-spawn": "^7.0.6"
   }
 }
