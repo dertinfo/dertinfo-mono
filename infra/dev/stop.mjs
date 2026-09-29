@@ -3,8 +3,10 @@
  * Stop managed native processes and docker services started by npm run start.
  */
 import fs from 'node:fs';
-import { spawnSync } from 'node:child_process';
+import crossSpawn from 'cross-spawn';
 import { PIDS_PATH, REPO_ROOT } from './paths.mjs';
+
+const spawnSync = crossSpawn.sync;
 
 function stopPid(pid, name) {
   try {
@@ -24,7 +26,6 @@ function stopCompose(service) {
   spawnSync('docker', ['compose', 'stop', service], {
     cwd: REPO_ROOT,
     stdio: 'inherit',
-    shell: process.platform === 'win32',
   });
 }
 

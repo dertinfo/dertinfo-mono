@@ -5,7 +5,9 @@ import fs from 'node:fs';
 import net from 'node:net';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { spawnSync } from 'node:child_process';
+import crossSpawn from 'cross-spawn';
+
+const spawnSync = crossSpawn.sync;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export const DEV_DIR = __dirname;
@@ -270,7 +272,7 @@ export function semverGte(version, minimum) {
 
 /** Run `cmd --version` (or args) and return trimmed stdout+stderr. */
 export function toolVersionOutput(command, args = ['--version']) {
-  const r = spawnSync(command, args, { encoding: 'utf8', shell: process.platform === 'win32' });
+  const r = spawnSync(command, args, { encoding: 'utf8' });
   return `${r.stdout || ''}${r.stderr || ''}`.trim();
 }
 

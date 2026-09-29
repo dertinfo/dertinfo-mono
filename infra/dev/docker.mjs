@@ -1,7 +1,7 @@
 /**
  * Docker Compose helpers for hybrid start/stop.
  */
-import { spawnSync } from 'node:child_process';
+import crossSpawn from 'cross-spawn';
 import {
   COMPOSE_SERVICES,
   REPO_ROOT,
@@ -10,13 +10,14 @@ import {
   parseEnvFile,
 } from './paths.mjs';
 
+const spawnSync = crossSpawn.sync;
+
 export function assertDockerAvailable() {
   if (!commandExists('docker')) {
     throw new Error('docker not on PATH — required when any service has mode "docker"');
   }
   const r = spawnSync('docker', ['compose', 'version'], {
     encoding: 'utf8',
-    shell: process.platform === 'win32',
   });
   if (r.status !== 0) {
     throw new Error('docker compose not available — install Docker Compose V2');
@@ -39,7 +40,6 @@ export function composeUp(composeService, opts = {}) {
     cwd: REPO_ROOT,
     env: { ...process.env, ...env },
     stdio: 'inherit',
-    shell: process.platform === 'win32',
   });
   if (r.status !== 0) {
     throw new Error(`docker compose up failed for ${composeService} (exit ${r.status})`);
@@ -51,7 +51,6 @@ export function composeBuild(composeService) {
   const r = spawnSync('docker', ['compose', 'build', composeService], {
     cwd: REPO_ROOT,
     stdio: 'inherit',
-    shell: process.platform === 'win32',
   });
   if (r.status !== 0) {
     throw new Error(`docker compose build failed for ${composeService} (exit ${r.status})`);
@@ -63,7 +62,6 @@ export function composeStop(composeService) {
   spawnSync('docker', ['compose', 'stop', composeService], {
     cwd: REPO_ROOT,
     stdio: 'inherit',
-    shell: process.platform === 'win32',
   });
 }
 
