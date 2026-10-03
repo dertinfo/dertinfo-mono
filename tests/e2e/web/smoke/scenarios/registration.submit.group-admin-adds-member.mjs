@@ -1,3 +1,4 @@
+import { member } from '../config/load.mjs';
 import { WEB_BASE, normalizeToken, withPersonaPage } from '../helpers.mjs';
 import { ensureAttendance } from '../pages.mjs';
 
@@ -10,6 +11,6 @@ export async function run(ctx) {
       waitUntil: 'domcontentloaded',
       timeout: 60000,
     });
-    await ensureAttendance(page, 'Homer Simpson');
+    await ensureAttendance(page, member('activeMember').Name);
   });
 }

@@ -1,3 +1,4 @@
+import { team } from '../config/load.mjs';
 import { normalizeToken, withPersonaPage } from '../helpers.mjs';
 import { bodyText, eventAdminUrl } from '../pages.mjs';
 
@@ -19,7 +20,7 @@ export async function run(ctx) {
     await page.locator('mat-list-item', { hasText: 'Registration Total' }).first().click();
     await page.getByText('on behalf of').waitFor({ state: 'visible', timeout: 30000 });
     const detail = await bodyText(page);
-    if (!detail.includes('Springfield')) {
+    if (!detail.includes(team().TeamName)) {
       throw new Error('Invoice does not show the team');
     }
   });

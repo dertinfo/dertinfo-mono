@@ -9,12 +9,12 @@
       <div fxLayout="row wrap">
         <!--Groups-->
         <div *ngFor="let group of groupsData" fxFlex.gt-xs="33">
-          <mat-card class="p-0">
+          <mat-card class="p-0" data-testid="entity-card" [attr.data-card-title]="group.groupName">
             <mat-card-title class="mat-bg-primary m-0">
               <div class="card-title-text">
                 <span>{{group.groupName}}</span>
                 <span fxFlex></span>
-                <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1">
+                <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1" data-testid="card-menu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu1="matMenu">
@@ -59,12 +59,12 @@
           </mat-card>
         </div>
         <div *ngFor="let group of memberGroupsData" fxFlex="100" fxFlex.gt-xs="33">
-          <mat-card class="p-0" fxFlex>
+          <mat-card class="p-0" fxFlex data-testid="entity-card" [attr.data-card-title]="group.groupName">
             <mat-card-title class="mat-bg-primary m-0">
               <div class="card-title-text">
                 <span>{{group.groupName}}</span>
                 <span fxFlex></span>
-                <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1">
+                <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1" data-testid="card-menu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu1="matMenu">
@@ -113,12 +113,12 @@
       <div fxLayout="row wrap" fxFlex="100">
         <!--Groups-->
         <div *ngFor="let event of eventsData" fxFlex="100" fxFlex.gt-xs="33">
-          <mat-card class="p-0" fxFlex>
+          <mat-card class="p-0" fxFlex data-testid="entity-card" [attr.data-card-title]="event.name">
             <mat-card-title class="mat-bg-primary m-0">
               <div class="card-title-text">
                 <span>{{event.name}}</span>
                 <span fxFlex></span>
-                <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1">
+                <button class="card-control" mat-icon-button [matMenuTriggerFor]="menu1" data-testid="card-menu">
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu1="matMenu">

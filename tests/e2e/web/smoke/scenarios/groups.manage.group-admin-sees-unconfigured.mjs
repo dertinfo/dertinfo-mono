@@ -1,5 +1,5 @@
 import { WEB_BASE, normalizeToken, waitForDashboardFab, withPersonaPage } from '../helpers.mjs';
-import { GROUP_NAME, openCardMenu } from '../pages.mjs';
+import { GROUP_NAME, entityCard, openCardMenu } from '../pages.mjs';
 
 export const id = 'groups.manage.group-admin-sees-unconfigured';
 
@@ -8,7 +8,7 @@ export async function run(ctx) {
   await withPersonaPage('group-admin', async (page) => {
     await page.goto(`${WEB_BASE}/dashboard`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await waitForDashboardFab(page);
-    const card = page.locator('mat-card', { hasText: GROUP_NAME }).first();
+    const card = entityCard(page, GROUP_NAME);
     await card.getByText('Needs more information').waitFor({ state: 'visible', timeout: 30000 });
     await openCardMenu(page, GROUP_NAME);
     await page.getByRole('menuitem', { name: 'Configure' }).click();

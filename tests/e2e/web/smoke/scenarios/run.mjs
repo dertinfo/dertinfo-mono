@@ -2,6 +2,7 @@
  * Website smoke runner.
  * Order comes from scenario contracts on the capability feature pages.
  * A scenario checks prerequisites first and does not run its own steps when they are missing.
+ * Each run recreates the Docker SQL volume and restarts the API before scenarios.
  */
 import fs from 'fs';
 import path from 'path';
@@ -204,8 +205,16 @@ if (selected.length > 0) {
   planned = planned.filter((contract) => included.has(contract.id));
 }
 
+const resetSql = await import(pathToFileURL(path.join(repoRoot, 'infra', 'dev', 'reset-sql.mjs')).href);
+try {
+  await resetSql.resetSmokeDatabase();
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
+}
+
 fs.mkdirSync(stateDir, { recursive: true });
-if (selected.length === 0) fs.rmSync(chainPath, { force: true });
+fs.rmSync(chainPath, { force: true });
 let chain = loadChain();
 const passed = new Map();
 let failed = false;

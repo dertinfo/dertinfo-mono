@@ -1,5 +1,5 @@
 import { chromium } from 'playwright';
-import { API_BASE, VIEWPORT, WEB_BASE } from '../helpers.mjs';
+import { API_BASE, VIEWPORT, WEB_BASE, applyCookieConsent } from '../helpers.mjs';
 
 export const id = 'auth.session-continuity.rejected-cache-returns-to-sign-in';
 
@@ -62,6 +62,7 @@ export async function run() {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: VIEWPORT });
   try {
+    await applyCookieConsent(page.context());
     await page.addInitScript(plantSession, config);
     await page.goto(`${WEB_BASE}/dashboard`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     const deadline = Date.now() + 15000;

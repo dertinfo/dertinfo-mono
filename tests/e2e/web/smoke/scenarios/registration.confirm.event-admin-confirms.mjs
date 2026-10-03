@@ -1,5 +1,5 @@
 import { WEB_BASE, normalizeToken, withPersonaPage } from '../helpers.mjs';
-import { EVENT_NAME, expectFlowState } from '../pages.mjs';
+import { EVENT_NAME, expectFlowState, registrationRow } from '../pages.mjs';
 
 export const id = 'registration.confirm.event-admin-confirms';
 
@@ -11,7 +11,7 @@ export async function run(ctx) {
       waitUntil: 'domcontentloaded',
       timeout: 60000,
     });
-    await page.locator(`mat-list-item[ng-reflect-router-link*="event-registration/${registrationId}"]`).click();
+    await registrationRow(page, registrationId).click();
     await page.waitForURL(new RegExp(`/event-registration/${registrationId}`), { timeout: 60000, waitUntil: 'commit' });
     await page.getByRole('button', { name: 'Confirm', exact: true }).click();
     await expectFlowState(page, 'Confirmed');

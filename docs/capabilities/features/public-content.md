@@ -51,4 +51,6 @@ scenarios:
   - id: public.content.visitor-browses
     persona: public-user
     sequence: 70
+    requires:
+      - public.cookie-consent.visitor-accepts
 ```

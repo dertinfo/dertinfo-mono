@@ -2,7 +2,7 @@
 name: Playwright standards
 type: standards
 status: active
-updated: 2026-09-27
+updated: 2026-10-03
 ---
 
 # Playwright standards
@@ -24,7 +24,7 @@ Capability pages say what the product does. This page says how a smoke scenario 
 
 `npm run test:web:smoke` from `tests/e2e` runs every scenario. `node web/smoke/scenarios/run.mjs <scenario-id>` runs that scenario and the scenarios it requires.
 
-The site is already running. SQL is Docker on `localhost,44000` with an empty database for a clean run. The API, image resize, Azurite, website, and PWA are native. See [tests/e2e/README.md](../../../../tests/e2e/README.md).
+The website is already running. Before scenarios, the runner removes whatever container is publishing port `44000`, deletes its SQL data volume and the Compose volume `sqlserver-data`, starts a new SQL Server container, and restarts the API so migrations run on that empty database. The previous smoke chain is discarded. Auth0 session files are left in place. SQL is Docker. The API, image resize, Azurite, website, and PWA are native. `infra/dev/runtime.json` must set `sql.mode` to `docker` and `api.mode` to `native` or `docker`. See [tests/e2e/README.md](../../../../tests/e2e/README.md).
 
 ## Scenario id
 
@@ -59,7 +59,9 @@ scenarios:
 
 A name with no brackets is instance 1. `createdEventId` and `createdEventId[1]` are the same value. `auth.login.event-admin` and `auth.login.event-admin[1]` are the same login. A second event provides `createdEventId[2]` and does not replace the first. A later scenario requires `events.create.event-admin-creates[2]` when it must use that second event. Omit `[n]` when there is only one.
 
-Provided names in this suite: `session:event-admin`, `session:group-admin`, `createdEventId`, `createdGroupId`, `configuredEventId`, `configuredGroupId`, `addedMemberId`, `addedGuestId`, `addedTeamId`, `addedIndividualActivityId`, `addedTeamActivityId`, `pendingRegistrationId`, `submittedRegistrationId`.
+Provided names in this suite: `cookie-consent`, `session:event-admin`, `session:group-admin`, `createdEventId`, `createdGroupId`, `configuredEventId`, `configuredGroupId`, `addedMemberId`, `addedGuestId`, `addedTeamId`, `addedIndividualActivityId`, `addedTeamActivityId`, `pendingRegistrationId`, `submittedRegistrationId`.
+
+`public.cookie-consent.visitor-accepts` runs before sign-in and public browsing. It clicks Accept Cookies and stores that cookie. Later browser contexts in the same run start with the cookie already set. They do not click the banner again.
 
 ## Prerequisites
 
@@ -73,9 +75,9 @@ Do not delete a `requires` entry to make a later scenario pass. Fix the scenario
 
 Auth0 users for the local tenant `dertinfodev.eu.auth0.com` use `{role-id}-1@dertinfo.co.uk`. This suite signs in `event-admin-1@dertinfo.co.uk` and `group-admin-1@dertinfo.co.uk`. Passwords stay in `tests/e2e/.env`. Payloads are in `tests/e2e/auth0-personas.json`.
 
-Each persona has one saved browser session under `tests/e2e/web/smoke/state/sessions/`. A later scenario reuses that session until it expires. Auth0 is not called again for a still-valid session.
+Each persona has one saved browser session under `tests/e2e/web/smoke/state/sessions/`. A later scenario reuses that session until it expires. Auth0 is not called again for a still-valid session. When that persona's browser closes, the suite writes the session file again so the saved tokens match the browser that just finished.
 
-Each scenario opens its own browser context. The rejected-cache scenario does not write those session files.
+Each scenario opens its own browser context. The rejected-cache scenario does not write those session files. Contexts use locale `en-GB` and timezone `Europe/London`.
 
 ## Helpers
 
@@ -84,14 +86,26 @@ Put a behaviour in `helpers.mjs` when more than one scenario needs it, and make 
 - Load a persona email and password.
 - Open a browser context, including one restored from a saved session.
 - Sign in through Universal Login and write that persona's session.
-- Accept the cookie banner, read the page text, and recognise the session-error page.
+- Carry the accepted cookie-consent cookie into a new browser context, read the page text, and recognise the session-error page.
 - Read and write provided tokens.
 
 A helper used by one scenario stays in that scenario file. Signing in does not also create a group. Opening a public page does not also upload a photo. Do not add a mode flag that makes one function run several scenarios. The scenario module owns its own assertions.
 
+## Locators
+
+Controls the suite must find, and that have no stable accessible name, carry `data-testid`. Playwright reads that attribute with `getByTestId`. Buttons that already have a unique role and name stay on `getByRole`.
+
+List rows and picker options also carry the id or name the scenario needs: `data-registration-id`, `data-card-title`, `data-option-name`, `data-selected`, `data-event-type`, `data-photo-name`. The signed-in shell exposes `app-ready` after warmup. The warmup screen exposes `app-warming`. The cookie banner exposes `cookie-consent` while it is open. After Accept Cookies, that element is removed. A page load accepts it when it is visible, and skips that step when it is already gone. Public pages expose `public-home`, `public-results`, `public-history`, `public-community`, `public-notations`, and `public-dertofderts`.
+
+Do not locate rows with `ng-reflect-*`. Angular emits those attributes only in development. Do not click with `force: true`. A click waits until the control is visible and enabled.
+
 ## Test data
 
-Groups created by this suite are named for The Simpsons. Events are named for a zoo or animals. The first group is `The Simpsons`. The first event is `City Zoo Gathering`.
+Smoke data lives in `tests/e2e/web/smoke/config/`. `groups.json` holds two groups. `events.json` holds two events. Keys match the database entities (`GroupName`, `GroupBio`, `GroupMembers`, `Teams`, `Activities`, and so on). Enum values use the C# names (`activeMember`, `guest`, `INDIVIDUAL`, `TEAM`, `StandardDert`).
+
+The current scenarios enter the first group and the first event. Groups are named for The Simpsons. Events are named for a zoo. The first group is `The Simpsons`. The first event is `City Zoo Gathering`.
+
+Each record has an `Image` file name under `tests/e2e/web/smoke/fixtures/`. Groups use `family.jpg`. Events use `giraffe.jpg`.
 
 ## When a run fails
 

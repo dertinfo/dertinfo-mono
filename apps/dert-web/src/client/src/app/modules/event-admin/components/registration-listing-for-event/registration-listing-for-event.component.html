@@ -2,7 +2,7 @@
 
 
 <mat-list class="compact-list mb-1">
-    <mat-list-item class="" *ngFor="let registration of eventRegistrationOverviews" routerLink="/event-registration/{{registration.id}}/overview">
+    <mat-list-item class="" *ngFor="let registration of eventRegistrationOverviews" routerLink="/event-registration/{{registration.id}}/overview" data-testid="registration-row" [attr.data-registration-id]="registration.id">
       <img mat-list-avatar class="mr-1" [src]="registration.groupPictureUrl | imageDimension: '100x100'" alt="">
       <div fxLayout="row" fxFlex="100">
         <small class="text-muted mr-1">{{registration.groupName}}</small>

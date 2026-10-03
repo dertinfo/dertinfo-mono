@@ -1,5 +1,6 @@
+import { defaultActivity, member } from '../config/load.mjs';
 import { WEB_BASE, normalizeToken, withPersonaPage } from '../helpers.mjs';
-import { expectFlowState } from '../pages.mjs';
+import { attendanceCard, clickSelectOption, expectFlowState } from '../pages.mjs';
 
 export const id = 'registration.submit.group-admin-edits-pending';
 
@@ -10,12 +11,14 @@ export async function run(ctx) {
       waitUntil: 'domcontentloaded',
       timeout: 60000,
     });
-    const card = page.locator('mat-card', { hasText: 'Homer Simpson' }).first();
+    const person = member('activeMember');
+    const title = defaultActivity().Title;
+    const card = attendanceCard(page, person.Name);
     await card.getByRole('button', { name: /Add Activities/ }).click();
-    await page.locator('.activity-select', { hasText: 'Zoo Ticket' }).locator('button').click();
+    await clickSelectOption(page, title);
     await page.getByRole('button', { name: /Save Changes/ }).click();
     await page.reload({ waitUntil: 'domcontentloaded' });
-    await card.getByText('Zoo Ticket').waitFor({ state: 'hidden', timeout: 30000 });
+    await card.getByText(title).waitFor({ state: 'hidden', timeout: 30000 });
     await expectFlowState(page, 'New');
   });
 }

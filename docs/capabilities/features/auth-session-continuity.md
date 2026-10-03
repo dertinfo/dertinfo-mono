@@ -46,4 +46,6 @@ Feature: Stay signed in
 scenarios:
   - id: auth.session-continuity.rejected-cache-returns-to-sign-in
     sequence: 80
+    requires:
+      - public.cookie-consent.visitor-accepts
 ```

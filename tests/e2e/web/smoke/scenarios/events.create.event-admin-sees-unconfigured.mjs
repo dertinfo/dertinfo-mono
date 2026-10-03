@@ -1,5 +1,5 @@
 import { WEB_BASE, normalizeToken, waitForDashboardFab, withPersonaPage } from '../helpers.mjs';
-import { EVENT_NAME, openCardMenu } from '../pages.mjs';
+import { EVENT_NAME, entityCard, openCardMenu } from '../pages.mjs';
 
 export const id = 'events.create.event-admin-sees-unconfigured';
 
@@ -9,7 +9,7 @@ export async function run(ctx) {
     await page.goto(`${WEB_BASE}/dashboard`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await waitForDashboardFab(page);
     await page.getByRole('tab', { name: /Events/ }).click();
-    const card = page.locator('mat-card', { hasText: EVENT_NAME }).first();
+    const card = entityCard(page, EVENT_NAME);
     await card.getByText('Needs more information').waitFor({ state: 'visible', timeout: 30000 });
     await openCardMenu(page, EVENT_NAME);
     await page.getByRole('menuitem', { name: 'Configure' }).click();

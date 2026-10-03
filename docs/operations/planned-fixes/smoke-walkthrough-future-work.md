@@ -105,3 +105,11 @@ When this is picked up:
 - Keep the registration create check as a guard, not as a substitute for the list.
 
 Related: [Create event](../../capabilities/features/events-create.md), [Submit event registration](../../capabilities/features/registration-submit.md).
+
+## 15. Cookie consent is covered by the signed-in navigation
+
+The cookie banner is fixed to the bottom left of the page and has no stacking order above the app. After sign-in, the navigation scroll area covers Accept Cookies, so the click never lands. The rest of the site still works without accepting cookies.
+
+Keep the banner above the signed-in shell, and keep it in the way until the visitor accepts. The smoke suite does not wait for that layout change. It accepts cookies once when the site opens, then uses the site as if the banner is gone.
+
+Related: [Cookie consent](../../capabilities/features/cookie-consent.md).

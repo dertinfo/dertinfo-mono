@@ -111,7 +111,7 @@
         <form [formGroup]="configurationTemplateFormGroup">
           <ng-template matStepLabel>Event Type</ng-template>
           <mat-radio-group fxLayout="column" formControlName="eventTemplate">
-            <mat-radio-button class="pt-1" *ngFor="let eventConfigurationTemplate of eventConfigurationTemplateOptions" [value]="eventConfigurationTemplate.id">
+            <mat-radio-button class="pt-1" *ngFor="let eventConfigurationTemplate of eventConfigurationTemplateOptions" [value]="eventConfigurationTemplate.id" data-testid="event-type" [attr.data-event-type]="eventConfigurationTemplate.value">
               {{eventConfigurationTemplate.name}}
             </mat-radio-button>
           </mat-radio-group>

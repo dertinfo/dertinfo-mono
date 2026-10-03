@@ -11,9 +11,15 @@ export const WEB_BASE = 'http://localhost:44200';
 export const API_BASE = 'http://localhost:44100/api';
 export const VIEWPORT = { width: 1400, height: 900 };
 
-const smokeDir = path.dirname(fileURLToPath(import.meta.url));
+/** Fixed viewport and locale so date entry does not follow the machine settings. */
+export const SMOKE_CONTEXT = {
+  viewport: VIEWPORT,
+  locale: 'en-GB',
+  timezoneId: 'Europe/London',
+};
 
-export const FIXTURE_IMAGE = path.join(smokeDir, 'fixtures', 'smoke-upload.jpg');
+const smokeDir = path.dirname(fileURLToPath(import.meta.url));
+const cookieConsentFile = path.join(smokeDir, 'state', 'sessions', 'cookie-consent.json');
 
 export const EXIT = {
   ok: 0,
@@ -74,47 +80,54 @@ export async function bodyText(page) {
 /**
  * @param {import('playwright').Page} page
  * @param {string} routePath
- * @param {{ text: string, timeoutMs?: number }} expect
+ * @param {{ testId: string, timeoutMs?: number }} expect
  */
+/** Accept the cookie banner when it is on screen. A page that has already accepted cookies skips this. */
+export async function acceptCookieConsentIfVisible(page, { timeoutMs = 0 } = {}) {
+  const modal = page.getByTestId('cookie-consent');
+  const visible = timeoutMs > 0
+    ? await modal.waitFor({ state: 'visible', timeout: timeoutMs }).then(() => true).catch(() => false)
+    : await modal.isVisible().catch(() => false);
+  if (!visible) return false;
+  await modal.getByRole('button', { name: 'Accept Cookies', exact: true }).click();
+  await modal.waitFor({ state: 'hidden', timeout: 15000 });
+  return true;
+}
+
 export async function openContent(page, routePath, expect) {
   const errors = [];
   const onError = (error) => errors.push(error.message);
   page.on('pageerror', onError);
-  await page.goto(`${WEB_BASE}${routePath}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
-  const acceptCookies = page.getByRole('button', { name: 'Accept Cookies' });
-  if (await acceptCookies.isVisible().catch(() => false)) {
-    await acceptCookies.click();
-  }
-  const timeoutMs = expect.timeoutMs ?? 30000;
-  const deadline = Date.now() + timeoutMs;
-  let text = '';
-  let url = page.url();
-  while (Date.now() < deadline) {
-    url = page.url();
-    text = await bodyText(page);
-    const warming = text.includes('Warming up');
-    const ready = text.includes(expect.text) && !warming && !isSessionError(url, text);
-    if (ready) {
-      break;
+  try {
+    await page.goto(`${WEB_BASE}${routePath}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+    await acceptCookieConsentIfVisible(page);
+    const timeoutMs = expect.timeoutMs ?? 30000;
+    try {
+      await page.getByTestId(expect.testId).waitFor({ state: 'visible', timeout: timeoutMs });
+    } catch (error) {
+      const url = page.url();
+      const text = await bodyText(page).catch(() => '');
+      if (isSessionError(url, text)) {
+        throw new Error(`${routePath} rendered the session error page (${url})`);
+      }
+      if (await page.getByTestId('app-warming').isVisible().catch(() => false)) {
+        throw new Error(`${routePath} was still warming up`);
+      }
+      throw error;
     }
-    if (!warming && isSessionError(url, text)) {
-      break;
+    await acceptCookieConsentIfVisible(page);
+    const url = page.url();
+    const text = await bodyText(page);
+    if (isSessionError(url, text)) {
+      throw new Error(`${routePath} rendered the session error page (${url})`);
     }
-    await page.waitForTimeout(500);
+    if (!text.trim()) {
+      throw new Error(`${routePath} rendered an empty body`);
+    }
+    return errors;
+  } finally {
+    page.off('pageerror', onError);
   }
-  page.off('pageerror', onError);
-  url = page.url();
-  text = await bodyText(page);
-  if (isSessionError(url, text)) {
-    throw new Error(`${routePath} rendered the session error page (${url})`);
-  }
-  if (!text.includes(expect.text)) {
-    throw new Error(`${routePath} did not show "${expect.text}"`);
-  }
-  if (!text.trim()) {
-    throw new Error(`${routePath} rendered an empty body`);
-  }
-  return errors;
 }
 
 export function sessionFile(persona) {
@@ -194,7 +207,7 @@ async function completeUniversalLogin(page, email, password, headed) {
     if (wallNow && !current.startsWith(WEB_BASE)) {
       throw Object.assign(new Error(`Auth0 ${wallNow} the automated login`), { code: EXIT.blocked });
     }
-    if (await consent.isVisible().catch(() => false)) await consent.click();
+    if (!current.startsWith(WEB_BASE) && await consent.isVisible().catch(() => false)) await consent.click();
     await page.waitForTimeout(500);
   }
   if (!headed && !page.url().startsWith(WEB_BASE)) {
@@ -204,20 +217,48 @@ async function completeUniversalLogin(page, email, password, headed) {
 }
 
 async function waitForDashboard(page) {
-  const deadline = Date.now() + 60000;
-  while (Date.now() < deadline) {
+  await acceptCookieConsentIfVisible(page);
+  try {
+    await page.getByTestId('app-ready').waitFor({ state: 'visible', timeout: 60000 });
+  } catch (error) {
     const url = page.url();
-    const text = await bodyText(page);
-    if (url.startsWith(`${WEB_BASE}/dashboard`) && !text.includes('Warming up') && !isSessionError(url, text)) {
-      return;
+    const text = await bodyText(page).catch(() => '');
+    const warming = await page.getByTestId('app-warming').isVisible().catch(() => false);
+    if (!url.startsWith(`${WEB_BASE}/dashboard`) || warming || isSessionError(url, text)) {
+      throw new Error(`Dashboard was not the signed-in dashboard (${url})`);
     }
-    await page.waitForTimeout(500);
+    throw error;
   }
   const url = page.url();
   const text = await bodyText(page);
-  if (!url.startsWith(`${WEB_BASE}/dashboard`) || text.includes('Warming up') || isSessionError(url, text)) {
+  if (!url.startsWith(`${WEB_BASE}/dashboard`) || isSessionError(url, text)) {
     throw new Error(`Dashboard was not the signed-in dashboard (${url})`);
   }
+}
+
+async function persistSession(context, file) {
+  try {
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    await context.storageState({ path: file });
+  } catch {
+    // A closed page has nothing left to save.
+  }
+}
+
+/** Reuse the cookie stored by the visitor accept scenario. Later contexts do not click the banner. */
+export async function applyCookieConsent(context) {
+  if (!fs.existsSync(cookieConsentFile)) {
+    throw new Error('Cookie consent has not been accepted');
+  }
+  const state = JSON.parse(fs.readFileSync(cookieConsentFile, 'utf8'));
+  const cookies = (state.cookies || []).filter((cookie) => cookie.name === 'cookie-consent');
+  if (cookies.length === 0) throw new Error('Saved cookie consent is missing the cookie-consent cookie');
+  await context.addCookies(cookies);
+}
+
+export async function saveCookieConsent(context) {
+  fs.mkdirSync(path.dirname(cookieConsentFile), { recursive: true });
+  await context.storageState({ path: cookieConsentFile });
 }
 
 async function acceptGdpr(page) {
@@ -227,7 +268,8 @@ async function acceptGdpr(page) {
 
 async function dashboardLoads(storageState) {
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ storageState, viewport: VIEWPORT });
+  const context = await browser.newContext({ ...SMOKE_CONTEXT, storageState });
+  await applyCookieConsent(context);
   const page = await context.newPage();
   try {
     await page.goto(`${WEB_BASE}/dashboard`, { waitUntil: 'domcontentloaded', timeout: 60000 });
@@ -236,13 +278,15 @@ async function dashboardLoads(storageState) {
   } catch {
     return false;
   } finally {
+    await persistSession(context, storageState);
     await browser.close();
   }
 }
 
 async function performLogin(persona, email, password, headed) {
   const browser = await chromium.launch({ headless: !headed });
-  const context = await browser.newContext({ viewport: VIEWPORT });
+  const context = await browser.newContext(SMOKE_CONTEXT);
+  await applyCookieConsent(context);
   const page = await context.newPage();
   try {
     await page.goto(`${WEB_BASE}/auth/signin`, { waitUntil: 'domcontentloaded', timeout: 60000 });
@@ -284,36 +328,38 @@ export async function ensurePersonaSession(persona) {
 
 /** Open a fresh browser signed in as persona. Caller closes the browser. */
 export async function withPersonaPage(persona, run) {
+  const file = sessionFile(persona);
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ storageState: sessionFile(persona), viewport: VIEWPORT });
+  const context = await browser.newContext({ ...SMOKE_CONTEXT, storageState: file });
+  await applyCookieConsent(context);
   const page = await context.newPage();
   try {
     await run(page);
   } finally {
+    await persistSession(context, file);
     await browser.close();
   }
 }
 
 /** Wait until the signed-in dashboard has rendered the add button. */
 export async function waitForDashboardFab(page) {
-  const deadline = Date.now() + 60000;
-  while (Date.now() < deadline) {
-    const url = page.url();
-    const text = await bodyText(page);
-    const fab = await page.locator('#app-fabmenu button').count();
-    if (url.startsWith(`${WEB_BASE}/dashboard`) && !text.includes('Warming up') && fab > 0 && !isSessionError(url, text)) {
-      return;
-    }
-    await page.waitForTimeout(500);
+  await acceptCookieConsentIfVisible(page);
+  try {
+    await page.getByTestId('dashboard-add').waitFor({ state: 'visible', timeout: 60000 });
+  } catch {
+    const text = await bodyText(page).catch(() => '');
+    throw new Error(`Dashboard add button was not available (${page.url()}): ${text.replace(/\s+/g, ' ').slice(0, 240)}`);
   }
+  const url = page.url();
   const text = await bodyText(page);
-  throw new Error(`Dashboard add button was not available (${page.url()}): ${text.replace(/\s+/g, ' ').slice(0, 240)}`);
+  if (!url.startsWith(`${WEB_BASE}/dashboard`) || isSessionError(url, text)) {
+    throw new Error(`Dashboard add button was not available (${url}): ${text.replace(/\s+/g, ' ').slice(0, 240)}`);
+  }
 }
 
-/** Open the dashboard add menu and choose the flyout item with this Material icon name. */
-export async function openFabItem(page, iconName) {
+/** Open the dashboard add menu and choose the flyout item with this action name. */
+export async function openFabItem(page, action) {
   await waitForDashboardFab(page);
-  await page.locator('#app-fabmenu button').last().click();
-  const item = page.locator('#app-fabmenu .flyout button', { has: page.locator('mat-icon', { hasText: iconName }) });
-  await item.click();
+  await page.getByTestId('dashboard-add').click();
+  await page.getByTestId(`fab-${action}`).click();
 }

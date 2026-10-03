@@ -1,8 +1,10 @@
+import { event, fixtureImage, formDate } from '../config/load.mjs';
 import { WEB_BASE, normalizeToken, withPersonaPage } from '../helpers.mjs';
 import { EVENT_NAME, clickLabelledCheckbox, clickNext, eventAdminUrl, fillControl } from '../pages.mjs';
 
 async function fillDate(page, name, value) {
-  const input = page.locator('.mat-step:has(mat-step-header[aria-selected="true"])').locator(`input[formcontrolname="${name}"]`);
+  const header = page.locator('mat-step-header[aria-selected="true"]');
+  const input = header.locator(`xpath=following::input[@formcontrolname="${name}"][1]`);
   await input.click();
   await input.fill(value);
   await input.press('Tab');
@@ -17,25 +19,30 @@ export async function run(ctx) {
       waitUntil: 'domcontentloaded',
       timeout: 60000,
     });
-    await fillControl(page, 'eventSynopsis', 'A day at the zoo with the animals');
-    await fillDate(page, 'eventStartDate', '01/06/2027');
-    await fillDate(page, 'eventEndDate', '02/06/2027');
-    await fillControl(page, 'locationTown', 'Springfield');
-    await fillControl(page, 'locationPostcode', 'SP1 1AA');
+    await fillControl(page, 'eventSynopsis', event.EventSynopsis);
+    await fillDate(page, 'eventStartDate', formDate(event.EventStartDate));
+    await fillDate(page, 'eventEndDate', formDate(event.EventEndDate));
+    await fillControl(page, 'locationTown', event.LocationTown);
+    await fillControl(page, 'locationPostcode', event.LocationPostcode);
     await clickNext(page);
-    await fillControl(page, 'contactName', 'Event Keeper');
-    await fillControl(page, 'contactEmail', 'event-admin-1@dertinfo.co.uk');
-    await fillControl(page, 'contactTelephone', '01234567891');
+    await fillControl(page, 'contactName', event.ContactName);
+    await fillControl(page, 'contactEmail', event.ContactEmail);
+    await fillControl(page, 'contactTelephone', event.ContactTelephone);
     await clickNext(page);
+    await page.getByRole('button', { name: 'Change Image' }).click();
+    await page.getByText('Upload Images', { exact: true }).waitFor({ state: 'visible', timeout: 15000 });
+    await page.getByTestId('upload-file').setInputFiles(fixtureImage(event));
+    await page.getByTestId('upload-all').click();
+    await page.getByText('Upload Images', { exact: true }).waitFor({ state: 'hidden', timeout: 90000 });
     await page.waitForFunction(() => {
       const input = document.querySelector('input[formcontrolname="eventPictureUrl"]');
       return !!(input && input.value);
     }, null, { timeout: 30000 });
     await clickNext(page);
-    await fillDate(page, 'registrationOpenDate', '01/01/2026');
-    await fillDate(page, 'registrationCloseDate', '01/05/2027');
+    await fillDate(page, 'registrationOpenDate', formDate(event.RegistrationOpenDate));
+    await fillDate(page, 'registrationCloseDate', formDate(event.RegistrationCloseDate));
     await clickNext(page);
-    await page.locator('mat-radio-button', { hasText: 'Dancing England Rapper Tournament(Standard)' }).click();
+    await page.locator(`[data-testid="event-type"][data-event-type="${event.EventTemplateType}"]`).click();
     await clickNext(page);
     await clickLabelledCheckbox(page, 'I agree to the terms and conditions');
     await clickNext(page);

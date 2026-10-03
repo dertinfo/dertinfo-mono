@@ -46,6 +46,9 @@ desktop.ini
 # Environment and secrets
 .env
 tests/e2e/web/smoke/state/
+
+# Smoke test video recordings
+_recordings/
 .env.*
 !.env.example
 .cursor/mcp.json

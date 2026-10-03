@@ -5,9 +5,9 @@
                 <mat-card-content class="mt-1">
                     <div fxLayout="row wrap" fxLayoutWrap="wrap">
                         <div *ngFor="let item of items" [ngClass]="{'item-select': true, 'item-selected': item.selected, 'item-changed': item.changed}" fxFlex="100"
-                            fxFlex.gt-xs="33">
-                            <button (click)="onItemClick(item)" *ngIf="item.selected" mat-mini-fab color="primary" class="mr-1 primary-marker"><mat-icon>done</mat-icon></button>
-                            <button (click)="onItemClick(item)" *ngIf="!item.selected" mat-mini-fab color="default" class="mr-1 primary-marker"><mat-icon>close</mat-icon></button>
+                            fxFlex.gt-xs="33" data-testid="select-option" [attr.data-option-name]="item.name" [attr.data-selected]="item.selected">
+                            <button (click)="onItemClick(item)" *ngIf="item.selected" mat-mini-fab color="primary" class="mr-1 primary-marker" data-testid="select-option-toggle"><mat-icon>done</mat-icon></button>
+                            <button (click)="onItemClick(item)" *ngIf="!item.selected" mat-mini-fab color="default" class="mr-1 primary-marker" data-testid="select-option-toggle"><mat-icon>close</mat-icon></button>
                             {{item.name}}
 
                         </div>

@@ -55,11 +55,15 @@ scenarios:
   - id: auth.login.event-admin
     persona: event-admin
     sequence: 10
+    requires:
+      - public.cookie-consent.visitor-accepts
     provides:
       - session:event-admin
   - id: auth.login.group-admin
     persona: group-admin
     sequence: 30
+    requires:
+      - public.cookie-consent.visitor-accepts
     provides:
       - session:group-admin
 ```
