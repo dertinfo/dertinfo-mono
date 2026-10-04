@@ -1,8 +1,23 @@
-.icon-count {
-    min-width: 70px;
+.registration-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
 }
-.pad-up {
-    display: block;
-    float:right;
-    padding-top: 8px;
+.icon-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.icon-count .mat-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    line-height: 20px;
+}
+img.mat-mdc-list-item-avatar {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    object-fit: cover;
+    border-radius: 50%;
 }

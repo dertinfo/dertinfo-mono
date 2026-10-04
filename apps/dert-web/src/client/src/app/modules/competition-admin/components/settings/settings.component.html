@@ -7,7 +7,8 @@
           <form [formGroup]="settingsForm" novalidate (submit)="onSettingsUpdateSubmit()">
             <div class="pb-1">
               <mat-form-field class="full-width">
-                <input matInput formControlName="noOfJudgesPerVenue" placeholder="Judges Per Venue" name="di-competition-settings-judge_requirement"
+                <mat-label>Judges Per Venue</mat-label>
+                <input matInput formControlName="noOfJudgesPerVenue" name="di-competition-settings-judge_requirement"
                   required>
               </mat-form-field>
               <small *ngIf="settingsForm.controls.noOfJudgesPerVenue.errors && (settingsForm.controls.noOfJudgesPerVenue.dirty || settingsForm.controls.noOfJudgesPerVenue.touched) && (settingsForm.controls.noOfJudgesPerVenue.errors.required)"

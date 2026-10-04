@@ -11,7 +11,8 @@ We've been unable to recover the session for the previous user. Please ensure th
     you used before.</p>
   <form [formGroup]="form" (submit)="submitForm()">
     <mat-form-field class="full-width">
-      <input matInput formControlName="email" placeholder="Your email" required>
+      <mat-label>Your email</mat-label>
+      <input matInput formControlName="email" required>
     </mat-form-field>
     <div mat-dialog-actions>
       <div class="" fxFlex="100">

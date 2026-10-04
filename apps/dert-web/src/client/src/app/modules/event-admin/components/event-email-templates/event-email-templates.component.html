@@ -1,11 +1,5 @@
 <div *ngIf="isReady">
-  <div id="app-addition-header">
-    <mat-card appearance="outlined" class="mat-bg-default">
-      <mat-card-title>
-        <mat-icon>email</mat-icon>Email Templates
-      </mat-card-title>
-    </mat-card>
-  </div>
+  <app-addition-header [title]="'Email Templates'" [icon]="'email'" [hideButton]="true"></app-addition-header>
   <mat-card appearance="outlined" class="default">
     <mat-card-content>
       <mat-form-field>
@@ -26,7 +20,8 @@
       <form [formGroup]="emailTemplateUpdateForm" (submit)="onEmailTemplateSubmit()">
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput formControlName="emailTemplateName" placeholder="Template Name" required>
+            <mat-label>Template Name</mat-label>
+            <input matInput formControlName="emailTemplateName" required>
           </mat-form-field>
           <small
             *ngIf="emailTemplateUpdateForm.controls.emailTemplateName.errors && (emailTemplateUpdateForm.controls.emailTemplateName.dirty || emailTemplateUpdateForm.controls.emailTemplateName.touched) && (emailTemplateUpdateForm.controls.emailTemplateName.errors.required)"
@@ -35,7 +30,8 @@
         <div class="pb-1">
 
           <mat-form-field class="full-width">
-            <input matInput formControlName="emailTemplateSubject" placeholder="Template Subject" required>
+            <mat-label>Template Subject</mat-label>
+            <input matInput formControlName="emailTemplateSubject" required>
           </mat-form-field>
 
           <small

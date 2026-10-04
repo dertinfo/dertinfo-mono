@@ -4,16 +4,20 @@
       <mat-card-content class="mt-1">
         <form [formGroup]="userSettingsForm" (submit)="onUserSettingsSubmit()">
           <mat-form-field class="full-width">
-            <input matInput formControlName="firstName" placeholder="First name" required>
+            <mat-label>First name</mat-label>
+            <input matInput formControlName="firstName" required>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="lastName" placeholder="Family name" required>
+            <mat-label>Family name</mat-label>
+            <input matInput formControlName="lastName" required>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="telephone" placeholder="Telephone Number" required>
+            <mat-label>Telephone Number</mat-label>
+            <input matInput formControlName="telephone" required>
           </mat-form-field>
           <mat-form-field class="full-width">
-            <input matInput formControlName="email" placeholder="Email">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
           </mat-form-field>
           <button mat-raised-button color="primary" [disabled]="!userSettingsForm.dirty">Save</button>
         </form>

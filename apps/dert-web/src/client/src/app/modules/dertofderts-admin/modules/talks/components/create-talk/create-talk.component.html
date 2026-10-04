@@ -4,19 +4,24 @@
     <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
       <div class="pb-1" fxFlex="100">
         <mat-form-field class="full-width">
-          <input matInput formControlName="title" placeholder="Talk Title" required>
+          <mat-label>Talk Title</mat-label>
+          <input matInput formControlName="title" required>
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input matInput formControlName="subTitle" placeholder="Sub Title">
+          <mat-label>Sub Title</mat-label>
+          <input matInput formControlName="subTitle">
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input matInput formControlName="description" placeholder="Description" required>
+          <mat-label>Description</mat-label>
+          <input matInput formControlName="description" required>
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input matInput type="datetime-local" formControlName="broadcastDateTime" placeholder="Broadcast Date/Time" required>
+          <mat-label>Broadcast Date/Time</mat-label>
+          <input matInput type="datetime-local" formControlName="broadcastDateTime" required>
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input matInput formControlName="broadcastWebLink" placeholder="Web Link (http://mylink.link)">
+          <mat-label>Web Link (http://mylink.link)</mat-label>
+          <input matInput formControlName="broadcastWebLink">
         </mat-form-field>
       </div>
       <div class="" fxFlex="100">

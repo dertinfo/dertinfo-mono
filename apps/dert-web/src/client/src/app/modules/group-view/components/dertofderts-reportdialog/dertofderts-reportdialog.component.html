@@ -15,7 +15,8 @@
       or offensive.
     </mat-slide-toggle>
     <mat-form-field class="full-width">
-      <input matInput [disabled]="isReportSubmitted" formControlName="reportNotes" placeholder="In your own words the reason why you are reporting." required>
+      <mat-label>In your own words the reason why you are reporting.</mat-label>
+      <input matInput [disabled]="isReportSubmitted" formControlName="reportNotes" required>
     </mat-form-field>
     <div mat-dialog-actions>
       <div class="" fxFlex="100">

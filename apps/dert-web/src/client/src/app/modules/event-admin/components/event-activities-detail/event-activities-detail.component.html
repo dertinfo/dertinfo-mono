@@ -25,7 +25,8 @@
                 <form [formGroup]="activityUpdateForm" novalidate (submit)="onUpdateActivitySubmit()">
                     <div class="pb-1">
                         <mat-form-field class="full-width">
-                            <input matInput formControlName="title" placeholder="Activity Title" required>
+                            <mat-label>Activity Title</mat-label>
+                            <input matInput formControlName="title" required>
                         </mat-form-field>
                         <small *ngIf="activityUpdateForm.controls.title.errors && (activityUpdateForm.controls.title.dirty || activityUpdateForm.controls.title.touched) && (activityUpdateForm.controls.title.errors.required)"
                             class="form-error-msg"> Title is required. </small>
@@ -33,13 +34,15 @@
 
                     <div class="pb-1">
                         <mat-form-field class="full-width">
-                            <input matInput formControlName="description" placeholder="Activity Description">
+                            <mat-label>Activity Description</mat-label>
+                            <input matInput formControlName="description">
                         </mat-form-field>
                     </div>
 
                     <div class="pb-1">
                         <mat-form-field class="full-width">
-                            <input matInput name="price" formControlName="price" placeholder="Price (£)">
+                            <mat-label>Price (£)</mat-label>
+                            <input matInput name="price" formControlName="price">
                         </mat-form-field>
                         <small *ngIf="activityUpdateForm.controls.price.errors && (activityUpdateForm.controls.price.dirty || activityUpdateForm.controls.price.touched) && (activityUpdateForm.controls.price.errors.required)"
                             class="form-error-msg"> Price is required. </small>

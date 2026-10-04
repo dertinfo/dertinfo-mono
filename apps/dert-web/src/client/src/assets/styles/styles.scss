@@ -309,11 +309,14 @@ code {
     padding: 0;
 }
 .mat-mdc-card.default .mat-mdc-card-title {
-    padding-top: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    line-height: 1;
+    display: block;
+    box-sizing: border-box;
+    padding: 1rem 1rem 0;
+    line-height: 1.2;
     font-weight: 400;
+}
+.mat-mdc-card.default:has(.mat-mdc-card-content.p-0) .mat-mdc-card-title {
+    padding-bottom: 1rem;
 }
 .mat-mdc-card.default > :first-child {
     border-radius: 2px 2px 0 0;
@@ -351,12 +354,19 @@ code {
 }
 
 .mat-mdc-card.p-0 .mat-mdc-card-title .card-title-text {
-    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 0.5rem 0.35rem 1rem;
 }
-.mat-mdc-card.p-0 .mat-mdc-card-title .card-title-text .card-control {
-    height: 24px;
-    width: 24px;
-    line-height: 24px;
+.mat-mdc-card.p-0 .mat-mdc-card-title .card-title-text .card-control.mat-mdc-icon-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    flex: 0 0 40px;
+    line-height: 40px;
 }
 .mat-mdc-card.p-0 .mat-mdc-card-title .card-title-text .mat-mdc-card-subtitle {
     margin: 0;
@@ -406,14 +416,123 @@ code {
     max-height: 20px;
     box-sizing: border-box;
 }
+.topbar .mat-mdc-icon-button.img-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
 .mat-mdc-icon-button.img-button img {
     width: 36px;
     height: 36px;
+    max-width: none;
+    flex: 0 0 36px;
+    object-fit: cover;
     border-radius: 50%;
 }
 .compact-list .mat-mdc-list-item {
     line-height: 1.1;
     transition: all 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+mat-list,
+mat-nav-list {
+    display: block;
+    width: 100%;
+}
+mat-list > *,
+mat-nav-list > *,
+.mat-mdc-card-content > * {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.mat-mdc-list-item {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+.mat-mdc-list-item .mat-mdc-list-item-unscoped-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.mat-mdc-list-item .mat-mdc-list-item-unscoped-content > .mat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-right: 8px;
+    flex: 0 0 24px;
+    font-size: 24px;
+    line-height: 24px;
+}
+.mat-mdc-list-item.mdc-list-item--with-one-line:has([mat-list-avatar]),
+.mat-mdc-list-item.mdc-list-item--with-one-line:has(.mat-mdc-list-item-avatar) {
+    height: auto;
+    min-height: 56px;
+}
+.mat-mdc-list-item [mat-list-avatar],
+.mat-mdc-list-item .mat-mdc-list-item-avatar {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.mat-mdc-list-item:has([mat-list-avatar]) .mdc-list-item__content,
+.mat-mdc-list-item:has([mat-list-avatar]) .mat-mdc-list-item-unscoped-content,
+.mat-mdc-list-item:has(.mat-mdc-list-item-meta) .mdc-list-item__content {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+    min-width: 0;
+    height: auto;
+    overflow: visible;
+    white-space: normal;
+}
+.mat-mdc-list-item .mdc-list-item__primary-text {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: max-content;
+    overflow: visible;
+    text-overflow: clip;
+}
+.mat-mdc-list-item:has([mat-list-avatar]) .mat-mdc-list-item-unscoped-content > * {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.mat-mdc-list-item:has([mat-list-avatar]) .mat-mdc-list-item-unscoped-content > img,
+.mat-mdc-list-item:has([mat-list-avatar]) .mat-mdc-list-item-unscoped-content > .mat-icon,
+.mat-mdc-list-item:has([mat-list-avatar]) .mat-mdc-list-item-unscoped-content > mat-chip-option {
+    flex: 0 0 auto;
+}
+.mat-mdc-list-item .pad-up {
+    display: inline;
+    float: none;
+    padding-top: 0;
+}
+.card-title-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.card-title-text > .mat-icon {
+    margin-right: 8px;
+}
+.cdk-overlay-pane:has(.mat-mdc-select-panel) {
+    width: max-content !important;
+}
+.mdc-menu-surface.mat-mdc-select-panel {
+    width: max-content;
+    min-width: 100%;
+    max-width: none;
+}
+.mat-mdc-option .mdc-list-item__primary-text {
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
 }
 .compact-list .mat-mdc-list-item:hover {
     background: rgba(0, 0, 0, 0.08);
@@ -955,7 +1074,9 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
 /*
  TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.
 */
-.sidebar-panel.mat-drawer .mat-nav-list .sidebar-list-item .mat-list-item-content {
+.sidebar-panel.mat-drawer mat-nav-list .sidebar-list-item .mat-list-item-content,
+.sidebar-panel.mat-drawer mat-nav-list .sidebar-list-item .mdc-list-item__content,
+.sidebar-panel.mat-drawer mat-nav-list .sidebar-list-item .mat-mdc-list-item-unscoped-content {
     font-size: 0.875rem !important;
     display: block;
     overflow: hidden;
@@ -963,14 +1084,15 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
     min-height: 100%;
     padding: 0;
     width: 100%;
+    white-space: nowrap;
     -webkit-transition: max-height 0.4s cubic-bezier(0.35, 0, 0.25, 1);
     transition: max-height 0.4s cubic-bezier(0.35, 0, 0.25, 1);
 }
 /*
  TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.
 */
-.mat-nav-list .mat-list-item-content.mat-list-item-focus,
-.mat-nav-list .mat-list-item-content:hover {
+mat-nav-list .mat-list-item-content.mat-list-item-focus,
+mat-nav-list .mat-list-item-content:hover {
     background: transparent;
 }
 /*
@@ -979,7 +1101,7 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
 .sidebar-list-item.open > .mat-list-item-content {
     background: rgba(0, 0, 0, 0.03);
 }
-.sidebar-panel .mat-nav-list a {
+.sidebar-panel mat-nav-list a {
     position: relative;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -988,59 +1110,108 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
     flex-direction: row;
+    flex-wrap: nowrap;
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
     height: 48px;
     padding: 0 16px 0 0;
     z-index: 99;
+    white-space: nowrap;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+}
+.sidebar-panel mat-nav-list a > span:not(.menu-item-tooltip) {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    line-height: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    min-width: 0;
 }
 .sidebar-panel.mat-drawer .sidebar-list-item mat-icon:not(.menu-caret) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     margin-right: 3px;
     height: 48px;
     width: 48px;
-    line-height: 48px;
+    flex: 0 0 48px;
+    font-size: 24px;
+    line-height: 1;
     border-left: 3px solid;
     border-color: transparent;
 }
 .sidebar-panel.mat-drawer .sidebar-list-item mat-icon.menu-caret {
-    float: right;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    float: none;
+    margin-left: auto;
+    height: 48px;
+    line-height: 1;
     -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
     -webkit-transition: all 0.3s cubic-bezier(0.35, 0, 0.25, 1);
     transition: all 0.3s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .sidebar-panel.mat-drawer .sidebar-list-item.open mat-icon.menu-caret {
-    float: right;
+    float: none;
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
+}
+.sidebar-panel .mat-mdc-list-item .mat-ripple-element {
+    clip-path: circle(12.5% at 50% 50%);
 }
 /*
  TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.
 */
-.sidebar-panel.mat-drawer .mat-list-item-content > a {
+.sidebar-panel.mat-drawer .mat-list-item-content > a,
+.sidebar-panel.mat-drawer .mat-mdc-list-item-unscoped-content > a {
     width: 100%;
     display: flex;
     box-sizing: border-box;
     flex-direction: row;
+    flex-wrap: nowrap;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
+    white-space: nowrap;
 }
 .sidebar-panel.mat-drawer .sidebar-list-item {
+    height: 48px;
     max-height: 48px;
+    padding-left: 0;
+    padding-right: 0;
     overflow: hidden;
     -webkit-transition: all 0.4s cubic-bezier(0.35, 0, 0.25, 1);
     transition: all 0.4s cubic-bezier(0.35, 0, 0.25, 1);
 }
 .sidebar-panel.mat-drawer .sidebar-list-item.open {
+    height: auto;
     max-height: 10000px;
     overflow: visible;
+}
+.sidebar-panel.mat-drawer .sidebar-list-item:not(.open) .sub-menu {
+    display: none;
+}
+.sidebar-panel.mat-drawer .sidebar-list-item.open .mdc-list-item__content,
+.sidebar-panel.mat-drawer .sidebar-list-item.open .mat-mdc-list-item-unscoped-content {
+    overflow: visible;
+    height: auto;
+}
+.sidebar-panel.mat-drawer .sidebar-list-item.open .sub-menu .mat-mdc-list-item,
+.sidebar-panel.mat-drawer .sidebar-list-item.open .sub-menu a {
+    height: 48px;
 }
 /*
  TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.
 */
-.sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-list-item-content > .sub-menu {
+.sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-list-item-content > .sub-menu,
+.sidebar-panel.mat-drawer .sidebar-list-item.open .mat-mdc-list-item-unscoped-content > .sub-menu {
     max-height: 10000px;
 }
 .sidebar-panel.mat-drawer .sidebar-list-item .sub-menu {
@@ -1059,6 +1230,7 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
 
 .sidebar-panel.mat-drawer .sub-menu a {
     padding-left: 54px;
+    white-space: nowrap;
 }
 .app-side-nav-container .mat-drawer-content {
     padding: 0;
@@ -1074,7 +1246,8 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
  TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.
 */
 .collapsed-menu .sidebar-panel .navigation-hold,
-.collapsed-menu .sidebar-panel .sidebar-list-item > .mat-list-item-content {
+.collapsed-menu .sidebar-panel .sidebar-list-item > .mat-list-item-content,
+.collapsed-menu .sidebar-panel .sidebar-list-item > .mdc-list-item__content {
     overflow: visible !important;
 }
 .collapsed-menu .sidebar-panel .icon-menu {
@@ -1087,14 +1260,16 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
 /*
  TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.
 */
-.collapsed-menu .sidebar-panel .sidebar-list-item > .mat-list-item-content > a {
+.collapsed-menu .sidebar-panel .sidebar-list-item > .mat-list-item-content > a,
+.collapsed-menu .sidebar-panel .sidebar-list-item .mat-mdc-list-item-unscoped-content > a {
     position: relative;
     padding: 0;
 }
 /*
  TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.
 */
-.collapsed-menu .sidebar-panel .sidebar-list-item > .mat-list-item-content > a .menu-item-tooltip {
+.collapsed-menu .sidebar-panel .sidebar-list-item > .mat-list-item-content > a .menu-item-tooltip,
+.collapsed-menu .sidebar-panel .sidebar-list-item .mat-mdc-list-item-unscoped-content > a .menu-item-tooltip {
     position: absolute;
     display: block;
     top: 0;
@@ -1127,11 +1302,11 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
 .collapsed-menu .sidebar-panel .sidebar-list-item.open .sub-menu .mat-mdc-list-item a {
     padding-left: 1rem;
 }
-.collapsed-menu .sidebar-panel .mat-nav-list > div > .sidebar-list-item a .mat-icon {
+.collapsed-menu .sidebar-panel mat-nav-list > div > .sidebar-list-item a .mat-icon {
     margin: 0;
 }
-.collapsed-menu .sidebar-panel .mat-nav-list > div > .sidebar-list-item a span:not(.menu-item-tooltip),
-.collapsed-menu .sidebar-panel .mat-nav-list > div > .sidebar-list-item a .menu-caret,
+.collapsed-menu .sidebar-panel mat-nav-list > div > .sidebar-list-item a span:not(.menu-item-tooltip),
+.collapsed-menu .sidebar-panel mat-nav-list > div > .sidebar-list-item a .menu-caret,
 .collapsed-menu .sidebar-panel .nav-section-title,
 .collapsed-menu .sidebar-panel .icon-menu-separator,
 .collapsed-menu .sidebar-panel .app-user,
@@ -1215,6 +1390,30 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
 }
 
 /*---- Forms -----*/
+.mat-mdc-form-field {
+    box-sizing: border-box;
+    padding-left: 10px;
+    padding-right: 10px;
+    max-width: 100%;
+}
+.cdk-overlay-container .mat-mdc-dialog-container .mdc-dialog__surface {
+    height: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.modal-min {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+}
+.cdk-overlay-pane:has(.modal-min) {
+    min-width: 70vw;
+}
+.modal-min .mat-mdc-form-field {
+    padding-left: 0;
+    padding-right: 0;
+}
 .fileupload-drop-zone {
     text-align: center;
     border: 1px dashed rgba(0, 0, 0, 0.15);
@@ -1449,6 +1648,10 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
 .profile-sidebar {
     box-sizing: border-box;
 }
+.profile-sidebar .grouppic {
+    box-sizing: border-box;
+    padding: 5px;
+}
 .profile-sidebar .propic {
     width: 100%;
     margin-bottom: 6px;
@@ -1462,11 +1665,25 @@ div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
     font-size: 1.5rem;
 }
 .profile-sidebar .profile-nav {
-    margin-left: -24px;
-    margin-right: -24px;
+    margin-left: 0;
+    margin-right: 0;
+}
+.profile-sidebar .profile-nav .mdc-list-item__content,
+.profile-sidebar .profile-nav .mat-mdc-list-item-unscoped-content {
+    display: flex;
+    align-items: center;
+    height: 48px;
 }
 .profile-sidebar .profile-nav .mat-mdc-list-item .mat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
     margin-right: 8px;
+    flex: 0 0 24px;
+    font-size: 24px;
+    line-height: 24px;
 }
 
 .timeline {

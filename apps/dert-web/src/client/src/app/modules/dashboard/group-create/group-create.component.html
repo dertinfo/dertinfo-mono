@@ -9,7 +9,8 @@
         <div fxLayout="row wrap" fxLayoutAlign="space-between">
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="groupName" placeholder="Group Name">
+                    <mat-label>Group Name</mat-label>
+                    <input matInput formControlName="groupName">
                 </mat-form-field>
                 <small *ngIf="groupForm.controls.groupName.errors && (groupForm.controls.groupName.dirty || groupForm.controls.groupName.touched) && (groupForm.controls.groupName.errors.required)"
                     class="form-error-msg"> Group Name is required. </small>
@@ -18,7 +19,8 @@
             </div>
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="groupBio" placeholder="Group Bio">
+                    <mat-label>Group Bio</mat-label>
+                    <input matInput formControlName="groupBio">
                 </mat-form-field>
                 <small *ngIf="groupForm.controls.groupBio.errors && (groupForm.controls.groupBio.dirty || groupForm.controls.groupBio.touched) && (groupForm.controls.groupBio.errors.required)"
                     class="form-error-msg"> Group Name is required. </small>
@@ -28,7 +30,8 @@
             <!--
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width text-area-field">
-                    <input matInput formControlName="contactName" placeholder="Contact Name">
+                    <mat-label>Contact Name</mat-label>
+                    <input matInput formControlName="contactName">
                 </mat-form-field>
                 <small *ngIf="groupForm.controls.contactName.errors && (groupForm.controls.contactName.dirty || groupForm.controls.contactName.touched) && (groupForm.controls.contactName.errors.required)"
                     class="form-error-msg"> Contact name is required. </small>
@@ -37,7 +40,8 @@
 
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width text-area-field">
-                    <input matInput formControlName="contactEmail" placeholder="Contact Email">
+                    <mat-label>Contact Email</mat-label>
+                    <input matInput formControlName="contactEmail">
                 </mat-form-field>
                 <small *ngIf="groupForm.controls.contactEmail.errors && (groupForm.controls.contactEmail.dirty || groupForm.controls.contactEmail.touched) && (groupForm.controls.contactEmail.errors.required)"
                     class="form-error-msg"> Email is required. </small>
@@ -46,21 +50,24 @@
             </div>
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width text-area-field">
-                    <input matInput formControlName="contactTelephone" placeholder="Contact Telephone" rows="4">
+                    <mat-label>Contact Telephone</mat-label>
+                    <input matInput formControlName="contactTelephone" rows="4">
                 </mat-form-field>
                 <small *ngIf="groupForm.controls.contactTelephone.errors && (groupForm.controls.contactTelephone.dirty || groupForm.controls.contactTelephone.touched) && (groupForm.controls.contactTelephone.errors.required)"
                     class="form-error-msg"> Telephone is required. </small>
             </div>
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width text-area-field">
-                    <input matInput formControlName="originTown" placeholder="Based in Town" rows="4">
+                    <mat-label>Based in Town</mat-label>
+                    <input matInput formControlName="originTown" rows="4">
                 </mat-form-field>
                 <small *ngIf="groupForm.controls.originTown.errors && (groupForm.controls.originTown.dirty || groupForm.controls.originTown.touched) && (groupForm.controls.originTown.errors.required)"
                     class="form-error-msg"> Telephone is required. </small>
             </div>
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width text-area-field">
-                    <input matInput formControlName="originPostcode" placeholder="Based In Postcode" rows="4">
+                    <mat-label>Based In Postcode</mat-label>
+                    <input matInput formControlName="originPostcode" rows="4">
                 </mat-form-field>
                 <small *ngIf="groupForm.controls.originPostcode.errors && (groupForm.controls.originPostcode.dirty || groupForm.controls.originPostcode.touched) && (groupForm.controls.originPostcode.errors.required)"
                     class="form-error-msg"> Telephone is required. </small>

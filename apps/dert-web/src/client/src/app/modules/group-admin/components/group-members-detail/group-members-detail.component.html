@@ -46,7 +46,8 @@
                     </div>
                     <div class="pb-1">
                         <mat-form-field class="full-width">
-                            <input matInput formControlName="name" placeholder="Member Name">
+                            <mat-label>Member Name</mat-label>
+                            <input matInput formControlName="name">
                         </mat-form-field>
                         <small *ngIf="memberUpdateForm.controls.name.errors && (memberUpdateForm.controls.name.dirty || memberUpdateForm.controls.name.touched) && (memberUpdateForm.controls.name.errors.required)"
                             class="form-error-msg"> Member Name is required. </small>
@@ -54,7 +55,8 @@
 
                     <div class="pb-1">
                         <mat-form-field class="full-width">
-                            <input matInput formControlName="email" placeholder="Email">
+                            <mat-label>Email</mat-label>
+                            <input matInput formControlName="email">
                         </mat-form-field>
                         <small *ngIf="memberUpdateForm.controls.email.errors && (memberUpdateForm.controls.email.dirty || memberUpdateForm.controls.email.touched) && (memberUpdateForm.controls.email.errors.email)"
                             class="form-error-msg"> Invaild email address </small>
@@ -62,19 +64,22 @@
 
                     <div class="pb-1">
                         <mat-form-field class="full-width">
-                            <input matInput name="telephone" formControlName="telephone" placeholder="Telephone Number">
+                            <mat-label>Telephone Number</mat-label>
+                            <input matInput name="telephone" formControlName="telephone">
                         </mat-form-field>
                     </div>
                     <div class="pb-1">
                         <mat-form-field class="full-width">
-                            <input matInput [matDatepicker]="dateOfBirthPicker" name="dateOfBirth" formControlName="dateOfBirth" placeholder="Date Of Birth">
+                            <mat-label>Date Of Birth</mat-label>
+                            <input matInput [matDatepicker]="dateOfBirthPicker" name="dateOfBirth" formControlName="dateOfBirth">
                             <mat-datepicker-toggle matSuffix [for]="dateOfBirthPicker"></mat-datepicker-toggle>
                             <mat-datepicker #dateOfBirthPicker></mat-datepicker>
                         </mat-form-field>
                     </div>
                     <div class="pb-1">
                         <mat-form-field class="full-width">
-                            <input matInput [matDatepicker]="dateJoinedPicker" name="dateJoined" formControlName="dateJoined" placeholder="Date Joined">
+                            <mat-label>Date Joined</mat-label>
+                            <input matInput [matDatepicker]="dateJoinedPicker" name="dateJoined" formControlName="dateJoined">
                             <mat-datepicker-toggle matSuffix [for]="dateJoinedPicker"></mat-datepicker-toggle>
                             <mat-datepicker #dateJoinedPicker></mat-datepicker>
                         </mat-form-field>

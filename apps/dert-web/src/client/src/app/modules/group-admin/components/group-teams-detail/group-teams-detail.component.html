@@ -42,7 +42,8 @@
                 <form [formGroup]="teamUpdateForm" novalidate (submit)="onUpdateTeamSubmit()">
                     <div class="pb-1">
                         <mat-form-field class="full-width">
-                            <input matInput formControlName="teamName" placeholder="Team Name">
+                            <mat-label>Team Name</mat-label>
+                            <input matInput formControlName="teamName">
                         </mat-form-field>
                         <small *ngIf="teamUpdateForm.controls.teamName.errors && (teamUpdateForm.controls.teamName.dirty || teamUpdateForm.controls.teamName.touched) && (teamUpdateForm.controls.teamName.errors.required)"
                             class="form-error-msg"> Team Name is required. </small>
@@ -52,7 +53,8 @@
 
                     <div class="pb-1">
                         <mat-form-field class="full-width text-area-field">
-                            <textarea matInput formControlName="teamBio" placeholder="Team Bio" rows="4"></textarea>
+                            <mat-label>Team Bio</mat-label>
+                            <textarea matInput formControlName="teamBio" rows="4"></textarea>
                         </mat-form-field>
                     </div>
 

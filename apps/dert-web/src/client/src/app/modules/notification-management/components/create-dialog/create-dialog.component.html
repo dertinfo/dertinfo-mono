@@ -4,10 +4,12 @@
     <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
       <div class="pb-1" fxFlex="100">
         <mat-form-field class="full-width">
-          <input matInput formControlName="messageHeader" placeholder="Header" required>
+          <mat-label>Header</mat-label>
+          <input matInput formControlName="messageHeader" required>
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input matInput formControlName="messageSummary" placeholder="Summary" maxlength="200">
+          <mat-label>Summary</mat-label>
+          <input matInput formControlName="messageSummary" maxlength="200">
         </mat-form-field>
         <mat-checkbox formControlName="hasDetails">Has Details</mat-checkbox><br />
         <div *ngIf="form.controls.hasDetails.value">

@@ -9,7 +9,8 @@
         <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="name" placeholder="Score Category Name">
+                    <mat-label>Score Category Name</mat-label>
+                    <input matInput formControlName="name">
                 </mat-form-field>
                 <small *ngIf="scoreCategoryForm.controls.name.errors && (scoreCategoryForm.controls.name.dirty || scoreCategoryForm.controls.name.touched) && (scoreCategoryForm.controls.name.errors.required)"
                     class="form-error-msg"> Score Category Name is required. </small>
@@ -18,21 +19,24 @@
             </div>
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="maxMarks" placeholder="MaxMarks">
+                    <mat-label>MaxMarks</mat-label>
+                    <input matInput formControlName="maxMarks">
                 </mat-form-field>
                 <small *ngIf="scoreCategoryForm.controls.maxMarks.errors && (scoreCategoryForm.controls.maxMarks.dirty || scoreCategoryForm.controls.maxMarks.touched) && (scoreCategoryForm.controls.maxMarks.errors.required)"
                     class="form-error-msg"> MaxMarks is required. </small>
             </div>
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="tag" placeholder="Tag">
+                    <mat-label>Tag</mat-label>
+                    <input matInput formControlName="tag">
                 </mat-form-field>
                 <small *ngIf="scoreCategoryForm.controls.tag.errors && (scoreCategoryForm.controls.tag.dirty || scoreCategoryForm.controls.tag.touched) && (scoreCategoryForm.controls.tag.errors.required)"
                     class="form-error-msg"> Tag is required. </small>
             </div>
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="sortOrder" placeholder="Sort Order">
+                    <mat-label>Sort Order</mat-label>
+                    <input matInput formControlName="sortOrder">
                 </mat-form-field>
                 <small *ngIf="scoreCategoryForm.controls.sortOrder.errors && (scoreCategoryForm.controls.sortOrder.dirty || scoreCategoryForm.controls.sortOrder.touched) && (scoreCategoryForm.controls.sortOrder.errors.required)"
                     class="form-error-msg"> SortOrder is required. </small>

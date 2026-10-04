@@ -22,10 +22,12 @@
   <div *ngIf="!sessionPreLoaded">
     <p>Please provide your name and email to submit your scores.</p>
     <mat-form-field class="full-width">
-      <input matInput formControlName="name" placeholder="Your name" required>
+      <mat-label>Your name</mat-label>
+      <input matInput formControlName="name" required>
     </mat-form-field>
     <mat-form-field class="full-width">
-      <input matInput formControlName="email" placeholder="Your email" required>
+      <mat-label>Your email</mat-label>
+      <input matInput formControlName="email" required>
     </mat-form-field>
     <mat-slide-toggle formControlName="interestedInJudging">I'd be interested in being considered as a judge for a
       future
@@ -33,7 +35,8 @@
     <mat-slide-toggle formControlName="officialJudge">I've been asked to be an official judge at Dert of Derts
     </mat-slide-toggle>
     <mat-form-field class="full-width" *ngIf="formGroup.controls.officialJudge.value">
-      <input matInput type="password" formControlName="officialJudgePassword" placeholder="Official Judge Password">
+      <mat-label>Official Judge Password</mat-label>
+      <input matInput type="password" formControlName="officialJudgePassword">
     </mat-form-field>
     <mat-checkbox formControlName="agreeToTermsAndConditions" required
       [ngClass]="{'checkbox-invalid' : !formGroup.controls.agreeToTermsAndConditions.valid && formGroup.controls.agreeToTermsAndConditions.touched}">

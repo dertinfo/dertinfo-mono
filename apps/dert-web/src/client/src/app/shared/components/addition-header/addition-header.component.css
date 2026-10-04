@@ -1,6 +1,24 @@
 #app-addition-header {
-  margin-bottom: 30px;
+  margin-bottom: 16px;
   position: relative;
+  width: 100%;
+}
+
+#app-addition-header:has(.fab-button-overlay) {
+  margin-bottom: 30px;
+}
+
+#app-addition-header .mat-mdc-card {
+  box-sizing: border-box;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  min-height: 72px;
+  padding: 16px 24px;
+}
+
+#app-addition-header:has(.fab-button-overlay) .mat-mdc-card {
+  padding-right: 88px;
 }
 
 #app-addition-header .fab-button-overlay {
