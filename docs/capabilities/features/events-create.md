@@ -2,7 +2,7 @@
 name: Create event
 type: feature
 status: active
-updated: 2026-09-27
+updated: 2026-10-03
 id: events.create
 roles: [event-admin]
 ---
@@ -92,6 +92,15 @@ Feature: Create event
 
 ```yaml
 scenarios:
+  - id: event.eventadmin.createandconfigure-scenario1
+    persona: event-admin
+    sequence: 20
+    requires:
+      - public.cookie-consent.visitor-accepts
+    provides:
+      - configuredEventId
+      - addedIndividualActivityId
+      - addedTeamActivityId
   - id: events.create.event-admin-creates
     persona: event-admin
     sequence: 20
@@ -99,11 +108,13 @@ scenarios:
       - auth.login.event-admin
     provides:
       - createdEventId
+    coveredBy: event.eventadmin.createandconfigure-scenario1
   - id: events.create.event-admin-sees-unconfigured
     persona: event-admin
     sequence: 47
     requires:
       - events.create.event-admin-creates
+    coveredBy: event.eventadmin.createandconfigure-scenario1
   - id: events.create.event-admin-configures
     persona: event-admin
     sequence: 48
@@ -111,6 +122,7 @@ scenarios:
       - events.create.event-admin-sees-unconfigured
     provides:
       - configuredEventId
+    coveredBy: event.eventadmin.createandconfigure-scenario1
   - id: events.create.event-admin-adds-activities
     persona: event-admin
     sequence: 49
@@ -119,6 +131,7 @@ scenarios:
     provides:
       - addedIndividualActivityId
       - addedTeamActivityId
+    coveredBy: event.eventadmin.createandconfigure-scenario1
   - id: events.create.event-admin-edits-details
     persona: event-admin
     sequence: 86

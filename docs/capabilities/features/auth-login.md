@@ -2,7 +2,7 @@
 name: Log in
 type: feature
 status: active
-updated: 2026-09-27
+updated: 2026-10-03
 id: auth.login
 roles: [public-user, member, group-admin, event-admin]
 ---
@@ -59,6 +59,7 @@ scenarios:
       - public.cookie-consent.visitor-accepts
     provides:
       - session:event-admin
+    coveredBy: event.eventadmin.createandconfigure-scenario1
   - id: auth.login.group-admin
     persona: group-admin
     sequence: 30
@@ -66,4 +67,5 @@ scenarios:
       - public.cookie-consent.visitor-accepts
     provides:
       - session:group-admin
+    coveredBy: group.groupadmin.createandconfigure-scenario1
 ```

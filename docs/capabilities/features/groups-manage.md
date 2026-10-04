@@ -2,7 +2,7 @@
 name: Create and manage group
 type: feature
 status: active
-updated: 2026-09-27
+updated: 2026-10-03
 id: groups.manage
 roles: [member, group-admin]
 ---
@@ -128,6 +128,16 @@ Feature: Create and manage group
 
 ```yaml
 scenarios:
+  - id: group.groupadmin.createandconfigure-scenario1
+    persona: group-admin
+    sequence: 40
+    requires:
+      - public.cookie-consent.visitor-accepts
+    provides:
+      - configuredGroupId
+      - addedMemberId
+      - addedGuestId
+      - addedTeamId
   - id: groups.manage.group-admin-creates
     persona: group-admin
     sequence: 40
@@ -135,11 +145,13 @@ scenarios:
       - auth.login.group-admin
     provides:
       - createdGroupId
+    coveredBy: group.groupadmin.createandconfigure-scenario1
   - id: groups.manage.group-admin-sees-unconfigured
     persona: group-admin
     sequence: 41
     requires:
       - groups.manage.group-admin-creates
+    coveredBy: group.groupadmin.createandconfigure-scenario1
   - id: groups.manage.group-admin-configures
     persona: group-admin
     sequence: 42
@@ -147,6 +159,7 @@ scenarios:
       - groups.manage.group-admin-sees-unconfigured
     provides:
       - configuredGroupId
+    coveredBy: group.groupadmin.createandconfigure-scenario1
   - id: groups.manage.group-admin-adds-member
     persona: group-admin
     sequence: 43
@@ -154,6 +167,7 @@ scenarios:
       - groups.manage.group-admin-configures
     provides:
       - addedMemberId
+    coveredBy: group.groupadmin.createandconfigure-scenario1
   - id: groups.manage.group-admin-adds-guest
     persona: group-admin
     sequence: 44
@@ -161,11 +175,13 @@ scenarios:
       - groups.manage.group-admin-configures
     provides:
       - addedGuestId
+    coveredBy: group.groupadmin.createandconfigure-scenario1
   - id: groups.manage.group-admin-sees-default-team
     persona: group-admin
     sequence: 45
     requires:
       - groups.manage.group-admin-configures
+    coveredBy: group.groupadmin.createandconfigure-scenario1
   - id: groups.manage.group-admin-adds-team
     persona: group-admin
     sequence: 46
@@ -173,11 +189,13 @@ scenarios:
       - groups.manage.group-admin-sees-default-team
     provides:
       - addedTeamId
+    coveredBy: group.groupadmin.createandconfigure-scenario1
   - id: groups.manage.group-admin-uploads-image
     persona: group-admin
     sequence: 60
     requires:
       - groups.manage.group-admin-creates
+    coveredBy: group.groupadmin.createandconfigure-scenario1
   - id: groups.manage.group-admin-edits-people
     persona: group-admin
     sequence: 81

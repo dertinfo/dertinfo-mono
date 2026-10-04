@@ -2,7 +2,7 @@
 name: Confirm registrations
 type: feature
 status: active
-updated: 2026-09-27
+updated: 2026-10-03
 id: registration.confirm
 roles: [event-admin]
 ---
@@ -54,4 +54,5 @@ scenarios:
     sequence: 58
     requires:
       - registration.submit.group-admin-amends-submitted
+    coveredBy: registration.groupadmin.checkregistrationandedit-scenario1
 ```

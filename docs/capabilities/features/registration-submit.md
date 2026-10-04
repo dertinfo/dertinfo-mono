@@ -2,7 +2,7 @@
 name: Submit event registration
 type: feature
 status: active
-updated: 2026-09-27
+updated: 2026-10-03
 id: registration.submit
 roles: [group-admin, group-member]
 ---
@@ -99,12 +99,27 @@ Feature: Submit event registration
 
 ```yaml
 scenarios:
+  - id: registration.groupadmin.registerforevent-scenario1
+    persona: group-admin
+    sequence: 50
+    requires:
+      - event.eventadmin.createandconfigure-scenario1
+      - group.groupadmin.createandconfigure-scenario1
+    provides:
+      - pendingRegistrationId
+      - submittedRegistrationId
+  - id: registration.groupadmin.checkregistrationandedit-scenario1
+    persona: group-admin
+    sequence: 60
+    requires:
+      - registration.groupadmin.registerforevent-scenario1
   - id: registration.submit.group-admin-sees-available
     persona: group-admin
     sequence: 95
     requires:
       - groups.manage.group-admin-configures
       - events.create.event-admin-configures
+    coveredBy: registration.groupadmin.registerforevent-scenario1
   - id: registration.submit.group-admin-opens
     persona: group-admin
     sequence: 50
@@ -113,21 +128,25 @@ scenarios:
       - events.create.event-admin-configures
     provides:
       - pendingRegistrationId
+    coveredBy: registration.groupadmin.registerforevent-scenario1
   - id: registration.submit.group-admin-adds-member
     persona: group-admin
     sequence: 51
     requires:
       - registration.submit.group-admin-opens
+    coveredBy: registration.groupadmin.registerforevent-scenario1
   - id: registration.submit.group-admin-adds-guest
     persona: group-admin
     sequence: 52
     requires:
       - registration.submit.group-admin-opens
+    coveredBy: registration.groupadmin.registerforevent-scenario1
   - id: registration.submit.group-admin-adds-team
     persona: group-admin
     sequence: 53
     requires:
       - registration.submit.group-admin-opens
+    coveredBy: registration.groupadmin.registerforevent-scenario1
   - id: registration.submit.group-admin-assigns-activities
     persona: group-admin
     sequence: 54
@@ -136,11 +155,13 @@ scenarios:
       - registration.submit.group-admin-adds-guest
       - registration.submit.group-admin-adds-team
       - events.create.event-admin-adds-activities
+    coveredBy: registration.groupadmin.registerforevent-scenario1
   - id: registration.submit.group-admin-edits-pending
     persona: group-admin
     sequence: 55
     requires:
       - registration.submit.group-admin-assigns-activities
+    coveredBy: registration.groupadmin.registerforevent-scenario1
   - id: registration.submit.group-admin-submits
     persona: group-admin
     sequence: 56
@@ -148,9 +169,11 @@ scenarios:
       - registration.submit.group-admin-edits-pending
     provides:
       - submittedRegistrationId
+    coveredBy: registration.groupadmin.registerforevent-scenario1
   - id: registration.submit.group-admin-amends-submitted
     persona: group-admin
     sequence: 57
     requires:
       - registration.submit.group-admin-submits
+    coveredBy: registration.groupadmin.checkregistrationandedit-scenario1
 ```

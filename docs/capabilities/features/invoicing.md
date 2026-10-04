@@ -2,7 +2,7 @@
 name: Invoicing and payment status
 type: feature
 status: active
-updated: 2026-09-27
+updated: 2026-10-03
 id: invoicing.payment-status
 roles: [event-admin, group-admin]
 ---
@@ -60,9 +60,11 @@ scenarios:
     sequence: 93
     requires:
       - registration.confirm.event-admin-confirms
+    coveredBy: registration.groupadmin.checkregistrationandedit-scenario1
   - id: invoicing.payment-status.group-admin-reviews
     persona: group-admin
     sequence: 94
     requires:
       - invoicing.payment-status.event-admin-reviews
+    coveredBy: registration.groupadmin.checkregistrationandedit-scenario1
 ```

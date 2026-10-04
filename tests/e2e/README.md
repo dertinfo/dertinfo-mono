@@ -9,7 +9,7 @@ Playwright scripts for the website. The smoke suite expects this local profile a
 | sql | docker |
 | api, web, app, imageResize, azurite | native |
 
-Each smoke run starts from an empty database. The runner removes whatever container is publishing port `44000`, deletes its SQL data volume and the Compose volume `sqlserver-data`, starts SQL Server again, and restarts the API. API startup applies EF migrations on that empty server. `infra/dev/runtime.json` must set `sql.mode` to `docker` and `api.mode` to `native` or `docker`. `infra/secrets/api.env` must point `SqlConnection__ServerName` at `127.0.0.1,44000`, with the Compose `sa` login and database `DertInfoDb`.
+`npm run test:web:smoke` starts from an empty database. The runner removes whatever container is publishing port `44000`, deletes its SQL data volume and the Compose volume `sqlserver-data`, starts SQL Server again, and restarts the API. API startup applies EF migrations on that empty server. `infra/dev/runtime.json` must set `sql.mode` to `docker` and `api.mode` to `native` or `docker`. `infra/secrets/api.env` must point `SqlConnection__ServerName` at `127.0.0.1,44000`, with the Compose `sa` login and database `DertInfoDb`. Naming one scenario id does not reset the database. That flow runs only when its required data is already in the smoke chain.
 
 | Service | URL |
 |---------|-----|

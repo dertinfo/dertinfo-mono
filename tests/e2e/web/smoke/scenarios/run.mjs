@@ -2,7 +2,8 @@
  * Website smoke runner.
  * Order comes from scenario contracts on the capability feature pages.
  * A scenario checks prerequisites first and does not run its own steps when they are missing.
- * Each run recreates the Docker SQL volume and restarts the API before scenarios.
+ * A full run recreates the Docker SQL volume and restarts the API before scenarios.
+ * A named scenario leaves the database and the chain as they are.
  */
 import fs from 'fs';
 import path from 'path';
@@ -148,28 +149,31 @@ function executionOrder(contracts) {
   return order;
 }
 
-function missingPrerequisites(contract, chain, passed) {
+function missingPrerequisites(contract, chainState, passed, allowExistingTokens) {
   const missing = [];
   for (const requirement of contract.requires) {
     const { id, instance } = normalizeRef(requirement);
     const key = scenarioKey(id, instance);
     if (!passed.has(key)) {
-      missing.push(requirement);
+      if (!allowExistingTokens) {
+        missing.push(requirement);
+        continue;
+      }
+      const provider = smokeContracts.find((item) => item.id === id);
+      const absent = tokensPresent(provider, chainState, instance);
+      if (!provider || provider.provides.length === 0 || absent.length > 0) {
+        missing.push(...(absent.length > 0 ? absent : [requirement]));
+      }
       continue;
     }
     const provider = passed.get(key);
-    for (const token of provider.provides) {
-      const named = normalizeToken(token);
-      const instanceToken = named.replace(/\[\d+\]$/, `[${instance}]`);
-      if (!Object.prototype.hasOwnProperty.call(chain, instanceToken) && !Object.prototype.hasOwnProperty.call(chain, named)) {
-        missing.push(token);
-      }
-    }
+    missing.push(...tokensPresent(provider, chainState, instance));
   }
   return missing;
 }
 
 const selected = process.argv.slice(2);
+const widerOnly = new Set(['auth.session-continuity.rejected-cache-returns-to-sign-in']);
 const contracts = loadContracts();
 const modules = new Map();
 for (const fileName of fs.readdirSync(scenariosDir).filter((name) => name.endsWith('.mjs') && name !== 'run.mjs')) {
@@ -180,7 +184,7 @@ for (const fileName of fs.readdirSync(scenariosDir).filter((name) => name.endsWi
   modules.set(imported.id, imported);
 }
 
-const smokeContracts = contracts.filter((contract) => modules.has(contract.id));
+const smokeContracts = contracts.filter((contract) => !contract.coveredBy && modules.has(contract.id));
 for (const [id, imported] of modules) {
   const contract = contracts.find((item) => item.id === id);
   if (!contract) throw new Error(`${id} has no scenario contract on a feature page`);
@@ -191,67 +195,46 @@ for (const [id, imported] of modules) {
 }
 
 let planned = executionOrder(smokeContracts);
-const wanted = new Set(selected);
 if (selected.length > 0) {
-  const included = new Set();
-  function include(id) {
-    if (included.has(id)) return;
-    const contract = smokeContracts.find((item) => item.id === id);
-    if (!contract) throw new Error(`Unknown scenario ${id}`);
-    for (const requirement of contract.requires) include(normalizeRef(requirement).id);
-    included.add(id);
+  for (const id of selected) {
+    if (!smokeContracts.some((item) => item.id === id)) throw new Error(`Unknown scenario ${id}`);
   }
-  for (const id of wanted) include(id);
-  planned = planned.filter((contract) => included.has(contract.id));
+  planned = planned.filter((contract) => selected.includes(contract.id));
+} else {
+  planned = planned.filter((contract) => !widerOnly.has(contract.id));
 }
 
-const resetSql = await import(pathToFileURL(path.join(repoRoot, 'infra', 'dev', 'reset-sql.mjs')).href);
-try {
-  await resetSql.resetSmokeDatabase();
-} catch (error) {
-  console.error(error.message);
-  process.exit(1);
+if (selected.length === 0) {
+  const resetSql = await import(pathToFileURL(path.join(repoRoot, 'infra', 'dev', 'reset-sql.mjs')).href);
+  try {
+    await resetSql.resetSmokeDatabase();
+  } catch (error) {
+    console.error(error.message);
+    process.exit(1);
+  }
+  fs.rmSync(chainPath, { force: true });
 }
 
 fs.mkdirSync(stateDir, { recursive: true });
-fs.rmSync(chainPath, { force: true });
 let chain = loadChain();
 const passed = new Map();
 let failed = false;
 
-function tokensReady(contract) {
-  return contract.provides.length > 0 && contract.provides.every((token) => (
-    Object.prototype.hasOwnProperty.call(chain, normalizeToken(token))
-  ));
-}
-
-function covered(id, seen = new Set()) {
-  if (seen.has(id)) return false;
-  seen.add(id);
-  const contract = smokeContracts.find((item) => item.id === id);
-  if (!contract) return false;
-  if (tokensReady(contract)) return true;
-  const dependents = smokeContracts.filter((item) => item.requires.some((requirement) => normalizeRef(requirement).id === id));
-  return dependents.length > 0 && dependents.every((dependent) => covered(dependent.id, seen));
-}
-
-if (selected.length > 0) {
-  planned = planned.filter((contract) => {
-    if (wanted.has(contract.id)) return true;
-    if (chain[`done:${contract.id}`]) {
-      passed.set(contract.id, contract);
-      passed.set(scenarioKey(contract.id, 1), contract);
-      return false;
+function tokensPresent(provider, chainState, instance) {
+  if (!provider || provider.provides.length === 0) return [];
+  const absent = [];
+  for (const token of provider.provides) {
+    const named = normalizeToken(token);
+    const instanceToken = named.replace(/\[\d+\]$/, `[${instance}]`);
+    if (!Object.prototype.hasOwnProperty.call(chainState, instanceToken) && !Object.prototype.hasOwnProperty.call(chainState, named)) {
+      absent.push(token);
     }
-    if (!tokensReady(contract) && !covered(contract.id)) return true;
-    passed.set(contract.id, contract);
-    passed.set(scenarioKey(contract.id, 1), contract);
-    return false;
-  });
+  }
+  return absent;
 }
 
 for (const contract of planned) {
-  const missing = missingPrerequisites(contract, chain, passed);
+  const missing = missingPrerequisites(contract, chain, passed, selected.length > 0);
   if (missing.length > 0) {
     console.error(`FAIL ${contract.id}`);
     console.error(`prerequisites not available: ${missing.join(', ')}`);

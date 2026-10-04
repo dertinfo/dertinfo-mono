@@ -155,7 +155,7 @@ roles: [public-user, member]
 …
 ```
 
-Add a `## Scenarios` section when a feature has smoke coverage. Given, When, Then, And, and But stay in one Gherkin block. A YAML contract beside it is what the Playwright runner reads (`id`, `persona`, `sequence`, `requires`, `provides`). A provided name or requirement with no `[n]` is instance 1. The scenario id is not numbered. See [Playwright standards](technical/standards/playwright/README.md).
+Add a `## Scenarios` section when a feature has smoke coverage. Given, When, Then, And, and But stay in one Gherkin block. A YAML contract beside it is what the Playwright runner reads (`id`, `persona`, `sequence`, `requires`, `provides`). A provided name or requirement with no `[n]` is instance 1. A behaviour that a wider flow now performs keeps its own Gherkin and YAML, and adds `coveredBy` with that flow's id. The runner does not execute a `coveredBy` entry. A flow id may end in `-scenarioN` when it is one complete path through an action. See [Playwright standards](technical/standards/playwright/README.md).
 
 ### Entity (`capabilities/entities/<entity>.md`)
 
