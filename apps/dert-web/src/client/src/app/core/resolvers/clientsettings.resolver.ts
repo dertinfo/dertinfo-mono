@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { ClientSettingsDto } from 'app/models/dto/ClientSettingsDto';
 import { ClientSettingsService } from 'app/core/services/clientsettings.service';
 import { Observable } from 'rxjs';
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
  * functionality in order to prevent api hits on the homepage
  */
 @Injectable({ providedIn: 'root' })
-export class ClientSettingsResolver implements Resolve<ClientSettingsDto> {
+export class ClientSettingsResolver  {
     constructor(private clientSettingsService: ClientSettingsService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ClientSettingsDto> {

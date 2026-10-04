@@ -25,57 +25,52 @@ export class JudgeRangeReportComponent implements OnInit {
 
   sharedChartOptions: any = {
     responsive: true,
-    // maintainAspectRatio: false,
-    legend: {
-      display: true,
-      position: 'bottom'
+    plugins: {
+      legend: {
+        display: true,
+        position: 'bottom'
+      }
     }
   };
 
   rangeReportChartOptions: any = Object.assign({
     scales: {
-      xAxes: [{
-        scaleLabel: {
+      x: {
+        title: {
           display: true,
-          labelString: 'mark given'
+          text: 'mark given'
         },
-        gridLines: {
-          color: 'rgba(0,0,0,0.02)',
-          zeroLineColor: 'rgba(0,0,0,0.02)'
+        grid: {
+          color: 'rgba(0,0,0,0.02)'
         }
-      }],
-      yAxes: [
-        {
-          id: 'y1',
-          scaleLabel: {
-            display: true,
-            labelString: 'number of occurrences of mark'
-          },
-          gridLines: {
-            color: 'rgba(0,0,0,0.02)',
-            zeroLineColor: 'rgba(0,0,0,0.02)'
-          },
-          ticks: {
-            beginAtZero: true,
-            suggestedMax: 9,
-          }
-        }, {
-          stacked: false,
-          position: 'right',
-          id: 'y2',
-          scaleLabel: {
-            display: true,
-            labelString: 'number of occurrences of mark (combined)'
-          },
-          ticks: {
-            beginAtZero: true,
-            suggestedMax: 20,
-          },
-          gridLines: {
-            color: 'rgba(0,0,0,0)',
-            zeroLineColor: 'rgba(0,0,0,0)'
-          }
-        }]
+      },
+      y1: {
+        type: 'linear',
+        position: 'left',
+        title: {
+          display: true,
+          text: 'number of occurrences of mark'
+        },
+        grid: {
+          color: 'rgba(0,0,0,0.02)'
+        },
+        beginAtZero: true,
+        suggestedMax: 9
+      },
+      y2: {
+        type: 'linear',
+        position: 'right',
+        title: {
+          display: true,
+          text: 'number of occurrences of mark (combined)'
+        },
+        beginAtZero: true,
+        suggestedMax: 20,
+        grid: {
+          color: 'rgba(0,0,0,0)',
+          drawOnChartArea: false
+        }
+      }
     }
   }, this.sharedChartOptions);
 
@@ -166,7 +161,7 @@ export class JudgeRangeReportComponent implements OnInit {
         yAxisID: 'y2',
         type: 'line',
         fill: false,
-        lineTension: 0,
+        tension: 0,
         pointStyle: 'rect',
         pointBorderColor: '#000',
         pointBackgroundColor: '#000'

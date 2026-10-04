@@ -1,6 +1,6 @@
 // Angular
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of, zip } from 'rxjs';
 
 import { GroupListCache } from 'app/modules/repositories';
@@ -9,7 +9,7 @@ import { EventListCache } from 'app/modules/repositories';
 // Types
 
 @Injectable()
-export class DashboardResolver implements Resolve<Observable<any>> {
+export class DashboardResolver  {
     constructor(
         private _groupListCache: GroupListCache,
         private _eventListCache: EventListCache

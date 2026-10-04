@@ -1,13 +1,13 @@
 
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { EventDto, GroupDto } from 'app/models/dto';
 import { EventRepository } from 'app/modules/repositories/repositories/event.repository';
 import { forkJoin, Observable } from 'rxjs';
 import { GroupRegisterRepository } from './group-register.repository';
 
 @Injectable()
-export class GroupRegisterResolver implements Resolve<Observable<[GroupDto, EventDto]>> {
+export class GroupRegisterResolver  {
     constructor(
         private _groupRepo: GroupRegisterRepository,
         private _eventRepo: EventRepository,

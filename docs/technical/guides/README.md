@@ -16,3 +16,4 @@ Cross-cutting how-tos. Configuration keys and CI/CD inventory stay under [infra/
 | [Contributing workflow](contributing-workflow.md) | Branches, PRs, and what happens after merge |
 | [GitHub Azure federated credentials](github-azure-federated-credentials.md) | Entra OIDC so Actions can deploy without a client secret |
 | [Production environment setup](production-environment-setup.md) | Stand up production, load config and data, test on Azure hostnames, then DNS |
+| [Upgrading Angular](upgrading-angular.md) | Official Angular update pages, then the watch-list from each hop |

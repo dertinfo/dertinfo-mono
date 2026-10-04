@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { AuthService as Auth0AngularService } from '@auth0/auth0-angular';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
@@ -15,7 +15,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
  * Unauthenticated users → /auth/signin → AuthService.login() → Universal Login.
  */
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate {
+export class AuthGuard  {
 
   constructor(
     private router: Router,

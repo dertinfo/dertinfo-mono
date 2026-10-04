@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { GroupRegistrationDto, GroupRegistrationOverviewDto } from 'app/models/dto';
@@ -8,7 +8,7 @@ import { RegistrationRepository } from '../../repositories';
 import { GroupRegistrationOverview } from 'app/models/app';
 
 @Injectable()
-export class RegistrationByGroupResolver implements Resolve<Observable<GroupRegistrationOverview>> {
+export class RegistrationByGroupResolver  {
     constructor(
         private _registrationRepo: RegistrationRepository,
 

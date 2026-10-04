@@ -28,6 +28,7 @@ Platform documentation for humans and AI agents. Organised in three tracks:
 | Secrets & rotation | [technical/infra/secrets-and-rotation.md](technical/infra/secrets-and-rotation.md) |
 | CI/CD | [technical/infra/cicd.md](technical/infra/cicd.md) |
 | Contributing workflow | [technical/guides/contributing-workflow.md](technical/guides/contributing-workflow.md) |
+| Upgrading Angular | [technical/guides/upgrading-angular.md](technical/guides/upgrading-angular.md) |
 | Capability catalogue | [capabilities/README.md](capabilities/README.md) |
 | Entities | [capabilities/README.md](capabilities/README.md#entities) |
 | Domain glossary | [capabilities/system/domain-glossary.md](capabilities/system/domain-glossary.md) |

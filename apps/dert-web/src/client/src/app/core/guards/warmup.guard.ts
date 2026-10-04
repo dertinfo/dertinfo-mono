@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { WarmupService } from '../services/warmup.service';
 
@@ -11,7 +11,7 @@ import { WarmupService } from '../services/warmup.service';
  * cold → store pending URL → go to warmup UI; warm → allow the route.
  */
 @Injectable({ providedIn: 'root' })
-export class WarmupGuard implements CanActivate {
+export class WarmupGuard  {
 
     constructor(
         private warmupService: WarmupService,

@@ -1,6 +1,6 @@
 // Angular
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 // Types
@@ -8,7 +8,7 @@ import { RegistrationRepository } from 'app/modules/repositories';
 import { GroupViewTracker } from '../../services/group-view.tracker';
 
 @Injectable()
-export class RegistrationResolver implements Resolve<Observable<any>> {
+export class RegistrationResolver  {
     constructor(
         private _registrationRepo: RegistrationRepository,
         private _tracker: GroupViewTracker,

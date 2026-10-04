@@ -22,8 +22,8 @@
     <mat-card-content>
       <div *ngIf="dataAvailable">
         <canvas baseChart class="chart" [datasets]="rangeReportChartData" [labels]="rangeReportChartLabels"
-          [options]="rangeReportChartOptions" [colors]="rangeReportColors" [legend]="rangeReportChartLegend"
-          [chartType]="rangeReportChartType"></canvas>
+          [options]="rangeReportChartOptions" [legend]="rangeReportChartLegend"
+          [type]="rangeReportChartType"></canvas>
       </div>
       <div *ngIf="!dataAvailable">
         No Data Available
