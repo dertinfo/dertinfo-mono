@@ -9,7 +9,8 @@
         <div fxLayout="row wrap" fxLayoutAlign="space-between">
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="title" placeholder="Activity Title" required>
+                    <mat-label>Activity Title</mat-label>
+                    <input matInput formControlName="title" required>
                 </mat-form-field>
                 <small *ngIf="activityForm.controls.title.errors && (activityForm.controls.title.dirty || activityForm.controls.title.touched) && (activityForm.controls.title.errors.required)"
                     class="form-error-msg"> Title is required. </small>
@@ -17,13 +18,15 @@
 
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="description" placeholder="Activity Description">
+                    <mat-label>Activity Description</mat-label>
+                    <input matInput formControlName="description">
                 </mat-form-field>
             </div>
 
             <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
                 <mat-form-field class="full-width">
-                    <input matInput name="price" formControlName="price" placeholder="Price (£)">
+                    <mat-label>Price (£)</mat-label>
+                    <input matInput name="price" formControlName="price">
                 </mat-form-field>
                 <small *ngIf="activityForm.controls.price.errors && (activityForm.controls.price.dirty || activityForm.controls.price.touched) && (activityForm.controls.price.errors.required)"
                     class="form-error-msg"> Price is required. </small>
@@ -31,7 +34,8 @@
 
             <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
                 <mat-form-field>
-                    <mat-select placeholder="Target Audience" formControlName="audienceTypeId">
+                    <mat-label>Target Audience</mat-label>
+                    <mat-select formControlName="audienceTypeId">
                         <mat-option *ngFor="let audienceType of audienceTypes" [value]="audienceType.id">
                             {{audienceType.name}}
                         </mat-option>

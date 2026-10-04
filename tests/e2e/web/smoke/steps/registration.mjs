@@ -113,7 +113,9 @@ export async function editPendingRegistration(page, ctx) {
   await card.getByRole('button', { name: /Add Activities/ }).click();
   await clickSelectOption(page, title);
   await page.getByRole('button', { name: /Save Changes/ }).click();
+  await page.getByText('Select Tickets').waitFor({ state: 'hidden', timeout: 30000 });
   await page.reload({ waitUntil: 'domcontentloaded' });
+  await card.getByText('Ticket Type').waitFor({ state: 'visible', timeout: 30000 });
   await card.getByText(title).waitFor({ state: 'hidden', timeout: 30000 });
   await expectFlowState(page, 'New');
 }
@@ -142,6 +144,7 @@ export async function amendSubmittedRegistration(page, ctx) {
   await card.getByRole('button', { name: /Add Activities/ }).click();
   await clickSelectOption(page, title);
   await page.getByRole('button', { name: /Save Changes/ }).click();
+  await page.getByText('Select Tickets').waitFor({ state: 'hidden', timeout: 30000 });
   await page.reload({ waitUntil: 'domcontentloaded' });
   await card.getByText(title).waitFor({ state: 'visible', timeout: 30000 });
   await expectFlowState(page, 'Submitted');

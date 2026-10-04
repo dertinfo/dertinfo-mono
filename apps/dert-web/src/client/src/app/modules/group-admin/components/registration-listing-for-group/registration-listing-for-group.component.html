@@ -1,25 +1,19 @@
 <div fxFlex="100">
-
-
-<mat-list class="compact-list mb-1">
-    <mat-list-item class="" *ngFor="let registration of groupRegistrationOverviews" [routerLink]="['/group-registration',registration.id]" data-testid="registration-row" [attr.data-registration-id]="registration.id">
-      <img mat-list-avatar class="mr-1" [src]="registration.eventPictureUrl | imageDimension: '100x100'" alt="">
-      <div fxLayout="row" fxFlex="100">
-        <small class="text-muted mr-1">{{registration.eventName}}</small>
-      </div>
-      <div fxLayout="row" fxFlex="50">
-        <div class="m-0 mr-1 icon-count">
-          <mat-icon class="mr-1">person</mat-icon>
-          <small class="text-muted mr-1 pad-up">{{registration.memberAttendancesCount + registration.guestAttendancesCount}}</small>
-        </div>
-        <span fxFlex></span>
-        <div class="m-0 mr-1  icon-count">
-          <mat-icon class="mr-1">people</mat-icon>
-          <small class="text-muted mr-1 pad-up">{{registration.teamAttendancesCount}}</small>
-        </div>
-        <span fxFlex></span>
-      </div>
-      <mat-chip mat-sm-chip [color]="registration.flowStateColour" [selected]="true">{{registration.flowStateText}}</mat-chip>
+  <mat-list class="compact-list mb-1">
+    <mat-list-item *ngFor="let registration of groupRegistrationOverviews" [routerLink]="['/group-registration',registration.id]" data-testid="registration-row" [attr.data-registration-id]="registration.id">
+      <img matListItemAvatar [src]="registration.eventPictureUrl | imageDimension: '100x100'" alt="">
+      <span matListItemTitle class="text-muted">{{registration.eventName}}</span>
+      <span matListItemMeta class="registration-meta">
+        <span class="icon-count">
+          <mat-icon>person</mat-icon>
+          <small class="text-muted">{{registration.memberAttendancesCount + registration.guestAttendancesCount}}</small>
+        </span>
+        <span class="icon-count">
+          <mat-icon>people</mat-icon>
+          <small class="text-muted">{{registration.teamAttendancesCount}}</small>
+        </span>
+        <mat-chip-option mat-sm-chip [color]="registration.flowStateColour" [selected]="true">{{registration.flowStateText}}</mat-chip-option>
+      </span>
     </mat-list-item>
   </mat-list>
 </div>

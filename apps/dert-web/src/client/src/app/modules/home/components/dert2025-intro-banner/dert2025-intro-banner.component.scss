@@ -51,14 +51,14 @@
         left: 0; /*Override default*/
     }
 
-    .mat-raised-button {
+    .mat-mdc-raised-button {
         font-family: "Kalam", cursive;
         font-size: 1.2rem;
         border: 3px solid #000;
         border-radius: 255px 15px 255px 15px / 15px 255px 15px 255px;
     }
 
-    .mat-raised-button:hover {
+    .mat-mdc-raised-button:hover {
         border: 3px solid #000;
         border-radius: 15px 255px 15px 255px / 255px 15px 255px 15px;
     }

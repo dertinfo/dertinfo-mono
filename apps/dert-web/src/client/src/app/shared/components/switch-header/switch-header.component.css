@@ -1,21 +1,39 @@
 #app-switch-header {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   position: relative;
+  width: 100%;
+}
+
+#app-switch-header:has(.fab-button-overlay) {
+  margin-bottom: 30px;
+}
+
+#app-switch-header .mat-mdc-card {
+  box-sizing: border-box;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  min-height: 72px;
+  padding: 16px 24px;
+}
+
+#app-switch-header:has(.fab-button-overlay) .mat-mdc-card {
+  padding-right: 88px;
 }
 
 #app-switch-header .fab-button-overlay {
   position: absolute;
-  right:20px;
-  bottom:8px;
+  right: 20px;
+  bottom: -25px;
 }
 
-#app-switch-header .mat-card-title {
+#app-switch-header .mat-mdc-card-title {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-#app-switch-header .mat-card-title .mat-icon {
+#app-switch-header .mat-mdc-card-title .mat-icon {
   margin-right:15px;
 }
 

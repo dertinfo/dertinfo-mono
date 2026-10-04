@@ -14,13 +14,16 @@
   <mat-slide-toggle formControlName="officialJudge">I've been asked to be an official judge at DERT of DERTs
   </mat-slide-toggle>
   <mat-form-field class="full-width" *ngIf="formGroup.controls.officialJudge.value">
-    <input matInput formControlName="name" placeholder="Your name" required>
+    <mat-label>Your name</mat-label>
+    <input matInput formControlName="name" required>
   </mat-form-field>
   <mat-form-field class="full-width" *ngIf="formGroup.controls.officialJudge.value">
-    <input matInput formControlName="email" placeholder="Your email" required>
+    <mat-label>Your email</mat-label>
+    <input matInput formControlName="email" required>
   </mat-form-field>
   <mat-form-field class="full-width" *ngIf="formGroup.controls.officialJudge.value">
-    <input matInput type="password" formControlName="officialJudgePassword" placeholder="Provided Judge Password"
+    <mat-label>Provided Judge Password</mat-label>
+    <input matInput type="password" formControlName="officialJudgePassword"
       required>
   </mat-form-field>
   <mat-checkbox *ngIf="formGroup.controls.officialJudge.value" formControlName="agreeToTermsAndConditions" required

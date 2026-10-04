@@ -1,5 +1,6 @@
 <div fxLayout="column" fxFlex="100">
-    <mat-card class="p-0">
+    <app-addition-header [title]="'Registrations'" [icon]="'assignment'" [hideButton]="true"></app-addition-header>
+    <mat-card appearance="outlined" class="p-0">
   <mat-tab-group>
     <mat-tab label="Active">
         <mat-card-content class="mt-1" *ngIf="(groupActiveRegistrations$ | async)?.length > 0">

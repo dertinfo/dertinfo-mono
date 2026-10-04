@@ -5,13 +5,18 @@ https://wildcardcorp.com/blogs/overriding-angular-material-component-colors
 */
 
 .dod-results-container {
+   /*
+TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.
+*/
    mat-card-title {
       font-family: ARDarling, Courier;
       font-weight: normal;
       font-style: normal;
       font-size: 1.5rem !important;
    }
-
+   /*
+TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.
+*/
    mat-card {
       border: 3px solid #000;
       border-radius: 255px 15px 255px 15px / 15px 255px 15px 255px;
@@ -21,7 +26,7 @@ https://wildcardcorp.com/blogs/overriding-angular-material-component-colors
       height: 50px;
    }
 
-   .mat-slide-toggle {
+   .mat-mdc-slide-toggle {
       font-family: "Kalam", cursive;
       font-size: 1rem !important;
    }

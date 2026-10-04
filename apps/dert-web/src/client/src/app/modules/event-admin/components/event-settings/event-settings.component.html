@@ -1,11 +1,13 @@
-<mat-card class="p-0" *ngIf="_isReady">
+<app-addition-header [title]="'Settings'" [icon]="'settings'" [hideButton]="true"></app-addition-header>
+<mat-card appearance="outlined" class="p-0" *ngIf="_isReady">
   <mat-tab-group>
     <mat-tab label="Event Settings">
       <mat-card-content class="mt-1">
         <form [formGroup]="eventUpdateForm" novalidate (submit)="onEventUpdateSubmit()">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput formControlName="eventName" placeholder="Event Name">
+              <mat-label>Event Name</mat-label>
+              <input matInput formControlName="eventName">
             </mat-form-field>
             <small *ngIf="eventUpdateForm.controls.eventName.errors && (eventUpdateForm.controls.eventName.dirty || eventUpdateForm.controls.eventName.touched) && (eventUpdateForm.controls.eventName.errors.required)"
               class="form-error-msg"> Event Name is required. </small>
@@ -15,12 +17,14 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="contactName" formControlName="contactName" placeholder="Event Contact Name">
+              <mat-label>Event Contact Name</mat-label>
+              <input matInput name="contactName" formControlName="contactName">
             </mat-form-field>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput formControlName="contactEmail" placeholder="Email">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="contactEmail">
             </mat-form-field>
             <small *ngIf="eventUpdateForm.controls.contactEmail.errors && (eventUpdateForm.controls.contactEmail.dirty || eventUpdateForm.controls.contactEmail.touched) && (eventUpdateForm.controls.contactEmail.errors.email)"
               class="form-error-msg"> Invaild email address </small>
@@ -28,27 +32,32 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="telephone" formControlName="contactTelephone" placeholder="Event Contact Number">
+              <mat-label>Event Contact Number</mat-label>
+              <input matInput name="telephone" formControlName="contactTelephone">
             </mat-form-field>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width text-area-field">
-              <textarea matInput formControlName="eventSynopsis" placeholder="Event Synopsis" rows="4"></textarea>
+              <mat-label>Event Synopsis</mat-label>
+              <textarea matInput formControlName="eventSynopsis" rows="4"></textarea>
             </mat-form-field>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="locationTown" formControlName="locationTown" placeholder="Based in Town">
+              <mat-label>Based in Town</mat-label>
+              <input matInput name="locationTown" formControlName="locationTown">
             </mat-form-field>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="locationPostcode" formControlName="locationPostcode" placeholder="Based In Postcode">
+              <mat-label>Based In Postcode</mat-label>
+              <input matInput name="locationPostcode" formControlName="locationPostcode">
             </mat-form-field>
           </div>
           <div class="pb-1">
               <mat-form-field class="full-width">
-                <input matInput name="sentEmailsBcc" formControlName="sentEmailsBcc" placeholder="Sent Emails Bcc">
+                <mat-label>Sent Emails Bcc</mat-label>
+                <input matInput name="sentEmailsBcc" formControlName="sentEmailsBcc">
               </mat-form-field>
               <small class="formfield-subtext"> Comma ',' seperate to add multiple bcc.</small>
             </div>
@@ -65,7 +74,8 @@
             <div fxLayout="row" fxLayoutGap="20px" >
                 <div fxFlex="100" fxFlex.gt-xs="50" >
                   <mat-form-field class="full-width">
-                    <input matInput [matDatepicker]="eventStartDate" name="eventStartDate" formControlName="eventStartDate" placeholder="Event Starts" required>
+                    <mat-label>Event Starts</mat-label>
+                    <input matInput [matDatepicker]="eventStartDate" name="eventStartDate" formControlName="eventStartDate" required>
                     <mat-datepicker-toggle matSuffix [for]="eventStartDate"></mat-datepicker-toggle>
                     <mat-datepicker #eventStartDate></mat-datepicker>
                   </mat-form-field>
@@ -74,7 +84,8 @@
                 </div>
                 <div fxFlex="100" fxFlex.gt-xs="50">
                   <mat-form-field class="full-width">
-                    <input matInput [matDatepicker]="eventEndDate" name="eventEndDate" formControlName="eventEndDate" placeholder="Event Finishes" required>
+                    <mat-label>Event Finishes</mat-label>
+                    <input matInput [matDatepicker]="eventEndDate" name="eventEndDate" formControlName="eventEndDate" required>
                     <mat-datepicker-toggle matSuffix [for]="eventEndDate"></mat-datepicker-toggle>
                     <mat-datepicker #eventEndDate></mat-datepicker>
                   </mat-form-field>
@@ -85,14 +96,16 @@
               <div fxLayout="row" fxLayoutGap="20px" >
                   <div fxFlex="100" fxFlex.gt-xs="50" >
                     <mat-form-field class="full-width">
-                      <input matInput [matDatepicker]="registrationOpenDate" name="registrationOpenDate" formControlName="registrationOpenDate" placeholder="Registration Opens">
+                      <mat-label>Registration Opens</mat-label>
+                      <input matInput [matDatepicker]="registrationOpenDate" name="registrationOpenDate" formControlName="registrationOpenDate">
                       <mat-datepicker-toggle matSuffix [for]="registrationOpenDate"></mat-datepicker-toggle>
                       <mat-datepicker #registrationOpenDate></mat-datepicker>
                     </mat-form-field>
                   </div>
                   <div fxFlex="100" fxFlex.gt-xs="50">
                     <mat-form-field class="full-width">
-                      <input matInput [matDatepicker]="registrationCloseDate" name="registrationCloseDate" formControlName="registrationCloseDate" placeholder="Registration Closes">
+                      <mat-label>Registration Closes</mat-label>
+                      <input matInput [matDatepicker]="registrationCloseDate" name="registrationCloseDate" formControlName="registrationCloseDate">
                       <mat-datepicker-toggle matSuffix [for]="registrationCloseDate"></mat-datepicker-toggle>
                       <mat-datepicker #registrationCloseDate></mat-datepicker>
                     </mat-form-field>

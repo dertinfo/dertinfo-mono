@@ -1,6 +1,6 @@
 <div fxLayout="row wrap">
   <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50">
-    <mat-card class="profile-sidebar mb-1 pb-0">
+    <mat-card appearance="outlined" class="profile-sidebar mb-1 pb-0">
       <div class="grouppic text-center">
         <img [src]="group.groupPictureUrl | imageDimension: '480x360'" [alt]="group.groupName">
       </div>
@@ -25,7 +25,7 @@
 
     </mat-card>
 
-    <mat-card class="profile-sidebar mb-1 pb-0">
+    <mat-card appearance="outlined" class="profile-sidebar mb-1 pb-0">
       <mat-card-title>Events</mat-card-title>
       <div class="profile-nav">
         <mat-nav-list>

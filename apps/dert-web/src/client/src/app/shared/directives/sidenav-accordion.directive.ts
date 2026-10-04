@@ -8,11 +8,12 @@ export class SideNavAccordionDirective implements OnInit {
   }
   ngOnInit() {
     const self = this;
-    const subMenu = this.el.nativeElement.querySelector('.mat-list-item-content > mat-nav-list');
+    setTimeout(() => {
+      if (self.el.nativeElement.querySelector('.sub-menu')) {
+        self.el.nativeElement.classList.add('has-submenu');
+      }
+    });
     const isCollapsed = domHelper.hasClass(document.body, 'collapsed-menu');
-    if (!!subMenu) {
-      this.el.nativeElement.className += ' has-submenu';
-    }
 
     // remove open class that is added my router
     if (isCollapsed) {
@@ -24,8 +25,10 @@ export class SideNavAccordionDirective implements OnInit {
 
   @HostListener('click', ['$event'])
   onClick($event) {
-    const parentLi = domHelper.findClosest($event.target, 'mat-list-item');
-    if (!domHelper.hasClass(parentLi, 'has-submenu')) {
+    const parentLi = $event.target && $event.target.closest
+      ? $event.target.closest('mat-list-item')
+      : null;
+    if (!parentLi || !parentLi.querySelector('.sub-menu')) {
       // PREVENTS CLOSING PARENT ITEM
       return;
     }

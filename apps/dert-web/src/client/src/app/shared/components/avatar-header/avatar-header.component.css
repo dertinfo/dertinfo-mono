@@ -1,17 +1,38 @@
 #app-avatar-header {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   position: relative;
+  width: 100%;
+}
+
+#app-avatar-header .mat-mdc-card {
+  box-sizing: border-box;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  min-height: 72px;
+  padding: 16px 80px 16px 24px;
+}
+
+#app-avatar-header .mat-mdc-card-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 #app-avatar-header .avatar-image {
   position: absolute;
-  right: 20px;
-  bottom: 8px;
-}
-
-#app-avatar-header .avatar-image img{
-  flex-shrink: 0;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 40px;
   height: 40px;
+}
+
+#app-avatar-header .avatar-image img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  max-width: none;
+  object-fit: cover;
   border-radius: 50%;
 }

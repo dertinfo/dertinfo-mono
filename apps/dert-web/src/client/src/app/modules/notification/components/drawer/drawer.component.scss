@@ -1,24 +1,11 @@
 .notifications-drawer {
     max-width: 300px;
 
-    .mat-list-item {
+    .mat-mdc-list-item {
         height: auto !important;
         padding-top: 5px;
         padding-bottom: 5px;
         margin-bottom: 1px;
-
-        .mat-list-item-content {
-            padding: 5px 5px 5px 5px !important;
-            align-items: unset !important;
-
-            app-notification-summary-item-active {
-                width:100%;
-            }
-
-            app-notification-summary-item-deleted {
-                width:100%;
-            }
-        }
 
         .mat-icon {
             padding-right: 10px;

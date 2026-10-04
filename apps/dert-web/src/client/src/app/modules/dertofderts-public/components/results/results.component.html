@@ -5,7 +5,7 @@
       <app-dod-header></app-dod-header>
     </div>
     <div class="container" fxLayout="column">
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-card-title>
           Hold up! We're not quite there yet. Counting still going on!
         </mat-card-title>
@@ -24,7 +24,7 @@
       <app-dod-header></app-dod-header>
     </div>
     <div class="container" fxLayout="column">
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-card-title fxLayoutAlign="start center">
           Scores From The Official Judges <mat-icon *ngIf="officialJudgeDiscrepency" colour="error">warning
           </mat-icon>
@@ -43,8 +43,8 @@
                     <div fxFlex="100" fxLayout="row">
                       <div fxFlex="50">{{teamResult.teamName}}</div>
                       <div fxFlex="40">
-                        <mat-chip mat-sm-chip [color]="'none'" [selected]="true">{{teamResult.entryAttribute}}
-                        </mat-chip>
+                        <mat-chip-option mat-sm-chip [color]="'none'" [selected]="true">{{teamResult.entryAttribute}}
+                        </mat-chip-option>
                       </div>
                       <div fxFlex="10" fxLayoutAlign="flex-end">{{teamResult.score}}</div>
                     </div>
@@ -58,7 +58,7 @@
       </mat-card>
     </div>
     <div class="container" fxLayout="column">
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-card-title fxLayoutAlign="start center">
           Scores From The Public
           <span fxFlex></span>
@@ -72,8 +72,8 @@
                     <div fxFlex="100" fxLayout="row">
                       <div fxFlex="50">{{teamResult.teamName}}</div>
                       <div fxFlex="20">
-                        <mat-chip mat-sm-chip [color]="'none'" [selected]="true">{{teamResult.entryAttribute}}
-                        </mat-chip>
+                        <mat-chip-option mat-sm-chip [color]="'none'" [selected]="true">{{teamResult.entryAttribute}}
+                        </mat-chip-option>
                       </div>
                       <div fxFlex="20">{{teamResult.numberOfResults}} entries</div>
                       <div fxFlex="10" fxLayoutAlign="flex-end">{{teamResult.score}}</div>

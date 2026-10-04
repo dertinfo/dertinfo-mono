@@ -123,7 +123,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    RouterModule.forRoot(rootRouterConfig, { enableTracing: false, useHash: false, anchorScrolling: 'enabled', relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(rootRouterConfig, { enableTracing: false, useHash: false, anchorScrolling: 'enabled' }),
     QuillModule.forRoot()
   ],
   declarations: [AppComponent],

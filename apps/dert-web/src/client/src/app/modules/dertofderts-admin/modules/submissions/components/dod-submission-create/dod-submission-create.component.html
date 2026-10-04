@@ -4,14 +4,16 @@
     <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
       <div class="pb-1" fxFlex="100">
         <mat-form-field>
-          <mat-select formControlName="groupId" placeholder="Group*">
+          <mat-label>Group*</mat-label>
+          <mat-select formControlName="groupId">
             <mat-option *ngFor="let group of groups$ | async" [value]="group.id">
               {{group.groupName}}
             </mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input matInput formControlName="embedLink" placeholder="YouTube / Facebook Embed Source" required>
+          <mat-label>YouTube / Facebook Embed Source</mat-label>
+          <input matInput formControlName="embedLink" required>
         </mat-form-field>
         <small
           *ngIf="form.controls.embedLink.errors && (form.controls.embedLink.dirty || form.controls.embedLink.touched) && (form.controls.embedLink.errors.required)"
@@ -21,10 +23,12 @@
           <mat-radio-button value="facebook">Facebook</mat-radio-button>
         </mat-radio-group>
         <mat-form-field class="full-width">
-          <input matInput formControlName="dertYearFrom" placeholder="Year From" required>
+          <mat-label>Year From</mat-label>
+          <input matInput formControlName="dertYearFrom" required>
         </mat-form-field>
         <mat-form-field class="full-width">
-          <input matInput formControlName="dertVenueFrom" placeholder="Venue From">
+          <mat-label>Venue From</mat-label>
+          <input matInput formControlName="dertVenueFrom">
         </mat-form-field>
 
         <mat-radio-group aria-label="Select an option" formControlName="entryCategory">

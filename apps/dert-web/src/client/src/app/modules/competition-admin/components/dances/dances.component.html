@@ -1,6 +1,6 @@
 <div fxLayout="row wrap" fxLayoutWrap="wrap">
   <app-addition-header fxFlex="100" [title]="'Dances'" [icon]="'accessibility'" [hideButton]="!allowDanceAddition" (addClick)="openAddDanceDialog()" [disabled]="disableDanceAddition"></app-addition-header>
-  <mat-card class="default" fxFlex="100">
+  <mat-card appearance="outlined" class="default" fxFlex="100">
     <mat-card-header fxLayout="row">
       <mat-card-title>Dances</mat-card-title>
       <div fxFlex="100"></div>
@@ -15,13 +15,15 @@
 
           <div class="filter-area">
               <mat-form-field>
-                  <mat-select [(ngModel)]="teamFilter" placeholder="Team Filter" (selectionChange)="onTeamFilterChanged()">
+                  <mat-label>Team Filter</mat-label>
+                  <mat-select [(ngModel)]="teamFilter" (selectionChange)="onTeamFilterChanged()">
                       <mat-option>None</mat-option>
                       <mat-option *ngFor="let teamFilterItem of teamFilterItems" value="{{teamFilterItem.teamName}}">{{teamFilterItem.teamName}}</mat-option>
                   </mat-select>
               </mat-form-field>
               <mat-form-field>
-                  <mat-select [(ngModel)]="venueFilter" placeholder="Venue Filter" (selectionChange)="onVenueFilterChanged()">
+                  <mat-label>Venue Filter</mat-label>
+                  <mat-select [(ngModel)]="venueFilter" (selectionChange)="onVenueFilterChanged()">
                       <mat-option>None</mat-option>
                       <mat-option *ngFor="let venueFilterItem of venueFilterItems" value="{{venueFilterItem.venueName}}">{{venueFilterItem.venueName}}</mat-option>
                   </mat-select>

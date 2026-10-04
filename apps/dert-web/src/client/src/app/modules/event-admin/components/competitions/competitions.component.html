@@ -1,4 +1,6 @@
-<mat-card class="p-0" fxFlex="100">
+<div fxLayout="column" fxFlex="100">
+  <app-addition-header [title]="'Competitions'" [icon]="'widgets'" [hideButton]="true"></app-addition-header>
+  <mat-card appearance="outlined" class="p-0" fxFlex="100">
   <mat-tab-group class="shrink-last-tab">
     <mat-tab *ngFor="let competition of competitions" [label]="competition.name">
       <mat-card-content class="mt-1" fxFlex="100">
@@ -46,3 +48,4 @@
     </mat-tab>
   </mat-tab-group>
 </mat-card>
+</div>

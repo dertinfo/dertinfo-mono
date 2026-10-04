@@ -1,15 +1,10 @@
 <div *ngIf="isReady">
-  <div id="app-addition-header">
-    <mat-card class="mat-bg-default">
-      <mat-card-title>
-        <mat-icon>email</mat-icon>Email Templates
-      </mat-card-title>
-    </mat-card>
-  </div>
-  <mat-card class="default">
+  <app-addition-header [title]="'Email Templates'" [icon]="'email'" [hideButton]="true"></app-addition-header>
+  <mat-card appearance="outlined" class="default">
     <mat-card-content>
       <mat-form-field>
-        <mat-select placeholder="Choose Email Template" [(ngModel)]="selectedTemplate"
+        <mat-label>Choose Email Template</mat-label>
+        <mat-select [(ngModel)]="selectedTemplate"
           (selectionChange)="onEmailTemplateSelectChange()">
           <mat-option *ngFor="let template of emailTemplates" [value]="template">
             {{template.templateName}}
@@ -19,13 +14,14 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="default" *ngIf="showEditor">
+  <mat-card appearance="outlined" class="default" *ngIf="showEditor">
     <mat-card-title>Edit Template</mat-card-title>
     <mat-card-content>
       <form [formGroup]="emailTemplateUpdateForm" (submit)="onEmailTemplateSubmit()">
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput formControlName="emailTemplateName" placeholder="Template Name" required>
+            <mat-label>Template Name</mat-label>
+            <input matInput formControlName="emailTemplateName" required>
           </mat-form-field>
           <small
             *ngIf="emailTemplateUpdateForm.controls.emailTemplateName.errors && (emailTemplateUpdateForm.controls.emailTemplateName.dirty || emailTemplateUpdateForm.controls.emailTemplateName.touched) && (emailTemplateUpdateForm.controls.emailTemplateName.errors.required)"
@@ -34,7 +30,8 @@
         <div class="pb-1">
 
           <mat-form-field class="full-width">
-            <input matInput formControlName="emailTemplateSubject" placeholder="Template Subject" required>
+            <mat-label>Template Subject</mat-label>
+            <input matInput formControlName="emailTemplateSubject" required>
           </mat-form-field>
 
           <small
@@ -47,7 +44,7 @@
       </form>
     </mat-card-content>
   </mat-card>
-  <mat-card class="p-0" *ngIf="showEditor">
+  <mat-card appearance="outlined" class="p-0" *ngIf="showEditor">
     <mat-card-content class="p-0">
       <quill-editor theme="snow" [(ngModel)]="editorData" (onContentChanged)="onEditorContentChanged()"
         (onSelectionChanged)="onEditorSelectionChanged()"></quill-editor>

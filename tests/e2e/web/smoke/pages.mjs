@@ -32,7 +32,8 @@ export function selectOption(scope, name) {
 }
 
 export async function fillControl(page, name, value) {
-  await page.locator(`input[formcontrolname="${name}"], textarea[formcontrolname="${name}"]`).fill(value);
+  const input = page.locator(`input[formcontrolname="${name}"], textarea[formcontrolname="${name}"]`);
+  await input.fill(value, { force: true });
 }
 
 export async function clickLabelledCheckbox(page, label) {

@@ -1,11 +1,13 @@
-<mat-card class="p-0" *ngIf="_isReady">
+<app-addition-header [title]="'Settings'" [icon]="'settings'" [hideButton]="true"></app-addition-header>
+<mat-card appearance="outlined" class="p-0" *ngIf="_isReady">
   <mat-tab-group>
     <mat-tab label="Group Settings">
       <mat-card-content class="mt-1">
         <form [formGroup]="groupUpdateForm" novalidate (submit)="onGroupUpdateSubmit()">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput formControlName="groupName" placeholder="Group Name" required>
+              <mat-label>Group Name</mat-label>
+              <input matInput formControlName="groupName" required>
             </mat-form-field>
             <small *ngIf="groupUpdateForm.controls.groupName.errors && (groupUpdateForm.controls.groupName.dirty || groupUpdateForm.controls.groupName.touched) && (groupUpdateForm.controls.groupName.errors.required)"
               class="form-error-msg"> Group Name is required. </small>
@@ -15,12 +17,14 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="contactName" formControlName="contactName" placeholder="Group Contact Name" required>
+              <mat-label>Group Contact Name</mat-label>
+              <input matInput name="contactName" formControlName="contactName" required>
             </mat-form-field>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput formControlName="groupEmail" placeholder="Email" required>
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="groupEmail" required>
             </mat-form-field>
             <small *ngIf="groupUpdateForm.controls.groupEmail.errors && (groupUpdateForm.controls.groupEmail.dirty || groupUpdateForm.controls.groupEmail.touched) && (groupUpdateForm.controls.groupEmail.errors.email)"
               class="form-error-msg"> Invaild email address </small>
@@ -28,22 +32,26 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="telephone" formControlName="contactTelephone" placeholder="Group Contact Number" required>
+              <mat-label>Group Contact Number</mat-label>
+              <input matInput name="telephone" formControlName="contactTelephone" required>
             </mat-form-field>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width text-area-field">
-              <textarea matInput formControlName="groupBio" placeholder="Group Bio" rows="4"></textarea>
+              <mat-label>Group Bio</mat-label>
+              <textarea matInput formControlName="groupBio" rows="4"></textarea>
             </mat-form-field>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="originTown" formControlName="originTown" placeholder="Based in Town">
+              <mat-label>Based in Town</mat-label>
+              <input matInput name="originTown" formControlName="originTown">
             </mat-form-field>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="originPostcode" formControlName="originPostcode" placeholder="Based In Postcode">
+              <mat-label>Based In Postcode</mat-label>
+              <input matInput name="originPostcode" formControlName="originPostcode">
             </mat-form-field>
           </div>
           <button mat-raised-button color="primary" type="submit" [disabled]="!groupUpdateForm.dirty">

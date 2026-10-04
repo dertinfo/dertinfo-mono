@@ -8,8 +8,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
 
 @Component({
   selector: 'app-event-email-templates',
-  templateUrl: './event-email-templates.component.html',
-  styleUrls: ['./event-email-templates.component.css']
+  templateUrl: './event-email-templates.component.html'
 })
 export class EventEmailTemplatesComponent implements OnInit, OnDestroy {
 

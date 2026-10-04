@@ -1,8 +1,17 @@
+.registration-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
 .icon-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     min-width: 70px;
 }
-.pad-up {
-    display: block;
-    float:right;
-    padding-top: 8px;
+.icon-count .mat-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    line-height: 20px;
 }

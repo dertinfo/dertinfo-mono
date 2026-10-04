@@ -9,7 +9,8 @@
         <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="name" placeholder="Score Category Name">
+                    <mat-label>Score Category Name</mat-label>
+                    <input matInput formControlName="name">
                 </mat-form-field>
                 <small *ngIf="form.controls.name.errors && (form.controls.name.dirty || form.controls.name.touched) && (form.controls.name.errors.required)"
                     class="form-error-msg"> Score Category Name is required. </small>

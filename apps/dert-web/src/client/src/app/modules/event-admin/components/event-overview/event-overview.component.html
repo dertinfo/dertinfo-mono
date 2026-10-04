@@ -1,7 +1,7 @@
 <div fxLayout="row wrap">
   <div fxLayout="column" fxFlex="100" fxFlex.gt-md="50">
     <!-- Chart grid -->
-    <mat-card class="default">
+    <mat-card appearance="outlined" class="default">
       <mat-card-title>Summary</mat-card-title>
       <mat-card-content>
         <div fxLayout="row wrap" class="doughnut-grid text-center">
@@ -21,7 +21,7 @@
       </mat-card-content>
     </mat-card>
     <!-- Contact Information -->
-    <mat-card class="default">
+    <mat-card appearance="outlined" class="default">
       <mat-card-title>Contact Information</mat-card-title>
       <mat-card-content class="pt-0">
         <mat-list>
@@ -42,7 +42,7 @@
 
   <div fxLayout="column" fxFlex="100" fxFlex.gt-md="50">
 
-    <mat-card class="default">
+    <mat-card appearance="outlined" class="default">
       <mat-card-title>Active Registrations</mat-card-title>
       <app-registration-listing-for-event [eventRegistrationOverviews]="activeRegistrations">
       </app-registration-listing-for-event>

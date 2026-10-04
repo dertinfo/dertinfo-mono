@@ -9,7 +9,8 @@
         <div fxLayout="row wrap" fxLayoutAlign="space-between">
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="eventName" placeholder="Event Name">
+                    <mat-label>Event Name</mat-label>
+                    <input matInput formControlName="eventName">
                 </mat-form-field>
                 <small *ngIf="eventForm.controls.eventName.errors && (eventForm.controls.eventName.dirty || eventForm.controls.eventName.touched) && (eventForm.controls.eventName.errors.required)"
                     class="form-error-msg"> Event Name is required. </small>
@@ -18,7 +19,8 @@
             </div>
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <input matInput formControlName="eventSynopsis" placeholder="Event Synopsis">
+                    <mat-label>Event Synopsis</mat-label>
+                    <input matInput formControlName="eventSynopsis">
                 </mat-form-field>
             </div>
             <div class="" fxFlex="100">

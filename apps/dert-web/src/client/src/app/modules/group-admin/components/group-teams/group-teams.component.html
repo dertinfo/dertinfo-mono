@@ -1,7 +1,7 @@
 <div>
     <app-addition-header (addClick)="openCreateTeamDialog()" [title]="'Teams'" [icon]="'people'"></app-addition-header>
   <div *ngFor="let team of groupTeams$ | async">
-    <mat-card class="user-card p-0">
+    <mat-card appearance="outlined" class="user-card p-0">
       <mat-card-title class="mat-bg-primary">
         <div class="card-title-text">
             <a class="toolbar-avatar md mr-1" [routerLink]="getDetailRouteLink(team)">

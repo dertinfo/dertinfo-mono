@@ -11,7 +11,8 @@
             <!-- Venue Name -->
             <div class="pb-1" fxFlex="100">
                 <mat-form-field class="full-width">
-                    <mat-select formControlName="competitionEntryId" placeholder="Team" required>
+                    <mat-label>Team</mat-label>
+                    <mat-select formControlName="competitionEntryId" required>
                         <mat-option *ngFor="let entrant of teamEntrants | async" value="{{entrant.competitionEntryId}}" [disabled]="!entrant.hasBeenAddedToCompetition">{{entrant.teamName}}
                         </mat-option>
                     </mat-select>
@@ -20,7 +21,8 @@
                     *ngIf="form.controls.competitionEntryId.errors && (form.controls.competitionEntryId.dirty || form.controls.competitionEntryId.touched) && (form.controls.competitionEntryId.errors.required)"
                     class="form-error-msg"> You must select a team. </small>
                 <mat-form-field class="full-width">
-                    <mat-select formControlName="venueId" placeholder="Venue" required>
+                    <mat-label>Venue</mat-label>
+                    <mat-select formControlName="venueId" required>
                         <mat-option *ngFor="let venue of venues | async" value="{{venue.id}}">{{venue.name}}
                         </mat-option>
                     </mat-select>

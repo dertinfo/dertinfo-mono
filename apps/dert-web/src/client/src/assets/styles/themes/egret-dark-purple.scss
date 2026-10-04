@@ -1,5 +1,7 @@
 @use '@angular/material' as mat;
 @import '@angular/material/theming';
+// Default component typography, including hierarchy classes such as .mat-headline-1.
+@include mat.all-component-typographies();
 @include mat.core();
 
 $md-primary: (
@@ -95,15 +97,15 @@ $primary-dark: darken( map-get($md-primary, 500), 8% );
     .mat-color-primary,
     .list-item-active,
     .sidebar-panel.mat-drawer .sidebar-list-item.open md-icon:not(.menu-caret),
-    .sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-list-item-content > a > span,
+    .sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-mdc-list-item-content > a > span,
     .sidebar-panel.mat-drawer .sidebar-list-item.open .sub-menu .mat-list-item.selected a {
         color: map-get($md-primary, 500) !important;
     }
-    .sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-list-item-content > a > span,
+    .sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-mdc-list-item-content > a > span,
     .sidebar-panel.mat-drawer .sidebar-list-item.open .sub-menu .mat-list-item.selected a {
         font-weight: 500;
     }
-    .sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-list-item-content > .sub-menu,
+    /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
     .sidebar-panel.mat-drawer .sidebar-list-item.open md-icon:not(.menu-caret),
     .list-item-active {
         border-color: map-get($md-primary, 500) !important;
@@ -118,8 +120,8 @@ $primary-dark: darken( map-get($md-primary, 500), 8% );
     .sidebar-panel.mat-drawer .sidebar-list-item md-icon:not(.menu-caret),
     .ngx-datatable.material *,
     .ql-snow .ql-picker,
-    .mat-option,
-    .mat-dialog-container {
+    .mat-mdc-option,
+    .mat-mdc-dialog-container {
         color: white !important;
     }
     .text-muted {

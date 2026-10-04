@@ -2,7 +2,7 @@
 name: Create and manage group
 type: feature
 status: active
-updated: 2026-10-03
+updated: 2026-10-04
 id: groups.manage
 roles: [member, group-admin]
 ---
@@ -23,14 +23,20 @@ A signed-in user can **create** a **group** (sword-dancing club). Only **group a
 - A new group is not set up. Its dashboard card shows **Needs more information**. The card menu offers **Configure**, and opening the card starts group setup.
 - After setup, that overlay is gone and the menu offers **Admin**.
 - Creating a group already produces a team with the group's name. The group admin does not create that first team.
-- Add and remove **members** and **guests** from **Members & Guests**. They are the same record, distinguished by type. Edit their details, and see their attendances at events the group has attended.
+- View registrations for the group. See [Submit event registration](registration-submit.md). Each registration names the event, how many people and teams are on it, and whether it is still open.
+- Add and remove **members** and **guests** from **Members & Guests**. They are the same record, distinguished by type. Edit their name, contact, date of birth, date joined, and member or guest. Their attendances name the event and the ticket types.
 - Add and remove **teams**; update the team and its bio; see events that team attended with the group; choose a picture from the gallery for that team; delete a team.
 - Upload images in **Gallery** and **Set Main**. That image is the one used on other pages where the group is shown. Images are processed by [Image handling](../system/image-handling.md).
 - **Settings** includes the email used for correspondence for the group.
 - **Privacy Settings** are **Public** (the group may appear on the public website), **Private** (it does not appear on any public part of the website), or **Restricted** (it is shared only with consent).
-- View registrations for the group. See [Submit event registration](registration-submit.md).
 - **Edit registrations** while they are still open — registrations stop being editable by the group once an **event admin confirms** the registration.
 - Cannot create an **event** — see [Create event](events-create.md).
+
+## Behaviour (viewing the group)
+
+- A configured group on the dashboard offers **View**. That opens the group without the admin sections: the name, the description, and the events the group is registered for.
+- A group administrator on that screen can switch to the admin sections.
+- Opening an event there shows that group's registration for it, including the teams and activities. When results are published, the group's own marking sheets are shown. Until then, the screen says results are not yet published.
 
 ## Limitations
 

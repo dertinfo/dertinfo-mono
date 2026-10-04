@@ -28,7 +28,7 @@
         <span fxFlex></span>
       </div>
 
-      <mat-chip mat-sm-chip [selected]="true">{{invoice.hasPaid ? 'Received' : 'Not&nbsp;yet&nbsp;received'}}</mat-chip>
+      <mat-chip-option mat-sm-chip [selected]="true">{{invoice.hasPaid ? 'Received' : 'Not&nbsp;yet&nbsp;received'}}</mat-chip-option>
       <mat-icon (click)="OnHasPaidClick(invoice.invoiceId)" *ngIf="changeStateEnabled">sync</mat-icon>
     </mat-list-item>
   </mat-list>

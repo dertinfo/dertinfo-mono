@@ -46,7 +46,7 @@
     <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="30px">
         <div fxFlex>
           <a href="http://www.dert.uk/" target="_blank">
-            <mat-card class="p-0 m-0">
+            <mat-card appearance="outlined" class="p-0 m-0">
               <img mat-card-image src="assets/images/home-dertuk.png">
               <mat-card-content>
                 <h5><strong>DERT UK</strong></h5>
@@ -59,7 +59,7 @@
         </div>
         <div fxFlex>
           <a href="http://www.sworddanceunion.org.uk/" target="_blank">
-            <mat-card class="p-0 m-0">
+            <mat-card appearance="outlined" class="p-0 m-0">
               <img mat-card-image src="assets/images/home-sdu.png">
               <mat-card-content>
                 <h5><strong>SDU</strong></h5>
@@ -72,7 +72,7 @@
         </div>
       <div fxFlex>
         <a href="https://www.facebook.com/groups/675344492568251/" target="_blank">
-          <mat-card class="p-0 m-0">
+          <mat-card appearance="outlined" class="p-0 m-0">
             <img mat-card-image src="assets/images/home-ajs.png">
             <mat-card-content>
               <h5><strong>DERT Alternative
@@ -91,7 +91,7 @@
       </div>
       <div fxFlex>
         <a href="https://www.facebook.com/groups/164866403667090/" target="_blank">
-          <mat-card class="p-0 m-0">
+          <mat-card appearance="outlined" class="p-0 m-0">
             <img mat-card-image src="assets/images/home-thenut.png">
             <mat-card-content>
               <h5><strong>The NUT</strong></h5>
@@ -131,7 +131,7 @@
     <div fxLayout="row" fxLayout.lt-md="column" fxLayoutWrap="nowrap" fxLayoutGap="20px">
       <div fxFlex="25">
         <a routerLink="/dashboard" name="registration-page">
-          <mat-card class="home-fancy-card">
+          <mat-card appearance="outlined" class="home-fancy-card">
             <div fxLayout="column">
               <div class="text-center">
                 <mat-icon mat-card-icon>assignment</mat-icon>
@@ -153,7 +153,7 @@
       </div>
       <div fxFlex="25">
         <a routerLink="/content/results" name="results-page">
-          <mat-card class="home-fancy-card">
+          <mat-card appearance="outlined" class="home-fancy-card">
             <div fxLayout="column">
               <div class="text-center">
                 <mat-icon mat-card-icon>insert_chart</mat-icon>
@@ -175,7 +175,7 @@
       </div>
       <div fxFlex="25">
         <a routerLink="/content/history" name="history-page">
-          <mat-card class="home-fancy-card">
+          <mat-card appearance="outlined" class="home-fancy-card">
             <div fxLayout="column">
               <div class="text-center">
                 <mat-icon mat-card-icon>storage</mat-icon>
@@ -197,7 +197,7 @@
       </div>
       <div fxFlex="25">
         <a routerLink="/content/community" name="community-page">
-          <mat-card class="home-fancy-card">
+          <mat-card appearance="outlined" class="home-fancy-card">
             <div fxLayout="column">
               <div class="text-center">
                 <mat-icon mat-card-icon>insert_emoticon</mat-icon>
@@ -370,13 +370,15 @@
         <div fxFlex="100">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="name" [formControl]="contactForm.controls['name']" placeholder="Your Name">
+              <mat-label>Your Name</mat-label>
+              <input matInput name="name" [formControl]="contactForm.controls['name']">
             </mat-form-field>
             <small *ngIf="contactForm.controls.name.touched && contactForm.controls.name.errors?.required" class="form-error-msg">Name is required</small>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="email" [formControl]="contactForm.controls['email']" placeholder="Your Email">
+              <mat-label>Your Email</mat-label>
+              <input matInput name="email" [formControl]="contactForm.controls['email']">
             </mat-form-field>
             <small *ngIf="contactForm.controls.email.touched && contactForm.controls.email.errors?.email" class="form-error-msg">Invalid Email</small>
           </div>
@@ -385,13 +387,15 @@
         <div fxFlex="100">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="subject" [formControl]="contactForm.controls['subject']" placeholder="Subject">
+              <mat-label>Subject</mat-label>
+              <input matInput name="subject" [formControl]="contactForm.controls['subject']">
             </mat-form-field>
             <small *ngIf="contactForm.controls.subject.touched && contactForm.controls.subject.errors?.required" class="form-error-msg">Subject is required</small>
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <textarea matInput row="8" name="message" [formControl]="contactForm.controls['message']" placeholder="Message"></textarea>
+              <mat-label>Message</mat-label>
+              <textarea matInput row="8" name="message" [formControl]="contactForm.controls['message']"></textarea>
             </mat-form-field>
             <small *ngIf="contactForm.controls.message.touched && contactForm.controls.message.errors?.required" class="form-error-msg">Message is required</small>
           </div>
@@ -420,21 +424,13 @@
         </div>
         <div fxFlex="25" class="footer-box">
           <h4 class="footer-box-title"><b>Contact</b></h4>
-          <mat-list>
-            <mat-list-item>
-              <mat-icon mat-list-icon color="accent">email</mat-icon>
-              <h5 matLine><b>Email</b></h5>
-              <p matLine>dertinfo@gmail.com</p>
-            </mat-list-item>
-            <!--
-            <mat-list-item>
-                <mat-icon mat-list-icon color="accent">location_on</mat-icon>
-                <h5 matLine><b>Adress</b></h5>
-                <p matLine>Topoban, Akhalia </p>
-                <p matLine>Sylhet 3114, BD </p>
-              </mat-list-item>
-                        -->
-          </mat-list>
+          <div class="footer-contact">
+            <div class="footer-contact-label">
+              <mat-icon>email</mat-icon>
+              <span>Email</span>
+            </div>
+            <a href="mailto:dertinfo@gmail.com">dertinfo@gmail.com</a>
+          </div>
 
         </div>
         <div fxFlex="25" class="footer-box">

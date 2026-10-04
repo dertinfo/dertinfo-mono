@@ -1,6 +1,6 @@
 <div fxLayout="row wrap" fxLayout.lt-md="column" fxFlex="100">
 
-  <mat-card class="p-0" fxFlex="45">
+  <mat-card appearance="outlined" class="p-0" fxFlex="45">
     <mat-card-title class="mat-bg-primary">
       <div class="card-title-text">
         <span>Open to the public?</span>
@@ -13,7 +13,7 @@
       <mat-slide-toggle [(ngModel)]="openToPublic" (change)="onOpenToPublicChange()">Judging open to public</mat-slide-toggle>
     </mat-card-content>
   </mat-card>
-  <mat-card class="p-0" fxFlex="45">
+  <mat-card appearance="outlined" class="p-0" fxFlex="45">
     <mat-card-title class="mat-bg-primary">
       <div class="card-title-text">
         <span>Results Forwarded</span>
@@ -27,7 +27,7 @@
       <mat-slide-toggle [(ngModel)]="officialResultsForwarded" (change)="onOfficialResultsForwardedChange()">Official Results</mat-slide-toggle>
     </mat-card-content>
   </mat-card>
-  <mat-card class="p-0" fxFlex="45">
+  <mat-card appearance="outlined" class="p-0" fxFlex="45">
     <mat-card-title class="mat-bg-primary">
       <div class="card-title-text">
         <span>All Done? Publish Results?</span>
@@ -39,7 +39,7 @@
       <mat-slide-toggle [(ngModel)]="resultsPublished" (change)="onResultsPublishedChange()">Results are published</mat-slide-toggle>
     </mat-card-content>
   </mat-card>
-  <mat-card class="p-0" fxFlex="45">
+  <mat-card appearance="outlined" class="p-0" fxFlex="45">
     <mat-card-title class="mat-bg-primary">
       <div class="card-title-text">
         <span>Valid passwords for Judges</span>
@@ -60,7 +60,7 @@
       </form>
     </mat-card-content>
   </mat-card>
-  <mat-card class="p-0" fxFlex="45">
+  <mat-card appearance="outlined" class="p-0" fxFlex="45">
     <mat-card-title class="mat-bg-primary">
       <div class="card-title-text">
         <span>Clear Results Cache</span>

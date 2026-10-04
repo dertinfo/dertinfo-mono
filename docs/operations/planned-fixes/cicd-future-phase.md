@@ -22,13 +22,13 @@ Fix the repository fixture, then gate deploy on `unit-test` if desired.
 - Enable `integration-test` jobs and add SQL Server to CI.
 - Optionally require `unit-test` (and later `integration-test`) before `deploy-test` in `api-src-cd.yml`.
 
-## 1. Upgrade dert-app to Angular 14
+## 1. Upgrade dert-app toward the website's Angular version
 
-Align the Ionic PWA (`apps/dert-app/`) with the website (`apps/dert-web/`) on **Angular 14** so both frontends share a compatible major version. Today the app remains on Angular 13 with an isolated `npm install` under `apps/dert-app/src/client` (no npm workspaces) to avoid dependency clashes in CI.
+The website (`apps/dert-web`) is Angular 15. The Ionic PWA (`apps/dert-app`) remains on Angular 13 with an isolated `npm install` under `apps/dert-app/src/client` (no npm workspaces) to avoid dependency clashes in CI. Aligning the app is still deferred. When it is undertaken, follow the website's current major rather than stopping at Angular 14.
 
 Scope when undertaken:
 
-- Bump `@angular/*`, `@angular-devkit/*`, `@angular-eslint/*`, and `@ionic/angular` to versions compatible with Angular 14
+- Bump `@angular/*`, `@angular-devkit/*`, `@angular-eslint/*`, and `@ionic/angular` to versions compatible with the website's Angular major
 - Update `angular.json`, TypeScript, and any breaking API migrations
 - Re-evaluate whether a shared root `package.json` workspace is desirable after versions align
 
