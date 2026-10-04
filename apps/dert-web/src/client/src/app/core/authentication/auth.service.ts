@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable, DOCUMENT } from '@angular/core';
+
 import { Router } from '@angular/router';
 import { AuthService as Auth0AngularService } from '@auth0/auth0-angular';
 import { UserSettingsUpdateSubmissionDto } from 'app/models/dto';
