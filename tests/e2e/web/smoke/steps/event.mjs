@@ -5,8 +5,9 @@ import { EVENT_NAME, clickLabelledCheckbox, clickNext, clickPageAdd, entityCard,
 async function fillDate(page, name, value) {
   const header = page.locator('mat-step-header[aria-selected="true"]');
   const input = header.locator(`xpath=following::input[@formcontrolname="${name}"][1]`);
-  await input.click();
-  await input.fill(value);
+  // A resting mat-label covers the input, so a normal click lands on the label.
+  await input.click({ force: true });
+  await input.fill(value, { force: true });
   await input.press('Tab');
 }
 
