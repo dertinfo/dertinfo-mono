@@ -178,6 +178,52 @@ Checked against the compatibility table for Angular 18, not copied from the 15 t
 - Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
 - These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
 
+## Watch-list from the Angular 17 to 18 upgrade
+
+These showed up on this website during the move to Angular 18.2. The update guide does not list them as application steps. Check them again on later hops. The full record, including package versions, is [Website upgraded from Angular 17 to Angular 18](../../operations/changelogs/2026-10-04-005-web-angular-18.md).
+
+### Read the compatibility table before treating a leftover as a requirement
+
+The 16 to 17 notes said `ngx-cookie-service` **17.1.0** and `ng2-file-upload` **6.0.0** must move because they peer `^17`. They did. `@ngbracket/ngx-layout` **16.1.3** and `ng2-charts` **5.0.4** still peer `>=16`. Both installed, and the production build accepted them on Angular 18.2.14. Do not bump an open `>=` range because a newer major exists. `@ngbracket/ngx-layout` publishes through Angular 22.
+
+### Node, TypeScript, and RxJS were already inside the Angular 18.2 range
+
+Angular 18.2 supports Node `^18.19.1 || ^20.11.1 || ^22.0.0`, TypeScript `>=5.4.0 <5.6.0`, and RxJS `^6.5.3 || ^7.4.0`. This site stayed on Node 18, TypeScript **5.4.5**, and RxJS **6.6.7**. `zone.js` stayed at **0.14.10**. There was no engine change before `ng update`. This machine's default Node is 24. Update and `ng build` used a portable Node **18.20.8**. nvm-windows is not installed. The Static Web Apps CLI on this machine is still the Node 24 global, and `ng serve` used Node 18. CI (`web-src-ci.yml`, `web-src-cd.yml`) and the website image stay on Node 18. The Dockerfile's global CLI pin is `@angular/cli@18`. The Ionic app and its CI stay on Node 16.
+
+### `ng update` lists the application builder and does not run it unless asked
+
+`ng update @angular/cli@18 @angular/core@18` and `ng update @angular/material@18` completed with no `--force`. The CLI printed one optional migration, `use-application-builder`, and did not run it. The webpack `browser` builder stayed. A non-interactive update skips that optional migration. Running it is a separate change.
+
+### The core migration replaced `HttpClientModule`
+
+The core migration removed `HttpClientModule` from `AppModule` and added `provideHttpClient(withInterceptorsFromDi())`, so the existing `HTTP_INTERCEPTORS` registration still applies. That migration is not optional. The new control flow, standalone components, typed forms, and zoneless change detection were not adopted.
+
+### Material 18 renames the Material 2 Sass helpers
+
+`ng update @angular/material@18` rewrote the five theme files. `define-palette` became `m2-define-palette`, `define-light-theme` became `m2-define-light-theme`, and `define-dark-theme` became `m2-define-dark-theme`. `mat.core()` and `mat.all-component-themes()` stayed. The custom palettes stayed. The production build still warns that the theme is not a color, typography, and density map. Material 3 was not adopted.
+
+### This schematic did not rewrite `tsconfig` target
+
+`tsconfig.json` `target` is still `es2020`. The CLI still applies ES2022 and still warns. Browserslist entries that need ES5 (`kaios 2.5`, `op_mini all`) are still ignored. `entryComponents` remains on `AppLoaderModule`. The build accepts it.
+
+### Packages that peer `^17` move in the same hop
+
+`ng update` does not carry them. `ngx-cookie-service` moved from 17.1.0 to **18.0.0**. `ng2-file-upload` moved from 6.0.0 to **7.0.1**. Version **7.0.0** also peers `jest-preset-angular`, which does not resolve. After that, `npm install` had no peer errors and no `force`. Packages whose peers are an open `>=` range stayed: `@ngbracket/ngx-layout` 16.1.3, `ng2-charts` 5.0.4, `ngx-quill` 17.0.0, `@ngx-translate/core` 14, `@swimlane/ngx-datatable` 20.1.0, `@auth0/auth0-angular` 2.2.3. RxJS stayed at **6.6.7**.
+
+### The next hop is already constrained by what this one left in place
+
+Checked against the compatibility table for Angular 19, not copied from the 16 to 17 list.
+
+- Angular 19.0 supports Node `^18.19.1 || ^20.11.1 || ^22.0.0`, TypeScript `>=5.5.0 <5.7.0`, and RxJS `^6.5.3 || ^7.4.0`. This site is on Node 18 and RxJS **6.6.7**, which are inside that range. TypeScript **5.4.5** is not. Let `ng update` move it. Angular 19.2 allows TypeScript `>=5.5.0 <5.9.0`. Angular 20 drops Node 18 (`^20.19.0 || ^22.12.0 || ^24.0.0`). Node 24 still cannot run the Angular 18 CLI.
+- `ngx-cookie-service` **18.0.0** and `ng2-file-upload` **7.0.1** peer `^18`. They have to move with Angular 19. `ng2-file-upload` **8** peers `^19`. `ng update` does not carry them.
+- `@ngbracket/ngx-layout` 16.1.3 and `ng2-charts` 5.0.4 peer `>=16`. They installed on Angular 18. Confirm them again on 19 before bumping.
+- RxJS stays at **6.6.7** unless a package we bump refuses it. A newer `ngx-quill` is what would force RxJS 7.
+- The webpack `browser` builder is still supported and deprecated. `ng update` to 18 asks to migrate to the application builder. That migration was not run. The new control flow was not adopted. Angular 20 deprecates `*ngIf`, `*ngFor`, and `*ngSwitch`, and that hop runs the control-flow migration.
+- The Material theme is still the Material 2 helpers, now under the `m2-` names. The production build still warns that it is not a color, typography, and density map. `entryComponents` remains on `AppLoaderModule`. The commented dashboard chart still uses the Chart.js 2 inputs.
+- Standalone components, typed forms, and zoneless change detection were not adopted.
+- Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
+- These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
+
 ## Related
 
 - [Angular standards](../standards/angular/README.md)
@@ -186,3 +232,4 @@ Checked against the compatibility table for Angular 18, not copied from the 15 t
 - [Website upgraded from Angular 14 to Angular 15](../../operations/changelogs/2026-10-04-002-web-angular-15.md)
 - [Website upgraded from Angular 15 to Angular 16](../../operations/changelogs/2026-10-04-003-web-angular-16.md)
 - [Website upgraded from Angular 16 to Angular 17](../../operations/changelogs/2026-10-04-004-web-angular-17.md)
+- [Website upgraded from Angular 17 to Angular 18](../../operations/changelogs/2026-10-04-005-web-angular-18.md)

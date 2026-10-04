@@ -27,12 +27,12 @@ How settings are organised across local development, Docker, and Azure-hosted en
 
 | Item            | Guidance                                                                                                                                     |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Engine floor    | Root `package.json` / doctor: **Node ≥ 16.10**. Website Angular 17.3 needs Node `^18.13` or `^20.9`. The Ionic app is still Angular 13.     |
-| Recommended     | **Node 18** for website `ng` (Angular CLI 17 does not run on Node 24). Node 18 or newer for the Static Web Apps CLI. The Ionic app is still Angular 13. |
+| Engine floor    | Root `package.json` / doctor: **Node ≥ 16.10**. Website Angular 18.2 needs Node `^18.19.1`, `^20.11.1`, or `^22.0.0`. The Ionic app is still Angular 13.     |
+| Recommended     | **Node 18** for website `ng` (Angular CLI 18 does not run on Node 24). Node 18 or newer for the Static Web Apps CLI. The Ionic app is still Angular 13. |
 | nvm-windows     | `nvm install <ver>` then **elevated** `nvm use <ver>` if you see `exit status 5: Access is denied` (symlink under `C:\Program Files\nodejs`) |
 | After `nvm use` | Reinstall globals on that Node: `npm install -g azurite@latest @azure/static-web-apps-cli`                                                   |
 | Per-app deps    | `npm run web:install` / `npm run app:install` (or `npm install` in each `apps/*/src/client`) after Node switches                             |
-| Angular CLI     | Prefer **project-local** `npx ng` (web CLI 17, app CLI 13) — avoid one global CLI for both                                                   |
+| Angular CLI     | Prefer **project-local** `npx ng` (web CLI 18, app CLI 13) — avoid one global CLI for both                                                   |
 
 
 ```powershell
@@ -114,7 +114,7 @@ Orchestration waits for each `ng serve` port before starting SWA.
 ### Prerequisites (summary)
 
 - [.NET 8 SDK](https://dotnet.microsoft.com/download)
-- [Node.js 16.10+](https://nodejs.org/) (20/24 LTS recommended); optional [nvm-windows](https://github.com/coreybutler/nvm-windows)
+- [Node.js 16.10+](https://nodejs.org/) (website `ng` needs `^18.19.1`, `^20.11.1`, or `^22.0.0`; Node 24 cannot run the Angular 18 CLI); optional [nvm-windows](https://github.com/coreybutler/nvm-windows)
 - [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads) (or Express) — connection details in `infra/secrets/api.env`
 - Azurite CLI **≥ 3.34.0**, Functions Core Tools **v4**, SWA CLI — see tables above
 - `sqlcmd` on `PATH` (for `npm run doctor` database checks)

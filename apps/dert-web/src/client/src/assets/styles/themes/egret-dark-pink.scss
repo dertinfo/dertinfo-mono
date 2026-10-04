@@ -70,11 +70,11 @@ $md-accent: (
 );
 
 // mandatory stuff for theming
-$egret-primary: mat.define-palette($md-primary);
-$egret-accent:  mat.define-palette($md-accent);
+$egret-primary: mat.m2-define-palette($md-primary);
+$egret-accent:  mat.m2-define-palette($md-accent);
 
 // include the custom theme components into a theme object
-$egret-theme: mat.define-dark-theme($egret-primary, $egret-accent);
+$egret-theme: mat.m2-define-dark-theme($egret-primary, $egret-accent);
 
 $primary-dark: darken( map-get($md-primary, 500), 8% );
 

@@ -15,7 +15,7 @@
 ##################################################################
 
 # Base Stage
-# Pin Node 18 — matches website CI. Angular 17 needs Node ^18.13 or ^20.9.
+# Pin Node 18 — matches website CI. Angular 18 needs Node ^18.19.1, ^20.11.1, or ^22.0.0.
 # node:lts (24) is outside that range. The global CLI pin moves with the framework.
 FROM node:18-bookworm AS base
 
@@ -29,7 +29,7 @@ FROM base AS builder
 WORKDIR /build
 
 # Install global dependencies and clean npm cache in a single RUN command
-RUN npm install -g @angular/cli@17 typescript
+RUN npm install -g @angular/cli@18 typescript
 
 # Copy the static web app files
 COPY ./src/client/package.json package.json
