@@ -14,7 +14,8 @@ class DataTableDataElement {
 @Component({
     selector: 'app-groupview-registration-dances-grid',
     templateUrl: './dances-grid.component.html',
-    styleUrls: ['./dances-grid.component.css']
+    styleUrls: ['./dances-grid.component.css'],
+    standalone: false
 })
 export class DancesGridComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 

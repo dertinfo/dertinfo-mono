@@ -11,9 +11,10 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
 import { EventCancellationOptionsDto } from 'app/models/dto/EventCancellationOptionsDto';
 
 @Component({
-  selector: 'app-event-settings',
-  templateUrl: './event-settings.component.html',
-  styleUrls: ['./event-settings.component.css']
+    selector: 'app-event-settings',
+    templateUrl: './event-settings.component.html',
+    styleUrls: ['./event-settings.component.css'],
+    standalone: false
 })
 export class EventSettingsComponent implements OnInit, OnDestroy {
 

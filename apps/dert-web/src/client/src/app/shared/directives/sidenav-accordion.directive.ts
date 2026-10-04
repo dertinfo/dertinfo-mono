@@ -2,7 +2,10 @@ import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, 
 import { NavigationEnd, Router } from '@angular/router';
 import * as domHelper from '../../helpers/dom.helper';
 
-@Directive({ selector: '[sideNavAccordion]' })
+@Directive({
+    selector: '[sideNavAccordion]',
+    standalone: false
+})
 export class SideNavAccordionDirective implements OnInit {
   constructor(private el: ElementRef) {
   }

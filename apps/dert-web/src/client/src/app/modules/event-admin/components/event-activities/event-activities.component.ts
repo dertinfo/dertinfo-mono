@@ -10,9 +10,10 @@ import { EventActivitiesCreateComponent } from '../event-activities-create/event
 import { EventAdminTracker } from '../../services/event-admin.tracker';
 
 @Component({
-  selector: 'app-event-activities',
-  templateUrl: './event-activities.component.html',
-  styleUrls: ['./event-activities.component.css']
+    selector: 'app-event-activities',
+    templateUrl: './event-activities.component.html',
+    styleUrls: ['./event-activities.component.css'],
+    standalone: false
 })
 export class EventActivitiesComponent implements OnInit, OnDestroy {
 

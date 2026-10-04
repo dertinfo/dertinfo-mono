@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavigationService } from '../../../core/services/navigation.service';
 
 @Component({
-  selector: 'app-fabmenu',
-  templateUrl: './fabmenu.component.html',
-  styleUrls: ['./fabmenu.component.css']
+    selector: 'app-fabmenu',
+    templateUrl: './fabmenu.component.html',
+    styleUrls: ['./fabmenu.component.css'],
+    standalone: false
 })
 export class FabMenuComponent implements OnInit {
   isFlyoutOpen = false;

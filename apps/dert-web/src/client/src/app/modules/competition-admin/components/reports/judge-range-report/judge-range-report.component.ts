@@ -8,9 +8,10 @@ import { SubscriptionLike } from 'rxjs';
 import { JudgeRangeReportDialogComponent } from '../judge-range-report-dialog/judge-range-report-dialog.component';
 
 @Component({
-  selector: 'app-competition-judge-range-report',
-  templateUrl: './judge-range-report.component.html',
-  styleUrls: ['./judge-range-report.component.css']
+    selector: 'app-competition-judge-range-report',
+    templateUrl: './judge-range-report.component.html',
+    styleUrls: ['./judge-range-report.component.css'],
+    standalone: false
 })
 export class JudgeRangeReportComponent implements OnInit {
 

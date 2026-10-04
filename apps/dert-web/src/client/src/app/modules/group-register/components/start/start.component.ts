@@ -13,9 +13,10 @@ import { GroupRegisterConductor } from '../../services/group-register.conductor'
 import { GroupRegisterTracker } from '../../services/group-register.tracker';
 
 @Component({
-  selector: 'app-start',
-  templateUrl: './start.component.html',
-  styleUrls: ['./start.component.css']
+    selector: 'app-start',
+    templateUrl: './start.component.html',
+    styleUrls: ['./start.component.css'],
+    standalone: false
 })
 export class StartComponent implements OnInit, OnDestroy {
 

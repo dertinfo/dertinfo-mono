@@ -15,9 +15,10 @@ class DataTableDataElement {
 
 }
 @Component({
-  selector: 'app-competition-results',
-  templateUrl: './results.component.html',
-  styleUrls: ['./results.component.css']
+    selector: 'app-competition-results',
+    templateUrl: './results.component.html',
+    styleUrls: ['./results.component.css'],
+    standalone: false
 })
 export class ResultsComponent implements OnInit, OnDestroy {
 

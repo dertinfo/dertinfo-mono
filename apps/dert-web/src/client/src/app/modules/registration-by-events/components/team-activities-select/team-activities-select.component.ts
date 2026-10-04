@@ -9,7 +9,8 @@ import { TeamActivitySelectModel } from './models/team-activities-select.model';
 @Component({
     selector: 'app-team-activities-select',
     templateUrl: './team-activities-select.component.html',
-    styleUrls: ['./team-activities-select.component.css']
+    styleUrls: ['./team-activities-select.component.css'],
+    standalone: false
 })
 export class TeamActivitiesSelectComponent implements OnInit, OnDestroy {
 

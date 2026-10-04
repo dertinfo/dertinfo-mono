@@ -9,7 +9,8 @@ import { MemberActivitySelectModel } from './models/member-activities-select.mod
 @Component({
     selector: 'app-member-activities-select',
     templateUrl: './member-activities-select.component.html',
-    styleUrls: ['./member-activities-select.component.css']
+    styleUrls: ['./member-activities-select.component.css'],
+    standalone: false
 })
 export class MemberActivitiesSelectComponent implements OnInit, OnDestroy {
 

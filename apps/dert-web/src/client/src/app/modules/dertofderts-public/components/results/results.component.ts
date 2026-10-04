@@ -9,9 +9,10 @@ import { Conductor } from '../../services/dertofderts-public.conductor';
 import { Tracker } from '../../services/dertofderts-public.tracker';
 
 @Component({
-  selector: 'app-results',
-  templateUrl: './results.component.html',
-  styleUrls: ['./results.component.scss']
+    selector: 'app-results',
+    templateUrl: './results.component.html',
+    styleUrls: ['./results.component.scss'],
+    standalone: false
 })
 export class ResultsComponent implements OnInit, OnDestroy {
 

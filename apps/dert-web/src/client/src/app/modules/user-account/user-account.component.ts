@@ -3,9 +3,10 @@ import { Subscription } from 'rxjs';
 import { UserAccountConductor } from './services/user-account.conductor';
 
 @Component({
-  selector: 'app-user-account',
-  templateUrl: './user-account.component.html',
-  styleUrls: ['./user-account.component.css']
+    selector: 'app-user-account',
+    templateUrl: './user-account.component.html',
+    styleUrls: ['./user-account.component.css'],
+    standalone: false
 })
 export class UserAccountComponent implements OnInit, OnDestroy {
 

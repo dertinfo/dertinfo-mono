@@ -10,9 +10,10 @@ import { Subscription } from 'rxjs';
 import { EventCompetitionModel, StatusBlockModel } from './models/eventcompetition.model';
 
 @Component({
-  selector: 'app-event-competitions',
-  templateUrl: './competitions.component.html',
-  styleUrls: ['./competitions.component.css']
+    selector: 'app-event-competitions',
+    templateUrl: './competitions.component.html',
+    styleUrls: ['./competitions.component.css'],
+    standalone: false
 })
 export class EventCompetitionsComponent implements OnInit, OnDestroy {
 

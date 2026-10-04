@@ -8,9 +8,10 @@ import { GroupAccessContext } from 'app/models/app/Enumerations/GroupAccessConte
 import { GroupViewTracker } from '../../services/group-view.tracker';
 
 @Component({
-  selector: 'app-groupview-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.css']
+    selector: 'app-groupview-overview',
+    templateUrl: './overview.component.html',
+    styleUrls: ['./overview.component.css'],
+    standalone: false
 })
 export class GroupViewOverviewComponent implements OnInit, OnDestroy {
 

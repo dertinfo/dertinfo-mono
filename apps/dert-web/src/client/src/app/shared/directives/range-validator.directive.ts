@@ -20,7 +20,8 @@ function validateRangeFactory(minValue: number, maxValue: number) {
     selector: '[validateRange][formControlName],[validateRange][formControl],[validateRange][ngModel]',
     providers: [
         { provide: NG_VALIDATORS, useExisting: forwardRef(() => RangeValidatorDirective), multi: true }
-    ]
+    ],
+    standalone: false
 })
 export class RangeValidatorDirective implements Validator {
 

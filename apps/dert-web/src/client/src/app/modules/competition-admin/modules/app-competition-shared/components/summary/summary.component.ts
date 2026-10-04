@@ -4,9 +4,10 @@ import { Router } from '@angular/router';
 import { CompetitionSummaryDto } from 'app/models/dto';
 
 @Component({
-  selector: 'app-competition-summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css']
+    selector: 'app-competition-summary',
+    templateUrl: './summary.component.html',
+    styleUrls: ['./summary.component.css'],
+    standalone: false
 })
 export class SummaryComponent  {
 

@@ -11,9 +11,10 @@ import { Tracker } from '../../../services/dertofderts-admin.tracker';
 import { CreateTalkComponent } from './create-talk/create-talk.component';
 
 @Component({
-  selector: 'app-dod-admin-talks',
-  templateUrl: './talks.component.html',
-  styleUrls: ['./talks.component.scss']
+    selector: 'app-dod-admin-talks',
+    templateUrl: './talks.component.html',
+    styleUrls: ['./talks.component.scss'],
+    standalone: false
 })
 export class TalksComponent implements OnInit, OnDestroy {
 

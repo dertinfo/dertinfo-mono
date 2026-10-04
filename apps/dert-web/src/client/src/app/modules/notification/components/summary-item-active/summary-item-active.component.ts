@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-notification-summary-item-active',
-  templateUrl: './summary-item-active.component.html',
-  styleUrls: ['./summary-item-active.component.scss'],
-  encapsulation: ViewEncapsulation.None
-
+    selector: 'app-notification-summary-item-active',
+    templateUrl: './summary-item-active.component.html',
+    styleUrls: ['./summary-item-active.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class SummaryItemActiveComponent implements OnInit {
 

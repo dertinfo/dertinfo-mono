@@ -13,9 +13,10 @@ import { RegistrationByGroupTracker } from '../../services/registration-by-group
 import { MemberActivitiesSelectComponent } from '../member-activities-select/member-activities-select.component';
 
 @Component({
-  selector: 'app-group-registration-members',
-  templateUrl: './group-registration-members.component.html',
-  styleUrls: ['./group-registration-members.component.css']
+    selector: 'app-group-registration-members',
+    templateUrl: './group-registration-members.component.html',
+    styleUrls: ['./group-registration-members.component.css'],
+    standalone: false
 })
 export class GroupRegistrationMembersComponent implements OnInit, OnDestroy {
 

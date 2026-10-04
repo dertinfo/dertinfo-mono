@@ -7,9 +7,10 @@ import { GroupAdminConductor } from '../../services/group-admin.conductor';
 import { GroupAdminTracker } from '../../services/group-admin.tracker';
 
 @Component({
-  selector: 'app-group-invoices',
-  templateUrl: './group-invoices.component.html',
-  styleUrls: ['./group-invoices.component.css']
+    selector: 'app-group-invoices',
+    templateUrl: './group-invoices.component.html',
+    styleUrls: ['./group-invoices.component.css'],
+    standalone: false
 })
 export class GroupInvoicesComponent implements OnInit, OnDestroy {
 

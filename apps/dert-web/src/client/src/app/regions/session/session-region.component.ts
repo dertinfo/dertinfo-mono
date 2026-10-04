@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-session-region',
-  templateUrl: './session-region.component.html'
+    selector: 'app-session-region',
+    templateUrl: './session-region.component.html',
+    standalone: false
 })
 export class SessionRegionComponent implements OnInit {
 

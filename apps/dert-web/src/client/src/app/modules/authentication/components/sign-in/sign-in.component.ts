@@ -5,9 +5,10 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { AuthService } from '../../../../core/authentication/auth.service';
 
 @Component({
-  selector: 'app-sign-in',
-  templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.css']
+    selector: 'app-sign-in',
+    templateUrl: './sign-in.component.html',
+    styleUrls: ['./sign-in.component.css'],
+    standalone: false
 })
 export class SigninComponent implements OnInit {
   @ViewChild(MatProgressBar, { static: false }) progressBar: MatProgressBar;

@@ -12,9 +12,10 @@ import { ScoreDialogComponent } from '../scoredialog/scoredialog.component';
 import { ScoreSubmittedDialogComponent } from '../scoresubmitteddialog/scoresubmitteddialog.component';
 
 @Component({
-  selector: 'app-score',
-  templateUrl: './score.component.html',
-  styleUrls: ['./score.component.scss']
+    selector: 'app-score',
+    templateUrl: './score.component.html',
+    styleUrls: ['./score.component.scss'],
+    standalone: false
 })
 export class ScoreComponent implements OnInit, OnDestroy {
 

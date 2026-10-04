@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as domHelper from '../../../helpers/dom.helper';
 
 @Component({
-  selector: 'app-switch-header',
-  templateUrl: './switch-header.component.html',
-  styleUrls: ['./switch-header.component.css']
+    selector: 'app-switch-header',
+    templateUrl: './switch-header.component.html',
+    styleUrls: ['./switch-header.component.css'],
+    standalone: false
 })
 export class SwitchHeaderComponent implements OnInit {
 

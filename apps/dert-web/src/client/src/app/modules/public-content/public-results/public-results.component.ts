@@ -7,9 +7,10 @@ import { PublicContentConductor } from '../services/public-content.conductor';
 import { PublicContentTracker } from '../services/public-content.tracker';
 
 @Component({
-  selector: 'app-public-results',
-  templateUrl: './public-results.component.html',
-  styleUrls: ['./public-results.component.css']
+    selector: 'app-public-results',
+    templateUrl: './public-results.component.html',
+    styleUrls: ['./public-results.component.css'],
+    standalone: false
 })
 export class PublicResultsComponent implements OnInit, OnDestroy {
 

@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-website-terms',
-  templateUrl: './website-terms.component.html',
-  styleUrls: ['./website-terms.component.scss']
+    selector: 'app-website-terms',
+    templateUrl: './website-terms.component.html',
+    styleUrls: ['./website-terms.component.scss'],
+    standalone: false
 })
 export class WebsiteTermsComponent {
 

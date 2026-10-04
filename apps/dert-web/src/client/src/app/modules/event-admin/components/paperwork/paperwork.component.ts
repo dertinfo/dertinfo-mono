@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { EventAdminTracker } from '../../services/event-admin.tracker';
 
 @Component({
-  selector: 'app-event-paperwork-blank',
-  templateUrl: './paperwork.component.html',
-  styleUrls: ['./paperwork.component.css']
+    selector: 'app-event-paperwork-blank',
+    templateUrl: './paperwork.component.html',
+    styleUrls: ['./paperwork.component.css'],
+    standalone: false
 })
 export class PaperworkComponent implements OnInit {
 

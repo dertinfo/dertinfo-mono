@@ -9,8 +9,9 @@ import { GroupSetupConductor } from '../../services/group-setup.conductor';
 import { GroupSetupTracker } from '../../services/group-setup.tracker';
 
 @Component({
-  selector: 'upload-image',
-  templateUrl: './upload-image.component.html'
+    selector: 'upload-image',
+    templateUrl: './upload-image.component.html',
+    standalone: false
 })
 export class UploadImageComponent implements OnInit, OnDestroy {
 

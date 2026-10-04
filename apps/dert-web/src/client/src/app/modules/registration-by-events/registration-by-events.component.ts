@@ -15,9 +15,10 @@ declare function require(url: string);
 const registrationFlowStates = require('../../../assets/staticdata/registration-flow-states.en.json');
 
 @Component({
-  selector: 'app-registration-by-events',
-  templateUrl: './registration-by-events.component.html',
-  styleUrls: ['./registration-by-events.component.css']
+    selector: 'app-registration-by-events',
+    templateUrl: './registration-by-events.component.html',
+    styleUrls: ['./registration-by-events.component.css'],
+    standalone: false
 })
 export class RegistrationByEventsComponent implements OnInit, OnDestroy {
 

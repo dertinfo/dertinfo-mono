@@ -2,9 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-facebook-embed',
-  templateUrl: './facebook-embed.component.html',
-  styleUrls: ['./facebook-embed.component.scss']
+    selector: 'app-facebook-embed',
+    templateUrl: './facebook-embed.component.html',
+    styleUrls: ['./facebook-embed.component.scss'],
+    standalone: false
 })
 export class FacebookEmbedComponent implements OnInit {
 

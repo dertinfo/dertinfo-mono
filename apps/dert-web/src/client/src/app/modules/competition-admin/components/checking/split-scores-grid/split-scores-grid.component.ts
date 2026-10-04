@@ -13,7 +13,8 @@ class DataTableDataElement {
 @Component({
     selector: 'app-competition-checking-split-scores-grid',
     templateUrl: './split-scores-grid.component.html',
-    styleUrls: ['./split-scores-grid.component.css']
+    styleUrls: ['./split-scores-grid.component.css'],
+    standalone: false
 })
 export class SplitScoresGridComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 

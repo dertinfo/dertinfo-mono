@@ -9,8 +9,9 @@ import { EventSetupConductor } from '../../services/event-setup.conductor';
 import { EventSetupTracker } from '../../services/event-setup.tracker';
 
 @Component({
-  selector: 'upload-image',
-  templateUrl: './upload-image.component.html'
+    selector: 'upload-image',
+    templateUrl: './upload-image.component.html',
+    standalone: false
 })
 export class UploadImageComponent implements OnInit, OnDestroy {
 

@@ -8,9 +8,10 @@ import { JudgeSelectItemModel } from '../models/judge-select-item.model';
 import { JudgesSelectMediator } from '../services/judges-select.mediator';
 
 @Component({
-  selector: 'app-judges-select',
-  templateUrl: './judges-select.component.html',
-  styleUrls: ['./judges-select.component.css']
+    selector: 'app-judges-select',
+    templateUrl: './judges-select.component.html',
+    styleUrls: ['./judges-select.component.css'],
+    standalone: false
 })
 export class JudgesSelectComponent implements OnInit, OnDestroy {
 

@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as domHelper from '../../../helpers/dom.helper';
 
 @Component({
-  selector: 'app-avatar-header',
-  templateUrl: './avatar-header.component.html',
-  styleUrls: ['./avatar-header.component.css']
+    selector: 'app-avatar-header',
+    templateUrl: './avatar-header.component.html',
+    styleUrls: ['./avatar-header.component.css'],
+    standalone: false
 })
 export class AvatarHeaderComponent implements OnInit {
 

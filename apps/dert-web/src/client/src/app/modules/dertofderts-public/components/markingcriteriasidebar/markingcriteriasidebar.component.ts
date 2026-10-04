@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-markingcriteriasidebar',
-  templateUrl: './markingcriteriasidebar.component.html',
-  styleUrls: ['./markingcriteriasidebar.component.scss']
+    selector: 'app-markingcriteriasidebar',
+    templateUrl: './markingcriteriasidebar.component.html',
+    styleUrls: ['./markingcriteriasidebar.component.scss'],
+    standalone: false
 })
 export class MarkingCriteriaSideBarComponent implements OnInit {
 

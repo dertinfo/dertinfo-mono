@@ -5,8 +5,9 @@ import { EventSetupConductor } from './services/event-setup.conductor';
 import { EventSetupTracker } from './services/event-setup.tracker';
 
 @Component({
-  selector: 'app-event-setup',
-  templateUrl: './event-setup.component.html'
+    selector: 'app-event-setup',
+    templateUrl: './event-setup.component.html',
+    standalone: false
 })
 export class EventSetupComponent implements OnInit, OnDestroy {
 

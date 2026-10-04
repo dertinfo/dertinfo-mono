@@ -8,9 +8,10 @@ import { Mediator } from '../../../../services/dertofderts-admin.mediator';
 import { Tracker } from '../../../../services/dertofderts-admin.tracker';
 
 @Component({
-  selector: 'app-dod-submission-create',
-  templateUrl: './dod-submission-create.component.html',
-  styleUrls: ['./dod-submission-create.component.scss']
+    selector: 'app-dod-submission-create',
+    templateUrl: './dod-submission-create.component.html',
+    styleUrls: ['./dod-submission-create.component.scss'],
+    standalone: false
 })
 export class DodSubmissionCreateComponent implements OnInit {
 

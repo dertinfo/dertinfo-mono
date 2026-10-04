@@ -7,9 +7,10 @@ import { NotificationTracker } from '../../services/notification.tracker';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 
 @Component({
-  selector: 'app-notifications-topbar-button',
-  templateUrl: './topbar-button.component.html',
-  styleUrls: ['./topbar-button.component.scss'],
+    selector: 'app-notifications-topbar-button',
+    templateUrl: './topbar-button.component.html',
+    styleUrls: ['./topbar-button.component.scss'],
+    standalone: false
 })
 export class TopbarButtonComponent implements OnInit, OnDestroy {
 

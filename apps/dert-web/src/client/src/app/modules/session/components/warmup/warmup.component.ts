@@ -9,9 +9,10 @@ import { WarmupService } from 'app/core/services/warmup.service';
  * Never a permanent dead-end when sessionwarm is already set.
  */
 @Component({
-  selector: 'app-warmup',
-  templateUrl: './warmup.component.html',
-  styleUrls: ['./warmup.component.scss']
+    selector: 'app-warmup',
+    templateUrl: './warmup.component.html',
+    styleUrls: ['./warmup.component.scss'],
+    standalone: false
 })
 export class WarmupComponent implements OnInit {
 

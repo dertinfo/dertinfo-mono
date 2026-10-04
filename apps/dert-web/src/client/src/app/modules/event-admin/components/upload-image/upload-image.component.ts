@@ -9,8 +9,9 @@ import { EventAdminConductor } from '../../services/event-admin.conductor';
 import { EventAdminTracker } from '../../services/event-admin.tracker';
 
 @Component({
-  selector: 'upload-image',
-  templateUrl: './upload-image.template.html'
+    selector: 'upload-image',
+    templateUrl: './upload-image.template.html',
+    standalone: false
 })
 export class UploadImageComponent implements OnInit, OnDestroy {
 

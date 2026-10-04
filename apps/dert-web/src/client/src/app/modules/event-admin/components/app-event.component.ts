@@ -6,8 +6,9 @@ import { EventAdminConductor } from '../services/event-admin.conductor';
 import { EventAdminTracker } from '../services/event-admin.tracker';
 
 @Component({
-  selector: 'app-event',
-  templateUrl: './app-event.component.html'
+    selector: 'app-event',
+    templateUrl: './app-event.component.html',
+    standalone: false
 })
 export class EventComponent implements OnInit, OnDestroy {
 

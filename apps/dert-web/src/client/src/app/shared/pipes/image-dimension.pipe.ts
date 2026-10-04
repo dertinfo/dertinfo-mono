@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({ name: 'imageDimension' })
+@Pipe({
+    name: 'imageDimension',
+    standalone: false
+})
 export class ImageDimensionPipe implements PipeTransform {
 
   constructor() { }

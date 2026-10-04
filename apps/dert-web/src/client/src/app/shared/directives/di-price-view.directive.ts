@@ -8,7 +8,8 @@ import { Directive, ElementRef, Input, OnChanges, Renderer2, SimpleChanges } fro
  * Import the module that exports it.
  */
 @Directive({
-    selector: '[price]'
+    selector: '[price]',
+    standalone: false
 })
 export class PriceDirective implements OnChanges {
 

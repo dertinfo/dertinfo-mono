@@ -2,7 +2,10 @@ import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, 
 import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import * as domHelper from '../../helpers/dom.helper';
 
-@Directive({ selector: '[appAccordion]' })
+@Directive({
+    selector: '[appAccordion]',
+    standalone: false
+})
 export class AppAccordionDirective implements OnInit {
   parentLi;
 

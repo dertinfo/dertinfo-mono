@@ -11,9 +11,10 @@ import { GroupViewTracker } from '../../services/group-view.tracker';
 import { MarkingSheetZoomComponent } from './dialogs/marking-sheet-zoom/marking-sheet-zoom.component';
 
 @Component({
-  selector: 'app-groupview-registration',
-  templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+    selector: 'app-groupview-registration',
+    templateUrl: './registration.component.html',
+    styleUrls: ['./registration.component.css'],
+    standalone: false
 })
 export class GroupViewRegistrationComponent implements OnInit, OnDestroy {
 

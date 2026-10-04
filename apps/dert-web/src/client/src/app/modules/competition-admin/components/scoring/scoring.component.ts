@@ -12,9 +12,10 @@ import { ScoreCategoryEditComponent } from './dialogs/scorecategory-edit/scoreca
 import { ScoreSetEditComponent } from './dialogs/scoreset-edit/scoreset-edit.component';
 
 @Component({
-  selector: 'app-competition-scoring',
-  templateUrl: './scoring.component.html',
-  styleUrls: ['./scoring.component.css']
+    selector: 'app-competition-scoring',
+    templateUrl: './scoring.component.html',
+    styleUrls: ['./scoring.component.css'],
+    standalone: false
 })
 export class ScoringComponent implements OnInit, OnDestroy {
 

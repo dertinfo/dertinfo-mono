@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-admin-judges',
-  templateUrl: './admin-judges.component.html',
-  styleUrls: ['./admin-judges.component.css']
+    selector: 'app-admin-judges',
+    templateUrl: './admin-judges.component.html',
+    styleUrls: ['./admin-judges.component.css'],
+    standalone: false
 })
 export class AdminJudgesComponent implements OnInit {
 

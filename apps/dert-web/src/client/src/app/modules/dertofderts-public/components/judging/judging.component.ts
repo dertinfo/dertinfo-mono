@@ -13,9 +13,10 @@ import { ClosedToPublicDialogComponent } from '../closedtopublicdialog/closedtop
 import { RecoverSessionDialogComponent } from '../recoversessiondialog/recoversessiondialog.component';
 
 @Component({
-  selector: 'app-judging',
-  templateUrl: './judging.component.html',
-  styleUrls: ['./judging.component.scss']
+    selector: 'app-judging',
+    templateUrl: './judging.component.html',
+    styleUrls: ['./judging.component.scss'],
+    standalone: false
 })
 export class JudgingComponent implements OnInit, OnDestroy {
 

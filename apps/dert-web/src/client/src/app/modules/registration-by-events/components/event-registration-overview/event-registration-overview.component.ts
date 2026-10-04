@@ -5,9 +5,10 @@ import { RegistrationByEventsConductor } from '../../services/registration-by-ev
 import { RegistrationByEventsTracker } from '../../services/registration-by-events.tracker';
 
 @Component({
-  selector: 'app-event-registration-overview',
-  templateUrl: './event-registration-overview.component.html',
-  styleUrls: ['./event-registration-overview.component.css']
+    selector: 'app-event-registration-overview',
+    templateUrl: './event-registration-overview.component.html',
+    styleUrls: ['./event-registration-overview.component.css'],
+    standalone: false
 })
 export class EventRegistrationOverviewComponent implements OnInit, OnDestroy {
 

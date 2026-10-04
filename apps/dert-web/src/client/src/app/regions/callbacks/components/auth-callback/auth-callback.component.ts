@@ -8,7 +8,8 @@ import { AuthService } from 'app/core/authentication/auth.service';
  */
 @Component({
     selector: 'app-auth-callback',
-    templateUrl: './auth-callback.component.html'
+    templateUrl: './auth-callback.component.html',
+    standalone: false
 })
 export class AuthCallbackComponent implements OnInit {
 

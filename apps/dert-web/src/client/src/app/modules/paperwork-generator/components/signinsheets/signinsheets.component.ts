@@ -5,9 +5,10 @@ import { Subscription } from 'rxjs';
 import { PaperworkGeneratorConductor } from '../../services/paperwork-generator.conductor';
 
 @Component({
-  selector: 'app-signinsheets',
-  templateUrl: './signinsheets.component.html',
-  styleUrls: ['./signinsheets.component.css']
+    selector: 'app-signinsheets',
+    templateUrl: './signinsheets.component.html',
+    styleUrls: ['./signinsheets.component.css'],
+    standalone: false
 })
 export class SignInSheetsComponent implements OnInit, OnDestroy {
 

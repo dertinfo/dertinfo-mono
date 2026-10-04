@@ -9,8 +9,9 @@ import { DashboardConductor } from 'app/modules/dashboard/services/dashboard.con
 import { GroupMinimalSubmissionDto } from 'app/models/dto';
 
 @Component({
-  selector: 'group-create',
-  templateUrl: './group-create.component.html'
+    selector: 'group-create',
+    templateUrl: './group-create.component.html',
+    standalone: false
 })
 export class GroupCreateComponent implements OnInit, OnDestroy {
 

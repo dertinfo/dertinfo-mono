@@ -12,9 +12,10 @@ import { Tracker } from '../../../services/dertofderts-admin.tracker';
 import { DodSubmissionCreateComponent } from './dod-submission-create/dod-submission-create.component';
 
 @Component({
-  selector: 'app-dod-admin-submissions',
-  templateUrl: './submissions.component.html',
-  styleUrls: ['./submissions.component.scss']
+    selector: 'app-dod-admin-submissions',
+    templateUrl: './submissions.component.html',
+    styleUrls: ['./submissions.component.scss'],
+    standalone: false
 })
 export class SubmissionsComponent implements OnInit, OnDestroy {
 

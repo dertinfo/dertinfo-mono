@@ -10,9 +10,10 @@ declare function require(url: string);
 const registrationFlowStates = require('../../../assets/staticdata/registration-flow-states.en.json');
 
 @Component({
-  selector: 'app-registration-by-group',
-  templateUrl: './registration-by-group.component.html',
-  styleUrls: ['./registration-by-group.component.scss']
+    selector: 'app-registration-by-group',
+    templateUrl: './registration-by-group.component.html',
+    styleUrls: ['./registration-by-group.component.scss'],
+    standalone: false
 })
 export class RegistrationByGroupComponent implements OnInit, OnDestroy {
 

@@ -9,9 +9,10 @@ import { AppInsightsService } from './core/logging/appinsights.service';
 import { RoutePartsService } from './core/services/route-parts.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
+    standalone: false
 })
 export class AppComponent implements OnInit {
   appTitle = 'DertInfo';

@@ -7,9 +7,10 @@ import { CompetitionAdminConductor } from '../../services/competition-admin.cond
 import { CompetitionAdminTracker } from '../../services/competition-admin.tracker';
 
 @Component({
-  selector: 'app-competition-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+    selector: 'app-competition-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.css'],
+    standalone: false
 })
 export class SettingsComponent implements OnInit, OnDestroy {
 

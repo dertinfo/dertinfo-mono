@@ -8,9 +8,10 @@ import { VenueSelectItemModel } from '../models/venue-select-item.model';
 import { VenuesSelectMediator } from '../services/venues-select.mediator';
 
 @Component({
-  selector: 'app-venues-select',
-  templateUrl: './venues-select.component.html',
-  styleUrls: ['./venues-select.component.css']
+    selector: 'app-venues-select',
+    templateUrl: './venues-select.component.html',
+    styleUrls: ['./venues-select.component.css'],
+    standalone: false
 })
 export class VenuesSelectComponent implements OnInit, OnDestroy {
 

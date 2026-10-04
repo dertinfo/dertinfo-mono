@@ -12,9 +12,10 @@ import { VenueCreateComponent } from './dialogs/venue-create/venue-create.compon
 import { VenueEditComponent } from './dialogs/venue-edit/venue-edit.component';
 
 @Component({
-  selector: 'app-competition-venues',
-  templateUrl: './venues.component.html',
-  styleUrls: ['./venues.component.css']
+    selector: 'app-competition-venues',
+    templateUrl: './venues.component.html',
+    styleUrls: ['./venues.component.css'],
+    standalone: false
 })
 export class VenuesComponent implements OnInit, OnDestroy {
 

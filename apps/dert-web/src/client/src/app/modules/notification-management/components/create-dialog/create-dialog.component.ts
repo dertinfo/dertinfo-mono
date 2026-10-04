@@ -4,9 +4,10 @@ import { NotificationMessageSubmissionDto } from '../../models/NotificationMessa
 import { NotificationAdminMediator } from '../../services/notification-management.mediator';
 
 @Component({
-  selector: 'app-create-dialog',
-  templateUrl: './create-dialog.component.html',
-  styleUrls: ['./create-dialog.component.scss']
+    selector: 'app-create-dialog',
+    templateUrl: './create-dialog.component.html',
+    styleUrls: ['./create-dialog.component.scss'],
+    standalone: false
 })
 export class CreateDialogComponent implements OnInit {
 

@@ -10,9 +10,10 @@ import { GroupViewTracker } from '../../services/group-view.tracker';
 import { DertOfDertsReportDialogComponent } from '../dertofderts-reportdialog/dertofderts-reportdialog.component';
 
 @Component({
-  selector: 'app-dertofderts',
-  templateUrl: './dertofderts.component.html',
-  styleUrls: ['./dertofderts.component.scss']
+    selector: 'app-dertofderts',
+    templateUrl: './dertofderts.component.html',
+    styleUrls: ['./dertofderts.component.scss'],
+    standalone: false
 })
 export class DertOfDertsComponent implements OnInit, OnDestroy {
 

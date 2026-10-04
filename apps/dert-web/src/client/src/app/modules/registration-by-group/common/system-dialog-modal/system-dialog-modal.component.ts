@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-system-dialog-modal',
-  templateUrl: './system-dialog-modal.component.html',
-  styleUrls: ['./system-dialog-modal.component.css']
+    selector: 'app-system-dialog-modal',
+    templateUrl: './system-dialog-modal.component.html',
+    styleUrls: ['./system-dialog-modal.component.css'],
+    standalone: false
 })
 export class SystemDialogModalComponent implements OnInit {
 

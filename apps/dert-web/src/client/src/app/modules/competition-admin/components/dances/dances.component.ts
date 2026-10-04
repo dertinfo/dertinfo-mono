@@ -12,9 +12,10 @@ import { CompetitionAdminTracker } from '../../services/competition-admin.tracke
 import { DanceCreateComponent } from './dialogs/dance-create/dance-create.component';
 
 @Component({
-  selector: 'app-competition-dances',
-  templateUrl: './dances.component.html',
-  styleUrls: ['./dances.component.css']
+    selector: 'app-competition-dances',
+    templateUrl: './dances.component.html',
+    styleUrls: ['./dances.component.css'],
+    standalone: false
 })
 export class DancesComponent implements OnInit, OnDestroy, AfterViewInit {
 

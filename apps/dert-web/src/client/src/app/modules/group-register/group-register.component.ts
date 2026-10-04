@@ -5,8 +5,9 @@ import { GroupRegisterConductor } from './services/group-register.conductor';
 import { GroupRegisterTracker } from './services/group-register.tracker';
 
 @Component({
-  selector: 'app-group-register',
-  templateUrl: './group-register.component.html'
+    selector: 'app-group-register',
+    templateUrl: './group-register.component.html',
+    standalone: false
 })
 export class GroupRegisterComponent implements OnInit, OnDestroy {
 

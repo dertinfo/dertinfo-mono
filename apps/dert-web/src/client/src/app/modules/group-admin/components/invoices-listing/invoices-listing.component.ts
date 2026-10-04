@@ -4,7 +4,8 @@ import { GroupInvoiceDto } from 'app/models/dto';
 @Component({
     selector: 'app-invoices-listing',
     templateUrl: './invoices-listing.component.html',
-    styleUrls: ['./invoices-listing.component.css']
+    styleUrls: ['./invoices-listing.component.css'],
+    standalone: false
 })
 export class InvoiceListingComponent {
 

@@ -2,9 +2,10 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-email-preview-dialog',
-  templateUrl: './email-preview-dialog.component.html',
-  styleUrls: ['./email-preview-dialog.component.css']
+    selector: 'app-email-preview-dialog',
+    templateUrl: './email-preview-dialog.component.html',
+    styleUrls: ['./email-preview-dialog.component.css'],
+    standalone: false
 })
 export class EmailPreviewDialogComponent implements OnInit {
 

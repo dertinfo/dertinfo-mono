@@ -5,9 +5,10 @@ import { Subscription } from 'rxjs';
 import { GroupAdminConductor } from '../../services/group-admin.conductor';
 
 @Component({
-  selector: 'app-group-members-create',
-  templateUrl: './group-members-create.template.html',
-  providers: [MemberSelectMediator]
+    selector: 'app-group-members-create',
+    templateUrl: './group-members-create.template.html',
+    providers: [MemberSelectMediator],
+    standalone: false
 })
 export class GroupMembersCreateComponent implements OnInit, OnDestroy {
 

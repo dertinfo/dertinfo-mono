@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ScoreCard } from 'app/models/app/ScoreCard';
 
 @Component({
-  selector: 'app-score-card',
-  templateUrl: './scorecard.component.html',
-  styleUrls: ['./scorecard.component.scss']
+    selector: 'app-score-card',
+    templateUrl: './scorecard.component.html',
+    styleUrls: ['./scorecard.component.scss'],
+    standalone: false
 })
 export class ScoreCardComponent implements OnInit {
 

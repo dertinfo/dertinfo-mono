@@ -7,9 +7,10 @@ import { Mediator } from '../../../../services/dertofderts-admin.mediator';
 import { Tracker } from '../../../../services/dertofderts-admin.tracker';
 
 @Component({
-  selector: 'app-create-talk',
-  templateUrl: './create-talk.component.html',
-  styleUrls: ['./create-talk.component.scss']
+    selector: 'app-create-talk',
+    templateUrl: './create-talk.component.html',
+    styleUrls: ['./create-talk.component.scss'],
+    standalone: false
 })
 export class CreateTalkComponent implements OnInit {
 

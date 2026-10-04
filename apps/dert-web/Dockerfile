@@ -29,7 +29,7 @@ FROM base AS builder
 WORKDIR /build
 
 # Install global dependencies and clean npm cache in a single RUN command
-RUN npm install -g @angular/cli@18 typescript
+RUN npm install -g @angular/cli@19 typescript
 
 # Copy the static web app files
 COPY ./src/client/package.json package.json

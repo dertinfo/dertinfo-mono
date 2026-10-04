@@ -10,9 +10,10 @@ import { GroupTeamsSelectComponent } from '../group-teams-select/group-teams-sel
 import { TeamActivitiesSelectComponent } from '../team-activities-select/team-activities-select.component';
 
 @Component({
-  selector: 'app-event-registration-teams',
-  templateUrl: './event-registration-teams.component.html',
-  styleUrls: ['./event-registration-teams.component.css']
+    selector: 'app-event-registration-teams',
+    templateUrl: './event-registration-teams.component.html',
+    styleUrls: ['./event-registration-teams.component.css'],
+    standalone: false
 })
 export class EventRegistrationTeamsComponent implements OnInit, OnDestroy {
 

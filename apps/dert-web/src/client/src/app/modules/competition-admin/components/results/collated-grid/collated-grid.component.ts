@@ -15,7 +15,8 @@ class DataTableDataElement {
 @Component({
     selector: 'app-competition-results-collated-grid',
     templateUrl: './collated-grid.component.html',
-    styleUrls: ['./collated-grid.component.css']
+    styleUrls: ['./collated-grid.component.css'],
+    standalone: false
 })
 export class CollatedGridComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 

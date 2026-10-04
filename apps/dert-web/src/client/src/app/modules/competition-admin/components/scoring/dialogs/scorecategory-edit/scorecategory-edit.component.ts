@@ -7,8 +7,9 @@ import { CompetitionAdminConductor } from 'app/modules/competition-admin/service
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'scorecategory-edit',
-  templateUrl: './scorecategory-edit.component.html'
+    selector: 'scorecategory-edit',
+    templateUrl: './scorecategory-edit.component.html',
+    standalone: false
 })
 export class ScoreCategoryEditComponent implements OnInit, OnDestroy {
 

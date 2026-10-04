@@ -11,9 +11,10 @@ import { JudgeCreateComponent } from './dialogs/judge-create/judge-create.compon
 import { JudgeEditComponent } from './dialogs/judge-edit/judge-edit.component';
 
 @Component({
-  selector: 'app-competition-judges',
-  templateUrl: './judges.component.html',
-  styleUrls: ['./judges.component.css']
+    selector: 'app-competition-judges',
+    templateUrl: './judges.component.html',
+    styleUrls: ['./judges.component.css'],
+    standalone: false
 })
 export class JudgesComponent implements OnInit, OnDestroy {
 

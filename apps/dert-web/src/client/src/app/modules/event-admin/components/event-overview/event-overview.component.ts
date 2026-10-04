@@ -6,9 +6,10 @@ import { EventAdminConductor } from '../../services/event-admin.conductor';
 import { EventAdminTracker } from '../../services/event-admin.tracker';
 
 @Component({
-  selector: 'app-event-overview',
-  templateUrl: './event-overview.component.html',
-  styleUrls: ['./event-overview.component.css']
+    selector: 'app-event-overview',
+    templateUrl: './event-overview.component.html',
+    styleUrls: ['./event-overview.component.css'],
+    standalone: false
 })
 export class EventOverviewComponent implements OnInit, OnDestroy {
 

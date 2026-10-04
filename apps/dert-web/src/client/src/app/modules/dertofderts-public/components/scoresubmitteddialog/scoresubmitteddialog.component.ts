@@ -3,9 +3,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-scoresubmitteddialog',
-  templateUrl: './scoresubmitteddialog.component.html',
-  styleUrls: ['./scoresubmitteddialog.component.scss']
+    selector: 'app-scoresubmitteddialog',
+    templateUrl: './scoresubmitteddialog.component.html',
+    styleUrls: ['./scoresubmitteddialog.component.scss'],
+    standalone: false
 })
 export class ScoreSubmittedDialogComponent implements OnInit {
 

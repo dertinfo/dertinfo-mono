@@ -16,8 +16,9 @@ import { AuthService } from '../../core/authentication/auth.service';
 import { UserData } from '../../models/auth/userdata.model';
 
 @Component({
-  selector: 'app-authenticated-region',
-  templateUrl: './authenticated-region.component.html'
+    selector: 'app-authenticated-region',
+    templateUrl: './authenticated-region.component.html',
+    standalone: false
 })
 export class AuthenticatedRegionComponent implements OnInit, OnDestroy {
 

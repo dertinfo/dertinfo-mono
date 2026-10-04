@@ -11,10 +11,11 @@ import { NotificationTracker } from '../../services/notification.tracker';
 import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component';
 
 @Component({
-  selector: 'app-notifications-drawer',
-  templateUrl: './drawer.component.html',
-  styleUrls: ['./drawer.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-notifications-drawer',
+    templateUrl: './drawer.component.html',
+    styleUrls: ['./drawer.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class DrawerComponent implements OnInit, OnDestroy {
 

@@ -5,9 +5,10 @@ import { Subscription } from 'rxjs';
 import { ShowcaseRepository } from '../../repositories';
 
 @Component({
-  selector: 'app-public-event',
-  templateUrl: './public-event.component.html',
-  styleUrls: ['./public-event.component.css']
+    selector: 'app-public-event',
+    templateUrl: './public-event.component.html',
+    styleUrls: ['./public-event.component.css'],
+    standalone: false
 })
 export class PublicEventComponent implements OnInit, OnDestroy {
 

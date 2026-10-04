@@ -1,9 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'app-notification-summary-item-deleted',
-  templateUrl: './summary-item-deleted.component.html',
-  styleUrls: ['./summary-item-deleted.component.scss']
+    selector: 'app-notification-summary-item-deleted',
+    templateUrl: './summary-item-deleted.component.html',
+    styleUrls: ['./summary-item-deleted.component.scss'],
+    standalone: false
 })
 export class SummaryItemDeletedComponent implements OnInit {
 

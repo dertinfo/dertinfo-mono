@@ -8,10 +8,11 @@ import { RegistrationByEventsConductor } from '../../services/registration-by-ev
 import { RegistrationByEventsTracker } from '../../services/registration-by-events.tracker';
 
 @Component({
-  selector: 'app-group-members-select',
-  templateUrl: './group-members-select.component.html',
-  styleUrls: ['./group-members-select.component.css'],
-  providers: [MemberSelectMediator]
+    selector: 'app-group-members-select',
+    templateUrl: './group-members-select.component.html',
+    styleUrls: ['./group-members-select.component.css'],
+    providers: [MemberSelectMediator],
+    standalone: false
 })
 export class GroupMembersSelectComponent implements OnInit, OnDestroy {
 

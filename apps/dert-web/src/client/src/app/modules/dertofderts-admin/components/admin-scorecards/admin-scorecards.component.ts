@@ -5,9 +5,10 @@ import { DodGroupResultsDto } from 'app/models/dto/DodGroupResultsDto';
 import { DodUserResultsDto } from 'app/models/dto/DodUserResultsDto';
 
 @Component({
-  selector: 'app-admin-scorecards',
-  templateUrl: './admin-scorecards.component.html',
-  styleUrls: ['./admin-scorecards.component.scss']
+    selector: 'app-admin-scorecards',
+    templateUrl: './admin-scorecards.component.html',
+    styleUrls: ['./admin-scorecards.component.scss'],
+    standalone: false
 })
 export class AdminScorecardsComponent implements OnInit {
 

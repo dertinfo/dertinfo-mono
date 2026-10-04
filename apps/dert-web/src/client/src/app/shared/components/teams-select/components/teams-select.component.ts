@@ -7,9 +7,10 @@ import { TeamsSelectItemModel } from '../models/teams-select-item.model';
 import { TeamSelectMediator } from '../services/teams-select.mediator';
 
 @Component({
-  selector: 'app-teams-select',
-  templateUrl: './teams-select.component.html',
-  styleUrls: ['./teams-select.component.css']
+    selector: 'app-teams-select',
+    templateUrl: './teams-select.component.html',
+    styleUrls: ['./teams-select.component.css'],
+    standalone: false
 })
 export class TeamsSelectComponent implements OnInit, OnDestroy {
 

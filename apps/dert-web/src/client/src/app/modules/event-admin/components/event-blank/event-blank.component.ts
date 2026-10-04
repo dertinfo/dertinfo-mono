@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-event-blank',
-  templateUrl: './event-blank.component.html',
-  styleUrls: ['./event-blank.component.css']
+    selector: 'app-event-blank',
+    templateUrl: './event-blank.component.html',
+    styleUrls: ['./event-blank.component.css'],
+    standalone: false
 })
 export class EventBlankComponent implements OnInit {
 
