@@ -2,7 +2,7 @@
 name: Marking sheet
 type: entity
 status: active
-updated: 2026-09-27
+updated: 2026-10-04
 id: entity.marking-sheet
 ---
 
@@ -17,7 +17,7 @@ The paper score sheet for a [dance](dance.md). It is printed for the judges, fil
 - **Prepare** — event-admin, when dances and paperwork are generated for the [competition](competition.md). See [Run competitions](../features/competitions-run.md).
 - **Photograph and upload** — venue-admin or event-admin, via [Venue score capture](../features/venue-score-capture.md). [Image handling](../system/image-handling.md) resizes the photo.
 - **Check** — event-admin, via [Validate scores](../features/scoring-validate.md). Once the dance is scores checked, the venue admin can no longer change the sheet.
-- **View after publish** — group-admin, group-member, or member associated with the team, in the app, after [Publish competition results](../features/results-publish.md).
+- **View after publish** — group-admin, group-member, or member associated with the team, on the website group view or in the app, after [Publish competition results](../features/results-publish.md).
 
 ## States
 
