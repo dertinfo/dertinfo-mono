@@ -70,12 +70,133 @@
   path: system/image-handling.md
   roles: []
 
+# --- Entities ---
+- id: entity.group
+  title: Group
+  status: active
+  path: entities/group.md
+  roles: [member, group-admin]
+
+- id: entity.group-member
+  title: Group member
+  status: active
+  path: entities/group-member.md
+  roles: [group-admin]
+
+- id: entity.team
+  title: Team
+  status: active
+  path: entities/team.md
+  roles: [group-admin]
+
+- id: entity.event
+  title: Event
+  status: active
+  path: entities/event.md
+  roles: [event-admin]
+
+- id: entity.activity
+  title: Activity
+  status: active
+  path: entities/activity.md
+  roles: [event-admin, group-admin]
+
+- id: entity.registration
+  title: Registration
+  status: active
+  path: entities/registration.md
+  roles: [group-admin, event-admin]
+
+- id: entity.invoice
+  title: Invoice
+  status: active
+  path: entities/invoice.md
+  roles: [event-admin, group-admin]
+
+- id: entity.email
+  title: Email
+  status: active
+  path: entities/email.md
+  roles: [group-admin, event-admin]
+
+- id: entity.email-template
+  title: Email template
+  status: active
+  path: entities/email-template.md
+  roles: [event-admin]
+
+- id: entity.competition
+  title: Competition
+  status: active
+  path: entities/competition.md
+  roles: [event-admin]
+
+- id: entity.venue
+  title: Venue
+  status: active
+  path: entities/venue.md
+  roles: [event-admin, venue-admin]
+
+- id: entity.dance
+  title: Dance
+  status: active
+  path: entities/dance.md
+  roles: [event-admin, venue-admin]
+
+- id: entity.judge
+  title: Judge
+  status: active
+  path: entities/judge.md
+  roles: [event-admin]
+
+- id: entity.score
+  title: Score
+  status: active
+  path: entities/score.md
+  roles: [venue-admin, event-admin]
+
+- id: entity.score-category
+  title: Score category
+  status: active
+  path: entities/score-category.md
+  roles: [event-admin]
+
+- id: entity.score-set
+  title: Score set
+  status: active
+  path: entities/score-set.md
+  roles: [event-admin]
+
+- id: entity.marking-sheet
+  title: Marking sheet
+  status: active
+  path: entities/marking-sheet.md
+  roles: [event-admin, venue-admin, group-admin, group-member, member]
+
+- id: entity.image
+  title: Image
+  status: active
+  path: entities/image.md
+  roles: [group-admin, event-admin, venue-admin]
+
+- id: entity.dod-submission
+  title: Dert of Derts submission
+  status: active
+  path: entities/dod-submission.md
+  roles: [public-user, dod-admin, member]
+
+- id: entity.dod-result
+  title: Dert of Derts result
+  status: active
+  path: entities/dod-result.md
+  roles: [public-user, dod-admin, member]
+
 # --- Auth ---
 - id: auth.login
   title: Log in
   status: active
   path: features/auth-login.md
-  roles: [public-user, member]
+  roles: [public-user, member, group-admin, event-admin]
 
 - id: auth.logout
   title: Log out
@@ -106,7 +227,7 @@
   title: Submit event registration
   status: active
   path: features/registration-submit.md
-  roles: [group-admin]
+  roles: [group-admin, group-member]
 
 - id: registration.confirm
   title: Confirm registrations
@@ -172,7 +293,7 @@
   title: User account and GDPR consent
   status: active
   path: features/account-gdpr-consent.md
-  roles: [member]
+  roles: [member, group-admin, event-admin]
 
 - id: public.cookie-consent
   title: Cookie consent

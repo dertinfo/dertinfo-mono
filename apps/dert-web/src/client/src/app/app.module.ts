@@ -65,7 +65,15 @@ export function initSettings(
         cacheLocation: 'localstorage',
         httpInterceptor: {
           // Step 5 — AuthHttpInterceptor attaches Bearer AT to matching API URLs.
+          // Public reads allow a missing refresh token so signed-out pages still load.
+          // The catch-all stays strict so a dead session cannot pass GET /status.
           allowedList: [
+            { uri: `${config.apiUrl}/results/*`, allowAnonymous: true },
+            { uri: `${config.apiUrl}/showcase/*`, allowAnonymous: true },
+            { uri: `${config.apiUrl}/clientsettings`, allowAnonymous: true },
+            { uri: `${config.apiUrl}/dodsubmission*`, allowAnonymous: true },
+            { uri: `${config.apiUrl}/dodtalk*`, allowAnonymous: true },
+            { uri: `${config.apiUrl}/dodresult*`, allowAnonymous: true },
             `${config.apiUrl}/*`,
           ],
         },

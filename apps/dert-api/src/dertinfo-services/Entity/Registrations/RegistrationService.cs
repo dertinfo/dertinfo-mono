@@ -49,6 +49,7 @@ namespace DertInfo.Services
         IGroupMemberRepository _groupMemberRepository;
         IMemberAttendanceRepository _memberAttendanceRepository;
         IRegistrationEmailDataService _registrationEmailDataService;
+        IEventRepository _eventRepository;
         IRegistrationRepository _registrationRepository;
         ITeamAttendanceRepository _teamAttendanceRepository;
         ITeamRepository _teamRepository;
@@ -64,6 +65,7 @@ namespace DertInfo.Services
             IEmailTemplateService emailTemplateService,
             IGroupMemberRepository groupMemberRepository,
             IMemberAttendanceRepository memberAttendanceRepository,
+            IEventRepository eventRepository,
             IRegistrationEmailDataService registrationEmailDataService,
             IRegistrationRepository registrationRepository,
             ITeamAttendanceRepository teamAttendanceRepository,
@@ -77,6 +79,7 @@ namespace DertInfo.Services
             _emailTemplateService = emailTemplateService;
             _groupMemberRepository = groupMemberRepository;
             _memberAttendanceRepository = memberAttendanceRepository;
+            _eventRepository = eventRepository;
             _registrationEmailDataService = registrationEmailDataService;
             _registrationRepository = registrationRepository;
             _teamAttendanceRepository = teamAttendanceRepository;
@@ -213,6 +216,12 @@ namespace DertInfo.Services
         {
             // Assign The Default Flow State
             registration.FlowState = (int)RegistrationFlowState.New;
+
+            var targetEvent = await _eventRepository.GetById(registration.EventId);
+            if (targetEvent == null || !targetEvent.IsConfigured)
+            {
+                throw new InvalidOperationException("Cannot register for an event that is not configured");
+            }
 
             // Check for existance of group and event registration
             if (await _registrationRepository.IsAlreadyRegistered(registration.GroupId, registration.EventId))

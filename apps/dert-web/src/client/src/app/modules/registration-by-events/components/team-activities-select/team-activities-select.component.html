@@ -4,9 +4,9 @@
 
         <div fxLayout="row wrap">
             <div *ngFor="let activitySelect of selections" [ngClass]="{'activity-select': true, 'activity-selected': activitySelect.selected, 'activity-changed': activitySelect.changed}"
-                class="activity-select" fxFlex="100" fxFlex.gt-xs="33">
-                <button (click)="onSelectActivityClick(activitySelect)" *ngIf="activitySelect.selected" mat-mini-fab color="primary" class="mr-1 primary-marker"><mat-icon>done</mat-icon></button>
-                <button (click)="onSelectActivityClick(activitySelect)" *ngIf="!activitySelect.selected" mat-mini-fab color="default" class="mr-1 primary-marker"><mat-icon>close</mat-icon></button>
+                class="activity-select" fxFlex="100" fxFlex.gt-xs="33" data-testid="select-option" [attr.data-option-name]="activitySelect.name" [attr.data-selected]="activitySelect.selected">
+                <button (click)="onSelectActivityClick(activitySelect)" *ngIf="activitySelect.selected" mat-mini-fab color="primary" class="mr-1 primary-marker" data-testid="select-option-toggle"><mat-icon>done</mat-icon></button>
+                <button (click)="onSelectActivityClick(activitySelect)" *ngIf="!activitySelect.selected" mat-mini-fab color="default" class="mr-1 primary-marker" data-testid="select-option-toggle"><mat-icon>close</mat-icon></button>
                 {{activitySelect.name}}
 
             </div>

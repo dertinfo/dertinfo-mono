@@ -64,7 +64,8 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterContentInit {
     this._conductor.applyGroups(this._activatedRoute.snapshot.data.dashboarddata[0]);
     this._conductor.applyEvents(this._activatedRoute.snapshot.data.dashboarddata[1]);
 
-    if (this.authService.userData().email === 'info@dert2014.co.uk' || this.authService.userData().email.startsWith('davidsmonkeys')) {
+    const email = this.authService.userData().email;
+    if (email === 'info@dert2014.co.uk' || email === 'event-admin-1@dertinfo.co.uk' || email.startsWith('davidsmonkeys')) {
       this.flyoutMenuItems.push({
         matIcon: 'event',
         name: 'create-event'

@@ -25,6 +25,7 @@ docs/
     capabilities.yaml
     roles/
     features/
+    entities/
     system/
   technical/
     architecture/
@@ -86,14 +87,14 @@ Each inventory entry:
   roles: [public-user, member]
 ```
 
-Adding a capability = YAML row **and** markdown page (same `id` in frontmatter). Features list applicable **roles**; roles link back to features.
+Adding a capability = YAML row **and** markdown page (same `id` in frontmatter). Features list applicable **roles**; roles link back to features. Entities use the same inventory shape (`id: entity.<slug>`).
 
 ## Frontmatter (light)
 
 ```yaml
 ---
 name: Log in
-type: feature          # role | feature | system | architecture | guide | …
+type: feature          # role | feature | entity | system | architecture | guide | …
 status: active
 updated: YYYY-MM-DD
 id: auth.login         # required for capability pages
@@ -152,6 +153,35 @@ roles: [public-user, member]
 
 ## Limitations
 …
+```
+
+Add a `## Scenarios` section when a feature has smoke coverage. Given, When, Then, And, and But stay in one Gherkin block. A YAML contract beside it is what the Playwright runner reads (`id`, `persona`, `sequence`, `requires`, `provides`). A provided name or requirement with no `[n]` is instance 1. A behaviour that a wider flow now performs keeps its own Gherkin and YAML, and adds `coveredBy` with that flow's id. The runner does not execute a `coveredBy` entry. A flow id may end in `-scenarioN` when it is one complete path through an action. How to run the suite is in [Website smoke tests](technical/guides/website-smoke-tests.md). How a scenario is sized, how it calls steps, and how session state and video work is in [Playwright standards](technical/standards/playwright/README.md).
+
+### Entity (`capabilities/entities/<entity>.md`)
+
+An object in the platform: what it is, what can be done to it, and which states it can be in. Actions name the role, the feature, the state change, and side effects (another entity created, an email sent, who can now see it). The glossary stays the short vocabulary; entity pages are the lifecycle.
+
+Entities with no lifecycle say so and list the settings that matter. Do not invent states.
+
+```markdown
+---
+name: Registration
+type: entity
+status: active
+updated: YYYY-MM-DD
+id: entity.registration
+---
+
+# Entity: Registration
+
+## Description
+…
+
+## What can be done
+- **Submit** — group-admin, via [Submit event registration](../features/registration-submit.md). New or Submitted becomes Submitted. The registration becomes visible to the event admin, and a registration-submitted email is sent.
+
+## States
+- **New** — …
 ```
 
 ### System capability (`capabilities/system/<capability>.md`)

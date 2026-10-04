@@ -2,7 +2,7 @@
 name: Run competitions
 type: feature
 status: active
-updated: 2026-07-26
+updated: 2026-09-27
 id: competitions.run
 roles: [event-admin]
 ---
@@ -36,6 +36,7 @@ Music, stepping, sword handling, dance technique, presentation, characters, and 
 - Create **paperwork** for each dance according to the judges announced and the **score sets** those judges mark against.
 - Configure venues (main competition is multi-venue; scores aggregate across venues).
 - Allocate judges and score sets (traditional and DERTY use different marking sets from main).
+- From the event homepage, **Competitions** shows how many competitions are available for the event.
 - On the website, **view scores** and filter by **venue**, **team**, and **award**.
 - Use reporting to identify winners for **awards** ahead of the awards ceremony.
 
@@ -52,3 +53,28 @@ Music, stepping, sword handling, dance technique, presentation, characters, and 
 - Publishing results is exclusively an event-admin function — see [Publish competition results](results-publish.md).
 
 See [Domain glossary](../system/domain-glossary.md).
+
+## Scenarios
+
+The smoke check is only that Competitions shows a count. Venues, judges, dances, marking, and awards are a later pass and are not part of this scenario.
+
+```gherkin
+Feature: Run competitions
+  As an event administrator
+  I want to open competitions for my event
+  So that I can see how many there are
+
+  Scenario: Event administrator sees the competition count
+    Given the event is set up
+    When the event administrator selects Competitions from the event homepage
+    Then the number of competitions available for the event is shown
+```
+
+```yaml
+scenarios:
+  - id: competitions.run.event-admin-sees-count
+    persona: event-admin
+    sequence: 89
+    requires:
+      - events.create.event-admin-configures
+```

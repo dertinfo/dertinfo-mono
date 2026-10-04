@@ -2,7 +2,7 @@
 name: Invoicing and payment status
 type: feature
 status: active
-updated: 2026-07-26
+updated: 2026-10-03
 id: invoicing.payment-status
 roles: [event-admin, group-admin]
 ---
@@ -21,11 +21,50 @@ When registrations are confirmed, invoices are created for groups. Event adminis
 ## Behaviour
 
 - Invoices are produced on registration confirmation (with pricing and payment instructions in the confirmed email).
-- Event admin marks an invoice as **paid** when payment is received.
-- Group admin can see that the invoice is marked paid.
+- From the event home, **Invoices & Payments** lists invoices for confirmed registrations. Each shows the registration total, the invoice total, the team, and **Received** or **Not yet received**.
+- Event admin marks an invoice received when payment arrives. The group admin sees that mark.
+- From the group homepage, **Invoices & Payments** lists what the group owes events, each **Received** or **Not yet received**.
 
 ## Limitations
 
 - This capability describes status tracking in the platform, not a specific payment provider.
 
 See [Confirm registrations](registration-confirm.md) and [Domain glossary](../system/domain-glossary.md).
+
+## Scenarios
+
+```gherkin
+Feature: Invoicing and payment status
+  As an event administrator
+  I want to see invoices for confirmed registrations
+  So that I can see who is coming, the revenue, and the teams
+
+  Scenario: Event administrator reviews invoices
+    Given a registration has been confirmed
+    When the event administrator opens Invoices and Payments from the event home
+    Then the invoice shows the registration total and the invoice total
+    And the invoice shows the team
+    And the invoice shows Received or Not yet received
+
+  Scenario: Group administrator reviews invoices
+    Given the event administrator can see the confirmed registration invoice
+    When the group administrator opens Invoices and Payments from the group homepage
+    Then the invoice shows Received or Not yet received
+    And that mark matches whether the event administrator has marked it received
+```
+
+```yaml
+scenarios:
+  - id: invoicing.payment-status.event-admin-reviews
+    persona: event-admin
+    sequence: 93
+    requires:
+      - registration.confirm.event-admin-confirms
+    coveredBy: registration.groupadmin.checkregistrationandedit-scenario1
+  - id: invoicing.payment-status.group-admin-reviews
+    persona: group-admin
+    sequence: 94
+    requires:
+      - invoicing.payment-status.event-admin-reviews
+    coveredBy: registration.groupadmin.checkregistrationandedit-scenario1
+```

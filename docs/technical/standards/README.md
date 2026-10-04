@@ -2,7 +2,7 @@
 name: Engineering standards
 type: index
 status: active
-updated: 2026-09-26
+updated: 2026-09-27
 ---
 
 # Engineering standards
@@ -14,5 +14,6 @@ Technology-wide conventions (style, constructs, naming) that apply wherever that
 | [Angular](angular/) | Client structure and DertInfo feature pattern (conductor / tracker / repository / resolver) |
 | [Bicep](bicep/) | `infra/bicep` layout, AVM vs local modules, extendable params, `prerequisitesExist` |
 | [PowerShell](powershell/) | `infra/scripts` layout, comment-based help, and operator-script body order |
+| [Playwright](playwright/) | How a smoke scenario is sized, how it calls steps, how browsers become clips, and how session state is kept |
 
 Create a new folder under `standards/` when documenting the first house standard for another stack (e.g. .NET).

@@ -106,14 +106,14 @@ export class GroupAdminTracker {
     }
 
     public set availableEvents(events: EventDto[]) {
-        this._memoryStore.availableEvents = events;
+        this._memoryStore.availableEvents = (events || []).filter(event => event.isConfigured);
 
         this.filterEventsByAlreadyRegistered(this._memoryStore.registrations || []);
         this._availableEvents.next(this._memoryStore.availableEvents);
     }
 
     public set promotedEvents(events: EventDto[]) {
-        this._memoryStore.promotedEvents = events;
+        this._memoryStore.promotedEvents = (events || []).filter(event => event.isConfigured);
 
         this.filterEventsByAlreadyRegistered(this._memoryStore.registrations || []);
         this._promotedEvents.next(this._memoryStore.promotedEvents);

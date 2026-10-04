@@ -6,7 +6,7 @@
     <mat-card-content class="p-0">
       <mat-grid-list cols="3" rowHeight="1:1" class="app-gallery">
         <!-- Gallery item -->
-        <mat-grid-tile *ngFor="let groupImage of groupImages$ | async">
+        <mat-grid-tile *ngFor="let groupImage of groupImages$ | async" data-testid="gallery-photo" [attr.data-photo-name]="groupImage.name">
           <app-image-retry [src]="groupImage.imageResourceUri | imageDimension: '480x360'" alt=""></app-image-retry>
           <button *ngIf="groupImage.isPrimary" mat-mini-fab color="primary" class="mr-1 primary-marker"><mat-icon>done</mat-icon></button>
           <!-- item detail, show on hover -->

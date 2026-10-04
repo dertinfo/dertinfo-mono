@@ -13,7 +13,7 @@
   <div class="section-header">
 
     <div fxLayout="row wrap" fxLayoutGap="">
-      <mat-form-field *ngIf="eventLookups" style="width:100%">
+      <mat-form-field *ngIf="eventLookups" style="width:100%" data-testid="public-results">
         <mat-select placeholder="Select Competition" (selectionChange)="onSelectionChange($event.value)">
           <mat-option>-- None --</mat-option>
           <mat-optgroup *ngFor="let event of eventLookups.events" [label]="event.eventName">
