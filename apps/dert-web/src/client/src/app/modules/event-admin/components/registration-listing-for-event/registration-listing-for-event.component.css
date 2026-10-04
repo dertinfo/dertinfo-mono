@@ -14,10 +14,3 @@
     font-size: 20px;
     line-height: 20px;
 }
-img.mat-mdc-list-item-avatar {
-    width: 40px;
-    height: 40px;
-    flex: 0 0 40px;
-    object-fit: cover;
-    border-radius: 50%;
-}

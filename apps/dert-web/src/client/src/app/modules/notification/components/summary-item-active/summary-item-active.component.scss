@@ -12,10 +12,6 @@
     flex-direction: column;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
-.notific-item .mat-list-item-content {
-    min-height: 60px !important;
-}
 .notific-item .item-container {
     outline: 0;
     width: 100%;

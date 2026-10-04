@@ -93,15 +93,11 @@
     -->
         <mat-tab label="Attendances">
             <div class="mat-box-shadow margin-333">
-                <ngx-datatable class="material bg-white" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
+                <ngx-datatable class="material bg-white attendance-table" [columnMode]="'flex'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'"
                     [limit]="10" [rows]="rows">
-                    <ngx-datatable-column name="" prop="eventPictureUrl" >
+                    <ngx-datatable-column name="" prop="eventPictureUrl" [flexGrow]="1">
                         <ng-template let-value="value" ngx-datatable-cell-template>
-                            <mat-list class="compact-list mb-1">
-                                <mat-list-item>
-                                    <img mat-list-avatar class="mr-1" [src]="value | imageDimension: '100x100'" alt="">
-                                </mat-list-item>
-                            </mat-list>
+                            <img class="attendance-avatar" [src]="value | imageDimension: '100x100'" alt="">
                         </ng-template>
                     </ngx-datatable-column>
                     <ngx-datatable-column name="Event Name" prop="eventName" [flexGrow]="3">

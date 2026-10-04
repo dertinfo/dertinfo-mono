@@ -6,8 +6,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
 
 @Component({
   selector: 'app-event-registrations',
-  templateUrl: './event-registrations.component.html',
-  styleUrls: ['./event-registrations.component.css']
+  templateUrl: './event-registrations.component.html'
 })
 export class EventRegistrationsComponent implements OnInit, OnDestroy {
 

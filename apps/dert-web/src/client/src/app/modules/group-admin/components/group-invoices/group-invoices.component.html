@@ -1,6 +1,7 @@
-<div fxLayout="row wrap" >
+<div fxLayout="column" fxFlex="100">
+  <app-addition-header [title]="'Invoices & Payments'" [icon]="'attach_money'" [hideButton]="true"></app-addition-header>
+  <div fxLayout="row wrap">
   <mat-card appearance="outlined" class="default" fxFlex="100">
-    <mat-card-title>Invoices &amp; Payments</mat-card-title>
     <mat-card-content class="p-0">
       <app-invoices-listing [invoices]="groupInvoices$ | async" (invoiceSelected)="OnInvoiceSelected($event)"></app-invoices-listing>
     </mat-card-content>
@@ -53,4 +54,5 @@
       </p>
     </mat-card-content>
   </mat-card>
+</div>
 </div>

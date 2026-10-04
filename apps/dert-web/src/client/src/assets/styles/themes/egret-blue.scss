@@ -107,7 +107,6 @@ $primary-dark: darken( map-get($md-primary, 500), 8% );
         color: map-get($md-primary, 500) !important;
     }
     /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
-    .sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-list-item-content > .sub-menu,
     .sidebar-panel.mat-drawer .sidebar-list-item.open md-icon:not(.menu-caret),
     .list-item-active {
         border-color: map-get($md-primary, 500);
