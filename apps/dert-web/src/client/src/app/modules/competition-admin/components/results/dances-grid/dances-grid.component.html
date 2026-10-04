@@ -1,12 +1,14 @@
 <div class="filter-area">
     <mat-form-field>
-        <mat-select [(ngModel)]="teamFilter" placeholder="Team Filter" (selectionChange)="onTeamFilterChanged()">
+        <mat-label>Team Filter</mat-label>
+        <mat-select [(ngModel)]="teamFilter" (selectionChange)="onTeamFilterChanged()">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let teamFilterItem of teamFilterItems" value="{{teamFilterItem.teamName}}">{{teamFilterItem.teamName}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field>
-        <mat-select [(ngModel)]="venueFilter" placeholder="Venue Filter" (selectionChange)="onVenueFilterChanged()">
+        <mat-label>Venue Filter</mat-label>
+        <mat-select [(ngModel)]="venueFilter" (selectionChange)="onVenueFilterChanged()">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let venueFilterItem of venueFilterItems" value="{{venueFilterItem.venueName}}">{{venueFilterItem.venueName}}</mat-option>
         </mat-select>

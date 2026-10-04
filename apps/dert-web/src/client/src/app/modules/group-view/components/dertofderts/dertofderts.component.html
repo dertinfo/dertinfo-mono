@@ -1,8 +1,8 @@
-<mat-card class="profile-sidebar mb-1">
+<mat-card appearance="outlined" class="profile-sidebar mb-1">
   <app-youtube-embed [youtubeLink]="embedLink" *ngIf="showVideo && embedOrigin === 'youtube'"></app-youtube-embed>
   <app-facebook-embed [facebookLink]="embedLink" *ngIf="showVideo && embedOrigin === 'facebook'"></app-facebook-embed>
 </mat-card>
-<mat-card *ngIf="!showResults">
+<mat-card appearance="outlined" *ngIf="!showResults">
   <mat-card-title>
     Is that me in that video?
   </mat-card-title>
@@ -13,7 +13,7 @@
     </p>
   </mat-card-content>
 </mat-card>
-<mat-card *ngIf="showResults && showAwaitingResults">
+<mat-card appearance="outlined" *ngIf="showResults && showAwaitingResults">
   <mat-card-title>
     Not got any results yet?
   </mat-card-title>
@@ -30,7 +30,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="showResults && !showAwaitingResults">
+<mat-card appearance="outlined" *ngIf="showResults && !showAwaitingResults">
   <mat-card-title>
     Get an Update?
   </mat-card-title>
@@ -47,7 +47,7 @@
   </mat-card-content>
 </mat-card>
 
-<mat-card *ngIf="showSwitcher">
+<mat-card appearance="outlined" *ngIf="showSwitcher">
   <mat-card-content>
     <p>Show "Official" or "Public" score cards by clicking on this thing -->
       <mat-checkbox [(ngModel)]="showPublicOnly" (change)="onTogglePublicOfficial()">{{showPublicOnly ? 'Show official ones' : 'Show public ones'}}</mat-checkbox>

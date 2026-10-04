@@ -1,12 +1,12 @@
 .notifications-drawer {
     max-width: 300px;
 
-    .mat-list-item {
+    .mat-mdc-list-item {
         height: auto !important;
         padding-top: 5px;
         padding-bottom: 5px;
         margin-bottom: 1px;
-
+        /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version. */
         .mat-list-item-content {
             padding: 5px 5px 5px 5px !important;
             align-items: unset !important;

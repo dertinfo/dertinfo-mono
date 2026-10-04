@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ScoreCard } from 'app/models/app/ScoreCard';
 import { DodGroupResultsDto } from 'app/models/dto/DodGroupResultsDto';
 import { DodGroupResultsScoreCardDto } from 'app/models/dto/DodGroupResultsScoreCardDto';

@@ -9,13 +9,13 @@
   bottom:8px;
 }
 
-#app-switch-header .mat-card-title {
+#app-switch-header .mat-mdc-card-title {
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-#app-switch-header .mat-card-title .mat-icon {
+#app-switch-header .mat-mdc-card-title .mat-icon {
   margin-right:15px;
 }
 

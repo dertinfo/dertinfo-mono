@@ -16,7 +16,7 @@
 
     <div fxLayout="row wrap" fxLayout.lt-md="column" fxLayoutGap="35px">
       <div fxFlex="30" *ngFor="let talk of talks">
-        <mat-card class="p-0" *ngIf="hasLink(talk)">
+        <mat-card appearance="outlined" class="p-0" *ngIf="hasLink(talk)">
           <a (click)="openLink(talk.broadcastWebLink)" target="_blank" class="cursor-pointer">
             <div class="talk-image-overlay">
               <div class="talk-image-overlay-inner">
@@ -36,7 +36,7 @@
             </mat-card-content>
           </a>
         </mat-card>
-        <mat-card class="p-0" *ngIf="!hasLink(talk)">
+        <mat-card appearance="outlined" class="p-0" *ngIf="!hasLink(talk)">
           <div class="talk-image-overlay">
             <div class="talk-image-overlay-inner">
               <div>{{talk.broadcastDateTime | dayFormat }}</div>

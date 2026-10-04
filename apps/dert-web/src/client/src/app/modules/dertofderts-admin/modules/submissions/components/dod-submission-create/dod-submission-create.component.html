@@ -4,7 +4,8 @@
     <div fxLayout="row wrap" fxLayoutWrap="wrap" fxLayoutAlign="space-between">
       <div class="pb-1" fxFlex="100">
         <mat-form-field>
-          <mat-select formControlName="groupId" placeholder="Group*">
+          <mat-label>Group*</mat-label>
+          <mat-select formControlName="groupId">
             <mat-option *ngFor="let group of groups$ | async" [value]="group.id">
               {{group.groupName}}
             </mat-option>

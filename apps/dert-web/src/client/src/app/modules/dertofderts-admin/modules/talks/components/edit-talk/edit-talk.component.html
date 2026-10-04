@@ -2,7 +2,7 @@
 <app-addition-header fxFlex="100" [title]="'Talks'"
     [icon]="'supervised_user_circle'" [hideButton]="true"></app-addition-header>
 
-<mat-card class="p-0" *ngIf="isReady" fxFlex="100">
+<mat-card appearance="outlined" class="p-0" *ngIf="isReady" fxFlex="100">
   <mat-card-content class="mt-1">
     <form [formGroup]="form" novalidate (submit)="onSubmit()">
       <div class="pb-1">

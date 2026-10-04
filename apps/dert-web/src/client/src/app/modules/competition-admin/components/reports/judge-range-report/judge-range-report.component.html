@@ -1,11 +1,12 @@
 <div fxFlex="100" fxFlex.gt-sm="100">
-  <mat-card class="p-0">
+  <mat-card appearance="outlined" class="p-0">
     <mat-card-title class="">
       <div class="card-title-text">Judge Range Report</div>
       <div fxFlex></div>
       <div class="card-title-select">
         <mat-form-field>
-          <mat-select [(ngModel)]="rangeReportJudgeSelected" placeholder="Select Judge"
+          <mat-label>Select Judge</mat-label>
+          <mat-select [(ngModel)]="rangeReportJudgeSelected"
             (selectionChange)="onRangeReportJudgeSelectorChanged()">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let judge of competitionJudges" [value]="judge">{{judge.name}}</mat-option>

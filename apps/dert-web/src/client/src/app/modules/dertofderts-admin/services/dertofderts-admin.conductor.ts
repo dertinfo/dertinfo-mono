@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DodBlockUserSubmissionDto } from 'app/models/dto/DodBlockUserSubmissionDto';
 import { DodResultComplaintDto } from 'app/models/dto/DodResultComplaintDto';
 import { DodResultRejectComplaintSubmissionDto } from 'app/models/dto/DodResultRejectComplaintSubmissionDto';

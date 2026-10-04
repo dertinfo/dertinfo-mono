@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MemberSelectMediator } from 'app/shared/components/members-select/services/members-select.mediator';
 import { Subscription } from 'rxjs';
 import { GroupAdminConductor } from '../../services/group-admin.conductor';

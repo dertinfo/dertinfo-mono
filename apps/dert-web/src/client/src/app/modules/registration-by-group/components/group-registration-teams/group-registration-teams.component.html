@@ -1,7 +1,7 @@
 <div fxLayout="row wrap">
     <app-addition-header fxFlex="100" (addClick)="openSelectTeamDialog()" [title]="'Attending Teams'" [icon]="'people'" [disabled]="!capabilities.canAddEditTeams"></app-addition-header>
     <div *ngFor="let teamAttendance of attendingTeams$ | async" fxFlex="100" fxFlex.lt-sm="100">
-        <mat-card class="user-card p-0" data-testid="attendance-card" [attr.data-card-title]="teamAttendance.groupTeamName">
+        <mat-card appearance="outlined" class="user-card p-0" data-testid="attendance-card" [attr.data-card-title]="teamAttendance.groupTeamName">
             <mat-card-title class="mat-bg-primary">
               <div class="card-title-text">
                 <span>{{teamAttendance.groupTeamName}}</span>

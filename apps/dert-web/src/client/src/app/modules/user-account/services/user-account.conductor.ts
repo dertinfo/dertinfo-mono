@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserOverviewDto, UserSettingsDto } from 'app/models/dto';
 import { UserRepository } from 'app/modules/repositories';
 import { BehaviorSubject } from 'rxjs';

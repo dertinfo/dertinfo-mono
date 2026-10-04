@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutWrap="wrap">
-  <mat-card class="default" fxFlex="100">
+  <mat-card appearance="outlined" class="default" fxFlex="100">
     <mat-card-title>Invoices &amp; Payments</mat-card-title>
     <mat-card-content class="p-0">
       <app-event-invoices-listing [invoices]="eventInvoices$ | async" [selectedInvoice]="selectedInvoice"
@@ -9,14 +9,14 @@
   </mat-card>
 </div>
 <div fxLayout="row">
-  <mat-card class="default" fxFlex="50" *ngIf="selectedInvoice">
+  <mat-card appearance="outlined" class="default" fxFlex="50" *ngIf="selectedInvoice">
     <mat-card-title>History / Versions</mat-card-title>
     <mat-card-content>
       <app-event-invoices-listing [invoices]="invoiceHistory$ | async" [selectedInvoice]="selectedInvoiceHistory || selectedInvoice" (invoiceSelected)="OnInvoiceHistoryItemSelected($event)">
       </app-event-invoices-listing>
     </mat-card-content>
   </mat-card>
-  <mat-card class="default" fxFlex="50" *ngIf="invoiceDetailToDisplay">
+  <mat-card appearance="outlined" class="default" fxFlex="50" *ngIf="invoiceDetailToDisplay">
     <mat-card-title>Details</mat-card-title>
     <mat-card-content>
       <p>

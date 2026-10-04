@@ -31,7 +31,8 @@
 
             <div class="pb-1" fxFlex="48" fxFlex.lt-sm="100">
                 <mat-form-field>
-                    <mat-select placeholder="Target Audience" formControlName="audienceTypeId">
+                    <mat-label>Target Audience</mat-label>
+                    <mat-select formControlName="audienceTypeId">
                         <mat-option *ngFor="let audienceType of audienceTypes" [value]="audienceType.id">
                             {{audienceType.name}}
                         </mat-option>

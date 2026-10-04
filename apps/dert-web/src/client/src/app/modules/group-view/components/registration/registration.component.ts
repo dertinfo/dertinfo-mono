@@ -4,8 +4,8 @@ import { DanceDetailDto, DanceMarkingSheetDto, GroupDto, GroupRegistrationDto, G
 import { Observable, Subscription } from 'rxjs';
 import { GroupViewConductor } from '../../services/group-view.conductor';
 
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyTabChangeEvent as MatTabChangeEvent, MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { GroupAccessContext } from 'app/models/app/Enumerations/GroupAccessContext';
 import { GroupViewTracker } from '../../services/group-view.tracker';
 import { MarkingSheetZoomComponent } from './dialogs/marking-sheet-zoom/marking-sheet-zoom.component';

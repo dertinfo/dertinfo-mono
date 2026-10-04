@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DodTalkSubmissionDto } from 'app/models/dto/DodTalkSubmissionDto';
 import { Conductor } from '../../../../services/dertofderts-admin.conductor';
 import { Mediator } from '../../../../services/dertofderts-admin.mediator';

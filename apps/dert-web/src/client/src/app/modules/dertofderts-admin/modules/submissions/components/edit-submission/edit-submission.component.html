@@ -2,12 +2,13 @@
   <app-addition-header fxFlex="100" [title]="'Submission'" [icon]="'receipt'" [hideButton]="true">
   </app-addition-header>
 
-  <mat-card class="p-0" *ngIf="isReady" fxFlex="100">
+  <mat-card appearance="outlined" class="p-0" *ngIf="isReady" fxFlex="100">
     <mat-card-content class="mt-1">
       <form [formGroup]="form" novalidate (submit)="onSubmit()">
         <div class="pb-1">
           <mat-form-field>
-            <mat-select formControlName="groupId" placeholder="Group*">
+            <mat-label>Group*</mat-label>
+            <mat-select formControlName="groupId">
               <mat-option *ngFor="let group of groups$ | async" [value]="group.id">
                 {{group.groupName}}
               </mat-option>

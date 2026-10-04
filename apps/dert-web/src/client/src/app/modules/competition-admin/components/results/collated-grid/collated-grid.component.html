@@ -1,6 +1,7 @@
 <div class="filter-area">
         <mat-form-field>
-                <mat-select [(ngModel)]="awardFilter" placeholder="Award Filter" (selectionChange)="onAttributeFilterChange()">
+                <mat-label>Award Filter</mat-label>
+                <mat-select [(ngModel)]="awardFilter" (selectionChange)="onAttributeFilterChange()">
                     <mat-option>None</mat-option>
                     <mat-option *ngFor="let entryAttribute of entryAttributeFilterData" value="{{entryAttribute.id}}">{{entryAttribute.name}}</mat-option>
                 </mat-select>

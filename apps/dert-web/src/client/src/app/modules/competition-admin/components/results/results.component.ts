@@ -5,7 +5,7 @@ import { CompetitionAdminConductor } from '../../services/competition-admin.cond
 import { CompetitionAdminTracker } from '../../services/competition-admin.tracker';
 
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { CompetitionEntryAttributeDto, DanceDetailDto, TeamCollatedFullResultDto } from 'app/models/dto';
 
 class DataTableDataElement {

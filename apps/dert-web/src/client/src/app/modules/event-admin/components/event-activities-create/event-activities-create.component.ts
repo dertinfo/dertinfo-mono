@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivitySubmissionDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
 import { EventAdminConductor } from '../../services/event-admin.conductor';

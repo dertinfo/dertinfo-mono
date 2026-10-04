@@ -1,15 +1,8 @@
 @use '@angular/material' as mat;
 @import '@angular/material/theming';
-// TODO(v15): As of v15 mat.legacy-core no longer includes default typography styles.
-//  The following line adds:
-//    1. Default typography styles for all components
-//    2. Styles for typography hierarchy classes (e.g. .mat-headline-1)
-//  If you specify typography styles for the components you use elsewhere, you should delete this line.
-//  If you don't need the default component typographies but still want the hierarchy styles,
-//  you can delete this line and instead use:
-//    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
-@include mat.all-legacy-component-typographies();
-@include mat.legacy-core();
+// Default component typography, including hierarchy classes such as .mat-headline-1.
+@include mat.all-component-typographies();
+@include mat.core();
 
 // You can define colors here (using http://mcg.mbitson.com)
 $mat-primary: (
@@ -89,7 +82,7 @@ $primary-dark: darken( map-get($mat-primary, 500), 8% );
 
 // include the custom theme object into the angular material theme
 .egret-indigo {
-    @include mat.all-legacy-component-themes($egret-theme);
+    @include mat.all-component-themes($egret-theme);
 
     .mat-bg-primary,
     .topbar,
@@ -105,13 +98,14 @@ $primary-dark: darken( map-get($mat-primary, 500), 8% );
     .mat-color-primary,
     .list-item-active,
     .sidebar-panel.mat-drawer .sidebar-list-item.open mat-icon:not(.menu-caret),
-    .sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-list-item-content > a > span,
+    .sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-mdc-list-item-content > a > span,
     .sidebar-panel.mat-drawer .sidebar-list-item.open .sub-menu .mat-list-item.selected a {
         color: map-get($mat-primary, 500) !important;
     }
-    .sidebar-panel .mat-nav-list .mat-list-item {
+    .sidebar-panel .mat-nav-list .mat-mdc-list-item {
         color: rgba(0, 0, 0, 0.94)
     }
+    /* TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
     .sidebar-panel.mat-drawer .sidebar-list-item.open > .mat-list-item-content > .sub-menu,
     .sidebar-panel.mat-drawer .sidebar-list-item.open mat-icon:not(.menu-caret),
     .list-item-active {

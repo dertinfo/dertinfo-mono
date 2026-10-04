@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { DodRecoverSessionDto } from 'app/models/dto/DodRecoverSessionDto';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
 import { Conductor } from '../../services/dertofderts-public.conductor';

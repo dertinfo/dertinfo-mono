@@ -11,7 +11,7 @@
     <section id="video-section" class="light-gray">
       <div class="container">
 
-        <mat-card *ngIf="videoReady" fxFlex="100">
+        <mat-card appearance="outlined" *ngIf="videoReady" fxFlex="100">
           <mat-card-header fxLayoutAlign="space-between">
             <mat-card-title>Video</mat-card-title>
             <button type="button" mat-raised-button (click)="onReturnToListClick()">Back To List</button>
@@ -32,7 +32,7 @@
 
       <div class="container">
         <div class="form-container">
-          <mat-card fxFlex="100" *ngIf="alreadyJudged && !resultsPublished">
+          <mat-card appearance="outlined" fxFlex="100" *ngIf="alreadyJudged && !resultsPublished">
 
             <mat-card-title>You've already done this one!</mat-card-title>
             <mat-card-content>
@@ -45,7 +45,7 @@
               </div>
             </mat-card-content>
           </mat-card>
-          <mat-card fxFlex="100" *ngIf="resultsPublished">
+          <mat-card appearance="outlined" fxFlex="100" *ngIf="resultsPublished">
 
             <mat-card-title>We're all done! The results are out.</mat-card-title>
             <mat-card-content>
@@ -58,7 +58,7 @@
               </div>
             </mat-card-content>
           </mat-card>
-          <mat-card class="default" fxFlex="100" *ngIf="!alreadyJudged && !resultsPublished">
+          <mat-card appearance="outlined" class="default" fxFlex="100" *ngIf="!alreadyJudged && !resultsPublished">
             <mat-card-header fxLayoutAlign="space-between">
               <mat-card-title>Scores</mat-card-title>
             </mat-card-header>

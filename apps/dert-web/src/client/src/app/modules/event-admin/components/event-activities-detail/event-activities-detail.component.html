@@ -1,4 +1,4 @@
-<mat-card class="p-0" *ngIf="_isReady">
+<mat-card appearance="outlined" class="p-0" *ngIf="_isReady">
     <mat-card-title class="mat-bg-primary">
         <div class="card-title-text">
             <span>{{activityDetail.title}}</span>
@@ -18,7 +18,7 @@
     </mat-card-content>
 </mat-card>
 
-<mat-card class="p-0" *ngIf="_isReady">
+<mat-card appearance="outlined" class="p-0" *ngIf="_isReady">
     <mat-tab-group>
         <mat-tab label="General">
             <mat-card-content class="mt-1">
@@ -47,7 +47,8 @@
 
                     <div class="pb-1">
                         <mat-form-field>
-                            <mat-select placeholder="Target Audience" formControlName="audienceTypeId">
+                            <mat-label>Target Audience</mat-label>
+                            <mat-select formControlName="audienceTypeId">
                                 <mat-option *ngFor="let audienceType of audienceTypes" [value]="audienceType.id">
                                     {{audienceType.name}}
                                 </mat-option>

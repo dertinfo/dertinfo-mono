@@ -1,9 +1,10 @@
 <div fxLayout="row wrap">
     <app-avatar-header fxFlex="100" [title]="registration.eventName" [imageUrl]="registration.eventPictureUrl"></app-avatar-header>
-    <mat-card fxFlex="100">
+    <mat-card appearance="outlined" fxFlex="100">
         <div class="filter-area">
             <mat-form-field>
-                <mat-select [(ngModel)]="teamAttendanceFilter" placeholder="Team Filter" (selectionChange)="onTeamFilterChange()">
+                <mat-label>Team Filter</mat-label>
+                <mat-select [(ngModel)]="teamAttendanceFilter" (selectionChange)="onTeamFilterChange()">
                     <mat-option *ngFor="let teamAttendance of teamAttendanceFilterData" [value]="teamAttendance">{{teamAttendance.groupTeamName}}</mat-option>
                 </mat-select>
             </mat-form-field>

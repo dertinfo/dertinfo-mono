@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { CompetitionLookupCompetitionDto, CompetitionLookupDto, CompetitionResultDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
 import { PublicContentConductor } from '../services/public-content.conductor';

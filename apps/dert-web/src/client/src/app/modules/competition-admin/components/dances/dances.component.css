@@ -30,7 +30,7 @@ mat-header-cell {
     min-width: 60px;
 }
 
-.mat-table-avatar {
+.mat-mdc-table-avatar {
     flex-shrink: 0;
     width: 40px;
     height: 40px;

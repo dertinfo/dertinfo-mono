@@ -1,11 +1,11 @@
 <div fxLayout="row wrap" >
-  <mat-card class="default" fxFlex="100">
+  <mat-card appearance="outlined" class="default" fxFlex="100">
     <mat-card-title>Invoices &amp; Payments</mat-card-title>
     <mat-card-content class="p-0">
       <app-invoices-listing [invoices]="groupInvoices$ | async" (invoiceSelected)="OnInvoiceSelected($event)"></app-invoices-listing>
     </mat-card-content>
   </mat-card>
-  <mat-card class="default" fxFlex="100" *ngIf="selectedInvoice">
+  <mat-card appearance="outlined" class="default" fxFlex="100" *ngIf="selectedInvoice">
     <mat-card-title>Details</mat-card-title>
     <mat-card-content>
       <p>

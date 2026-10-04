@@ -1,5 +1,5 @@
 import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SubscriptionLike } from 'rxjs';
 
 import { NotificationConductor } from '../../services/notification.conductor';

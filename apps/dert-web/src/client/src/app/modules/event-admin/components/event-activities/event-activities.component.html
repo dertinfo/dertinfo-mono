@@ -1,13 +1,13 @@
 <div>
         <app-addition-header (addClick)="openCreateActivityDialog()" [title]="'Activities'" [icon]="'check_circle'"></app-addition-header>
-        <mat-card class="p-0">
+        <mat-card appearance="outlined" class="p-0">
             <mat-tab-group class="shrink-last-tab">
 
               <mat-tab  label="Individual Activities">
                 <mat-card-content class="mt-1">
                   <div fxLayout="row wrap">
                       <div *ngFor="let activity of eventIndividualActivities$ | async" fxFlex="50" fxFlex.lt-sm="100">
-                          <mat-card class="user-card p-0" [routerLink]="getDetailRouteLink(activity)">
+                          <mat-card appearance="outlined" class="user-card p-0" [routerLink]="getDetailRouteLink(activity)">
                             <mat-card-title class="mat-bg-primary">
                               <div class="card-title-text">
                                   <mat-icon>person</mat-icon>
@@ -51,7 +51,7 @@
                   <mat-card-content class="mt-1">
                       <div fxLayout="row wrap">
                           <div *ngFor="let activity of eventTeamActivities$ | async" fxFlex="50" fxFlex.lt-sm="100">
-                              <mat-card class="user-card p-0" [routerLink]="getDetailRouteLink(activity)">
+                              <mat-card appearance="outlined" class="user-card p-0" [routerLink]="getDetailRouteLink(activity)">
                                 <mat-card-title class="mat-bg-primary">
                                   <div class="card-title-text">
                                     <mat-icon>people</mat-icon>

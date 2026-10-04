@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, ViewChil
 import { Subscription } from 'rxjs';
 
 import { MatSort } from '@angular/material/sort';
-import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatTableDataSource } from '@angular/material/table';
 import { CompetitionEntryAttributeDto, DanceDetailDto, DanceScoreDto } from 'app/models/dto';
 
 class DataTableDataElement {
