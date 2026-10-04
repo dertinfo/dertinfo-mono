@@ -27,12 +27,12 @@ How settings are organised across local development, Docker, and Azure-hosted en
 
 | Item            | Guidance                                                                                                                                     |
 | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Engine floor    | Root `package.json` / doctor: **Node ≥ 16.10**. Website Angular 16.2 needs Node `^16.14` or `^18.10`. The Ionic app is still Angular 13.     |
-| Recommended     | **Node 16 or 18** for website `ng` (Angular CLI 16 does not run on Node 24). Node 18 or newer for the Static Web Apps CLI. The Ionic app is still Angular 13. |
+| Engine floor    | Root `package.json` / doctor: **Node ≥ 16.10**. Website Angular 17.3 needs Node `^18.13` or `^20.9`. The Ionic app is still Angular 13.     |
+| Recommended     | **Node 18** for website `ng` (Angular CLI 17 does not run on Node 24). Node 18 or newer for the Static Web Apps CLI. The Ionic app is still Angular 13. |
 | nvm-windows     | `nvm install <ver>` then **elevated** `nvm use <ver>` if you see `exit status 5: Access is denied` (symlink under `C:\Program Files\nodejs`) |
 | After `nvm use` | Reinstall globals on that Node: `npm install -g azurite@latest @azure/static-web-apps-cli`                                                   |
 | Per-app deps    | `npm run web:install` / `npm run app:install` (or `npm install` in each `apps/*/src/client`) after Node switches                             |
-| Angular CLI     | Prefer **project-local** `npx ng` (web CLI 16, app CLI 13) — avoid one global CLI for both                                                   |
+| Angular CLI     | Prefer **project-local** `npx ng` (web CLI 17, app CLI 13) — avoid one global CLI for both                                                   |
 
 
 ```powershell

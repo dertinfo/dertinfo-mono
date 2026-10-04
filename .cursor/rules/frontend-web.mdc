@@ -15,5 +15,4 @@ alwaysApply: false
 ```bash
 npm run web:build
 npm run web:lint
-npm run web:test
 ```

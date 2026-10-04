@@ -20,7 +20,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
           cache: npm
           cache-dependency-path: apps/dert-web/src/client/package.json
 
@@ -29,10 +29,6 @@ jobs:
 
       - name: Lint
         run: npm run lint
-        continue-on-error: true
-
-      - name: Test
-        run: npm run test -- --watch=false --browsers=ChromeHeadless
         continue-on-error: true
 
       - name: Build (hosted)

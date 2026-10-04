@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-10-04 | Website upgraded from Angular 16 to Angular 17 | [2026-10-04-004-web-angular-17.md](./2026-10-04-004-web-angular-17.md) |
 | 2026-10-04 | Website upgraded from Angular 15 to Angular 16 | [2026-10-04-003-web-angular-16.md](./2026-10-04-003-web-angular-16.md) |
 | 2026-10-04 | Website upgraded from Angular 14 to Angular 15, Material on MDC, layout restored | [2026-10-04-002-web-angular-15.md](./2026-10-04-002-web-angular-15.md) |
 | 2026-10-04 | Reliable website smoke suite | [2026-10-04-001-website-smoke-suite.md](./2026-10-04-001-website-smoke-suite.md) |
