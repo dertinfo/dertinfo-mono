@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventOverviewDto } from 'app/models/dto';
 import { FlowBreadcrumbItem } from 'app/shared/components/flow-breadcrumb/models/flow-breadcrumb-item.model';

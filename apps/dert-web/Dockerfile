@@ -15,7 +15,7 @@
 ##################################################################
 
 # Base Stage
-# Pin Node 16 — matches SPA CI and Angular 14. node:lts (24) / npm 11 fails
+# Pin Node 16 — matches SPA CI and Angular 15. node:lts (24) / npm 11 fails
 # npm install when a file: workspace target is missing from this build context.
 FROM node:16-bookworm AS base
 
@@ -29,15 +29,14 @@ FROM base AS builder
 WORKDIR /build
 
 # Install global dependencies and clean npm cache in a single RUN command
-RUN npm install -g @angular/cli@14 typescript
+RUN npm install -g @angular/cli@15 typescript
 
 # Copy the static web app files
 COPY ./src/client/package.json package.json
 COPY ./src/client/package-lock.json package-lock.json
 
 # Install packages for the two parts of the app
-RUN npm install --force
-# note - we have to force here as we have package conflicts that will not install the dependencies without the force. This needs tobe addresssed.
+RUN npm install
 
 # Copy the rest of the files from the host "./src/client" directory to the container current working directory "/build"
 COPY ./src/client .

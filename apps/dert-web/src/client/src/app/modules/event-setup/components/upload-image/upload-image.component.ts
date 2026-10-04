@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { AuthService } from 'app/core/authentication/auth.service';
 import { ConfigurationService } from 'app/core/services/configuration.service';
 import { EventImageSubmissionDto } from 'app/models/dto';

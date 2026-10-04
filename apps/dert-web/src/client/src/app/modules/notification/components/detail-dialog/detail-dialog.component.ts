@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { SubscriptionLike } from 'rxjs';
 import { NotificationDetailDto } from '../../models/NotificationDetailDto';
 import { NotificationConductor } from '../../services/notification.conductor';

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { CompetitionResultDto } from 'app/models/dto';
 import { DodTeamCollatedResultPairDto } from 'app/models/dto/DodCollatedResultPairDto';
 import { DodTeamCollatedResultDto } from 'app/models/dto/DodTeamCollatedResultDto';

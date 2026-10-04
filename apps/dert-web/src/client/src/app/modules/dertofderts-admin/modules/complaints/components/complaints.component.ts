@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { DodResultComplaintDto } from 'app/models/dto/DodResultComplaintDto';
 import { SubscriptionLike } from 'rxjs';
 import { Conductor } from '../../../services/dertofderts-admin.conductor';

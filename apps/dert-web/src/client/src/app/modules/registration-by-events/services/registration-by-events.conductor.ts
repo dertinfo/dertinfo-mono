@@ -1,7 +1,7 @@
 
 // Angualr and RxJS
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { AuthService } from 'app/core/authentication/auth.service';
 import { RegistrationFlowState } from 'app/models/app/Enumerations/RegistrationFlowStates';
 import {

@@ -35,9 +35,9 @@
 */
 
 /*---- ngx-datatable CSS import -----*/
-@import "~@swimlane/ngx-datatable/index.css";
-@import "~@swimlane/ngx-datatable/themes/material.css";
-@import "~@swimlane/ngx-datatable/assets/icons.css";
+@import "../../../node_modules/@swimlane/ngx-datatable/index.css";
+@import "../../../node_modules/@swimlane/ngx-datatable/themes/material.css";
+@import "../../../node_modules/@swimlane/ngx-datatable/assets/icons.css";
 
 /*---- Globals -----*/
 html {

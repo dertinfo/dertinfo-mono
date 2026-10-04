@@ -4,7 +4,7 @@ import { AuthService } from 'app/core/authentication/auth.service';
 import {map} from 'rxjs/operators';
 import { CompetitionAdminTracker } from './competition-admin.tracker';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import {
     CompetitionAttachEntryAttributeDto,
     CompetitionAttachJudgesSubmissionDto,

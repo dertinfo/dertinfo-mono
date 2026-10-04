@@ -3,7 +3,7 @@ import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 import { Subscription } from 'rxjs';
 
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { CompetitionEntryAttributeDto, TeamCollatedFullResultDto } from 'app/models/dto';
 
 class DataTableDataElement {

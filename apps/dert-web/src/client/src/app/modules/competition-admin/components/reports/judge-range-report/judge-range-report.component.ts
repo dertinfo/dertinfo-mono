@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { JudgeDto, RangeReportDto } from 'app/models/dto';
 import { CompetitionRepository } from 'app/modules/repositories';
 import { CompetitionAdminConductor } from 'app/modules/competition-admin/services/competition-admin.conductor';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { DodIdentifyJudgeSubmissionResponseDto } from 'app/models/dto/DodIdentifyJudgeSubmissionResponseDto';
 import { WebsiteTermsComponent } from 'app/regions/terms/components/website-terms/website-terms.component';

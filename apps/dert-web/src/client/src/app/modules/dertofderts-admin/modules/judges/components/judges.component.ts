@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { Observable, SubscriptionLike } from 'rxjs';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
 import { DodJudgeInfoDto } from 'app/models/dto/DodJudgeInfoDto';
 import { Conductor } from '../../../services/dertofderts-admin.conductor';

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EventAdminConductor } from '../../services/event-admin.conductor';
 import { EventAdminTracker } from '../../services/event-admin.tracker';
 
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { Flag } from 'app/models/app/Enumerations/Flags';
 import { CompetitionSummaryDto, EventCompetitionDto, StatusBlockDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
