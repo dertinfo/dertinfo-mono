@@ -133,6 +133,51 @@ Checked against the compatibility table for Angular 17, not copied from the 14 t
 - The commented dashboard chart still uses the Chart.js 2 inputs.
 - These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`, `protractor` (`dertinfo-e2e`). TSLint-to-ESLint and dropping Protractor are separate work.
 
+## Watch-list from the Angular 16 to 17 upgrade
+
+These showed up on this website during the move to Angular 17.3. The update guide does not list them as application steps. Check them again on later hops. The full record, including package versions, is [Website upgraded from Angular 16 to Angular 17](../../operations/changelogs/2026-10-04-004-web-angular-17.md).
+
+### Read the compatibility table before treating a leftover as a requirement
+
+The 15 to 16 notes said `@ngbracket/ngx-layout`, `ng2-charts`, `ng2-file-upload`, and `ngx-cookie-service` must move with the Angular major. Checked on this hop, only the peers that name Angular 16 (`^16`) stopped `npm install`: `ng2-file-upload` **5.0.0** and `ngx-cookie-service` **16.1.0**. `@ngbracket/ngx-layout` **16.1.3** and `ng2-charts` **5.0.4** peer `>=16`. Both installed, and the production build accepted them on Angular 17.3.12. Do not bump an open `>=` range because a newer major exists.
+
+### Node 16 cannot run the Angular 17 CLI
+
+Angular 17.3 supports Node `^18.13.0 || ^20.9.0`. The website moved to Node 18 before `ng update`, while still on Angular 16.2, because 16.2 still allows `^18.10.0`. Website CI (`web-src-ci.yml`, `web-src-cd.yml`) and the website image are Node 18. npm **10.8.2** on Node **18.20.8** kept an existing `lockfileVersion` 2 until `npm install --lockfile-version 3`. The lockfile is now version 3. This machine's default Node is 24. Update and `ng build` used a portable Node **18.20.8**. nvm-windows is not installed. The Static Web Apps CLI on this machine is still the Node 24 global, and `ng serve` used Node 18. The Dockerfile's global CLI pin is `@angular/cli@17`. The Ionic app and its CI stay on Node 16.
+
+### `ng update` can succeed while the next install still fails
+
+`ng update @angular/cli@17 @angular/core@17` and `ng update @angular/material@17` completed with no `--force`. A later `npm install` failed because `ng2-file-upload` 5 peers `@angular/common` `^16`. That moved to **6.0.0**. `ngx-cookie-service` 16 peers `^16`, so it moved to **17.1.0** in the same install. After that, `npm install` had no peer errors and no `force`. Packages whose peers are an open `>=` range stayed: `@ngbracket/ngx-layout` 16.1.3, `ng2-charts` 5.0.4, `ngx-quill` 17.0.0, `@ngx-translate/core` 14, `@swimlane/ngx-datatable` 20.1.0, `@auth0/auth0-angular` 2.2.3. RxJS stayed at **6.6.7**. The layout fork's RxJS 7 peer is still `^7.8.0`.
+
+### zone.js 0.14 removes the dist test imports
+
+`src/test.ts` imported `zone.js/dist/*`. Those paths became `import 'zone.js/testing'` while zone was still 0.13. `ng update` then moved `zone.js` to **0.14.10**. `src/polyfills.ts` already imported `zone.js`. The Karma bootstrap, the Jasmine specs, and Protractor were removed after that. `src/test.ts` is gone.
+
+### The core migration escapes `@` in templates
+
+Angular 17 treats `@` as control flow. The core migration rewrote `@` to `&#64;` in five templates: the home and terms email addresses, the Dert of Derts how-to-enter email, and the two invoice lines that print a price with `@`. The visible text is unchanged. The new control flow syntax was not adopted.
+
+### Material 17 does not publish the old theming import
+
+`@import '@angular/material/theming'` failed the production build. The package export points at a root `_theming.scss` that is not in the published tarball. The themes already use `@use '@angular/material' as mat`, so that import was removed from the five theme files. `mat.define-light-theme($primary, $accent)` still builds and still warns that the theme is not a color, typography, and density map.
+
+### The CLI renamed `browserTarget` and left the TypeScript target
+
+`browserTarget` became `buildTarget` in `angular.json`. The webpack `browser` builder stayed. `tsconfig.json` `target` is still `es2020`. The CLI still applies ES2022 and still warns. Browserslist entries that need ES5 (`kaios 2.5`, `op_mini all`) are still ignored. Protractor, Karma, and Jasmine were removed from the website. The Playwright suite in `tests/e2e` is the test. The Ionic app still has Protractor and Karma.
+
+### The next hop is already constrained by what this one left in place
+
+Checked against the compatibility table for Angular 18, not copied from the 15 to 16 list.
+
+- Angular 18.0 supports Node `^18.19.1 || ^20.11.1 || ^22.0.0`, TypeScript `>=5.4.0 <5.5.0`, and RxJS `^6.5.3 || ^7.4.0`. This site is on Node 18, TypeScript **5.4.5**, and RxJS **6.6.7**. Those three are inside the Angular 18.0 range. Let `ng update` move TypeScript if a later 18 patch narrows it. Angular 19.0 needs TypeScript `>=5.5.0`. Angular 20 drops Node 18 (`^20.19.0 || ^22.12.0 || ^24.0.0`). Node 24 still cannot run the Angular 17 CLI.
+- `ngx-cookie-service` **17.1.0** and `ng2-file-upload` **6.0.0** peer `^17`. They have to move with Angular 18. `ng update` does not carry them.
+- `@ngbracket/ngx-layout` 16.1.3 and `ng2-charts` 5.0.4 peer `>=16`. They installed on Angular 17. Confirm them again on 18 before bumping. `@ngbracket/ngx-layout` 18.0.0 exists, and ng2-charts publishes later majors, if the build refuses the current ones.
+- RxJS stays at **6.6.7** unless a package we bump refuses it. A newer `ngx-quill` is what would force RxJS 7. `@ngbracket/ngx-layout` 16.1.3's RxJS 7 peer starts at 7.8.
+- The Material theme is still `define-light-theme($primary, $accent)`. The production build still warns about it. `entryComponents` remains on `AppLoaderModule`. The commented dashboard chart still uses the Chart.js 2 inputs.
+- The application builder, control flow, standalone components, and typed forms were not adopted.
+- Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
+- These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
+
 ## Related
 
 - [Angular standards](../standards/angular/README.md)
@@ -140,3 +185,4 @@ Checked against the compatibility table for Angular 17, not copied from the 14 t
 - [Website smoke tests](website-smoke-tests.md)
 - [Website upgraded from Angular 14 to Angular 15](../../operations/changelogs/2026-10-04-002-web-angular-15.md)
 - [Website upgraded from Angular 15 to Angular 16](../../operations/changelogs/2026-10-04-003-web-angular-16.md)
+- [Website upgraded from Angular 16 to Angular 17](../../operations/changelogs/2026-10-04-004-web-angular-17.md)

@@ -9,7 +9,6 @@
     "web:install": "npm install --prefix apps/dert-web/src/client",
     "web:build": "npm run build --prefix apps/dert-web/src/client",
     "web:lint": "npm run lint --prefix apps/dert-web/src/client",
-    "web:test": "npm run test --prefix apps/dert-web/src/client",
     "app:install": "npm install --prefix apps/dert-app/src/client",
     "app:build": "npm run build --prefix apps/dert-app/src/client",
     "app:lint": "npm run lint --prefix apps/dert-app/src/client",

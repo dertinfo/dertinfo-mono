@@ -15,9 +15,9 @@
 ##################################################################
 
 # Base Stage
-# Pin Node 16 — matches SPA CI and Angular 16. node:lts (24) / npm 11 fails
-# npm install when a file: workspace target is missing from this build context.
-FROM node:16-bookworm AS base
+# Pin Node 18 — matches website CI. Angular 17 needs Node ^18.13 or ^20.9.
+# node:lts (24) is outside that range. The global CLI pin moves with the framework.
+FROM node:18-bookworm AS base
 
 # Install global dependencies and clean npm cache in a single RUN command
 RUN npm install -g @azure/static-web-apps-cli
@@ -29,7 +29,7 @@ FROM base AS builder
 WORKDIR /build
 
 # Install global dependencies and clean npm cache in a single RUN command
-RUN npm install -g @angular/cli@16 typescript
+RUN npm install -g @angular/cli@17 typescript
 
 # Copy the static web app files
 COPY ./src/client/package.json package.json
