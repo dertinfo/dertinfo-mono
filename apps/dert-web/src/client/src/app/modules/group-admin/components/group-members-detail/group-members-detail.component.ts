@@ -9,9 +9,10 @@ import { GroupAdminConductor } from '../../services/group-admin.conductor';
 import { GroupAdminTracker } from '../../services/group-admin.tracker';
 
 @Component({
-  selector: 'app-group-members-detail',
-  templateUrl: './group-members-detail.component.html',
-  styleUrls: ['./group-members-detail.component.css']
+    selector: 'app-group-members-detail',
+    templateUrl: './group-members-detail.component.html',
+    styleUrls: ['./group-members-detail.component.css'],
+    standalone: false
 })
 export class GroupMembersDetailComponent implements OnInit, OnDestroy {
   private _subscriptions: Subscription[] = [];

@@ -8,9 +8,10 @@ import { EventAdminConductor } from '../../services/event-admin.conductor';
 import { EventAdminTracker } from '../../services/event-admin.tracker';
 
 @Component({
-  selector: 'app-event-invoices',
-  templateUrl: './event-invoices.component.html',
-  styleUrls: ['./event-invoices.component.css']
+    selector: 'app-event-invoices',
+    templateUrl: './event-invoices.component.html',
+    styleUrls: ['./event-invoices.component.css'],
+    standalone: false
 })
 export class EventInvoicesComponent implements OnInit, OnDestroy {
 

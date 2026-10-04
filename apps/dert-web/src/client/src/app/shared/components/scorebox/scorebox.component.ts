@@ -3,9 +3,10 @@ import * as domHelper from '../../../helpers/dom.helper';
 import { NavigationService } from '../../../core/services/navigation.service';
 
 @Component({
-  selector: 'app-scorebox',
-  templateUrl: './scorebox.component.html',
-  styleUrls: ['./scorebox.component.css']
+    selector: 'app-scorebox',
+    templateUrl: './scorebox.component.html',
+    styleUrls: ['./scorebox.component.css'],
+    standalone: false
 })
 export class ScoreBoxComponent {
 

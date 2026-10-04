@@ -10,9 +10,10 @@ import { Mediator } from '../../services/dertofderts-admin.mediator';
 import { Tracker } from '../../services/dertofderts-admin.tracker';
 
 @Component({
-  selector: 'app-dod-admin-home',
-  templateUrl: './admin-home.component.html',
-  styleUrls: ['./admin-home.component.scss']
+    selector: 'app-dod-admin-home',
+    templateUrl: './admin-home.component.html',
+    styleUrls: ['./admin-home.component.scss'],
+    standalone: false
 })
 export class AdminHomeComponent implements OnInit, OnDestroy {
 

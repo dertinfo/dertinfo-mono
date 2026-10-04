@@ -10,9 +10,10 @@ import { NotificationManagementTracker } from '../../services/notification-manag
 import { CreateDialogComponent } from '../create-dialog/create-dialog.component';
 
 @Component({
-  selector: 'app-notifications-admin-list',
-  templateUrl: './admin-list.component.html',
-  styleUrls: ['./admin-list.component.scss']
+    selector: 'app-notifications-admin-list',
+    templateUrl: './admin-list.component.html',
+    styleUrls: ['./admin-list.component.scss'],
+    standalone: false
 })
 export class AdminListComponent implements OnInit, OnDestroy {
 

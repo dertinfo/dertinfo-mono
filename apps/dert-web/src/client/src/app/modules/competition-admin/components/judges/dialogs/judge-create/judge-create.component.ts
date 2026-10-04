@@ -9,8 +9,9 @@ import { CompetitionAdminConductor } from 'app/modules/competition-admin/service
 import { CompetitionAdminTracker } from 'app/modules/competition-admin/services/competition-admin.tracker';
 
 @Component({
-  selector: 'app-judge-create',
-  templateUrl: './judge-create.template.html'
+    selector: 'app-judge-create',
+    templateUrl: './judge-create.template.html',
+    standalone: false
 })
 export class JudgeCreateComponent implements OnInit, OnDestroy {
 

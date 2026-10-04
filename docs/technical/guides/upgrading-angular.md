@@ -224,6 +224,52 @@ Checked against the compatibility table for Angular 19, not copied from the 16 t
 - Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
 - These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
 
+## Watch-list from the Angular 18 to 19 upgrade
+
+These showed up on this website during the move to Angular 19.2. The update guide does not list them as application steps. Check them again on later hops. The full record, including package versions, is [Website upgraded from Angular 18 to Angular 19](../../operations/changelogs/2026-10-04-006-web-angular-19.md).
+
+### Read the compatibility table before treating a leftover as a requirement
+
+The 17 to 18 notes said `ngx-cookie-service` **18.0.0** and `ng2-file-upload` **7.0.1** must move because they peer `^18`. They did. `@ngbracket/ngx-layout` **16.1.3** and `ng2-charts` **5.0.4** still peer `>=16`. Both installed, and the production build accepted them on Angular 19.2.25. Do not bump an open `>=` range because a newer major exists.
+
+### TypeScript and zone.js moved; Node and RxJS did not
+
+Angular 19.2 supports Node `^18.19.1 || ^20.11.1 || ^22.0.0`, TypeScript `>=5.5.0 <5.9.0`, and RxJS `^6.5.3 || ^7.4.0`. The installed CLI 19.2.27 engines field is `^18.19.1 || ^20.11.1 || >=22.0.0`. This site stayed on Node 18 and RxJS **6.6.7**. `ng update` moved TypeScript from **5.4.5** to **5.8.3** and `zone.js` from **0.14.10** to **0.15.1**. There was no engine change before `ng update`. This machine's default Node is 24. Update, install, `ng build`, and `ng serve` used a portable Node **18.20.8**. nvm-windows is not installed. The Static Web Apps CLI on this machine is still the Node 24 global, and `ng serve` used Node 18. CI (`web-src-ci.yml`, `web-src-cd.yml`) and the website image stay on Node 18. The Dockerfile's global CLI pin is `@angular/cli@19`. The Ionic app and its CI stay on Node 16.
+
+### `ng update` lists optional migrations and does not run them unless asked
+
+`ng update @angular/cli@19 @angular/core@19` and `ng update @angular/material@19` completed with no `--force`. The CLI listed `use-application-builder` and `provide-initializer` as optional and did not run them. The webpack `browser` builder stayed. `APP_INITIALIZER` stayed. A non-interactive update skips those optional migrations.
+
+### The core migration sets `standalone: false`
+
+Angular 19 defaults `standalone` to true. The required `explicit-standalone-flag` migration added `standalone: false` to the NgModule components, directives, and pipes (225 files) and would remove `standalone: true` where it was already set. That keeps the current NgModule behaviour. It is not a conversion to standalone. `ng generate @angular/core:standalone` was not run.
+
+### Material 19 splits `mat.core()`
+
+`ng update @angular/material@19` replaced `@include mat.core()` with `@include mat.elevation-classes()` and `@include mat.app-background()` in the five theme files. The `m2-` palette and theme helpers stayed. The production build still warns that the theme is not a color, typography, and density map. Material 3 was not adopted.
+
+### Inactive stepper steps are inert
+
+Material 19 marks an unselected step's content `inert` and `visibility: hidden`. The step header is selected before that body is visible. A `fill` with `force: true` on a control that is not yet visible does not update the form. The smoke helpers wait until the control is visible, then fill. The event configure flow failed until that wait was in place.
+
+### Packages that peer `^18` move in the same hop
+
+`ng update` does not carry them. `ngx-cookie-service` moved from 18.0.0 to **19.1.2**. `ng2-file-upload` moved from 7.0.1 to **8.0.0**. Version 8.0.0 peers `@angular/core` `^19` and does not peer `jest-preset-angular`. After that, `npm install` had no peer errors and no `force`. Packages whose peers are an open `>=` range stayed: `@ngbracket/ngx-layout` 16.1.3, `ng2-charts` 5.0.4, `ngx-quill` 17.0.0, `@ngx-translate/core` 14, `@swimlane/ngx-datatable` 20.1.0, `@auth0/auth0-angular` 2.2.3. RxJS stayed at **6.6.7**.
+
+### The next hop is already constrained by what this one left in place
+
+Checked against the compatibility table for Angular 20, not copied from the 17 to 18 list.
+
+- Angular 20.0 supports Node `^20.19.0 || ^22.12.0 || ^24.0.0`, TypeScript `>=5.8.0 <5.9.0`, and RxJS `^6.5.3 || ^7.4.0`. Angular 20.2 allows TypeScript `>=5.8.0 <6.0.0`. This site is on TypeScript **5.8.3** and RxJS **6.6.7**, which are inside the Angular 20.0 range. Node 18 is not. CI, the website image, and this hop's portable Node are 18. The next hop has to move those off Node 18 before `ng update`.
+- `ngx-cookie-service` **19.1.2** and `ng2-file-upload` **8.0.0** peer `^19`. They have to move with Angular 20. `ng update` does not carry them.
+- `@ngbracket/ngx-layout` 16.1.3 and `ng2-charts` 5.0.4 peer `>=16`. They installed on Angular 19. Confirm them again on 20 before bumping.
+- RxJS stays at **6.6.7** unless a package we bump refuses it.
+- The webpack `browser` builder is still supported and deprecated. The application builder was not adopted. `APP_INITIALIZER` was not replaced. Angular 20 deprecates `*ngIf`, `*ngFor`, and `*ngSwitch`, and that hop runs the control-flow migration.
+- The Material theme is still the Material 2 helpers under the `m2-` names, with `mat.elevation-classes()` and `mat.app-background()` in place of `mat.core()`. The production build still warns that it is not a color, typography, and density map. `entryComponents` remains on `AppLoaderModule`. The commented dashboard chart still uses the Chart.js 2 inputs.
+- Standalone components were not adopted. The `standalone: false` flags are what keep the NgModules working. Typed forms and zoneless change detection were not adopted. Angular 20 makes `zone.js` optional. This site stays on `zone.js` **0.15.1**.
+- Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
+- These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
+
 ## Related
 
 - [Angular standards](../standards/angular/README.md)
@@ -233,3 +279,4 @@ Checked against the compatibility table for Angular 19, not copied from the 16 t
 - [Website upgraded from Angular 15 to Angular 16](../../operations/changelogs/2026-10-04-003-web-angular-16.md)
 - [Website upgraded from Angular 16 to Angular 17](../../operations/changelogs/2026-10-04-004-web-angular-17.md)
 - [Website upgraded from Angular 17 to Angular 18](../../operations/changelogs/2026-10-04-005-web-angular-18.md)
+- [Website upgraded from Angular 18 to Angular 19](../../operations/changelogs/2026-10-04-006-web-angular-19.md)

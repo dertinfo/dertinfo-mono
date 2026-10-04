@@ -6,9 +6,10 @@ import { Conductor } from '../../../services/dertofderts-admin.conductor';
 import { Tracker } from '../../../services/dertofderts-admin.tracker';
 
 @Component({
-  selector: 'app-dod-admin-complaints',
-  templateUrl: './complaints.component.html',
-  styleUrls: ['./complaints.component.scss']
+    selector: 'app-dod-admin-complaints',
+    templateUrl: './complaints.component.html',
+    styleUrls: ['./complaints.component.scss'],
+    standalone: false
 })
 export class ComplaintsComponent implements OnInit {
 

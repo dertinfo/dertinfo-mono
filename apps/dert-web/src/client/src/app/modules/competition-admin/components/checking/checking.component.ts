@@ -18,7 +18,8 @@ import { CompetitionAdminTracker } from '../../services/competition-admin.tracke
 @Component({
     selector: 'app-competition-checking',
     templateUrl: './checking.component.html',
-    styleUrls: ['./checking.component.css']
+    styleUrls: ['./checking.component.css'],
+    standalone: false
 })
 export class CheckingComponent implements OnInit, OnDestroy {
 

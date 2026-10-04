@@ -8,9 +8,10 @@ import { customEmailValidator } from 'app/shared/validators/email-no-required';
 import { Conductor } from '../../services/dertofderts-public.conductor';
 
 @Component({
-  selector: 'app-closedtopublicdialog',
-  templateUrl: './closedtopublicdialog.component.html',
-  styleUrls: ['./closedtopublicdialog.component.scss']
+    selector: 'app-closedtopublicdialog',
+    templateUrl: './closedtopublicdialog.component.html',
+    styleUrls: ['./closedtopublicdialog.component.scss'],
+    standalone: false
 })
 export class ClosedToPublicDialogComponent implements OnInit {
 

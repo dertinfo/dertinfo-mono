@@ -3,9 +3,10 @@ import * as domHelper from '../../../helpers/dom.helper';
 import { NavigationService } from '../../../core/services/navigation.service';
 
 @Component({
-  selector: 'app-customizer',
-  templateUrl: './customizer.component.html',
-  styleUrls: ['./customizer.component.css']
+    selector: 'app-customizer',
+    templateUrl: './customizer.component.html',
+    styleUrls: ['./customizer.component.css'],
+    standalone: false
 })
 export class CustomizerComponent implements OnInit {
   isCustomizerOpen: boolean = false;

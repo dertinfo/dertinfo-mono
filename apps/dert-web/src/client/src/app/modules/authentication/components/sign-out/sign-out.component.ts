@@ -6,9 +6,10 @@ import { AuthService } from '../../../../core/authentication/auth.service';
  * Shows a signing-out message, then starts Auth0 logout (returnTo = site root → /home).
  */
 @Component({
-  selector: 'app-sign-out',
-  templateUrl: './sign-out.component.html',
-  styleUrls: ['./sign-out.component.css']
+    selector: 'app-sign-out',
+    templateUrl: './sign-out.component.html',
+    styleUrls: ['./sign-out.component.css'],
+    standalone: false
 })
 export class SignoutComponent implements OnInit {
 

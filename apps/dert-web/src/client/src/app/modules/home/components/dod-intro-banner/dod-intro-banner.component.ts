@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-dod-intro-banner',
-  templateUrl: './dod-intro-banner.component.html',
-  styleUrls: ['./dod-intro-banner.component.scss']
+    selector: 'app-dod-intro-banner',
+    templateUrl: './dod-intro-banner.component.html',
+    styleUrls: ['./dod-intro-banner.component.scss'],
+    standalone: false
 })
 export class DodIntroBannerComponent implements OnInit {
 

@@ -9,8 +9,9 @@ import { GroupAdminConductor } from '../../services/group-admin.conductor';
 import { GroupAdminTracker } from '../../services/group-admin.tracker';
 
 @Component({
-  selector: 'app-upload-image',
-  templateUrl: './upload-image.template.html'
+    selector: 'app-upload-image',
+    templateUrl: './upload-image.template.html',
+    standalone: false
 })
 export class UploadImageComponent implements OnInit, OnDestroy {
 

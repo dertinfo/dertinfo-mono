@@ -12,9 +12,10 @@ import { GroupMembersSelectComponent } from '../group-members-select/group-membe
 import { MemberActivitiesSelectComponent } from '../member-activities-select/member-activities-select.component';
 
 @Component({
-  selector: 'app-event-registration-guests',
-  templateUrl: './event-registration-guests.component.html',
-  styleUrls: ['./event-registration-guests.component.css']
+    selector: 'app-event-registration-guests',
+    templateUrl: './event-registration-guests.component.html',
+    styleUrls: ['./event-registration-guests.component.css'],
+    standalone: false
 })
 export class EventRegistrationGuestsComponent implements OnInit, OnDestroy {
 

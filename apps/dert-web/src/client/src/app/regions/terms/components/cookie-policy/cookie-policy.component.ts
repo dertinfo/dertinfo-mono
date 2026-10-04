@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-cookie-policy',
-  templateUrl: './cookie-policy.component.html',
-  styleUrls: ['./cookie-policy.component.scss']
+    selector: 'app-cookie-policy',
+    templateUrl: './cookie-policy.component.html',
+    styleUrls: ['./cookie-policy.component.scss'],
+    standalone: false
 })
 export class CookiePolicyComponent implements OnInit {
 

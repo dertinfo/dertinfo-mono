@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationService } from '../../../core/services/navigation.service';
 
 @Component({
-  selector: 'navigation',
-  templateUrl: './navigation.template.html'
+    selector: 'navigation',
+    templateUrl: './navigation.template.html',
+    standalone: false
 })
 export class NavigationComponent implements OnInit {
   hasIconTypeMenuItem;

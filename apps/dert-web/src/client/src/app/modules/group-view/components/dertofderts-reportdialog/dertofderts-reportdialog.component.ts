@@ -8,9 +8,10 @@ import { GroupViewConductor } from '../../services/group-view.conductor';
 import { GroupViewTracker } from '../../services/group-view.tracker';
 
 @Component({
-  selector: 'app-dertofderts-reportdialog',
-  templateUrl: './dertofderts-reportdialog.component.html',
-  styleUrls: ['./dertofderts-reportdialog.component.scss']
+    selector: 'app-dertofderts-reportdialog',
+    templateUrl: './dertofderts-reportdialog.component.html',
+    styleUrls: ['./dertofderts-reportdialog.component.scss'],
+    standalone: false
 })
 export class DertOfDertsReportDialogComponent implements OnInit {
 

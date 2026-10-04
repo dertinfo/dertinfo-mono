@@ -7,8 +7,9 @@ import { CompetitionAdminConductor } from 'app/modules/competition-admin/service
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'venue-edit',
-  templateUrl: './venue-edit.component.html'
+    selector: 'venue-edit',
+    templateUrl: './venue-edit.component.html',
+    standalone: false
 })
 export class VenueEditComponent implements OnInit, OnDestroy {
 

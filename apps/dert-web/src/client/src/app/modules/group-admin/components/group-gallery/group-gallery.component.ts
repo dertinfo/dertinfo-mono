@@ -10,9 +10,10 @@ import { GroupAdminTracker } from '../../services/group-admin.tracker';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 
 @Component({
-  selector: 'app-group-gallery',
-  templateUrl: './group-gallery.component.html',
-  styleUrls: ['./group-gallery.component.css']
+    selector: 'app-group-gallery',
+    templateUrl: './group-gallery.component.html',
+    styleUrls: ['./group-gallery.component.css'],
+    standalone: false
 })
 export class GroupGalleryComponent implements OnInit, OnDestroy {
 

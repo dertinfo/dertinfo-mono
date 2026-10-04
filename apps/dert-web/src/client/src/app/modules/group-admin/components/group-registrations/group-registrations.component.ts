@@ -6,8 +6,9 @@ import { GroupAdminConductor } from '../../services/group-admin.conductor';
 import { GroupAdminTracker } from '../../services/group-admin.tracker';
 
 @Component({
-  selector: 'app-group-registrations',
-  templateUrl: './group-registrations.component.html'
+    selector: 'app-group-registrations',
+    templateUrl: './group-registrations.component.html',
+    standalone: false
 })
 export class GroupRegistrationsComponent implements OnInit, OnDestroy {
 

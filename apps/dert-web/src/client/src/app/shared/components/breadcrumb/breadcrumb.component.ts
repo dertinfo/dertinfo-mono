@@ -5,9 +5,10 @@ import {filter} from 'rxjs/operators';
 import { RoutePartsService } from '../../../core/services/route-parts.service';
 
 @Component({
-  selector: 'app-breadcrumb',
-  templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.css']
+    selector: 'app-breadcrumb',
+    templateUrl: './breadcrumb.component.html',
+    styleUrls: ['./breadcrumb.component.css'],
+    standalone: false
 })
 export class BreadcrumbComponent implements OnInit {
   routeParts: any[];

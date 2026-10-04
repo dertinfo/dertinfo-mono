@@ -4,7 +4,8 @@ import { EventInvoiceDto } from 'app/models/dto';
 @Component({
     selector: 'app-event-invoices-listing',
     templateUrl: './event-invoices-listing.component.html',
-    styleUrls: ['./event-invoices-listing.component.css']
+    styleUrls: ['./event-invoices-listing.component.css'],
+    standalone: false
 })
 export class EventInvoiceListingComponent {
 

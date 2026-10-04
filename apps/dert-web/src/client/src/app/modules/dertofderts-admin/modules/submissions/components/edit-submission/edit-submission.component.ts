@@ -9,9 +9,10 @@ import { Conductor } from '../../../../services/dertofderts-admin.conductor';
 import { Tracker } from '../../../../services/dertofderts-admin.tracker';
 
 @Component({
-  selector: 'app-edit-submission',
-  templateUrl: './edit-submission.component.html',
-  styleUrls: ['./edit-submission.component.scss']
+    selector: 'app-edit-submission',
+    templateUrl: './edit-submission.component.html',
+    styleUrls: ['./edit-submission.component.scss'],
+    standalone: false
 })
 export class EditSubmissionComponent implements OnInit, OnDestroy {
 

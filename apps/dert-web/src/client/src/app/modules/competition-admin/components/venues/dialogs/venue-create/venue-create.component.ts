@@ -9,8 +9,9 @@ import { CompetitionAdminConductor } from 'app/modules/competition-admin/service
 import { CompetitionAdminTracker } from 'app/modules/competition-admin/services/competition-admin.tracker';
 
 @Component({
-  selector: 'app-venue-create',
-  templateUrl: './venue-create.template.html'
+    selector: 'app-venue-create',
+    templateUrl: './venue-create.template.html',
+    standalone: false
 })
 export class VenueCreateComponent implements OnInit, OnDestroy {
 

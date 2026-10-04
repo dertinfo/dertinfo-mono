@@ -9,9 +9,10 @@ import { CompetitionEntryAttributeDto, GroupTeamCompetitionEntryDto, ScoreCatego
 import { CompetitionAdminConductor } from '../../services/competition-admin.conductor';
 import { CompetitionAdminTracker } from '../../services/competition-admin.tracker';
 @Component({
-  selector: 'app-competition-entrants',
-  templateUrl: './entrants.component.html',
-  styleUrls: ['./entrants.component.css']
+    selector: 'app-competition-entrants',
+    templateUrl: './entrants.component.html',
+    styleUrls: ['./entrants.component.css'],
+    standalone: false
 })
 export class EntrantsComponent implements OnInit, OnDestroy {
 

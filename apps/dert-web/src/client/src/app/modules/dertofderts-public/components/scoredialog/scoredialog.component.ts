@@ -11,9 +11,10 @@ import { SessionService } from '../../services/dertofderts-public.session';
 import { Tracker } from '../../services/dertofderts-public.tracker';
 
 @Component({
-  selector: 'app-scoredialog',
-  templateUrl: './scoredialog.component.html',
-  styleUrls: ['./scoredialog.component.scss']
+    selector: 'app-scoredialog',
+    templateUrl: './scoredialog.component.html',
+    styleUrls: ['./scoredialog.component.scss'],
+    standalone: false
 })
 export class ScoreDialogComponent implements OnInit {
 

@@ -8,7 +8,8 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
 @Component({
     selector: 'app-event-downloads',
     templateUrl: './event-downloads.component.html',
-    styleUrls: ['./event-downloads.component.css']
+    styleUrls: ['./event-downloads.component.css'],
+    standalone: false
 })
 export class EventDownloadsComponent implements OnInit, OnDestroy {
 

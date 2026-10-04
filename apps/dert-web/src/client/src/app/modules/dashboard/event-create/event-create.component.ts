@@ -7,8 +7,9 @@ import { EventMinimalSubmissionDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'event-create',
-  templateUrl: './event-create.component.html'
+    selector: 'event-create',
+    templateUrl: './event-create.component.html',
+    standalone: false
 })
 export class EventCreateComponent implements OnInit, OnDestroy {
 

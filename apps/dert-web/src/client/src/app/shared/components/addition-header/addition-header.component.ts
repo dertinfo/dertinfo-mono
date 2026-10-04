@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as domHelper from '../../../helpers/dom.helper';
 
 @Component({
-  selector: 'app-addition-header',
-  templateUrl: './addition-header.component.html',
-  styleUrls: ['./addition-header.component.css']
+    selector: 'app-addition-header',
+    templateUrl: './addition-header.component.html',
+    styleUrls: ['./addition-header.component.css'],
+    standalone: false
 })
 export class AdditionHeaderComponent implements OnInit {
 

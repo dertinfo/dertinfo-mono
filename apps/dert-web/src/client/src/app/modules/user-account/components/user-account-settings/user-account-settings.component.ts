@@ -7,9 +7,10 @@ import { FileUploader } from 'ng2-file-upload';
 import { UserAccountConductor } from '../../services/user-account.conductor';
 
 @Component({
-  selector: 'app-user-account-settings',
-  templateUrl: './user-account-settings.component.html',
-  styleUrls: ['./user-account-settings.component.css']
+    selector: 'app-user-account-settings',
+    templateUrl: './user-account-settings.component.html',
+    styleUrls: ['./user-account-settings.component.css'],
+    standalone: false
 })
 export class UserAccountSettingsComponent implements OnInit, OnDestroy {
 

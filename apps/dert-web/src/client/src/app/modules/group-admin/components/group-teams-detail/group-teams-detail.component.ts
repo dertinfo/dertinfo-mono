@@ -9,9 +9,10 @@ import { GroupAdminConductor } from '../../services/group-admin.conductor';
 import { GroupAdminTracker } from '../../services/group-admin.tracker';
 
 @Component({
-  selector: 'app-group-teams-detail',
-  templateUrl: './group-teams-detail.component.html',
-  styleUrls: ['./group-teams-detail.component.css']
+    selector: 'app-group-teams-detail',
+    templateUrl: './group-teams-detail.component.html',
+    styleUrls: ['./group-teams-detail.component.css'],
+    standalone: false
 })
 export class GroupTeamsDetailComponent implements OnInit, OnDestroy {
 

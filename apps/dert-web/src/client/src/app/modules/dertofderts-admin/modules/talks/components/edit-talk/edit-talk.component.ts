@@ -8,9 +8,10 @@ import { Conductor } from '../../../../services/dertofderts-admin.conductor';
 import { Tracker } from '../../../../services/dertofderts-admin.tracker';
 
 @Component({
-  selector: 'app-edit-talk',
-  templateUrl: './edit-talk.component.html',
-  styleUrls: ['./edit-talk.component.css']
+    selector: 'app-edit-talk',
+    templateUrl: './edit-talk.component.html',
+    styleUrls: ['./edit-talk.component.css'],
+    standalone: false
 })
 export class EditTalkComponent implements OnInit, OnDestroy {
 

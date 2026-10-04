@@ -6,9 +6,10 @@ import { GroupAdminConductor } from '../../services/group-admin.conductor';
 import { GroupAdminTracker } from '../../services/group-admin.tracker';
 
 @Component({
-  selector: 'app-group-overview',
-  templateUrl: './group-overview.component.html',
-  styleUrls: ['./group-overview.component.css']
+    selector: 'app-group-overview',
+    templateUrl: './group-overview.component.html',
+    styleUrls: ['./group-overview.component.css'],
+    standalone: false
 })
 export class GroupOverviewComponent implements OnInit, OnDestroy {
 

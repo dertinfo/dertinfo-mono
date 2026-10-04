@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnI
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-action-confirm-navigate',
-  templateUrl: './action-confirm-navigate.component.html',
-  styleUrls: ['./action-confirm-navigate.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-action-confirm-navigate',
+    templateUrl: './action-confirm-navigate.component.html',
+    styleUrls: ['./action-confirm-navigate.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ActionConfirmNavigateComponent implements OnInit, OnChanges {
 

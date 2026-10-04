@@ -10,9 +10,10 @@ import { RegistrationByEventsTracker } from '../../services/registration-by-even
 import { GroupTeamSelectModel } from './models/group-team-select.model';
 
 @Component({
-  selector: 'app-group-teams-select',
-  templateUrl: './group-teams-select.component.html',
-  styleUrls: ['./group-teams-select.component.css']
+    selector: 'app-group-teams-select',
+    templateUrl: './group-teams-select.component.html',
+    styleUrls: ['./group-teams-select.component.css'],
+    standalone: false
 })
 export class GroupTeamsSelectComponent implements OnInit, OnDestroy {
 

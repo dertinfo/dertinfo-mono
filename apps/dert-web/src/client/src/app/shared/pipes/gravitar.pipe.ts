@@ -1,7 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
 
-@Pipe({ name: 'gravitar' })
+@Pipe({
+    name: 'gravitar',
+    standalone: false
+})
 export class GravitarPipe implements PipeTransform {
 
     constructor() { }

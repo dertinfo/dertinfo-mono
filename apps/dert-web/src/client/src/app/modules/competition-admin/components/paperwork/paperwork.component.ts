@@ -9,9 +9,10 @@ import { CompetitionAdminConductor } from '../../services/competition-admin.cond
 import { CompetitionAdminTracker } from '../../services/competition-admin.tracker';
 
 @Component({
-  selector: 'app-competition-paperwork',
-  templateUrl: './paperwork.component.html',
-  styleUrls: ['./paperwork.component.css']
+    selector: 'app-competition-paperwork',
+    templateUrl: './paperwork.component.html',
+    styleUrls: ['./paperwork.component.css'],
+    standalone: false
 })
 export class PaperworkComponent implements OnInit, OnDestroy {
 

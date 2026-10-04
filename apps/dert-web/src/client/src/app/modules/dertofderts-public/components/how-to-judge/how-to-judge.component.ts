@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-how-to-judge',
-  templateUrl: './how-to-judge.component.html',
-  styleUrls: ['./how-to-judge.component.scss']
+    selector: 'app-how-to-judge',
+    templateUrl: './how-to-judge.component.html',
+    styleUrls: ['./how-to-judge.component.scss'],
+    standalone: false
 })
 export class HowToJudgeComponent implements OnInit {
 

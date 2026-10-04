@@ -4,7 +4,8 @@ import { CompetitionEntryAttributeDto } from 'app/models/dto';
 @Component({
     selector: 'app-competition-entrants-attributeselector',
     templateUrl: './attribute-selector.component.html',
-    styleUrls: ['./attribute-selector.component.css']
+    styleUrls: ['./attribute-selector.component.css'],
+    standalone: false
 })
 export class AttributeSelectorComponent<T> implements OnInit {
 

@@ -5,9 +5,10 @@ import { RegistrationByGroupConductor } from '../../services/registration-by-gro
 import { RegistrationByGroupTracker } from '../../services/registration-by-group.tracker';
 
 @Component({
-  selector: 'app-group-registration-overview',
-  templateUrl: './group-registration-overview.component.html',
-  styleUrls: ['./group-registration-overview.component.css']
+    selector: 'app-group-registration-overview',
+    templateUrl: './group-registration-overview.component.html',
+    styleUrls: ['./group-registration-overview.component.css'],
+    standalone: false
 })
 export class GroupRegistrationOverviewComponent implements OnInit, OnDestroy {
 

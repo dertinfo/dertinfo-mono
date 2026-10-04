@@ -10,9 +10,10 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
 import { UploadImageComponent } from '../upload-image/upload-image.component';
 
 @Component({
-  selector: 'app-event-gallery',
-  templateUrl: './event-gallery.component.html',
-  styleUrls: ['./event-gallery.component.css']
+    selector: 'app-event-gallery',
+    templateUrl: './event-gallery.component.html',
+    styleUrls: ['./event-gallery.component.css'],
+    standalone: false
 })
 export class EventGalleryComponent implements OnInit, OnDestroy {
 

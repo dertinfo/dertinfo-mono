@@ -9,9 +9,10 @@ import { Conductor } from '../../../services/dertofderts-admin.conductor';
 import { Tracker } from '../../../services/dertofderts-admin.tracker';
 
 @Component({
-  selector: 'app-dod-admin-judges',
-  templateUrl: './judges.component.html',
-  styleUrls: ['./judges.component.scss']
+    selector: 'app-dod-admin-judges',
+    templateUrl: './judges.component.html',
+    styleUrls: ['./judges.component.scss'],
+    standalone: false
 })
 export class JudgesComponent implements OnInit {
 

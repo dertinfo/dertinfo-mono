@@ -8,9 +8,10 @@ import { MembersSelectItemModel } from '../models/members-select-item.model';
 import { MemberSelectMediator } from '../services/members-select.mediator';
 
 @Component({
-  selector: 'app-members-select',
-  templateUrl: './members-select.component.html',
-  styleUrls: ['./members-select.component.css']
+    selector: 'app-members-select',
+    templateUrl: './members-select.component.html',
+    styleUrls: ['./members-select.component.css'],
+    standalone: false
 })
 export class MembersSelectComponent implements OnInit, OnDestroy {
 

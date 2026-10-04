@@ -7,8 +7,9 @@ import { CompetitionAdminConductor } from 'app/modules/competition-admin/service
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'scoreset-edit',
-  templateUrl: './scoreset-edit.component.html'
+    selector: 'scoreset-edit',
+    templateUrl: './scoreset-edit.component.html',
+    standalone: false
 })
 export class ScoreSetEditComponent implements OnInit, OnDestroy {
 

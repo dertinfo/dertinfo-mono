@@ -7,9 +7,10 @@ import { Conductor } from '../../services/dertofderts-public.conductor';
 import { Tracker } from '../../services/dertofderts-public.tracker';
 
 @Component({
-  selector: 'app-recoversessiondialog',
-  templateUrl: './recoversessiondialog.component.html',
-  styleUrls: ['./recoversessiondialog.component.scss']
+    selector: 'app-recoversessiondialog',
+    templateUrl: './recoversessiondialog.component.html',
+    styleUrls: ['./recoversessiondialog.component.scss'],
+    standalone: false
 })
 export class RecoverSessionDialogComponent implements OnInit {
 

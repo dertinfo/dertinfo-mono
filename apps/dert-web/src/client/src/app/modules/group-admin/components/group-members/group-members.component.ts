@@ -13,9 +13,10 @@ import { GroupAdminTracker } from '../../services/group-admin.tracker';
 import { GroupMembersCreateComponent } from '../group-members-create/group-members-create.component';
 
 @Component({
-  selector: 'app-group-members',
-  templateUrl: './group-members.component.html',
-  styleUrls: ['./group-members.component.scss']
+    selector: 'app-group-members',
+    templateUrl: './group-members.component.html',
+    styleUrls: ['./group-members.component.scss'],
+    standalone: false
 })
 export class GroupMembersComponent implements OnInit, OnDestroy {
 

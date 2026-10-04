@@ -2,9 +2,10 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnI
 import * as domHelper from '../../../helpers/dom.helper';
 
 @Component({
-  selector: 'app-image-retry',
-  templateUrl: './image-retry.component.html',
-  styleUrls: ['./image-retry.component.css']
+    selector: 'app-image-retry',
+    templateUrl: './image-retry.component.html',
+    styleUrls: ['./image-retry.component.css'],
+    standalone: false
 })
 export class ImageRetryComponent implements OnInit, OnChanges {
 

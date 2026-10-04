@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs';
 import { PaperworkGeneratorConductor } from '../../services/paperwork-generator.conductor';
 
 @Component({
-  selector: 'app-scoresheets',
-  templateUrl: './scoresheets.component.html',
-  styleUrls: ['./scoresheets.component.css']
+    selector: 'app-scoresheets',
+    templateUrl: './scoresheets.component.html',
+    styleUrls: ['./scoresheets.component.css'],
+    standalone: false
 })
 export class ScoreSheetsComponent implements OnInit, OnDestroy {
 

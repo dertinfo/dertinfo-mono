@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-fold',
-  templateUrl: './fold.component.html',
-  styleUrls: ['./fold.component.scss']
+    selector: 'app-fold',
+    templateUrl: './fold.component.html',
+    styleUrls: ['./fold.component.scss'],
+    standalone: false
 })
 export class FoldComponent implements OnInit, AfterViewInit, OnChanges {
 

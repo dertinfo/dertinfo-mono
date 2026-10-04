@@ -5,9 +5,10 @@ import { CompetitionAdminConductor } from '../services/competition-admin.conduct
 import { CompetitionAdminTracker } from '../services/competition-admin.tracker';
 
 @Component({
-  selector: 'app-competition',
-  templateUrl: './app-competition.component.html',
-  styleUrls: ['./app-competition.component.css']
+    selector: 'app-competition',
+    templateUrl: './app-competition.component.html',
+    styleUrls: ['./app-competition.component.css'],
+    standalone: false
 })
 export class CompetitionComponent implements OnInit, OnDestroy {
 

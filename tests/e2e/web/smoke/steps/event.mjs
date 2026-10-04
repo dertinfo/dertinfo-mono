@@ -5,6 +5,8 @@ import { EVENT_NAME, clickLabelledCheckbox, clickNext, clickPageAdd, entityCard,
 async function fillDate(page, name, value) {
   const header = page.locator('mat-step-header[aria-selected="true"]');
   const input = header.locator(`xpath=following::input[@formcontrolname="${name}"][1]`);
+  // The step header is selected before the step body is visible.
+  await input.waitFor({ state: 'visible', timeout: 15000 });
   // A resting mat-label covers the input, so a normal click lands on the label.
   await input.click({ force: true });
   await input.fill(value, { force: true });

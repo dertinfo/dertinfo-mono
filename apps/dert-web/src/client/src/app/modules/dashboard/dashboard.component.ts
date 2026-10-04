@@ -14,9 +14,10 @@ import { GdprDialogComponent } from './gdpr-dialog/gdpr-dislogue.component';
 import { GroupCreateComponent } from './group-create/group-create.component';
 
 @Component({
-  selector: 'dashboard',
-  templateUrl: './dashboard.template.html',
-  styleUrls: ['./dashboard.template.css']
+    selector: 'dashboard',
+    templateUrl: './dashboard.template.html',
+    styleUrls: ['./dashboard.template.css'],
+    standalone: false
 })
 export class DashboardComponent implements OnInit, OnDestroy, AfterContentInit {
 

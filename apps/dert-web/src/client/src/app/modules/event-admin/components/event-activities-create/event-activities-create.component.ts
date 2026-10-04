@@ -7,8 +7,9 @@ import { EventAdminConductor } from '../../services/event-admin.conductor';
 import { EventAdminTracker } from '../../services/event-admin.tracker';
 
 @Component({
-  selector: 'app-event-activities-create',
-  templateUrl: './event-activities-create.template.html'
+    selector: 'app-event-activities-create',
+    templateUrl: './event-activities-create.template.html',
+    standalone: false
 })
 export class EventActivitiesCreateComponent implements OnInit, OnDestroy {
 

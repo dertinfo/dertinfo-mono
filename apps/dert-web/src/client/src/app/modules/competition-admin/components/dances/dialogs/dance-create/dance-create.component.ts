@@ -9,7 +9,8 @@ import { CompetitionAdminTracker } from 'app/modules/competition-admin/services/
 
 @Component({
     selector: 'app-dance-create',
-    templateUrl: './dance-create.component.html'
+    templateUrl: './dance-create.component.html',
+    standalone: false
 })
 export class DanceCreateComponent implements OnInit, OnDestroy {
 

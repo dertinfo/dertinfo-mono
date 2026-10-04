@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-admin-complaints',
-  templateUrl: './admin-complaints.component.html',
-  styleUrls: ['./admin-complaints.component.scss']
+    selector: 'app-admin-complaints',
+    templateUrl: './admin-complaints.component.html',
+    styleUrls: ['./admin-complaints.component.scss'],
+    standalone: false
 })
 export class AdminComplaintsComponent implements OnInit {
 

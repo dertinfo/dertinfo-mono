@@ -5,8 +5,9 @@ import { Subscription } from 'rxjs';
 import { GroupAdminConductor } from '../../services/group-admin.conductor';
 
 @Component({
-  selector: 'app-group-teams-create',
-  templateUrl: './group-teams-create.template.html'
+    selector: 'app-group-teams-create',
+    templateUrl: './group-teams-create.template.html',
+    standalone: false
 })
 export class GroupTeamsCreateComponent implements OnInit, OnDestroy {
 

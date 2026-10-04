@@ -6,10 +6,11 @@ import { NotificationConductor } from '../../services/notification.conductor';
 import { NotificationTracker } from '../../services/notification.tracker';
 
 @Component({
-  selector: 'app-detail-dialog',
-  templateUrl: './detail-dialog.component.html',
-  styleUrls: ['./detail-dialog.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-detail-dialog',
+    templateUrl: './detail-dialog.component.html',
+    styleUrls: ['./detail-dialog.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class DetailDialogComponent implements OnInit, OnDestroy {
 

@@ -5,8 +5,9 @@ import { GroupSetupConductor } from './services/group-setup.conductor';
 import { GroupSetupTracker } from './services/group-setup.tracker';
 
 @Component({
-  selector: 'app-group-setup',
-  templateUrl: './group-setup.component.html'
+    selector: 'app-group-setup',
+    templateUrl: './group-setup.component.html',
+    standalone: false
 })
 export class GroupSetupComponent implements OnInit, OnDestroy {
 

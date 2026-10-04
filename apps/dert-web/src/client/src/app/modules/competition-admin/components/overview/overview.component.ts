@@ -6,9 +6,10 @@ import { CompetitionAdminConductor } from '../../services/competition-admin.cond
 import { CompetitionAdminTracker } from '../../services/competition-admin.tracker';
 
 @Component({
-  selector: 'app-competition-overview',
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.css']
+    selector: 'app-competition-overview',
+    templateUrl: './overview.component.html',
+    styleUrls: ['./overview.component.css'],
+    standalone: false
 })
 export class OverviewComponent implements OnInit, OnDestroy {
 

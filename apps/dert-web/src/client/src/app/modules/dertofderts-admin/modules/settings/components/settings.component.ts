@@ -3,9 +3,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SettingsRepository } from '../services/settings.repository';
 
 @Component({
-  selector: 'app-dod-admin-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+    selector: 'app-dod-admin-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    standalone: false
 })
 export class SettingsComponent implements OnInit {
 

@@ -2,8 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AuthService } from '../../../core/authentication/auth.service';
 import * as domHelper from '../../../helpers/dom.helper';
 @Component({
-  selector: 'topbar',
-  templateUrl: './topbar.template.html'
+    selector: 'topbar',
+    templateUrl: './topbar.template.html',
+    standalone: false
 })
 export class TopbarComponent implements OnInit {
   @Input() sidenav;

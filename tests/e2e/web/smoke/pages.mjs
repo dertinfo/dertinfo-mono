@@ -33,6 +33,8 @@ export function selectOption(scope, name) {
 
 export async function fillControl(page, name, value) {
   const input = page.locator(`input[formcontrolname="${name}"], textarea[formcontrolname="${name}"]`);
+  // Inactive Material steps are inert and visibility:hidden. A fill before the step is visible does not update the control.
+  await input.waitFor({ state: 'visible', timeout: 15000 });
   await input.fill(value, { force: true });
 }
 

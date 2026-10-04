@@ -5,9 +5,10 @@ import { Conductor } from '../../services/dertofderts-public.conductor';
 import { Tracker } from '../../services/dertofderts-public.tracker';
 
 @Component({
-  selector: 'app-talks',
-  templateUrl: './talks.component.html',
-  styleUrls: ['./talks.component.scss']
+    selector: 'app-talks',
+    templateUrl: './talks.component.html',
+    styleUrls: ['./talks.component.scss'],
+    standalone: false
 })
 export class TalksComponent implements OnInit, OnDestroy {
 

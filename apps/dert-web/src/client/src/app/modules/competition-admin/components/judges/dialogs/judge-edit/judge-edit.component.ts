@@ -10,8 +10,9 @@ import { CompetitionAdminConductor } from 'app/modules/competition-admin/service
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'judge-edit',
-  templateUrl: './judge-edit.component.html'
+    selector: 'judge-edit',
+    templateUrl: './judge-edit.component.html',
+    standalone: false
 })
 export class JudgeEditComponent implements OnInit, OnDestroy {
 

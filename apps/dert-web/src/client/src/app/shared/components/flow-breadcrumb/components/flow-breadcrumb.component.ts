@@ -4,7 +4,8 @@ import { FlowBreadcrumbItem } from '../models/flow-breadcrumb-item.model';
 @Component({
     selector: 'app-flow-breadcrumb',
     templateUrl: './flow-breadcrumb.component.html',
-    styleUrls: ['./flow-breadcrumb.component.css']
+    styleUrls: ['./flow-breadcrumb.component.css'],
+    standalone: false
 })
 export class FlowBreadcrumbComponent {
 

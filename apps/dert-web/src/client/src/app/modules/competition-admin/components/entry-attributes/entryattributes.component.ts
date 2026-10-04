@@ -9,9 +9,10 @@ import { CompetitionAdminConductor } from '../../services/competition-admin.cond
 import { CompetitionAdminTracker } from '../../services/competition-admin.tracker';
 
 @Component({
-  selector: 'app-competition-entryattributes',
-  templateUrl: './entryattributes.component.html',
-  styleUrls: ['./entryattributes.component.css']
+    selector: 'app-competition-entryattributes',
+    templateUrl: './entryattributes.component.html',
+    styleUrls: ['./entryattributes.component.css'],
+    standalone: false
 })
 export class EntryAttributesComponent implements OnInit, OnDestroy {
 

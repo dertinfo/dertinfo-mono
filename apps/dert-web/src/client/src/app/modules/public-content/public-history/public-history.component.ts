@@ -3,9 +3,10 @@ import { EventShowcaseDto } from 'app/models/dto';
 import { ShowcaseRepository } from '../../repositories';
 
 @Component({
-  selector: 'app-public-history',
-  templateUrl: './public-history.component.html',
-  styleUrls: ['./public-history.component.css']
+    selector: 'app-public-history',
+    templateUrl: './public-history.component.html',
+    styleUrls: ['./public-history.component.css'],
+    standalone: false
 })
 export class PublicHistoryComponent implements OnInit {
 
