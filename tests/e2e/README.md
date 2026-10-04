@@ -1,26 +1,10 @@
 # DertInfo E2E scripts (Playwright)
 
-Playwright scripts for the website. The smoke suite expects this local profile already running. SQL is Docker. The API, image resize, Azurite, website, and PWA are native.
+Playwright scripts for the website.
 
-`infra/dev/runtime.json` (gitignored):
+How to run the smoke suite, reset the database, and record video: [Website smoke tests](../../docs/technical/guides/website-smoke-tests.md).
 
-| Service | Mode |
-|---------|------|
-| sql | docker |
-| api, web, app, imageResize, azurite | native |
-
-`npm run test:web:smoke` starts from an empty database. The runner removes whatever container is publishing port `44000`, deletes its SQL data volume and the Compose volume `sqlserver-data`, starts SQL Server again, and restarts the API. API startup applies EF migrations on that empty server. `infra/dev/runtime.json` must set `sql.mode` to `docker` and `api.mode` to `native` or `docker`. `infra/secrets/api.env` must point `SqlConnection__ServerName` at `127.0.0.1,44000`, with the Compose `sa` login and database `DertInfoDb`. Naming one scenario id does not reset the database. That flow runs only when its required data is already in the smoke chain.
-
-| Service | URL |
-|---------|-----|
-| Web | http://localhost:44200 |
-| PWA | http://localhost:44300 |
-| API | http://localhost:44100/api |
-| Image resize | http://localhost:44400 |
-| Azurite | http://127.0.0.1:10000 |
-| SQL | localhost,44000 |
-
-Bring the profile up with `npm run doctor`, `npm run start`, and `npm run status` from the repo root.
+How a scenario is sized, how it calls steps, how those browsers become clips, and how session state is kept: [Playwright standards](../../docs/technical/standards/playwright/README.md).
 
 ## Setup
 
@@ -31,15 +15,15 @@ npm install
 
 Chromium is installed automatically via `postinstall`.
 
-## Suites by capability
+The smoke suite expects the local profile already running. SQL is Docker. The API, image resize, Azurite, website, and PWA are native. Bring that profile up with `npm run doctor`, `npm run start`, and `npm run status` from the repo root.
 
-| Capability | Folder | npm script |
-|------------|--------|------------|
-| **Website smoke** (scenario contracts on the capability pages) | [`web/smoke/scenarios/`](web/smoke/scenarios/) | `npm run test:web:smoke` |
-| **Login** (post-auth navigation, warmup) | [`web/login/`](web/login/) | `npm run test:login:warmup` |
+## Suites
 
-Smoke order, personas, and helpers: [Playwright standards](../../docs/technical/standards/playwright/README.md).
+| Suite | Folder | npm script |
+|-------|--------|------------|
+| Website smoke | [`web/smoke/scenarios/`](web/smoke/scenarios/) | `npm run test:web:smoke` |
+| Login warmup investigations | [`web/login/`](web/login/) | `npm run test:login:warmup` |
 
-Persona passwords live in gitignored `.env`. Auth0 `app_metadata` for those users is in [`auth0-personas.json`](auth0-personas.json). Emails are `event-admin-1@dertinfo.co.uk` and `group-admin-1@dertinfo.co.uk` on tenant `dertinfodev.eu.auth0.com`.
+Persona passwords live in gitignored `.env`. Auth0 `app_metadata` for those users is in [`auth0-personas.json`](auth0-personas.json).
 
 Legacy Protractor e2e for Angular apps remains under `apps/dert-web/src/client/e2e/` and `apps/dert-app/src/client/e2e/`.

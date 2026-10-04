@@ -6,6 +6,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { chromium } from 'playwright';
+import { closeRecordedBrowser, contextOptions } from './recording.mjs';
 
 export const WEB_BASE = 'http://localhost:44200';
 export const API_BASE = 'http://localhost:44100/api';
@@ -266,11 +267,33 @@ async function acceptGdpr(page) {
   if (await button.isVisible().catch(() => false)) await button.click();
 }
 
-async function dashboardLoads(storageState) {
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ ...SMOKE_CONTEXT, storageState });
-  await applyCookieConsent(context);
+async function openSmokePage({ headed = false, storageState, cookies = false } = {}) {
+  const browser = await chromium.launch({ headless: !headed });
+  const options = { ...SMOKE_CONTEXT };
+  if (storageState) options.storageState = storageState;
+  const context = await browser.newContext(contextOptions(options));
+  if (cookies) await applyCookieConsent(context);
   const page = await context.newPage();
+  return { browser, context, page };
+}
+
+async function closeSmokePage(browser, context, page, label, persistFile) {
+  if (persistFile) await persistSession(context, persistFile);
+  await closeRecordedBrowser(browser, page, label);
+}
+
+/** Open a page and close it when `run` finishes. Records video when the suite asked for it. */
+export async function withSmokePage(run, { headed = false, storageState, cookies = false, persistFile = null, label = 'page' } = {}) {
+  const { browser, context, page } = await openSmokePage({ headed, storageState, cookies });
+  try {
+    return await run(page);
+  } finally {
+    await closeSmokePage(browser, context, page, label, persistFile);
+  }
+}
+
+async function dashboardLoads(storageState) {
+  const { browser, context, page } = await openSmokePage({ storageState, cookies: true });
   try {
     await page.goto(`${WEB_BASE}/dashboard`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await waitForDashboard(page);
@@ -278,16 +301,12 @@ async function dashboardLoads(storageState) {
   } catch {
     return false;
   } finally {
-    await persistSession(context, storageState);
-    await browser.close();
+    await closeSmokePage(browser, context, page, 'session-check', storageState);
   }
 }
 
 async function performLogin(persona, email, password, headed) {
-  const browser = await chromium.launch({ headless: !headed });
-  const context = await browser.newContext(SMOKE_CONTEXT);
-  await applyCookieConsent(context);
-  const page = await context.newPage();
+  const { browser, context, page } = await openSmokePage({ headed, cookies: true });
   try {
     await page.goto(`${WEB_BASE}/auth/signin`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await completeUniversalLogin(page, email, password, headed);
@@ -298,7 +317,7 @@ async function performLogin(persona, email, password, headed) {
     await context.storageState({ path: file });
     return file;
   } finally {
-    await browser.close();
+    await closeSmokePage(browser, context, page, headed ? 'login-headed' : 'login');
   }
 }
 
@@ -326,19 +345,10 @@ export async function ensurePersonaSession(persona) {
   }
 }
 
-/** Open a fresh browser signed in as persona. Caller closes the browser. */
+/** Open a fresh browser signed in as persona, then close it when `run` finishes. */
 export async function withPersonaPage(persona, run) {
   const file = sessionFile(persona);
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ ...SMOKE_CONTEXT, storageState: file });
-  await applyCookieConsent(context);
-  const page = await context.newPage();
-  try {
-    await run(page);
-  } finally {
-    await persistSession(context, file);
-    await browser.close();
-  }
+  return withSmokePage(run, { storageState: file, cookies: true, persistFile: file, label: 'page' });
 }
 
 /** Wait until the signed-in dashboard has rendered the add button. */

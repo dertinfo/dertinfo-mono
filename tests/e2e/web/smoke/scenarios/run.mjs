@@ -10,6 +10,7 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 import { fileURLToPath } from 'url';
 import { loadE2eEnv, normalizeRef, normalizeToken } from '../helpers.mjs';
+import { beginScenario, configureRecording, finishRun, finishScenario, takeVideoMode } from '../recording.mjs';
 
 const smokeDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const repoRoot = path.resolve(smokeDir, '../../../..');
@@ -172,7 +173,16 @@ function missingPrerequisites(contract, chainState, passed, allowExistingTokens)
   return missing;
 }
 
-const selected = process.argv.slice(2);
+let videoMode = 'none';
+let selected = [];
+try {
+  const parsed = takeVideoMode(process.argv.slice(2));
+  videoMode = parsed.mode;
+  selected = parsed.rest;
+} catch (error) {
+  console.error(error.message);
+  process.exit(1);
+}
 const widerOnly = new Set(['auth.session-continuity.rejected-cache-returns-to-sign-in']);
 const contracts = loadContracts();
 const modules = new Map();
@@ -216,6 +226,8 @@ if (selected.length === 0) {
 }
 
 fs.mkdirSync(stateDir, { recursive: true });
+const runDir = configureRecording(videoMode);
+if (runDir) console.log(`Recording videos (${videoMode}) to ${runDir}`);
 let chain = loadChain();
 const passed = new Map();
 let failed = false;
@@ -241,6 +253,7 @@ for (const contract of planned) {
     failed = true;
     continue;
   }
+  beginScenario(contract.id);
   try {
     const imported = modules.get(contract.id);
     await imported.run({
@@ -261,12 +274,19 @@ for (const contract of planned) {
     passed.set(scenarioKey(contract.id, 1), contract);
     chain[`done:${contract.id}`] = true;
     saveChain(chain);
+    finishScenario(true);
     console.log(`PASS ${contract.id}`);
   } catch (error) {
+    finishScenario(false);
     console.error(`FAIL ${contract.id}`);
     console.error(error.message);
     failed = true;
   }
+}
+
+const kept = finishRun();
+if (videoMode !== 'none') {
+  console.log(kept ? `Recordings kept in ${kept}` : 'No recordings kept.');
 }
 
 process.exit(failed ? 1 : 0);

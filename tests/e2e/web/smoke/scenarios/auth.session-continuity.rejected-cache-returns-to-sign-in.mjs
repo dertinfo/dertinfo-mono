@@ -1,5 +1,4 @@
-import { chromium } from 'playwright';
-import { API_BASE, VIEWPORT, WEB_BASE, applyCookieConsent } from '../helpers.mjs';
+import { API_BASE, WEB_BASE, withSmokePage } from '../helpers.mjs';
 
 export const id = 'auth.session-continuity.rejected-cache-returns-to-sign-in';
 
@@ -59,10 +58,7 @@ export async function run() {
     throw new Error('Client configuration is missing Auth0 client id, audience, or domain.');
   }
 
-  const browser = await chromium.launch({ headless: true });
-  const page = await browser.newPage({ viewport: VIEWPORT });
-  try {
-    await applyCookieConsent(page.context());
+  await withSmokePage(async (page) => {
     await page.addInitScript(plantSession, config);
     await page.goto(`${WEB_BASE}/dashboard`, { waitUntil: 'domcontentloaded', timeout: 60000 });
     const deadline = Date.now() + 15000;
@@ -81,7 +77,5 @@ export async function run() {
     if (text.includes('Warming up') || cacheKeys.length > 0 || !isSignIn(url)) {
       throw new Error(`Rejected cache did not return to sign-in (${url})`);
     }
-  } finally {
-    await browser.close();
-  }
+  }, { cookies: true });
 }

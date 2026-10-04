@@ -2,46 +2,79 @@
 name: Playwright standards
 type: standards
 status: active
-updated: 2026-10-03
+updated: 2026-10-04
 ---
 
 # Playwright standards
 
-How website smoke tests are named, ordered, and shared. Further Playwright tests follow this page.
+How a website smoke scenario is built: how large it is, how it calls steps, how those browsers become videos, and how session state is kept.
 
-Capability pages say what the product does. This page says how a smoke scenario is wired to those pages. It is not a capability description.
+Capability pages say what the product does. This page says how a smoke scenario is wired to those pages. It is not a capability description. Commands for running the suite and turning video on are in [Website smoke tests](../../guides/website-smoke-tests.md).
 
-## Where tests live
+## Where the pieces live
 
 | Path | Role |
 |------|------|
-| `tests/e2e/web/smoke/scenarios/` | One module per smoke flow |
+| `tests/e2e/web/smoke/scenarios/` | One module per smoke flow. The runner loads these |
 | `tests/e2e/web/smoke/steps/` | Page actions a flow calls, in order. The runner does not load this folder |
 | `tests/e2e/web/smoke/scenarios/run.mjs` | Reads feature contracts and runs the suite |
 | `tests/e2e/web/smoke/helpers.mjs` | Shared mechanics used by more than one flow |
+| `tests/e2e/web/smoke/recording.mjs` | Video flag, run folders, and clip names |
 | `tests/e2e/web/smoke/state/` | Gitignored session files and the chain of provided tokens |
+| `_recordings/` | Gitignored videos. The three newest timestamp folders are kept |
 | `tests/e2e/.env` | Gitignored persona emails and passwords |
 | `tests/e2e/auth0-personas.json` | `app_metadata` to paste onto Auth0 users. No passwords |
 
-`npm run test:web:smoke` from `tests/e2e` runs every smoke flow. It does not run `auth.session-continuity.rejected-cache-returns-to-sign-in`. Pass that id to run it on its own.
+## How large a scenario is
 
-`node web/smoke/scenarios/run.mjs <scenario-id>` runs that flow only. It does not run the flows it requires, and it does not reset the database. The required tokens must already be in the chain. When they are missing, the flow fails with `prerequisites not available` and does not start.
+A smoke scenario is one actor job with a useful start and a useful end. It is the whole job, in one module.
 
-The website is already running. A full smoke command removes whatever container is publishing port `44000`, deletes its SQL data volume and the Compose volume `sqlserver-data`, starts a new SQL Server container, and restarts the API so migrations run on that empty database. The previous smoke chain is discarded. Auth0 session files are left in place. SQL is Docker. The API, image resize, Azurite, website, and PWA are native. `infra/dev/runtime.json` must set `sql.mode` to `docker` and `api.mode` to `native` or `docker`. See [tests/e2e/README.md](../../../../tests/e2e/README.md).
+`group.groupadmin.createandconfigure-scenario1` starts with the group administrator opening the site and signing in, then creates the group, walks the configuration screens, adds a member, a guest, and a team, and replaces the gallery image. That is one scenario. `event.eventadmin.createandconfigure-scenario1` is the same shape for an event. Registration is its own scenario, so it can run when the group and the event are already in the database. Seeing the registration, amending it, confirming it, and reading the invoices is another scenario, because that job starts from a submitted registration.
+
+`scenario1` is the path the smoke command runs. `scenario2` would be a different path through the same job, such as a second way to configure a group. It is a different module. The smoke command runs `scenario1`.
+
+A job that is already one visit stays one scenario. `public.cookie-consent.visitor-accepts` accepts the cookie banner. `public.content.visitor-browses` walks the public pages. `auth.session-continuity.rejected-cache-returns-to-sign-in` stays in the wider set and is left out of the smoke command.
+
+The current smoke scenarios, in run order:
+
+| Scenario | Start | End |
+|----------|-------|-----|
+| `public.cookie-consent.visitor-accepts` | Site launch | Cookie stored |
+| `event.eventadmin.createandconfigure-scenario1` | Event administrator signs in | Event configured, with activities |
+| `group.groupadmin.createandconfigure-scenario1` | Group administrator signs in | Group configured, with people, a team, and a new gallery image |
+| `registration.groupadmin.registerforevent-scenario1` | Saved group-administrator session, group and event already exist | Registration submitted |
+| `registration.groupadmin.checkregistrationandedit-scenario1` | Submitted registration | Amended, confirmed, invoices reviewed |
+| `public.content.visitor-browses` | Public home | Public pages have rendered |
+
+## Steps
+
+The clicks that used to be their own scenarios live in `tests/e2e/web/smoke/steps/`. A flow calls those functions in order on one page. The step function keeps the checks it already had. The flow owns the browser.
+
+```js
+await withPersonaPage('group-admin', async (page) => {
+  await part(id, 'create', () => createGroup(page, ctx));
+  await part(id, 'configure', () => configureGroup(page, ctx));
+  await part(id, 'add member', () => addGroupMember(page, ctx));
+});
+```
+
+`part` prints `PASS <flow id> > <name>` when the step returns, and `FAIL <flow id> > <name>` plus the error when it throws. The flow then fails, and the runner prints `FAIL` for the scenario id.
+
+Add a new check by adding a step function and one `part` call. Leave the other step functions as they are. A behaviour that belongs to one flow stays in `steps/`. A behaviour that more than one flow needs, and that is a single job, goes in `helpers.mjs`: loading a persona, opening a browser, signing in, carrying the cookie, reading the page, recognising the session-error page, and reading or writing tokens.
 
 ## Scenario id
 
-A smoke flow names the area, the actor, the action, and the path number: `<area>.<actor>.<action>-scenarioN`.
+A collated flow is `<area>.<actor>.<action>-scenarioN`.
 
-`group.groupadmin.createandconfigure-scenario1` is the group administrator creating and configuring one group. `scenario2` would be a different path through that same action, not a second copy of `scenario1`.
+`group.groupadmin.createandconfigure-scenario1` is the group administrator creating and configuring one group.
 
-A flow that is still a single behaviour keeps `<feature id>.<actor>-<verb>`. `public.cookie-consent.visitor-accepts` accepts the cookie banner. `public.content.visitor-browses` is a visitor browsing public pages.
+A flow that is still a single behaviour keeps `<feature id>.<actor>-<verb>`. `public.content.visitor-browses` is a visitor browsing public pages.
 
-The scenario id is never given a `[n]` suffix. The action name stays the same when a second object is created. The path number is `-scenarioN`, not `[n]`.
+The scenario id is never given a `[n]` suffix. The action name stays the same when a second object is created. The path number is `-scenarioN`. `[n]` on a token is an instance number, described under Contracts.
 
 ## Contract
 
-Each feature page that the smoke suite covers has a `## Scenarios` section. Gherkin (Given, When, Then, And, But) stays in one block. The runner does not read those sentences.
+Each feature page that the smoke suite covers has a `## Scenarios` section. Gherkin (Given, When, Then, And, But) stays in one block. The runner does not read those sentences. The behaviour stays written at that grain even when one flow now performs several of those behaviours.
 
 The runner reads the YAML contract on that page:
 
@@ -68,45 +101,57 @@ scenarios:
 
 `persona` must be one of the feature's `roles`. `requires` names other scenario ids. `provides` names the tokens that scenario leaves behind. `sequence` is only a tie-break when `requires` does not decide the order. Lower numbers run first.
 
-`coveredBy` names the flow that now performs that behaviour. The Gherkin stays on the feature page. The runner does not execute a `coveredBy` entry. The flow's own YAML, without `coveredBy`, is the contract that runs.
+`coveredBy` names the flow that now performs that behaviour. The runner does not execute a `coveredBy` entry. The flow's own YAML, without `coveredBy`, is the contract that runs. Capability pages that never had a module stay documentation only.
 
-A name with no brackets is instance 1. `configuredEventId` and `configuredEventId[1]` are the same value. A second event provides `configuredEventId[2]` and does not replace the first. A later scenario requires that second flow when it must use the second event. Omit `[n]` when there is only one. `-scenarioN` is a different path, not an instance number.
+A name with no brackets is instance 1. `configuredEventId` and `configuredEventId[1]` are the same value. A second event provides `configuredEventId[2]` and does not replace the first. A later scenario requires that second flow when it must use the second event. Omit `[n]` when there is only one.
 
 Provided names in this suite: `cookie-consent`, `session:event-admin`, `session:group-admin`, `createdEventId`, `createdGroupId`, `configuredEventId`, `configuredGroupId`, `addedMemberId`, `addedGuestId`, `addedTeamId`, `addedIndividualActivityId`, `addedTeamActivityId`, `pendingRegistrationId`, `submittedRegistrationId`.
 
-`public.cookie-consent.visitor-accepts` runs before sign-in and public browsing. It clicks Accept Cookies and stores that cookie. Later browser contexts in the same run start with the cookie already set. They do not click the banner again.
-
 ## Prerequisites
 
-The first action of a scenario checks that every required scenario has passed in this run and that its tokens are present. The check does nothing else.
+On a full smoke run, the first action of a scenario checks that every required scenario has passed in this run and that its tokens are present. The check does nothing else.
 
-When they are present, the scenario continues. When any are missing, the scenario fails immediately with `prerequisites not available` and the missing ids or tokens. Its own steps do not run. That failure is how a full-suite log shows a missing predecessor, separate from a failure of the scenario's own checks.
+When they are present, the scenario continues. When any are missing, the scenario fails immediately with `prerequisites not available` and the missing ids or tokens. Its own steps do not run.
 
-A named scenario id is the exception. It does not re-run the flows it requires. It continues when those flows' tokens are already in the chain, and it fails the same way when they are not.
+A named scenario id is the exception. It does not re-run the flows it requires. It continues when those flows' tokens are already in the chain, and it fails the same way when they are not. That invocation does not reset the database.
 
-Do not delete a `requires` entry to make a later scenario pass. Fix the scenario that should have provided the token.
+Leave a `requires` entry in place when a later scenario needs that token. Fix the scenario that should have provided it.
 
-## Personas
+## Session state
 
-Auth0 users for the local tenant `dertinfodev.eu.auth0.com` use `{role-id}-1@dertinfo.co.uk`. This suite signs in `event-admin-1@dertinfo.co.uk` and `group-admin-1@dertinfo.co.uk`. Passwords stay in `tests/e2e/.env`. Payloads are in `tests/e2e/auth0-personas.json`.
+Three stores sit under `tests/e2e/web/smoke/state/`. All of them are gitignored.
 
-Each persona has one saved browser session under `tests/e2e/web/smoke/state/sessions/`. A later flow reuses that session until it expires. When that persona's browser closes, the suite writes the session file again so the saved tokens match the browser that just finished.
+| Store | What it holds | When it is written |
+|-------|----------------|--------------------|
+| `sessions/cookie-consent.json` | The accepted `cookie-consent` cookie | When the site-launch scenario finishes |
+| `sessions/<persona>.json` | That persona's browser storage, including the Auth0 session | When that persona's browser closes |
+| `chain.json` | Tokens the scenarios provide (`configuredGroupId`, and the rest) | As each scenario calls `provide`, and again when the scenario passes |
 
-A flow that signs in does that once at the start, then keeps one browser for the rest of that actor's steps. A later part logs `PASS <flow id> > <part>` as soon as it finishes, or `FAIL <flow id> > <part>` and the error when it does not. The flow then fails, and the runner still prints `FAIL` for the flow id.
+Contexts use locale `en-GB` and timezone `Europe/London`.
 
-The registration review flow opens another browser when the actor changes. The rejected-cache scenario does not write those session files. Contexts use locale `en-GB` and timezone `Europe/London`.
+Cookie consent runs first, in its own browser. Later browsers receive that cookie and do not click the banner. The site-launch scenario itself starts without the saved cookie, so it can accept the banner when it is on screen.
 
-## Helpers
+A flow that needs a signed-in actor signs in at the start, through Auth0, and stores `session:<persona>`. The work after that sign-in stays on one page for that actor. Creating a group or an event changes what the token must carry, so that flow signs in once more after the page closes and replaces the persona file. The next flow restores that file and does not sign in again.
 
-Put a behaviour in `helpers.mjs` when more than one scenario needs it, and make that helper do one job:
+`withPersonaPage` loads the persona file, runs the callback, writes the file again, and closes the browser. Registration restores the group-administrator file. The review flow opens a new browser each time the actor changes: group administrator, then event administrator, then group administrator again. Each of those closes by writing that persona's file.
 
-- Load a persona email and password.
-- Open a browser context, including one restored from a saved session.
-- Sign in through Universal Login and write that persona's session.
-- Carry the accepted cookie-consent cookie into a new browser context, read the page text, and recognise the session-error page.
-- Read and write provided tokens.
+`auth.session-continuity.rejected-cache-returns-to-sign-in` plants a rejected cache and returns to sign-in. It does not write the persona session files.
 
-A page action used by one flow lives in `tests/e2e/web/smoke/steps/`. The flow calls those actions in order. Do not copy the clicks into the flow. Signing in does not also create a group. Opening a public page does not also upload a photo. Do not add a mode flag that makes one function run several flows.
+A full smoke run deletes `chain.json` after it has recreated the database. Persona files and the cookie file stay, and the create flows sign in again so the tokens match the empty database. A named flow leaves the chain and the database as they are.
+
+## Videos and steps
+
+Recording follows the browsers, which follow the actor. It does not cut a new file for each step. Several steps on one page are one clip. The console still prints a line per step, so a failure names the step while the clip shows the whole visit.
+
+| Browser opened by the flow | Clip name |
+|----------------------------|-----------|
+| Site launch | `01-cookie-consent.webm` |
+| Sign-in at the start of a create flow | `01-login.webm` |
+| The page that then runs that flow's steps | `02-page.webm` |
+| Sign-in after the page closes, so the saved token includes the new id | `03-login.webm` |
+| Each later browser in the review flow | the next `NN-page.webm` |
+
+Clips for one flow share that flow's folder under `_recordings/YYYYMMDD-HHMM/`. `errors` mode deletes a flow's folder when that flow passes. `all` keeps every clip. Turning recording on, and where the folders go, is in [Website smoke tests](../../guides/website-smoke-tests.md#video).
 
 ## Locators
 
@@ -122,8 +167,8 @@ Smoke data lives in `tests/e2e/web/smoke/config/`. `groups.json` holds two group
 
 The current scenarios enter the first group and the first event. Groups are named for The Simpsons. Events are named for a zoo. The first group is `The Simpsons`. The first event is `City Zoo Gathering`.
 
-Each record has an `Image` file name under `tests/e2e/web/smoke/fixtures/`. Groups use `family.jpg`. Events use `giraffe.jpg`.
+Each record has an `Image` file name under `tests/e2e/web/smoke/fixtures/`. Groups use `family.jpg`. Events use `giraffe.jpg`. The stored image address stays under `originals`. The picture on the page is the `480x360` address.
 
 ## When a run fails
 
-Correct the test when the test is wrong, and run it again. Do not change the website, the API, or Auth0 from a smoke failure. Do not weaken a check so that an application failure counts as a pass.
+Correct the test when the test is wrong, and run it again. Leave the website, the API, and Auth0 unchanged when the failure is in the test. Keep the check at the strength the scenario describes.

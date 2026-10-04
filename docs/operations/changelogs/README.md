@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-10-04 | Reliable website smoke suite | [2026-10-04-001-website-smoke-suite.md](./2026-10-04-001-website-smoke-suite.md) |
 | 2026-09-29 | Windows local process spawning without DEP0190 | [2026-09-29-001-windows-process-spawn.md](./2026-09-29-001-windows-process-spawn.md) |
 | 2026-09-27 | Change logs belong on the pull request | [2026-09-27-003-pr-changelog-required.md](./2026-09-27-003-pr-changelog-required.md) |
 | 2026-09-27 | Hide the register sticker and punctuate the app welcome | [2026-09-27-002-homepage-register-sticker.md](./2026-09-27-002-homepage-register-sticker.md) |

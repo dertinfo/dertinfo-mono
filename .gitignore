@@ -47,8 +47,8 @@ desktop.ini
 .env
 tests/e2e/web/smoke/state/
 
-# Smoke test video recordings
-_recordings/
+# Smoke test video recordings (the three newest timestamp folders are kept)
+/_recordings/
 .env.*
 !.env.example
 .cursor/mcp.json
