@@ -2,7 +2,7 @@
 name: Angular standards
 type: standards
 status: active
-updated: 2026-07-26
+updated: 2026-10-04
 ---
 
 # Angular standards (starter)
@@ -87,12 +87,25 @@ Same quartet appears (with feature-specific names) in other modules such as regi
 - Keep the four roles **separate**: do not put HTTP calls in the tracker, or BehaviourSubject section state in the repository.
 - Reset/clear section state via conductor → tracker when leaving or switching entity identity (e.g. different group id).
 
+## Layout
+
+Angular does not ship a layout engine. The recommended approach is CSS: **Flexbox** for rows, columns, and components, and **CSS Grid** for larger two-dimensional page layouts. Write that in component styles or shared stylesheets. `@angular/cdk/layout` (`BreakpointObserver`) is for TypeScript that must react to viewport size. It does not lay out templates. Angular's note is [Modern CSS in Angular: Layouts](https://blog.angular.io/modern-css-in-angular-layouts-4a259dca9127).
+
+`@angular/flex-layout` became obsolete at Angular 15. **15.0.0-beta.42** is the last official release. The website still uses those directives (`fxLayout`, `fxFlex`, `fxLayoutAlign`, `fxLayoutGap`, and breakpoint suffixes such as `fxLayout.lt-md`) across existing templates.
+
+The package is the community continuation **`@ngbracket/ngx-layout`**. Import `FlexLayoutModule` from `@ngbracket/ngx-layout`. The directive names stay the same. That package is the bridge for pages we have not yet rewritten. It is not the layout for new work. Bump it with each Angular major. `ng update` does not carry it.
+
+- **New pages** use CSS Flexbox and CSS Grid. Do not add Flex Layout directives on new templates.
+- **Pages you are already changing** should move the layout you touch off Flex Layout and onto CSS Flexbox or CSS Grid.
+- Leave Flex Layout markup alone on pages you are not already changing.
+
 ## What this guide deliberately omits
 
 Angular CLI / framework norms (components, modules, pipes, DI providers, Reactive Forms, RxJS basics) — use Angular docs. Expand this standards folder when we add house rules that diverge from those norms (style, testing, NgRx vs conductor, standalone vs NgModule migration, etc.).
 
 ## Related
 
+- Upgrading the website: [Upgrading Angular](../../guides/upgrading-angular.md)
 - Website getting started: [`apps/dert-web/README.md`](../../../../apps/dert-web/README.md)
 - Architecture overview: [technical/architecture/overview.md](../../architecture/overview.md)
 - Documentation guide: [documentation-guide.md](../../../documentation-guide.md)

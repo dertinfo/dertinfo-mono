@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 
 import { GroupOverviewDto } from 'app/models/dto';
 import { Observable } from 'rxjs';
 import { GroupAdminRepository } from './group-admin.repository';
 
 @Injectable()
-export class GroupAdminResolver implements Resolve<Observable<GroupOverviewDto>> {
+export class GroupAdminResolver  {
     constructor(private _groupRepo: GroupAdminRepository) { }
 
     resolve(activatedRoute: ActivatedRouteSnapshot) {

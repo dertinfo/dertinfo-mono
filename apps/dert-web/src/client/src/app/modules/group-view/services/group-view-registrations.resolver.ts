@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { GroupRegistrationDto } from 'app/models/dto';
 import { GroupViewRepository } from './group-view.repository';
 
 @Injectable()
-export class GroupViewRegistrationsResolver implements Resolve<Observable<GroupRegistrationDto[]>> {
+export class GroupViewRegistrationsResolver  {
     constructor(private _groupRepo: GroupViewRepository) { }
 
     resolve(activatedRoute: ActivatedRouteSnapshot) {

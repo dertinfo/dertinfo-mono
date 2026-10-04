@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AppConfirmService } from 'app/services/app-confirm/app-confirm.service';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { switchMap } from 'rxjs/operators';
 import { ScoreComponent } from '../components/score/score.component';
 
 @Injectable()
-export class CanDeactivateScoreGuard implements CanDeactivate<ScoreComponent> {
+export class CanDeactivateScoreGuard  {
     constructor(
         private location: Location,
         private appConfirmService: AppConfirmService

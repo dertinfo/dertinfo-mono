@@ -1,6 +1,6 @@
 // Angular
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 // Types
@@ -9,7 +9,7 @@ import { CompetitionRepository } from 'app/modules/repositories';
 import { CompetitionAdminTracker } from '../../services/competition-admin.tracker';
 
 @Injectable()
-export class SettingsResolver implements Resolve<Observable<CompetitionSettingsDto>> {
+export class SettingsResolver  {
     constructor(
         private _competitionRepo: CompetitionRepository,
         private _tracker: CompetitionAdminTracker,

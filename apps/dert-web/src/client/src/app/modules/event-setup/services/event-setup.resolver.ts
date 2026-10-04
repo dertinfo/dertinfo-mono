@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { EventOverviewDto } from 'app/models/dto';
 import { EventRepository } from 'app/modules/repositories/repositories/event.repository';
 
 @Injectable()
-export class EventSetupResolver implements Resolve<Observable<EventOverviewDto>> {
+export class EventSetupResolver  {
     constructor(
         private _eventRepo: EventRepository,
 

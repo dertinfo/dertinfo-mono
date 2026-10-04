@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { NotificationThumbnailInfoDto } from '../models/NotificationThumbnailInfoDto';
 import { NotificationConductor } from './notification.conductor';
@@ -9,7 +9,7 @@ import { NotificationConductor } from './notification.conductor';
  * functionality in order to prevent api hits on the homepage
  */
 @Injectable()
-export class NotificationCheckResolver implements Resolve<NotificationThumbnailInfoDto> {
+export class NotificationCheckResolver  {
     constructor(private conductor: NotificationConductor) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<NotificationThumbnailInfoDto> {

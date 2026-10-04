@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 // Modules
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { ChartsModule } from 'ng2-charts';
+import { NgChartsModule } from 'ng2-charts';
 import { FileUploadModule } from 'ng2-file-upload';
 import { AppSharedModule } from '../../shared/app-shared.module';
 import { AppCompetitionSharedModule } from './modules/app-competition-shared/app-competition-shared.module';
@@ -68,7 +68,7 @@ import { ResultsResolver } from './components/results/results.resolver';
         FormsModule,
         ReactiveFormsModule,
         NgxDatatableModule,
-        ChartsModule,
+        NgChartsModule.forRoot({ generateColors: true }),
         FileUploadModule,
         RouterModule.forChild(CompetitionAdminRoutes),
         AppCompetitionSharedModule,

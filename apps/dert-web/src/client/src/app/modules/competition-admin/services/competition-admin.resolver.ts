@@ -1,12 +1,12 @@
 // Angular
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { CompetitionRepository } from '../../repositories';
 
 @Injectable()
-export class CompetitionAdminResolver implements Resolve<Observable<any>> {
+export class CompetitionAdminResolver  {
     constructor(
         private _competitionRepo: CompetitionRepository,
 

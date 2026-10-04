@@ -1,7 +1,7 @@
 
 // Angular
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { forkJoin ,  Observable, of } from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -11,7 +11,7 @@ import { CompetitionRepository } from 'app/modules/repositories';
 import { CompetitionAdminTracker } from '../../services/competition-admin.tracker';
 
 @Injectable()
-export class ScoringResolver implements Resolve<Observable<any>> {
+export class ScoringResolver  {
     constructor(
         private _competitionRepo: CompetitionRepository,
         private _tracker: CompetitionAdminTracker,

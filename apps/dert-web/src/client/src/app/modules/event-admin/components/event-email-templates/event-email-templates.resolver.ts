@@ -1,6 +1,6 @@
 // Angular
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 // Types
@@ -8,7 +8,7 @@ import { EventRepository } from 'app/modules/repositories';
 import { EventAdminTracker } from '../../services/event-admin.tracker';
 
 @Injectable()
-export class EmailTemplatesResolver implements Resolve<Observable<any>> {
+export class EmailTemplatesResolver  {
     constructor(
         private _eventRepo: EventRepository,
         private _tracker: EventAdminTracker,
