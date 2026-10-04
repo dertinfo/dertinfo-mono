@@ -8,6 +8,7 @@ For operational how-to (CI/CD setup, configuration, planned fixes), see the wide
 
 | Completed | Title | Detail |
 |-----------|--------|--------|
+| 2026-10-04 | Website upgraded from Angular 19 to Angular 20 | [2026-10-04-007-web-angular-20.md](./2026-10-04-007-web-angular-20.md) |
 | 2026-10-04 | Website upgraded from Angular 18 to Angular 19 | [2026-10-04-006-web-angular-19.md](./2026-10-04-006-web-angular-19.md) |
 | 2026-10-04 | Website upgraded from Angular 17 to Angular 18 | [2026-10-04-005-web-angular-18.md](./2026-10-04-005-web-angular-18.md) |
 | 2026-10-04 | Website upgraded from Angular 16 to Angular 17 | [2026-10-04-004-web-angular-17.md](./2026-10-04-004-web-angular-17.md) |

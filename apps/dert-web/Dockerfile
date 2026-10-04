@@ -15,9 +15,9 @@
 ##################################################################
 
 # Base Stage
-# Pin Node 18 — matches website CI. Angular 18 needs Node ^18.19.1, ^20.11.1, or ^22.0.0.
-# node:lts (24) is outside that range. The global CLI pin moves with the framework.
-FROM node:18-bookworm AS base
+# Pin Node 20 — matches website CI. Angular 20 needs Node ^20.19.0, ^22.12.0, or ^24.0.0.
+# The global CLI pin moves with the framework.
+FROM node:20-bookworm AS base
 
 # Install global dependencies and clean npm cache in a single RUN command
 RUN npm install -g @azure/static-web-apps-cli
@@ -29,7 +29,7 @@ FROM base AS builder
 WORKDIR /build
 
 # Install global dependencies and clean npm cache in a single RUN command
-RUN npm install -g @angular/cli@19 typescript
+RUN npm install -g @angular/cli@20 typescript
 
 # Copy the static web app files
 COPY ./src/client/package.json package.json

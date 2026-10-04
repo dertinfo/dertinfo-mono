@@ -270,6 +270,48 @@ Checked against the compatibility table for Angular 20, not copied from the 17 t
 - Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
 - These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
 
+## Watch-list from the Angular 19 to 20 upgrade
+
+These showed up on this website during the move to Angular 20.3. The update guide does not list them as application steps. Check them again on later hops. The full record, including package versions, is [Website upgraded from Angular 19 to Angular 20](../../operations/changelogs/2026-10-04-007-web-angular-20.md).
+
+### Read the compatibility table before treating a leftover as a requirement
+
+The 18 to 19 notes said `ngx-cookie-service` **19.1.2** and `ng2-file-upload` **8.0.0** must move because they peer `^19`. They did. `@ngbracket/ngx-layout` **16.1.3** and `ng2-charts` **5.0.4** still peer `>=16`. Both installed, and the production build accepted them on Angular 20.3.33. Do not bump an open `>=` range because a newer major exists.
+
+### Node 18 cannot run the Angular 20 CLI
+
+Angular 20.3 supports Node `^20.19.0 || ^22.12.0 || ^24.0.0`. The installed CLI 20.3.37 engines field is `^20.19.0 || ^22.12.0 || >=24.0.0`. The website moved to Node 20 before `ng update`, while still on Angular 19.2, because 19.2 still allows `^20.11.1`. Website CI (`web-src-ci.yml`, `web-src-cd.yml`) and the website image are Node 20. npm **10.8.2** on Node **20.20.2** kept `lockfileVersion` 3. This machine's default Node is 24. Update, install, `ng build`, and `ng serve` used a portable Node **20.20.2**. nvm-windows is not installed. The Static Web Apps proxy already on port 44200 stayed on Node 18.20.8. The Dockerfile's global CLI pin is `@angular/cli@20`. The Ionic app and its CI stay on Node 16. Node 20 ended on 30 April 2026. **20.20.2** is the last release on that line. Angular 21 still lists `^20.19.0`.
+
+### The control-flow migration is optional
+
+`ng update @angular/cli@20 @angular/core@20` and `ng update @angular/material@20` completed with no `--force`. The CLI listed `use-application-builder`, `control-flow-migration`, and `router-current-navigation` as optional and did not run them. The webpack `browser` builder stayed. `*ngIf`, `*ngFor`, and `*ngSwitch` stayed. They are deprecated and the production build accepts them. `APP_INITIALIZER` stayed. `provide-initializer` was not offered. A non-interactive update skips those optional migrations.
+
+### `moduleResolution` became `bundler`, and `DOCUMENT` moved
+
+The CLI migration set `tsconfig.json` `moduleResolution` from `node` to `bundler`. `target` stayed `es2020`. The CLI still applies ES2022 and still warns. The same migration added schematic `type` and `typeSeparator` defaults so generated files keep the previous suffixes. The core migration moved the `DOCUMENT` import in `auth.service.ts` from `@angular/common` to `@angular/core`. The Material migration made no source changes.
+
+### Packages that peer `^19` move in the same hop
+
+`ng update` does not carry them. A later `npm install` failed because `ng2-file-upload` 8 peers `@angular/common` `^19`. That moved to **9.0.0**. `ngx-cookie-service` 19 peers `^19`. Version **20.0.0** still peers `^19`, so the install took **20.1.1**. After that, `npm install` had no peer errors and no `force`. Packages whose peers are an open `>=` range stayed: `@ngbracket/ngx-layout` 16.1.3, `ng2-charts` 5.0.4, `ngx-quill` 17.0.0, `@ngx-translate/core` 14, `@swimlane/ngx-datatable` 20.1.0, `@auth0/auth0-angular` 2.2.3. RxJS stayed at **6.6.7**. TypeScript stayed at **5.8.3**. `zone.js` stayed at **0.15.1**.
+
+### Angular 20 warns about Browserslist entries the previous CLI only ignored for ES5
+
+The production build still ignores `kaios 2.5` and `op_mini all`. It also warns that `and_qq 14.9`, `and_uc 15.5`, `android 154`, `kaios 3.0-3.1`, `op_mob 80`, `opera 135`, `opera 134`, `samsung 30`, and `samsung 29` fall outside Angular 20's browser support. `.browserslistrc` was left as it was. The theme warning is unchanged.
+
+### The next hop is already constrained by what this one left in place
+
+Checked against the compatibility table for Angular 21, not copied from the 18 to 19 list.
+
+- Angular 21.0–21.2 supports Node `^20.19.0 || ^22.12.0 || ^24.0.0`, TypeScript `>=5.9.0 <6.0.0`, and RxJS `^6.5.3 || ^7.4.0`. This site is on Node 20 and RxJS **6.6.7**, which are inside that range. TypeScript **5.8.3** is not. Let `ng update` move it. Angular 22 drops Node 20 (`^22.22.3 || ^24.15.0 || ^26.0.0`) and needs TypeScript `>=6.0.0 <6.1.0`.
+- `ngx-cookie-service` **20.1.1** and `ng2-file-upload` **9.0.0** peer `^20`. They have to move with Angular 21. Cookie-service 21 and `ng2-file-upload` 10 peer Angular 21. `ng update` does not carry them.
+- `@ngbracket/ngx-layout` 16.1.3 and `ng2-charts` 5.0.4 peer `>=16`. They installed on Angular 20. Confirm them again on 21 before bumping.
+- RxJS stays at **6.6.7** unless a package we bump refuses it.
+- The webpack `browser` builder is still supported and deprecated. The application builder was not adopted. `APP_INITIALIZER` was not replaced. The control-flow migration was not run.
+- The Material theme is still the Material 2 helpers under the `m2-` names, with `mat.elevation-classes()` and `mat.app-background()`. The production build still warns that it is not a color, typography, and density map, and that some Browserslist entries are outside the Angular 20 browser set. `entryComponents` remains on `AppLoaderModule`. The commented dashboard chart still uses the Chart.js 2 inputs.
+- Standalone components were not adopted. The `standalone: false` flags are what keep the NgModules working. Typed forms and zoneless change detection were not adopted. This site stays on `zone.js` **0.15.1**. `moduleResolution` is `bundler`.
+- Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
+- These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
+
 ## Related
 
 - [Angular standards](../standards/angular/README.md)
@@ -280,3 +322,4 @@ Checked against the compatibility table for Angular 20, not copied from the 17 t
 - [Website upgraded from Angular 16 to Angular 17](../../operations/changelogs/2026-10-04-004-web-angular-17.md)
 - [Website upgraded from Angular 17 to Angular 18](../../operations/changelogs/2026-10-04-005-web-angular-18.md)
 - [Website upgraded from Angular 18 to Angular 19](../../operations/changelogs/2026-10-04-006-web-angular-19.md)
+- [Website upgraded from Angular 19 to Angular 20](../../operations/changelogs/2026-10-04-007-web-angular-20.md)
