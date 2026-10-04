@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -94,7 +94,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     // Angular
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     // Auth0 Angular SDK — placeholders overwritten in APP_INITIALIZER via AuthClientConfig.set.
     // Real domain/clientId/audience/redirect come from ConfigurationService (local + staging + prod).
     // Pinned to 2.2.3: newer 2.x pulls makeEnvironmentProviders (Angular 15+) which breaks Angular 14.
@@ -140,7 +139,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     // Attaches Authorization: Bearer <access_token> to URLs in httpInterceptor.allowedList.
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'en-GB' },
-    { provide: ErrorHandler, useClass: ErrorHandlerService }
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
+    provideHttpClient(withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent]
 })
