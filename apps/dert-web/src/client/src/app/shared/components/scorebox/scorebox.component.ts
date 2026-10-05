@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import * as domHelper from '../../../helpers/dom.helper';
 import { NavigationService } from '../../../core/services/navigation.service';
 
@@ -6,6 +6,7 @@ import { NavigationService } from '../../../core/services/navigation.service';
     selector: 'app-scorebox',
     templateUrl: './scorebox.component.html',
     styleUrls: ['./scorebox.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ScoreBoxComponent {

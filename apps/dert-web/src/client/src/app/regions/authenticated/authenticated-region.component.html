@@ -32,7 +32,7 @@
       <!-- Sidebar user -->
       <div class="app-user">
         <div class="app-user-photo">
-          <img [src]="userData?.picture" alt="">
+          <img [src]="$safeNavigationMigration(userData?.picture)" alt="">
         </div>
         <span class="app-user-name mb-05" *ngIf="userData?.firstname && userData?.lastname">
           {{userData?.firstname + ' ' + userData?.lastname}}

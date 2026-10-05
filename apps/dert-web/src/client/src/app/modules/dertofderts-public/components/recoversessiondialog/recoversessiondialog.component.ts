@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { DodRecoverSessionDto } from 'app/models/dto/DodRecoverSessionDto';
@@ -10,6 +10,7 @@ import { Tracker } from '../../services/dertofderts-public.tracker';
     selector: 'app-recoversessiondialog',
     templateUrl: './recoversessiondialog.component.html',
     styleUrls: ['./recoversessiondialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RecoverSessionDialogComponent implements OnInit {

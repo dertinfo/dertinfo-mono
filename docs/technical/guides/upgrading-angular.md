@@ -366,6 +366,50 @@ Checked against the compatibility table for Angular 22, not copied from the 19 t
 - Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
 - These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
 
+## Watch-list from the Angular 21 to 22 upgrade
+
+These showed up on this website during the move to Angular 22.2. The update guide does not list them as application steps. Check them again on a later hop. The full record, including package versions, is [Website upgraded from Angular 21 to Angular 22](../../operations/changelogs/2026-10-05-002-web-angular-22.md).
+
+### Read the compatibility table before treating a leftover as a requirement
+
+The 20 to 21 notes said `ngx-cookie-service` **21.3.1** must move because it peers `^21`, and that `ng2-file-upload` **10.0.0** had no later major. Cookie-service moved to **22.0.0**. File-upload **11.0.0** was published by the time of this hop and peers `^22.x.x`, so it moved too. `@ngbracket/ngx-layout` **16.1.3** and `ng2-charts` **5.0.4** still peer `>=16`. Both installed, and the production build accepted them on Angular 22.2.1. Do not bump an open `>=` range because a newer major exists.
+
+### Node 20 cannot run the Angular 22 CLI
+
+Angular 22.2 supports Node `^22.22.3 || ^24.15.0 || ^26.0.0`. The installed CLI 22.2.1 engines field is `^22.22.3 || ^24.15.0 || >=26.0.0`. The website moved to Node 22 before `ng update`, while still on Angular 21.2, because 21.2 still allows `^22.12.0`. Node **22.22.2** is below the Angular 22 floor. Portable Node **22.23.3** (npm 10.9.9) is inside both ranges. Website CI (`web-src-ci.yml`, `web-src-cd.yml`) and the website image are Node 22. A plain `npm install` on that Node, before `ng update`, kept `lockfileVersion` 3. This machine's default Node is 24.19.0, which is inside the Angular 22 CLI range (`>=24.15.0`). Update, install, `ng build`, and `ng serve` used the portable Node 22 so the lockfile stayed on npm 10. nvm-windows is not installed. The Static Web Apps proxy already on port 44200 stayed up. The Dockerfile's global CLI pin is `@angular/cli@22`. The Ionic app and its CI stay on Node 16.
+
+### `ng update` refused to start until `--force`
+
+`ng update @angular/cli@22 @angular/core@22` stopped on the peer check for `ng2-file-upload` 10, `ngx-cookie-service` 21, and `codelyzer`. `--force` was used only to get the schematic through. `ng update @angular/material@22` needed `--allow-dirty` and the same `--force`. After cookie-service **22.0.0** and file-upload **11.0.0**, a later `npm install` had no peer errors and no `force`. No `.npmrc` was added. `codelyzer` still peers Angular below 13 and stayed. The clean install did not fail on it.
+
+### Optional migrations were not run, and the control-flow migration was not offered
+
+The CLI listed `use-application-builder` and `migrate-karma-to-vitest` as optional and did not run them. The webpack `browser` builder stayed. The production build now prints that this builder is deprecated with Angular's Webpack support. `*ngIf`, `*ngFor`, and `*ngSwitch` stayed. The control-flow migration was not in the list, so there was nothing to restore. `APP_INITIALIZER` stayed.
+
+### Required migrations keep today's change detection, XHR, and optional chaining
+
+Angular 22 defaults a component with no strategy to OnPush, and renames the old `Default` strategy to `Eager`. The migration added `changeDetection: ChangeDetectionStrategy.Eager` on 208 components. The component that already set `OnPush` was left. HttpClient defaults to Fetch. The migration added `withXhr()` beside `withInterceptorsFromDi()` in `app.module.ts`. Nine templates gained `$safeNavigationMigration(...)` around optional chaining, which keeps the old null result. Those wrappers stayed. `provideZoneChangeDetection()` stayed on `bootstrapModule`.
+
+### Route params are inherited unless the router is told otherwise
+
+`paramsInheritanceStrategy` now defaults to `'always'`. There is no migration. `RouterModule.forRoot` sets `paramsInheritanceStrategy: 'emptyOnly'`, which is the previous behaviour.
+
+### TypeScript 6 turns strict checking and `esModuleInterop` on
+
+`ng update` moved TypeScript from **5.9.3** to **6.0.3**, inside `>=6.0.0 <6.1.0`. TypeScript 6 defaults `strict` and `esModuleInterop` to true, and it errors on deprecated `baseUrl` and `downlevelIteration` unless `ignoreDeprecations` is `"6.0"`. `tsconfig.json` sets `strict: false`, `esModuleInterop: false`, and `ignoreDeprecations: "6.0"` so the previous checking and `import * as moment` stay. `target` stayed `es2020`. The CLI still applies ES2022 and still warns. A core migration wrote `strictTemplates: false` and an `extendedDiagnostics` suppress. Those two together fail the build (`NG4003`). The suppress was removed. `strictTemplates` stays false, which is the previous template checking.
+
+### The next major is not released
+
+Angular 22 is the current major. There is no compatibility row yet for a later major, so this hop does not copy an engine requirement forward.
+
+- RxJS stays at **6.6.7**. `zone.js` stays at **0.15.1**. Node for the website is **22.23.3**.
+- `@ngbracket/ngx-layout` 16.1.3 and `ng2-charts` 5.0.4 peer `>=16`. They installed on Angular 22. Confirm them again before treating a newer major as required.
+- The webpack `browser` builder is deprecated. The application builder was not adopted. `APP_INITIALIZER` was not replaced. `*ngIf`, `*ngFor`, and `*ngSwitch` stay.
+- The Material theme is still the Material 2 helpers under the `m2-` names, with `mat.elevation-classes()` and `mat.app-background()`. The production build still warns that it is not a color, typography, and density map, and that the same Browserslist entries as Angular 21 fall outside the browser set. `entryComponents` remains on `AppLoaderModule`. The commented dashboard chart still uses the Chart.js 2 inputs.
+- Standalone components were not adopted. The `standalone: false` flags stay. Typed forms, signal forms, and zoneless change detection were not adopted. Change detection stays Eager, except the one OnPush component. HttpClient stays on XHR via `withXhr()`. `moduleResolution` is `bundler`. `tsconfig.json` has no `lib` array.
+- Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
+- These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
+
 ## Related
 
 - [Angular standards](../standards/angular/README.md)
@@ -378,3 +422,4 @@ Checked against the compatibility table for Angular 22, not copied from the 19 t
 - [Website upgraded from Angular 18 to Angular 19](../../operations/changelogs/2026-10-04-006-web-angular-19.md)
 - [Website upgraded from Angular 19 to Angular 20](../../operations/changelogs/2026-10-04-007-web-angular-20.md)
 - [Website upgraded from Angular 20 to Angular 21](../../operations/changelogs/2026-10-05-001-web-angular-21.md)
+- [Website upgraded from Angular 21 to Angular 22](../../operations/changelogs/2026-10-05-002-web-angular-22.md)

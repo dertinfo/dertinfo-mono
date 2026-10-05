@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject ,  Observable ,  Subscription } from 'rxjs';
 import { EventDto, GroupRegistrationDto } from '../../../../models/dto';
@@ -8,6 +8,7 @@ import { GroupAdminTracker } from '../../services/group-admin.tracker';
 @Component({
     selector: 'app-group-registrations',
     templateUrl: './group-registrations.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupRegistrationsComponent implements OnInit, OnDestroy {

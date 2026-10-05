@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { FlowBreadcrumbItem } from '../models/flow-breadcrumb-item.model';
 
 @Component({
     selector: 'app-flow-breadcrumb',
     templateUrl: './flow-breadcrumb.component.html',
     styleUrls: ['./flow-breadcrumb.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FlowBreadcrumbComponent {

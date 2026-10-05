@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { EventInvoiceDto } from 'app/models/dto';
@@ -11,6 +11,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
     selector: 'app-event-invoices',
     templateUrl: './event-invoices.component.html',
     styleUrls: ['./event-invoices.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventInvoicesComponent implements OnInit, OnDestroy {

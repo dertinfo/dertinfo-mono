@@ -6,9 +6,9 @@
                 <div fxFlex="100">
                     <div *ngFor="let team of confirmedTeams">
                         <div class="download-image" fxFlex="30">
-                            <img [src]="team?.teamPictureUrl | imageDimension: '480x360' " alt="">
+                            <img [src]="$safeNavigationMigration(team?.teamPictureUrl) | imageDimension: '480x360' " alt="">
                             <div class="download-fab">
-                                <a mat-mini-fab color="default" [href]="team?.teamPictureUrl" *ngIf="team?.teamPictureUrl" download><mat-icon>file_download</mat-icon></a>
+                                <a mat-mini-fab color="default" [href]="$safeNavigationMigration($safeNavigationMigration(team?.teamPictureUrl))" *ngIf="team?.teamPictureUrl" download><mat-icon>file_download</mat-icon></a>
                             </div>
                         </div>
                         <div class="download-info" fxFlex="70">

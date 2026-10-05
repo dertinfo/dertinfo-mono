@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { GroupOverviewDto, GroupOverviewUpdateDto } from 'app/models/dto';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
@@ -11,6 +11,7 @@ import { GroupAdminTracker } from '../../services/group-admin.tracker';
     selector: 'app-group-settings',
     templateUrl: './group-settings.component.html',
     styleUrls: ['./group-settings.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupSettingsComponent implements OnInit, OnDestroy {

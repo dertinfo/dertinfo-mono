@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { GroupDto } from 'app/models/dto';
 import { DodSubmissionSubmissionDto } from 'app/models/dto/DodSubmissionSubmissionDto';
@@ -11,6 +11,7 @@ import { Tracker } from '../../../../services/dertofderts-admin.tracker';
     selector: 'app-dod-submission-create',
     templateUrl: './dod-submission-create.component.html',
     styleUrls: ['./dod-submission-create.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DodSubmissionCreateComponent implements OnInit {

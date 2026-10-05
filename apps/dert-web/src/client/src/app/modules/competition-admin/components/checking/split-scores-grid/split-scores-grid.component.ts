@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
@@ -14,6 +14,7 @@ class DataTableDataElement {
     selector: 'app-competition-checking-split-scores-grid',
     templateUrl: './split-scores-grid.component.html',
     styleUrls: ['./split-scores-grid.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SplitScoresGridComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {

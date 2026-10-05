@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TeamSelectMediator } from 'app/shared/components/teams-select/services/teams-select.mediator';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { GroupAdminConductor } from '../../services/group-admin.conductor';
 @Component({
     selector: 'app-group-teams-create',
     templateUrl: './group-teams-create.template.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupTeamsCreateComponent implements OnInit, OnDestroy {

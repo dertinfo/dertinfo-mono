@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { TeamActivitiesSelectComponent } from '../team-activities-select/team-ac
     selector: 'app-group-registration-teams',
     templateUrl: './group-registration-teams.component.html',
     styleUrls: ['./group-registration-teams.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupRegistrationTeamsComponent implements OnInit, OnDestroy {

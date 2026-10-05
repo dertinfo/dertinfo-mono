@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Observable ,  Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { UploadImageComponent } from '../upload-image/upload-image.component';
     selector: 'app-event-gallery',
     templateUrl: './event-gallery.component.html',
     styleUrls: ['./event-gallery.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventGalleryComponent implements OnInit, OnDestroy {

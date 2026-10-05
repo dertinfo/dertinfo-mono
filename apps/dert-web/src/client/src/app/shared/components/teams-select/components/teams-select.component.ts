@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { TeamSelectMediator } from '../services/teams-select.mediator';
     selector: 'app-teams-select',
     templateUrl: './teams-select.component.html',
     styleUrls: ['./teams-select.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TeamsSelectComponent implements OnInit, OnDestroy {

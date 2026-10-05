@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { SubscriptionLike } from 'rxjs';
@@ -14,6 +14,7 @@ import { CreateTalkComponent } from './create-talk/create-talk.component';
     selector: 'app-dod-admin-talks',
     templateUrl: './talks.component.html',
     styleUrls: ['./talks.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TalksComponent implements OnInit, OnDestroy {

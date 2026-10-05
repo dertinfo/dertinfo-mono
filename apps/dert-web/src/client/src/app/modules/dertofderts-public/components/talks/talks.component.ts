@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DodTalkDto } from 'app/models/dto/DodTalkDto';
 import { Observable, SubscriptionLike } from 'rxjs';
 import { Conductor } from '../../services/dertofderts-public.conductor';
@@ -8,6 +8,7 @@ import { Tracker } from '../../services/dertofderts-public.tracker';
     selector: 'app-talks',
     templateUrl: './talks.component.html',
     styleUrls: ['./talks.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TalksComponent implements OnInit, OnDestroy {

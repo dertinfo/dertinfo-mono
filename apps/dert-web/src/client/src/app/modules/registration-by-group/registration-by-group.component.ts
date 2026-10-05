@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SystemDialogModalComponent } from './common/system-dialog-modal/system-dialog-modal.component';
@@ -13,6 +13,7 @@ const registrationFlowStates = require('../../../assets/staticdata/registration-
     selector: 'app-registration-by-group',
     templateUrl: './registration-by-group.component.html',
     styleUrls: ['./registration-by-group.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RegistrationByGroupComponent implements OnInit, OnDestroy {

@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CompetitionDanceSummaryDto } from 'app/models/dto/CompetitionDanceSummaryDto';
 
 @Component({
     selector: 'app-competition-dancesummary',
     templateUrl: './dance-summary.component.html',
     styleUrls: ['./dance-summary.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DanceSummaryComponent {

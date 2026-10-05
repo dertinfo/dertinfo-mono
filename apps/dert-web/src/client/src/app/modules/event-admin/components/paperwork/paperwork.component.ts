@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { EventAdminTracker } from '../../services/event-admin.tracker';
 
@@ -6,6 +6,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
     selector: 'app-event-paperwork-blank',
     templateUrl: './paperwork.component.html',
     styleUrls: ['./paperwork.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PaperworkComponent implements OnInit {

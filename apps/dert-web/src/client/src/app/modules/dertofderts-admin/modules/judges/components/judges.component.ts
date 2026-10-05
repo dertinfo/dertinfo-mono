@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, SubscriptionLike } from 'rxjs';
 
@@ -12,6 +12,7 @@ import { Tracker } from '../../../services/dertofderts-admin.tracker';
     selector: 'app-dod-admin-judges',
     templateUrl: './judges.component.html',
     styleUrls: ['./judges.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class JudgesComponent implements OnInit {

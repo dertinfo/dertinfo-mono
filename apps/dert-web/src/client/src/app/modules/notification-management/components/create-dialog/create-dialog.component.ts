@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { NotificationMessageSubmissionDto } from '../../models/NotificationMessageSubmissionDto';
 import { NotificationAdminMediator } from '../../services/notification-management.mediator';
@@ -7,6 +7,7 @@ import { NotificationAdminMediator } from '../../services/notification-managemen
     selector: 'app-create-dialog',
     templateUrl: './create-dialog.component.html',
     styleUrls: ['./create-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateDialogComponent implements OnInit {

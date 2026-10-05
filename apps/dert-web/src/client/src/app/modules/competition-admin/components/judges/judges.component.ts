@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +14,7 @@ import { JudgeEditComponent } from './dialogs/judge-edit/judge-edit.component';
     selector: 'app-competition-judges',
     templateUrl: './judges.component.html',
     styleUrls: ['./judges.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class JudgesComponent implements OnInit, OnDestroy {

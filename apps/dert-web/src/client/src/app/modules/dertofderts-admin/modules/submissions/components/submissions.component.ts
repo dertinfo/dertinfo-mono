@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -15,6 +15,7 @@ import { DodSubmissionCreateComponent } from './dod-submission-create/dod-submis
     selector: 'app-dod-admin-submissions',
     templateUrl: './submissions.component.html',
     styleUrls: ['./submissions.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SubmissionsComponent implements OnInit, OnDestroy {

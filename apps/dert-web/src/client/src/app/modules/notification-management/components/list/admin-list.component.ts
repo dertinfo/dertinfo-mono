@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { SubscriptionLike } from 'rxjs';
@@ -13,6 +13,7 @@ import { CreateDialogComponent } from '../create-dialog/create-dialog.component'
     selector: 'app-notifications-admin-list',
     templateUrl: './admin-list.component.html',
     styleUrls: ['./admin-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AdminListComponent implements OnInit, OnDestroy {

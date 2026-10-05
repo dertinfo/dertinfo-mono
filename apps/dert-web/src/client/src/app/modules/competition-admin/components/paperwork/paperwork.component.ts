@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +12,7 @@ import { CompetitionAdminTracker } from '../../services/competition-admin.tracke
     selector: 'app-competition-paperwork',
     templateUrl: './paperwork.component.html',
     styleUrls: ['./paperwork.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PaperworkComponent implements OnInit, OnDestroy {

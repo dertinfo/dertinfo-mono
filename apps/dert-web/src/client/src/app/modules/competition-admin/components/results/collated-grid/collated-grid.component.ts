@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 import { Subscription } from 'rxjs';
 
@@ -16,6 +16,7 @@ class DataTableDataElement {
     selector: 'app-competition-results-collated-grid',
     templateUrl: './collated-grid.component.html',
     styleUrls: ['./collated-grid.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CollatedGridComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {

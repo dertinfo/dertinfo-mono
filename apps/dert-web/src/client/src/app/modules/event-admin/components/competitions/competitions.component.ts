@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventAdminConductor } from '../../services/event-admin.conductor';
 import { EventAdminTracker } from '../../services/event-admin.tracker';
@@ -13,6 +13,7 @@ import { EventCompetitionModel, StatusBlockModel } from './models/eventcompetiti
     selector: 'app-event-competitions',
     templateUrl: './competitions.component.html',
     styleUrls: ['./competitions.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventCompetitionsComponent implements OnInit, OnDestroy {

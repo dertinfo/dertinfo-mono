@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { EventShowcaseDto } from 'app/models/dto';
 import { ShowcaseRepository } from '../../repositories';
 
@@ -6,6 +6,7 @@ import { ShowcaseRepository } from '../../repositories';
     selector: 'app-public-history',
     templateUrl: './public-history.component.html',
     styleUrls: ['./public-history.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PublicHistoryComponent implements OnInit {

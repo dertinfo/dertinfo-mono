@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MemberSelectMediator } from 'app/shared/components/members-select/services/members-select.mediator';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { GroupAdminConductor } from '../../services/group-admin.conductor';
     selector: 'app-group-members-create',
     templateUrl: './group-members-create.template.html',
     providers: [MemberSelectMediator],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupMembersCreateComponent implements OnInit, OnDestroy {

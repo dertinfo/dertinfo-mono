@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ScoreCard } from 'app/models/app/ScoreCard';
@@ -11,6 +11,7 @@ import { GroupViewTracker } from '../../services/group-view.tracker';
     selector: 'app-dertofderts-reportdialog',
     templateUrl: './dertofderts-reportdialog.component.html',
     styleUrls: ['./dertofderts-reportdialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DertOfDertsReportDialogComponent implements OnInit {

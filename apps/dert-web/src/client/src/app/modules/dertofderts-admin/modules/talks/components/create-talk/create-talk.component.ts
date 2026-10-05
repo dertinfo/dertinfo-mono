@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DodTalkSubmissionDto } from 'app/models/dto/DodTalkSubmissionDto';
@@ -10,6 +10,7 @@ import { Tracker } from '../../../../services/dertofderts-admin.tracker';
     selector: 'app-create-talk',
     templateUrl: './create-talk.component.html',
     styleUrls: ['./create-talk.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CreateTalkComponent implements OnInit {

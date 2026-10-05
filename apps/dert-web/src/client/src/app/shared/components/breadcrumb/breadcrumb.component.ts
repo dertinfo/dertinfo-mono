@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {filter} from 'rxjs/operators';
 import { RoutePartsService } from '../../../core/services/route-parts.service';
@@ -8,6 +8,7 @@ import { RoutePartsService } from '../../../core/services/route-parts.service';
     selector: 'app-breadcrumb',
     templateUrl: './breadcrumb.component.html',
     styleUrls: ['./breadcrumb.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class BreadcrumbComponent implements OnInit {

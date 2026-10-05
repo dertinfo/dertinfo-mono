@@ -9,9 +9,9 @@
       </mat-card-title>
       <mat-card-content>
         <div class="counter-box-container">
-          <app-scorebox [title]="'Total'" [value]="summary?.dancesCount"></app-scorebox>
-          <app-scorebox [title]="'Taken'" [value]="summary?.dancesWithScoresTaken"></app-scorebox>
-          <app-scorebox [title]="'Checked'" [value]="summary?.dancesWithScoresChecked"></app-scorebox>
+          <app-scorebox [title]="'Total'" [value]="$safeNavigationMigration(summary?.dancesCount)"></app-scorebox>
+          <app-scorebox [title]="'Taken'" [value]="$safeNavigationMigration(summary?.dancesWithScoresTaken)"></app-scorebox>
+          <app-scorebox [title]="'Checked'" [value]="$safeNavigationMigration(summary?.dancesWithScoresChecked)"></app-scorebox>
         </div>
       </mat-card-content>
     </mat-card>
@@ -25,9 +25,9 @@
       </mat-card-title>
       <mat-card-content>
         <div class="counter-box-container">
-          <app-scorebox [title]="'Total'" [value]="summary?.individualScoresCount"></app-scorebox>
-          <app-scorebox [title]="'Taken'" [value]="summary?.individualScoresTaken"></app-scorebox>
-          <app-scorebox [title]="'Checked'" [value]="summary?.individualScoresChecked"></app-scorebox>
+          <app-scorebox [title]="'Total'" [value]="$safeNavigationMigration(summary?.individualScoresCount)"></app-scorebox>
+          <app-scorebox [title]="'Taken'" [value]="$safeNavigationMigration(summary?.individualScoresTaken)"></app-scorebox>
+          <app-scorebox [title]="'Checked'" [value]="$safeNavigationMigration(summary?.individualScoresChecked)"></app-scorebox>
         </div>
       </mat-card-content>
     </mat-card>

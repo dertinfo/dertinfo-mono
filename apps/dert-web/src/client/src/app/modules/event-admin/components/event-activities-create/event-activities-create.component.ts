@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivitySubmissionDto } from 'app/models/dto';
@@ -9,6 +9,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
 @Component({
     selector: 'app-event-activities-create',
     templateUrl: './event-activities-create.template.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventActivitiesCreateComponent implements OnInit, OnDestroy {

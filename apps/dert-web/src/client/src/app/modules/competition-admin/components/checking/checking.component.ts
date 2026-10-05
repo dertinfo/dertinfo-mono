@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RangeValidatorDirective } from 'app/shared/directives/range-validator.directive';
@@ -19,6 +19,7 @@ import { CompetitionAdminTracker } from '../../services/competition-admin.tracke
     selector: 'app-competition-checking',
     templateUrl: './checking.component.html',
     styleUrls: ['./checking.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CheckingComponent implements OnInit, OnDestroy {

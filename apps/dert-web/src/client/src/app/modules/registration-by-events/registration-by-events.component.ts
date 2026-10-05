@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventOverviewDto } from 'app/models/dto';
@@ -18,6 +18,7 @@ const registrationFlowStates = require('../../../assets/staticdata/registration-
     selector: 'app-registration-by-events',
     templateUrl: './registration-by-events.component.html',
     styleUrls: ['./registration-by-events.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RegistrationByEventsComponent implements OnInit, OnDestroy {

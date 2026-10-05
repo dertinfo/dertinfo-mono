@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
@@ -14,6 +14,7 @@ import { EventCancellationOptionsDto } from 'app/models/dto/EventCancellationOpt
     selector: 'app-event-settings',
     templateUrl: './event-settings.component.html',
     styleUrls: ['./event-settings.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventSettingsComponent implements OnInit, OnDestroy {

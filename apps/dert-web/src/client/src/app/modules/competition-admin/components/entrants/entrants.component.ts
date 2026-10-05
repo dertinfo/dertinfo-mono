@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -12,6 +12,7 @@ import { CompetitionAdminTracker } from '../../services/competition-admin.tracke
     selector: 'app-competition-entrants',
     templateUrl: './entrants.component.html',
     styleUrls: ['./entrants.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EntrantsComponent implements OnInit, OnDestroy {

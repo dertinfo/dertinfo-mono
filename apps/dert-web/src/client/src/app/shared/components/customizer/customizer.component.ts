@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import * as domHelper from '../../../helpers/dom.helper';
 import { NavigationService } from '../../../core/services/navigation.service';
 
@@ -6,6 +6,7 @@ import { NavigationService } from '../../../core/services/navigation.service';
     selector: 'app-customizer',
     templateUrl: './customizer.component.html',
     styleUrls: ['./customizer.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CustomizerComponent implements OnInit {

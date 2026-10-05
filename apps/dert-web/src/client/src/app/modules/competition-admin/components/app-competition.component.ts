@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CompetitionAdminConductor } from '../services/competition-admin.conductor';
@@ -8,6 +8,7 @@ import { CompetitionAdminTracker } from '../services/competition-admin.tracker';
     selector: 'app-competition',
     templateUrl: './app-competition.component.html',
     styleUrls: ['./app-competition.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CompetitionComponent implements OnInit, OnDestroy {

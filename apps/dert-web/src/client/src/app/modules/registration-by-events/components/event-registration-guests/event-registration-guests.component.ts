@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -15,6 +15,7 @@ import { MemberActivitiesSelectComponent } from '../member-activities-select/mem
     selector: 'app-event-registration-guests',
     templateUrl: './event-registration-guests.component.html',
     styleUrls: ['./event-registration-guests.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventRegistrationGuestsComponent implements OnInit, OnDestroy {

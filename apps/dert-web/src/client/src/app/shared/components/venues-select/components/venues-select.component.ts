@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { VenuesSelectMediator } from '../services/venues-select.mediator';
     selector: 'app-venues-select',
     templateUrl: './venues-select.component.html',
     styleUrls: ['./venues-select.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class VenuesSelectComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventOverviewDto } from 'app/models/dto';
 import { Observable ,  Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { EventAdminTracker } from '../services/event-admin.tracker';
 @Component({
     selector: 'app-event',
     templateUrl: './app-event.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventComponent implements OnInit, OnDestroy {

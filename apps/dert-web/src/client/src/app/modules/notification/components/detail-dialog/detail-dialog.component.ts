@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SubscriptionLike } from 'rxjs';
 import { NotificationDetailDto } from '../../models/NotificationDetailDto';
@@ -10,6 +10,7 @@ import { NotificationTracker } from '../../services/notification.tracker';
     templateUrl: './detail-dialog.component.html',
     styleUrls: ['./detail-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DetailDialogComponent implements OnInit, OnDestroy {

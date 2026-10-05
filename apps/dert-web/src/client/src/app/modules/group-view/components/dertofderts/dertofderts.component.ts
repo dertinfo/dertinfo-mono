@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ScoreCard } from 'app/models/app/ScoreCard';
 import { DodGroupResultsDto } from 'app/models/dto/DodGroupResultsDto';
@@ -13,6 +13,7 @@ import { DertOfDertsReportDialogComponent } from '../dertofderts-reportdialog/de
     selector: 'app-dertofderts',
     templateUrl: './dertofderts.component.html',
     styleUrls: ['./dertofderts.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DertOfDertsComponent implements OnInit, OnDestroy {

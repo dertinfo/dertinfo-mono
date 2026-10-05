@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CompetitionAdminConductor } from '../../services/competition-admin.conductor';
@@ -18,6 +18,7 @@ class DataTableDataElement {
     selector: 'app-competition-results',
     templateUrl: './results.component.html',
     styleUrls: ['./results.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ResultsComponent implements OnInit, OnDestroy {

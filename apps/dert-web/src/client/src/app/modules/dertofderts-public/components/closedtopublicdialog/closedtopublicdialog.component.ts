@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { Conductor } from '../../services/dertofderts-public.conductor';
     selector: 'app-closedtopublicdialog',
     templateUrl: './closedtopublicdialog.component.html',
     styleUrls: ['./closedtopublicdialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ClosedToPublicDialogComponent implements OnInit {

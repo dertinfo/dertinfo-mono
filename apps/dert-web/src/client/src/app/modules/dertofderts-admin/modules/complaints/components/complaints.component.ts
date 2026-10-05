@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DodResultComplaintDto } from 'app/models/dto/DodResultComplaintDto';
 import { SubscriptionLike } from 'rxjs';
@@ -9,6 +9,7 @@ import { Tracker } from '../../../services/dertofderts-admin.tracker';
     selector: 'app-dod-admin-complaints',
     templateUrl: './complaints.component.html',
     styleUrls: ['./complaints.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ComplaintsComponent implements OnInit {
