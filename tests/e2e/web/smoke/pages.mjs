@@ -54,14 +54,20 @@ export async function clickSelectOption(page, name) {
   await selectOption(page, name).getByTestId('select-option-toggle').click();
 }
 
+/** The selected Material 21 step header is aria-current="step". aria-selected is gone. */
+export function selectedStepHeader(page) {
+  return page.locator('mat-step-header[aria-current="step"]');
+}
+
 /** Advance the visible stepper step. The Next button is the one after the selected header. */
 export async function clickNext(page) {
-  const header = page.locator('mat-step-header[aria-selected="true"]');
+  const header = selectedStepHeader(page);
   await header.waitFor({ state: 'visible', timeout: 15000 });
-  const before = Number(await header.getAttribute('aria-posinset'));
+  const id = await header.getAttribute('id');
+  const index = Number(id && id.match(/-label-(\d+)$/)?.[1]);
   const next = header.locator('xpath=following::button[normalize-space(.)="Next"][1]');
   await next.click();
-  await page.locator(`mat-step-header[aria-selected="true"][aria-posinset="${before + 1}"]`).waitFor({
+  await page.locator(`mat-step-header[aria-current="step"][id$="-label-${index + 1}"]`).waitFor({
     state: 'visible',
     timeout: 15000,
   });

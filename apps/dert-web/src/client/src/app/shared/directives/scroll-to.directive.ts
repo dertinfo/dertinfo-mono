@@ -32,7 +32,7 @@ export class ScrollToDirective implements OnInit {
     return y;
   }
 
-  @HostListener('click', ['$event'])
+  @HostListener('click')
   smoothScroll() {
     if (!this.elmID) {
       return;

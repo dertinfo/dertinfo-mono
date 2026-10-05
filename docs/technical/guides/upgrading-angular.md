@@ -2,7 +2,7 @@
 name: Upgrading Angular
 type: guide
 status: active
-updated: 2026-10-04
+updated: 2026-10-05
 ---
 
 # Upgrading Angular
@@ -312,6 +312,60 @@ Checked against the compatibility table for Angular 21, not copied from the 18 t
 - Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
 - These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
 
+## Watch-list from the Angular 20 to 21 upgrade
+
+These showed up on this website during the move to Angular 21.2. The update guide does not list them as application steps. Check them again on later hops. The full record, including package versions, is [Website upgraded from Angular 20 to Angular 21](../../operations/changelogs/2026-10-05-001-web-angular-21.md).
+
+### Read the compatibility table before treating a leftover as a requirement
+
+The 19 to 20 notes said `ngx-cookie-service` **20.1.1** and `ng2-file-upload` **9.0.0** must move because they peer `^20`. They did. `@ngbracket/ngx-layout` **16.1.3** and `ng2-charts` **5.0.4** still peer `>=16`. Both installed, and the production build accepted them on Angular 21.2.25. Do not bump an open `>=` range because a newer major exists.
+
+### Node and RxJS were already inside the Angular 21 range
+
+Angular 21.2 supports Node `^20.19.0 || ^22.12.0 || ^24.0.0`, TypeScript `>=5.9.0 <6.0.0`, and RxJS `^6.5.3 || ^7.4.0`. The installed CLI 21.2.24 engines field is `^20.19.0 || ^22.12.0 || >=24.0.0`. This site stayed on Node 20 and RxJS **6.6.7**. `ng update` moved TypeScript from **5.8.3** to **5.9.3**. `zone.js` stayed at **0.15.1**. There was no engine change before `ng update`. This machine's default Node is 24. Update, install, `ng build`, and `ng serve` used a portable Node **20.20.2**. nvm-windows is not installed. The Static Web Apps proxy already on port 44200 stayed up. CI (`web-src-ci.yml`, `web-src-cd.yml`) and the website image stay on Node 20. The Dockerfile's global CLI pin is `@angular/cli@21`. The Ionic app and its CI stay on Node 16. Node 20 ended on 30 April 2026. Angular 22 drops it.
+
+### The control-flow migration runs, and this hop put the templates back
+
+`ng update @angular/cli@21 @angular/core@21` and `ng update @angular/material@21` completed with no `--force`. The control-flow migration is no longer in the optional list. It rewrote 111 templates from `*ngIf`, `*ngFor`, and `*ngSwitch` to the block syntax. Those template edits were restored. The structural directives stay. The production build accepts them. `use-application-builder` and `router-current-navigation` stayed optional and were not run. The webpack `browser` builder stayed. `APP_INITIALIZER` stayed.
+
+### `provideZoneChangeDetection` is what keeps Zone change detection
+
+Angular 21 does not schedule Zone change detection unless the app provides it. The bootstrap migration added `provideZoneChangeDetection()` as `applicationProviders` on `bootstrapModule` in `main.ts`. The `zone.js` import in `src/polyfills.ts` stayed. Zoneless change detection was not adopted.
+
+### The TypeScript lib migration removes the old `lib` array
+
+`tsconfig.json` `lib` was `es2016` and `dom`. The migration removes that array when it contains DOM and an ES version of 2022 or older. `target` stayed `es2020`. The CLI still applies ES2022 and still warns. `moduleResolution` stayed `bundler`.
+
+### A host listener that passes an unused event no longer compiles
+
+Angular 21 checks `@HostListener` arguments against the method. `scroll-to.directive.ts` passed `$event` into `smoothScroll()`, which takes no arguments. The unused argument was removed. Listeners whose methods already take the event were left.
+
+### Material 21 marks the selected step with `aria-current`
+
+The selected `mat-step-header` has `aria-current="step"`. `aria-selected` and `aria-posinset` are gone. The header id ends `-label-N`. The smoke helpers wait on `aria-current="step"` and that id. Inactive step content is still hidden until the header is current.
+
+### Packages that peer `^20` move in the same hop
+
+`ng update` does not carry them. A later `npm install` failed because `ng2-file-upload` 9 peers `@angular/common` `^20`. That moved to **10.0.0**, whose peer is `@angular/core` and `@angular/common` `^21.x.x`. That range installed against 21.2.25, and 10.0.0 does not peer `jest-preset-angular`. `ngx-cookie-service` 20 peers `^20`. Version **21.3.1** peers `^21.0.0`. Version **22.0.0** peers `^22`. After that, `npm install` had no peer errors and no `force`. Packages whose peers are an open `>=` range stayed: `@ngbracket/ngx-layout` 16.1.3, `ng2-charts` 5.0.4, `ngx-quill` 17.0.0, `@ngx-translate/core` 14, `@swimlane/ngx-datatable` 20.1.0, `@auth0/auth0-angular` 2.2.3. RxJS stayed at **6.6.7**.
+
+### Angular 21 warns about one more Browserslist entry
+
+The production build still ignores `kaios 2.5` and `op_mini all`. It also warns that `and_qq 14.9`, `and_uc 15.5`, `android 154`, `chrome 109`, `kaios 3.0-3.1`, `op_mob 80`, `opera 135`, `opera 134`, `samsung 30`, and `samsung 29` fall outside Angular 21's browser support. `chrome 109` is new on this hop. `.browserslistrc` was left as it was. The theme warning is unchanged.
+
+### The next hop is already constrained by what this one left in place
+
+Checked against the compatibility table for Angular 22, not copied from the 19 to 20 list.
+
+- Angular 22.0 supports Node `^22.22.3 || ^24.15.0 || ^26.0.0`, TypeScript `>=6.0.0 <6.1.0`, and RxJS `^6.5.3 || ^7.4.0`. This site is on Node 20, TypeScript **5.9.3**, and RxJS **6.6.7**. Node 20 and TypeScript 5.9 are outside that range. RxJS is inside it. The next hop has to move Node before `ng update`. Let `ng update` move TypeScript. Do not take a TypeScript version outside `>=6.0.0 <6.1.0`.
+- `ngx-cookie-service` **21.3.1** peers `^21`. It has to move with Angular 22. Version **22.0.0** peers `^22`. `ng2-file-upload` **10.0.0** peers `^21`. No later major was published on this hop. `ng update` does not carry either package.
+- `@ngbracket/ngx-layout` 16.1.3 and `ng2-charts` 5.0.4 peer `>=16`. They installed on Angular 21. Confirm them again on 22 before bumping.
+- RxJS stays at **6.6.7** unless a package we bump refuses it.
+- The webpack `browser` builder is still supported and deprecated. The application builder was not adopted. `APP_INITIALIZER` was not replaced. The control-flow migration ran and the template edits were restored, so `*ngIf`, `*ngFor`, and `*ngSwitch` stay.
+- The Material theme is still the Material 2 helpers under the `m2-` names, with `mat.elevation-classes()` and `mat.app-background()`. The production build still warns that it is not a color, typography, and density map, and that some Browserslist entries are outside the Angular 21 browser set. `entryComponents` remains on `AppLoaderModule`. The commented dashboard chart still uses the Chart.js 2 inputs.
+- Standalone components were not adopted. The `standalone: false` flags are what keep the NgModules working. Typed forms and zoneless change detection were not adopted. This site stays on `zone.js` **0.15.1**, with `provideZoneChangeDetection()` on `bootstrapModule`. `moduleResolution` is `bundler`. `tsconfig.json` has no `lib` array.
+- Competition admin, Dert of Derts, notifications, and system admin were not part of the layout pass.
+- These packages are still referenced and were left in place: `angular-csv-ext`, `hopscotch`, `perfect-scrollbar`, `moment`, `tslint`, `codelyzer`. TSLint-to-ESLint is separate work.
+
 ## Related
 
 - [Angular standards](../standards/angular/README.md)
@@ -323,3 +377,4 @@ Checked against the compatibility table for Angular 21, not copied from the 18 t
 - [Website upgraded from Angular 17 to Angular 18](../../operations/changelogs/2026-10-04-005-web-angular-18.md)
 - [Website upgraded from Angular 18 to Angular 19](../../operations/changelogs/2026-10-04-006-web-angular-19.md)
 - [Website upgraded from Angular 19 to Angular 20](../../operations/changelogs/2026-10-04-007-web-angular-20.md)
+- [Website upgraded from Angular 20 to Angular 21](../../operations/changelogs/2026-10-05-001-web-angular-21.md)
