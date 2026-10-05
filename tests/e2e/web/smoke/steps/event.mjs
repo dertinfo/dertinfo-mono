@@ -1,9 +1,9 @@
 import { activitiesByAudience, audienceLabel, defaultActivity, event, fixtureImage, formDate, teamActivity } from '../config/load.mjs';
 import { WEB_BASE, normalizeToken, openFabItem, waitForDashboardFab } from '../helpers.mjs';
-import { EVENT_NAME, clickLabelledCheckbox, clickNext, clickPageAdd, entityCard, eventAdminUrl, fillControl, openCardMenu } from '../pages.mjs';
+import { EVENT_NAME, clickLabelledCheckbox, clickNext, clickPageAdd, entityCard, eventAdminUrl, fillControl, openCardMenu, selectedStepHeader } from '../pages.mjs';
 
 async function fillDate(page, name, value) {
-  const header = page.locator('mat-step-header[aria-selected="true"]');
+  const header = selectedStepHeader(page);
   const input = header.locator(`xpath=following::input[@formcontrolname="${name}"][1]`);
   // The step header is selected before the step body is visible.
   await input.waitFor({ state: 'visible', timeout: 15000 });
