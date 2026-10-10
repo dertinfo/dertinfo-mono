@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { JudgesSelectMediator } from '../services/judges-select.mediator';
     selector: 'app-judges-select',
     templateUrl: './judges-select.component.html',
     styleUrls: ['./judges-select.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class JudgesSelectComponent implements OnInit, OnDestroy {

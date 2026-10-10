@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { JudgeDto, RangeReportDto } from 'app/models/dto';
 import { CompetitionRepository } from 'app/modules/repositories';
@@ -11,6 +11,7 @@ import { JudgeRangeReportDialogComponent } from '../judge-range-report-dialog/ju
     selector: 'app-competition-judge-range-report',
     templateUrl: './judge-range-report.component.html',
     styleUrls: ['./judge-range-report.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class JudgeRangeReportComponent implements OnInit {

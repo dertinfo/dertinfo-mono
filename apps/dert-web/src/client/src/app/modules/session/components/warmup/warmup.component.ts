@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { WarmupService } from 'app/core/services/warmup.service';
 
 /**
@@ -12,6 +12,7 @@ import { WarmupService } from 'app/core/services/warmup.service';
     selector: 'app-warmup',
     templateUrl: './warmup.component.html',
     styleUrls: ['./warmup.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class WarmupComponent implements OnInit {

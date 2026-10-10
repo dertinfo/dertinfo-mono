@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { GroupMemberDto, GroupMemberSubmissionDto } from 'app/models/dto';
 import { customEmailValidator } from 'app/shared/validators/email-no-required';
@@ -11,6 +11,7 @@ import { MemberSelectMediator } from '../services/members-select.mediator';
     selector: 'app-members-select',
     templateUrl: './members-select.component.html',
     styleUrls: ['./members-select.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MembersSelectComponent implements OnInit, OnDestroy {

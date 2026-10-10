@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ScoreSheetDto, SignInSheetDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { PaperworkGeneratorConductor } from '../../services/paperwork-generator.
     selector: 'app-signinsheets',
     templateUrl: './signinsheets.component.html',
     styleUrls: ['./signinsheets.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SignInSheetsComponent implements OnInit, OnDestroy {

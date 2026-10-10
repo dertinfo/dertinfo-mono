@@ -5,6 +5,7 @@ import * as domHelper from '../../../helpers/dom.helper';
     selector: 'app-image-retry',
     templateUrl: './image-retry.component.html',
     styleUrls: ['./image-retry.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ImageRetryComponent implements OnInit, OnChanges {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { GroupTeamSelectModel } from './models/group-team-select.model';
     selector: 'app-group-teams-select',
     templateUrl: './group-teams-select.component.html',
     styleUrls: ['./group-teams-select.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupTeamsSelectComponent implements OnInit, OnDestroy {

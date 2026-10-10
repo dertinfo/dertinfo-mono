@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -11,6 +11,7 @@ import { CompetitionAdminTracker } from 'app/modules/competition-admin/services/
 @Component({
     selector: 'app-judge-create',
     templateUrl: './judge-create.template.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class JudgeCreateComponent implements OnInit, OnDestroy {

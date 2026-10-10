@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RegistrationFlowState } from 'app/models/app/Enumerations/RegistrationFlowStates';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
     selector: 'app-event-downloads',
     templateUrl: './event-downloads.component.html',
     styleUrls: ['./event-downloads.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventDownloadsComponent implements OnInit, OnDestroy {

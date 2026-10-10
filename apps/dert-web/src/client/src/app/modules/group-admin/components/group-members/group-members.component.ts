@@ -1,5 +1,5 @@
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,6 +16,7 @@ import { GroupMembersCreateComponent } from '../group-members-create/group-membe
     selector: 'app-group-members',
     templateUrl: './group-members.component.html',
     styleUrls: ['./group-members.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupMembersComponent implements OnInit, OnDestroy {

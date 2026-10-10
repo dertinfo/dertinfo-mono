@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventShowcaseDetailDto, EventShowcaseDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { ShowcaseRepository } from '../../repositories';
     selector: 'app-public-event',
     templateUrl: './public-event.component.html',
     styleUrls: ['./public-event.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PublicEventComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupMemberDto } from 'app/models/dto';
 import { MemberSelectMediator } from 'app/shared/components/members-select/services/members-select.mediator';
@@ -13,6 +13,7 @@ import { RegistrationByGroupTracker } from '../../services/registration-by-group
     templateUrl: './group-members-select.component.html',
     styleUrls: ['./group-members-select.component.css'],
     providers: [MemberSelectMediator],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupMembersSelectComponent implements OnInit, OnDestroy {

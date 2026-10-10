@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, Component, HostBinding, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import * as domHelper from '../../helpers/dom.helper';
 
@@ -17,6 +17,7 @@ import { GroupCreateComponent } from './group-create/group-create.component';
     selector: 'dashboard',
     templateUrl: './dashboard.template.html',
     styleUrls: ['./dashboard.template.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DashboardComponent implements OnInit, OnDestroy, AfterContentInit {

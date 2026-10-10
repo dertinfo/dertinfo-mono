@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationService } from '../../../core/services/navigation.service';
 
 @Component({
     selector: 'app-fabmenu',
     templateUrl: './fabmenu.component.html',
     styleUrls: ['./fabmenu.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FabMenuComponent implements OnInit {

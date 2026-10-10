@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserAccountConductor } from './services/user-account.conductor';
 
@@ -6,6 +6,7 @@ import { UserAccountConductor } from './services/user-account.conductor';
     selector: 'app-user-account',
     templateUrl: './user-account.component.html',
     styleUrls: ['./user-account.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UserAccountComponent implements OnInit, OnDestroy {

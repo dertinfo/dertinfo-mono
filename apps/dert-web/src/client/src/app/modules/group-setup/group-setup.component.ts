@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GroupSetupConductor } from './services/group-setup.conductor';
@@ -7,6 +7,7 @@ import { GroupSetupTracker } from './services/group-setup.tracker';
 @Component({
     selector: 'app-group-setup',
     templateUrl: './group-setup.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupSetupComponent implements OnInit, OnDestroy {

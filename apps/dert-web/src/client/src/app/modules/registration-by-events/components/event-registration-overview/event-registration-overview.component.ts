@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { RegistrationByEventsConductor } from '../../services/registration-by-events.conductor';
@@ -8,6 +8,7 @@ import { RegistrationByEventsTracker } from '../../services/registration-by-even
     selector: 'app-event-registration-overview',
     templateUrl: './event-registration-overview.component.html',
     styleUrls: ['./event-registration-overview.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventRegistrationOverviewComponent implements OnInit, OnDestroy {

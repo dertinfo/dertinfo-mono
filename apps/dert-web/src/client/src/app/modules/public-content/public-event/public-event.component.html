@@ -25,19 +25,19 @@
 
         <div fxLayout="row" fxLayoutWrap="nowrap" >
           <div fxflex class="p-1">
-            <img [src]="pEventDetail?.eventPictureUrl  | imageDimension: '480x360' ">
+            <img [src]="$safeNavigationMigration(pEventDetail?.eventPictureUrl)  | imageDimension: '480x360' ">
           </div>
           <div fxflex class="p-1">
             <h2>{{pEventDetail?.name}}</h2>
             <p>{{pEventDetail?.eventSynopsis}}</p>
 
-            <p><strong>Registration Opens:</strong> {{pEventDetail?.registrationOpenDate | dateFormat}}</p>
+            <p><strong>Registration Opens:</strong> {{$safeNavigationMigration(pEventDetail?.registrationOpenDate) | dateFormat}}</p>
 
-            <p><strong>Registration Closes:</strong> {{pEventDetail?.registrationCloseDate | dateFormat}}</p>
+            <p><strong>Registration Closes:</strong> {{$safeNavigationMigration(pEventDetail?.registrationCloseDate) | dateFormat}}</p>
 
-            <p><strong>Event Starts:</strong> {{pEventDetail?.eventStartDate | dateFormat}}</p>
+            <p><strong>Event Starts:</strong> {{$safeNavigationMigration(pEventDetail?.eventStartDate) | dateFormat}}</p>
 
-            <p><strong>Event Ends:</strong> {{pEventDetail?.eventEndDate | dateFormat}}</p>
+            <p><strong>Event Ends:</strong> {{$safeNavigationMigration(pEventDetail?.eventEndDate) | dateFormat}}</p>
 
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +14,7 @@ import { EventActivitiesCreateComponent } from '../event-activities-create/event
     selector: 'app-event-activities-detail',
     templateUrl: './event-activities-detail.component.html',
     styleUrls: ['./event-activities-detail.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventActivitiesDetailComponent implements OnInit, OnDestroy {

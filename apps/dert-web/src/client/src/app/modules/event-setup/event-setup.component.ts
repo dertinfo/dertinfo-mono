@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EventSetupConductor } from './services/event-setup.conductor';
@@ -7,6 +7,7 @@ import { EventSetupTracker } from './services/event-setup.tracker';
 @Component({
     selector: 'app-event-setup',
     templateUrl: './event-setup.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventSetupComponent implements OnInit, OnDestroy {

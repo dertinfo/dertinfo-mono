@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GroupDto } from 'app/models/dto';
@@ -12,6 +12,7 @@ import { Tracker } from '../../../../services/dertofderts-admin.tracker';
     selector: 'app-edit-submission',
     templateUrl: './edit-submission.component.html',
     styleUrls: ['./edit-submission.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EditSubmissionComponent implements OnInit, OnDestroy {

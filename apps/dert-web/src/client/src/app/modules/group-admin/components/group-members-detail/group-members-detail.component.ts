@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { GroupMemberDetailDto, GroupMemberUpdateDto } from 'app/models/dto';
@@ -12,6 +12,7 @@ import { GroupAdminTracker } from '../../services/group-admin.tracker';
     selector: 'app-group-members-detail',
     templateUrl: './group-members-detail.component.html',
     styleUrls: ['./group-members-detail.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupMembersDetailComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -122,7 +122,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    RouterModule.forRoot(rootRouterConfig, { enableTracing: false, useHash: false, anchorScrolling: 'enabled' }),
+    RouterModule.forRoot(rootRouterConfig, { enableTracing: false, useHash: false, anchorScrolling: 'enabled', paramsInheritanceStrategy: 'emptyOnly' }),
     QuillModule.forRoot()
   ],
   declarations: [AppComponent],
@@ -140,7 +140,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'en-GB' },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
-    provideHttpClient(withInterceptorsFromDi())
+    provideHttpClient(withXhr(), withInterceptorsFromDi())
   ],
   bootstrap: [AppComponent]
 })

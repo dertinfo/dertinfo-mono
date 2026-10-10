@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +15,7 @@ import { VenueEditComponent } from './dialogs/venue-edit/venue-edit.component';
     selector: 'app-competition-venues',
     templateUrl: './venues.component.html',
     styleUrls: ['./venues.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class VenuesComponent implements OnInit, OnDestroy {

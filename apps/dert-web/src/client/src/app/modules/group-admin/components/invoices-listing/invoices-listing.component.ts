@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { GroupInvoiceDto } from 'app/models/dto';
 
 @Component({
     selector: 'app-invoices-listing',
     templateUrl: './invoices-listing.component.html',
     styleUrls: ['./invoices-listing.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class InvoiceListingComponent {

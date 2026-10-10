@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GroupOverviewDto } from 'app/models/dto';
 import { Observable ,  Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { GroupAdminTracker } from './services/group-admin.tracker';
 @Component({
     selector: 'app-group-admin',
     templateUrl: './group-admin.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupAdminComponent implements OnInit, OnDestroy {

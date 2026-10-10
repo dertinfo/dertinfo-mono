@@ -1,4 +1,4 @@
-<app-competition-dancesummary [summary]="summary?.competitionDanceSummaryDto"></app-competition-dancesummary>
+<app-competition-dancesummary [summary]="$safeNavigationMigration(summary?.competitionDanceSummaryDto)"></app-competition-dancesummary>
 <div fxLayout="row wrap">
   <div fxFlex="50" fxFlex.lt-sm="100">
     <mat-card appearance="outlined" class="user-card p-0">

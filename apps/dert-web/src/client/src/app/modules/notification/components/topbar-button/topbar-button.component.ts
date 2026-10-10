@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SubscriptionLike } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { DetailDialogComponent } from '../detail-dialog/detail-dialog.component'
     selector: 'app-notifications-topbar-button',
     templateUrl: './topbar-button.component.html',
     styleUrls: ['./topbar-button.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TopbarButtonComponent implements OnInit, OnDestroy {

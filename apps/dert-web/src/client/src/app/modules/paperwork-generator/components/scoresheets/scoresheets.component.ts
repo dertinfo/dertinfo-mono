@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ScoreSheetDto } from 'app/models/dto';
 import { PaperworkComponent } from 'app/modules/competition-admin/components/paperwork/paperwork.component';
@@ -9,6 +9,7 @@ import { PaperworkGeneratorConductor } from '../../services/paperwork-generator.
     selector: 'app-scoresheets',
     templateUrl: './scoresheets.component.html',
     styleUrls: ['./scoresheets.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ScoreSheetsComponent implements OnInit, OnDestroy {

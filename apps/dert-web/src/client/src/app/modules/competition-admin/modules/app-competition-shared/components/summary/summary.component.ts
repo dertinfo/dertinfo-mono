@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { CompetitionSummaryDto } from 'app/models/dto';
@@ -7,6 +7,7 @@ import { CompetitionSummaryDto } from 'app/models/dto';
     selector: 'app-competition-summary',
     templateUrl: './summary.component.html',
     styleUrls: ['./summary.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SummaryComponent  {

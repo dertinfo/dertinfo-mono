@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DodTalkDto } from 'app/models/dto/DodTalkDto';
@@ -11,6 +11,7 @@ import { Tracker } from '../../../../services/dertofderts-admin.tracker';
     selector: 'app-edit-talk',
     templateUrl: './edit-talk.component.html',
     styleUrls: ['./edit-talk.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EditTalkComponent implements OnInit, OnDestroy {

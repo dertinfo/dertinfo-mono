@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
     selector: 'app-scoresubmitteddialog',
     templateUrl: './scoresubmitteddialog.component.html',
     styleUrls: ['./scoresubmitteddialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ScoreSubmittedDialogComponent implements OnInit {

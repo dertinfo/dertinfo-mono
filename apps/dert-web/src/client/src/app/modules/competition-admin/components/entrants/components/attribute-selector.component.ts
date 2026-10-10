@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { CompetitionEntryAttributeDto } from 'app/models/dto';
 
 @Component({
     selector: 'app-competition-entrants-attributeselector',
     templateUrl: './attribute-selector.component.html',
     styleUrls: ['./attribute-selector.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AttributeSelectorComponent<T> implements OnInit {

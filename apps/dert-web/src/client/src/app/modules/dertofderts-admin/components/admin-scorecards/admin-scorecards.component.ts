@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScoreCard } from 'app/models/app/ScoreCard';
 import { DodGroupResultsDto } from 'app/models/dto/DodGroupResultsDto';
@@ -8,6 +8,7 @@ import { DodUserResultsDto } from 'app/models/dto/DodUserResultsDto';
     selector: 'app-admin-scorecards',
     templateUrl: './admin-scorecards.component.html',
     styleUrls: ['./admin-scorecards.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AdminScorecardsComponent implements OnInit {

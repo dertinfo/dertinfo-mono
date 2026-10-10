@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { CompetitionResultDto } from 'app/models/dto';
 import { DodTeamCollatedResultPairDto } from 'app/models/dto/DodCollatedResultPairDto';
@@ -12,6 +12,7 @@ import { Tracker } from '../../services/dertofderts-public.tracker';
     selector: 'app-results',
     templateUrl: './results.component.html',
     styleUrls: ['./results.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ResultsComponent implements OnInit, OnDestroy {

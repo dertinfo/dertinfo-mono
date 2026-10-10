@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EventImageSubmissionDto } from 'app/models/dto';
 import { AuthService } from 'app/core/authentication/auth.service';
@@ -11,6 +11,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
 @Component({
     selector: 'upload-image',
     templateUrl: './upload-image.template.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UploadImageComponent implements OnInit, OnDestroy {

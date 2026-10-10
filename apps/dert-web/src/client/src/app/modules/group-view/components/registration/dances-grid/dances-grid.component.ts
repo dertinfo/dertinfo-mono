@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { MatSort } from '@angular/material/sort';
@@ -15,6 +15,7 @@ class DataTableDataElement {
     selector: 'app-groupview-registration-dances-grid',
     templateUrl: './dances-grid.component.html',
     styleUrls: ['./dances-grid.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DancesGridComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EventDto, GroupOverviewDto, GroupRegistrationDto } from 'app/models/dto';
 import { Observable ,  Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { GroupAdminTracker } from '../../services/group-admin.tracker';
     selector: 'app-group-overview',
     templateUrl: './group-overview.component.html',
     styleUrls: ['./group-overview.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupOverviewComponent implements OnInit, OnDestroy {

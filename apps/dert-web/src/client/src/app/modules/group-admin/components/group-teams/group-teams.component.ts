@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { GroupTeamDto } from 'app/models/dto';
@@ -11,6 +11,7 @@ import { GroupTeamsCreateComponent } from '../group-teams-create/group-teams-cre
     selector: 'app-group-teams',
     templateUrl: './group-teams.component.html',
     styleUrls: ['./group-teams.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupTeamsComponent implements OnInit, OnDestroy {

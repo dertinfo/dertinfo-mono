@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { GroupInvoiceDto } from 'app/models/dto';
@@ -10,6 +10,7 @@ import { GroupAdminTracker } from '../../services/group-admin.tracker';
     selector: 'app-group-invoices',
     templateUrl: './group-invoices.component.html',
     styleUrls: ['./group-invoices.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupInvoicesComponent implements OnInit, OnDestroy {

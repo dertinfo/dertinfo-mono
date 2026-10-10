@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { AuthService } from '../../../core/authentication/auth.service';
 import * as domHelper from '../../../helpers/dom.helper';
 @Component({
     selector: 'topbar',
     templateUrl: './topbar.template.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TopbarComponent implements OnInit {

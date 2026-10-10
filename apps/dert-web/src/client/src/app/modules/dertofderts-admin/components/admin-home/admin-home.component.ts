@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { SubscriptionLike } from 'rxjs';
@@ -13,6 +13,7 @@ import { Tracker } from '../../services/dertofderts-admin.tracker';
     selector: 'app-dod-admin-home',
     templateUrl: './admin-home.component.html',
     styleUrls: ['./admin-home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AdminHomeComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CompetitionSettingsUpdateSubmissionDto, CompetitionSummaryDto } from 'app/models/dto';
@@ -10,6 +10,7 @@ import { CompetitionAdminTracker } from '../../services/competition-admin.tracke
     selector: 'app-competition-settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SettingsComponent implements OnInit, OnDestroy {

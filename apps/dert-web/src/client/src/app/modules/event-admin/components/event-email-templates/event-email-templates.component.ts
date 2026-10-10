@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { EmailTemplateDetailDto, EmailTemplateDto, EmailTemplateUpdateSubmissionDto } from 'app/models/dto';
@@ -9,6 +9,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
 @Component({
     selector: 'app-event-email-templates',
     templateUrl: './event-email-templates.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventEmailTemplatesComponent implements OnInit, OnDestroy {

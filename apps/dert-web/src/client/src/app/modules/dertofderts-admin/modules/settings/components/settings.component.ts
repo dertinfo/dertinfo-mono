@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SettingsRepository } from '../services/settings.repository';
 
@@ -6,6 +6,7 @@ import { SettingsRepository } from '../services/settings.repository';
     selector: 'app-dod-admin-settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SettingsComponent implements OnInit {

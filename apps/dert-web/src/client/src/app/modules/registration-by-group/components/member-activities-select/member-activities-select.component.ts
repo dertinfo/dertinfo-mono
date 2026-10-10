@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { MemberType } from '../../../../models/app/Enumerations/MemberType';
@@ -11,6 +11,7 @@ import { MemberActivitySelectModel } from './models/member-activities-select.mod
     selector: 'app-member-activities-select',
     templateUrl: './member-activities-select.component.html',
     styleUrls: ['./member-activities-select.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MemberActivitiesSelectComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from 'app/core/authentication/auth.service';
 import { ConfigurationService } from 'app/core/services/configuration.service';
@@ -11,6 +11,7 @@ import { GroupSetupTracker } from '../../services/group-setup.tracker';
 @Component({
     selector: 'upload-image',
     templateUrl: './upload-image.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UploadImageComponent implements OnInit, OnDestroy {

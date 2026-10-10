@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,6 +15,7 @@ import { DanceCreateComponent } from './dialogs/dance-create/dance-create.compon
     selector: 'app-competition-dances',
     templateUrl: './dances.component.html',
     styleUrls: ['./dances.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DancesComponent implements OnInit, OnDestroy, AfterViewInit {

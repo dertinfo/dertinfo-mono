@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EventAdminConductor } from '../../services/event-admin.conductor';
@@ -7,6 +7,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
 @Component({
     selector: 'app-event-registrations',
     templateUrl: './event-registrations.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventRegistrationsComponent implements OnInit, OnDestroy {

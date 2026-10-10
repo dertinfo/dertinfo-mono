@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { CompetitionLookupCompetitionDto, CompetitionLookupDto, CompetitionResultDto } from 'app/models/dto';
@@ -10,6 +10,7 @@ import { PublicContentTracker } from '../services/public-content.tracker';
     selector: 'app-public-results',
     templateUrl: './public-results.component.html',
     styleUrls: ['./public-results.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PublicResultsComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'app/core/authentication/auth.service';
@@ -10,6 +10,7 @@ import { UserAccountConductor } from '../../services/user-account.conductor';
     selector: 'app-user-account-settings',
     templateUrl: './user-account-settings.component.html',
     styleUrls: ['./user-account-settings.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UserAccountSettingsComponent implements OnInit, OnDestroy {

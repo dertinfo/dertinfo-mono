@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { GroupRegisterConductor } from './services/group-register.conductor';
@@ -7,6 +7,7 @@ import { GroupRegisterTracker } from './services/group-register.tracker';
 @Component({
     selector: 'app-group-register',
     templateUrl: './group-register.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupRegisterComponent implements OnInit, OnDestroy {

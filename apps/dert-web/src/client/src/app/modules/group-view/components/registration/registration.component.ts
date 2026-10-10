@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DanceDetailDto, DanceMarkingSheetDto, GroupDto, GroupRegistrationDto, GroupTeamDto, TeamAttendanceDto } from 'app/models/dto';
 import { Observable, Subscription } from 'rxjs';
@@ -14,6 +14,7 @@ import { MarkingSheetZoomComponent } from './dialogs/marking-sheet-zoom/marking-
     selector: 'app-groupview-registration',
     templateUrl: './registration.component.html',
     styleUrls: ['./registration.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GroupViewRegistrationComponent implements OnInit, OnDestroy {

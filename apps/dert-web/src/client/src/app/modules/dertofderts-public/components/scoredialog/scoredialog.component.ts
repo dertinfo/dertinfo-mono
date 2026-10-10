@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DodResultDto } from 'app/models/dto/DodResultDto';
@@ -14,6 +14,7 @@ import { Tracker } from '../../services/dertofderts-public.tracker';
     selector: 'app-scoredialog',
     templateUrl: './scoredialog.component.html',
     styleUrls: ['./scoredialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ScoreDialogComponent implements OnInit {

@@ -2,7 +2,7 @@
 name: Planned fixes
 type: index
 status: active
-updated: 2026-09-27
+updated: 2026-10-05
 ---
 
 # Planned fixes
@@ -26,5 +26,6 @@ Open in-repo notes for work still to do in the solution. **Not a ticket backlog*
 | Rename Bicep production leaf params `main.prod.bicepparam` → `main.prd.bicepparam` | [rename-bicepparam-prod-to-prd.md](rename-bicepparam-prod-to-prd.md) |
 | Retire the old live and test Azure estates and their subscriptions | [retire-old-azure-estate.md](retire-old-azure-estate.md) |
 | Website smoke walkthrough: product notes still to do | [smoke-walkthrough-future-work.md](smoke-walkthrough-future-work.md) |
+| Website: Angular modernisation deferred on the 14 to 22 hops | [web-angular-deferred-modernisation.md](web-angular-deferred-modernisation.md) |
 
 Resolved deep-dives: [investigations/](../investigations/).

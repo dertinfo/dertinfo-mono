@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ActivityAudienceType } from 'app/models/app/Enumerations/ActivityAudienceType';
@@ -13,6 +13,7 @@ import { EventAdminTracker } from '../../services/event-admin.tracker';
     selector: 'app-event-activities',
     templateUrl: './event-activities.component.html',
     styleUrls: ['./event-activities.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EventActivitiesComponent implements OnInit, OnDestroy {

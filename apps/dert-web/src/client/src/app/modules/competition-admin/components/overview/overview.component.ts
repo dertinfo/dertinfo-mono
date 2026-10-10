@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CompetitionSummaryDto } from 'app/models/dto';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { CompetitionAdminTracker } from '../../services/competition-admin.tracke
     selector: 'app-competition-overview',
     templateUrl: './overview.component.html',
     styleUrls: ['./overview.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class OverviewComponent implements OnInit, OnDestroy {

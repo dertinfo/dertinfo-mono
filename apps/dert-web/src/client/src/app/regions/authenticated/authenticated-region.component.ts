@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDrawer } from '@angular/material/sidenav';
 import {
   NavigationEnd,
@@ -18,6 +18,7 @@ import { UserData } from '../../models/auth/userdata.model';
 @Component({
     selector: 'app-authenticated-region',
     templateUrl: './authenticated-region.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AuthenticatedRegionComponent implements OnInit, OnDestroy {

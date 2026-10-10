@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SubscriptionLike } from 'rxjs';
@@ -16,6 +16,7 @@ import { RecoverSessionDialogComponent } from '../recoversessiondialog/recoverse
     selector: 'app-judging',
     templateUrl: './judging.component.html',
     styleUrls: ['./judging.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class JudgingComponent implements OnInit, OnDestroy {
